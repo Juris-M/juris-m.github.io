@@ -2,3 +2,12 @@
     width:300px !important;
     vertical-align:middle;
 }
+
+.row-gap {
+    margin-top: 1em;
+}
+
+.container {
+    padding-left: 0px;
+    padding-right: 0px;
+}

@@ -10,16 +10,19 @@ var CSLValidator = (function() {
     //when selecting a different error
     var marker;
 
+    var loadButton;
     var validateButton;
+    var saveButton;
+    var submitButton;
 
     //keep track of how much time validator.nu is taking
     var responseTimer;
-    var responseMaxTime = 10000; //in milliseconds
+    var responseMaxTime = 6000; //in milliseconds
     var responseStartTime;
     var responseEndTime;
 
-    var init = function() {
 
+    var init = function() {
         //Initialize URI.js
         uri = new URI();
 
@@ -27,7 +30,9 @@ var CSLValidator = (function() {
         Range = ace.require("ace/range").Range;
 
         //Initialize Ladda buttons
+        loadButton = Ladda.create(document.querySelector('#load-source'));
         validateButton = Ladda.create(document.querySelector('#validate'));
+        validateButton.disable();
         saveButton = Ladda.create(document.querySelector('#save'));
         saveButton.disable();
         submitButton = Ladda.create(document.querySelector('#submit'));
@@ -35,112 +40,192 @@ var CSLValidator = (function() {
 
         //set schema-version if specified
         if (uri.hasQuery('version')) {
-          var setSchemaVersion = uri.query(true)['version'];
-
-          //http://stackoverflow.com/a/2248991/1712389
-          $('#schema-version option').each(function() {
-              if (this.value == setSchemaVersion) {
-                  $("#schema-version").val(setSchemaVersion);
-                  return false;
-              }
-          });
+            var setSchemaVersion = uri.query(true)['version'];
+            $('#schema-version').attr('value', setSchemaVersion);
+            $('#schema-version-dropdown').children().each(function(){
+                var labelSchemaVersion = this.firstChild.getAttribute('value');
+                if (labelSchemaVersion === setSchemaVersion) {
+                    $('#schema-name').attr('value', setSchemaVersion);
+                    return false;
+                }
+            });
         }
 
         //run validation if URL parameters includes URL
         if (uri.hasQuery('url')) {
             var setURL = uri.query(true)['url'];
-            $("#source-url").val(setURL);
-            validate();
+            $("#url-source").val(setURL);
+            setView(null,'editor');
+            loadSource();
+        } else {
+            $('#url-source').val('');
+            setView(null,'main');
         }
 
-        //update page for selected input method
-        $("#source-method").change(function() {
-            var sourceMethod = this.value;
-            adaptToSourceMethod(sourceMethod);
-        });
-
         //validate on button click
-        $("#validate").click(validate);
+        $("#validate").click(reValidate);
+        $("#load-source").click(loadSource);
+
+        //a change to the source input fields enables load button, disables revalidate
+        $('.source-input').change(function(){
+            loadButton.enable();
+            validateButton.disable();
+        });
 
         //save on button click
         $("#save").click(saveFile);
 
         //validate when pressing Enter in URL text field
-        $('#source-url').keydown(function(event) {
+        $('#url-source').keydown(function(event) {
             if (event.keyCode == 13) {
                 event.preventDefault();
                 validate();
             }
         });
-    };
 
-    var adaptToSourceMethod = function(sourceMethod) {
-        $(".source-input").attr('style', 'display:none;');
-        switch (sourceMethod) {
-            case "url":
-            $("#source-url").attr('style', 'display:inline;');
-                break;
-            case "file-upload":
-            $("#source-file").attr('style', 'display:inline;');
-                break;
-        }
-    };
+        $("#source-method").click(function(event){
+            var target = $(event.target);
+            if (target.is('A')) {
+                event.preventDefault();
+                var oldSourceMethod = $('#source-method').attr('value');
+                if (oldSourceMethod !== target.attr('value')) {
+                    var sourceMethod = target.attr('value');
+                    $('#source-method').attr('value',sourceMethod);
+                    $('.source-input').attr('style', 'display:none;')
+                    if (sourceMethod === 'file-source') {
+                        $('#' + sourceMethod).attr('style', 'display:inline;padding-top:0px;');
+                    } else {
+                        $('#' + sourceMethod).attr('style', 'display:inline;');
+                    }
+                    loadButton.enable();
+                    validateButton.disable();
+                }
+            }
+        });
 
-    function validate() {
-
-        $("#tabs").tabs("enable");
-
-        removeValidationResults();
-
-        validateButton.start();
-
-        $("#source-tab").click();
-
-        responseStartTime = new Date();
-        responseTimer = window.setTimeout(reportTimeOut, responseMaxTime);
+        $("#schema-version").click(function(event){
+            var target = $(event.target);
+            if (target.is('A')) {
+                event.preventDefault();
+                var oldSchemaVersion = $("#schema-version").attr('value');
+                if (oldSchemaVersion !== target.attr('value')) {
+                    $('#schema-name').attr('value', target.text());
+                    $('#schema-version').attr('value',target.attr('value'));
+                    loadButton.enable();
+                    validateButton.disable();
+                }
+            }
+        });
         
-        var cslVersion = $('#schema-version').val()
+    };
+
+    function setView(event,name) {
+        if (event) {
+            event.preventDefault();
+        };
+        $('.action-view').attr('style', 'display:none;');
+        $('#' + name + '-view').attr('style', 'display:block;');
+    }
+
+    var sourceMethodFunc = null;
+
+    function getSchemaURL () {
+        var cslVersion = $('#schema-version').attr('value');
+        var schemaURL = '';
         if (cslVersion.indexOf("mlz") > -1) {
-            var schemaURL = "https://raw.githubusercontent.com/fbennett/schema/v" + cslVersion + "/csl-mlz.rnc";
+            schemaURL = "https://raw.githubusercontent.com/fbennett/schema/v" + cslVersion + "/csl-mlz.rnc";
         } else {
-            var schemaURL = "https://raw.githubusercontent.com/citation-style-language/schema/v" + cslVersion + "/csl.rnc";
+            schemaURL = "https://raw.githubusercontent.com/citation-style-language/schema/v" + cslVersion + "/csl.rnc";
         }
         //schemaURL += " " + "https://raw.githubusercontent.com/citation-style-language/schema/master/csl.sch";
+        return schemaURL;
+    }
 
-        var sourceMethod = $('#source-method').val();
+    function getSourceMethod () {
+        var sourceMethod = $('#source-method').attr('value');
+        sourceMethod = sourceMethod.replace(/-source$/, '');
+        return sourceMethod;
+    }
 
+    function loadSource () {
+        isFromLoad = true;
+        // Get schema URL
+        var schemaURL = getSchemaURL();
+        // Get source method
+        var sourceMethod = getSourceMethod();
+
+        // Set function for submitting document for validation
         switch (sourceMethod) {
-            case "url":
-                var documentURL = $('#source-url').val();
+        case "url":
+            var documentURL = $('#url-source').val();
+            uri.setSearch("url", documentURL);
+            uri.setSearch("version", $('#schema-version').attr('value'));
+            history.pushState({}, document.title, uri);
 
-                uri.setSearch("url", documentURL);
-                uri.setSearch("version", $('#schema-version').val());
-                history.pushState({}, document.title, uri);
-
-                //don't try validation on empty string
-                if ($.trim(documentURL).length > 0) {
-                    validateViaGET(schemaURL, documentURL);
-                } else {
-                    window.clearTimeout(responseTimer);
-                    validateButton.stop();
+            //don't try validation on empty string
+            sourceMethodFunc = function(schemaURL, documentURL) {
+                return function () {
+                    if ($.trim(documentURL).length > 0) {
+                        validateViaGET(schemaURL, documentURL);
+                    } else {
+                        window.clearTimeout(responseTimer);
+                        loadValidateButton('stop');
+                    }
                 }
-
-                break;
-            case "file-upload":
-                uri.search("");
-                history.pushState({}, document.title, uri);
-
-                var documentFile = $('#source-file').get(0).files[0];
-                validateViaPOST(schemaURL, documentFile, sourceMethod);
-                break;
-            case "textarea":
-                uri.search("");
-                history.pushState({}, document.title, uri);
-
-                var documentContent = $('#source-text').val();
-                validateViaPOST(schemaURL, documentContent, sourceMethod);
-                break;
+            }(schemaURL, documentURL);
+            break;
+        case "file":
+            uri.search("");
+            history.pushState({}, document.title, uri);
+            
+            var documentFile = $('#file-source').get(0).files[0];
+            var keys = '';
+            for (var key in documentFile) {
+                keys += key + '\n';
+            }
+            sourceMethodFunc = function (schemaURL, documentFile, sourceMethod) {
+                return function () {
+                    validateViaPOST(schemaURL, documentFile, sourceMethod);
+                }
+            }(schemaURL, documentFile, sourceMethod);
+            break;
         }
+        validate(true);
+    }
+
+    var isFromLoad = false;
+
+    function loadValidateButton(state) {
+        if (isFromLoad) {
+            loadButton[state]();
+        } else {
+            validateButton[state]();
+        }
+        if ('stop' === state && isFromLoad) {
+            loadButton.disable();
+        }
+    }
+
+    function reValidate() {
+        isFromLoad = false;
+        var schemaURL = getSchemaURL();
+        var sourceMethod = getSourceMethod();
+        var documentFile = new Blob([getEditorContent()], {type: 'text/xml'});
+        sourceMethodFunc = function (schemaURL, documentFile, sourceMethod) {
+            return function () {
+                validateViaPOST(schemaURL, documentFile, sourceMethod);
+            }
+        }(schemaURL, documentFile, sourceMethod);
+        validate();
+    }
+
+    function validate() {
+        $("#tabs").tabs("enable");
+        loadValidateButton('start');
+        $("#source-tab").click();
+        responseStartTime = new Date();
+        responseTimer = window.setTimeout(reportTimeOut, responseMaxTime);
+        sourceMethodFunc();
     }
 
     function validateViaGET(schemaURL, documentURL) {
@@ -185,12 +270,19 @@ var CSLValidator = (function() {
         });
     }
 
-    function saveFile() {
-        var xmlStr = editor.getSession().getValue();
+    function getEditorContent() {
+        var xmlStr = window.editor.getSession().getValue();
         while (xmlStr.slice(0,1) === '\n') {
             xmlStr = xmlStr.slice(1);
         }
-        xmlStr = '<?xml version="1.0" encoding="utf-8"?>\n' + xmlStr;
+        if (xmlStr.slice(0,2) !== '<?') {
+            xmlStr = '<?xml version="1.0" encoding="utf-8"?>\n' + xmlStr;
+        }
+        return xmlStr;
+    }
+
+    function saveFile() {
+        var xmlStr = getEditorContent();
         var fileName = "SomeFileName.txt"
         m = xmlStr.match(/.*<id>.*\/(.*)<\/id>/);
         if (m) {
@@ -295,7 +387,8 @@ var CSLValidator = (function() {
             });
         }
         
-        validateButton.stop();
+        loadValidateButton('stop');
+        validateButton.enable();
         saveButton.enable();
     }
 
@@ -326,7 +419,8 @@ var CSLValidator = (function() {
     }
 
     function reportTimeOut() {
-        validateButton.stop();
+        loadValidateButton('stop');
+        removeValidationResults();
         console.log("Call to http://our.law.nagoya-u.ac.jp/validate/ timed out after " + responseMaxTime + "ms.");
         $("#alert").append('<div class="inserted alert alert-warning" role="alert">Validation is taking longer than expected! (more than ' + responseMaxTime/1000 + ' seconds)</div>');
         $("#alert > div.alert-warning").append('</br><small>This typically happens if the <a href="http://our.law.nagoya-u.ac.jp/validate/">Nu HTML Checker</a> website is down, but maybe you get lucky if you wait a little longer.</small>');
@@ -334,6 +428,7 @@ var CSLValidator = (function() {
 
     return {
         init: init,
-        moveToLine: moveToLine
+        moveToLine: moveToLine,
+	    setView: setView
     };
 }());
