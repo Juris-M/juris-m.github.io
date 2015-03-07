@@ -116,8 +116,39 @@ var CSLValidator = (function() {
                 }
             }
         });
-        
+
+
+        $(window).bind('resize',function(){
+            setBoxHeight(['source', 'errors']);
+            setBoxHeight(['source-code']);
+        });
+
     };
+
+    /* code originally for scrolling
+     * Ahnsirk Dasarp
+     * http://stackoverflow.com/questions/5007530/how-do-i-scroll-to-an-element-using-javascript
+     */
+    function setBoxHeight(lst) {
+        var obj = document.getElementById(lst[0]);
+        if (!obj) return;
+        var curtop = 0;
+        var curleft = 0;
+        if (obj.offsetParent) {
+            do {
+                curtop += obj.offsetTop;
+                curleft += obj.offsetLeft;
+            } while (obj = obj.offsetParent);
+            var docViewHeight = document.documentElement.clientHeight;
+            var boxHeight = (docViewHeight - curtop - 4);
+            for (var i=0,ilen=lst.length;i<ilen;i++) {
+                var elem = document.getElementById(lst[i]);
+                if (elem) {
+                    elem.style.height = (boxHeight + 'px');
+                }
+            }
+        }
+    }
 
     function setView(event,name) {
         if (event) {
@@ -345,9 +376,11 @@ var CSLValidator = (function() {
 
         if (nonDocumentError !== "") {
             $("#alert").append('<div class="inserted alert alert-warning" role="alert">Validation failed: ' + nonDocumentError + '</div>');
+            setBoxHeight(['source', 'errors']);
         } else if (errorCount === 0) {
             $("#tabs").tabs("disable", "#errors");
             $("#alert").append('<div class="inserted alert alert-success" role="alert">Good job! No errors found.</br><small>Interested in contributing your style or locale file? See our <a href="https://github.com/citation-style-language/styles/blob/master/CONTRIBUTING.md">instructions</a>.</small></div>');
+            setBoxHeight(['source', 'errors']);
         } else if (errorCount > 0) {
             if (errorCount == 1) {
                 $("#alert").append('<div class="inserted alert alert-danger" role="alert">Oops, I found 1 error.</div>');
@@ -359,6 +392,7 @@ var CSLValidator = (function() {
             $("#errors").attr("class", "panel panel-warning");
             $("#errors").prepend('<div class="panel-heading inserted"><h4 class="panel-title">Errors <a href="#" rel="tooltip" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="auto left" title="Click the link next to an error description to highlight the relevant lines in the Source window below"></a></h4></div>');
             $('[data-toggle="tooltip"]').tooltip();
+            setBoxHeight(['source', 'errors']);
         }
 
         if (data.source.code.length > 0) {
@@ -366,7 +400,7 @@ var CSLValidator = (function() {
             $("#source").append('<div id="source-code" class="panel-body inserted"></div>');
             $("#source").attr("class", "panel panel-primary");
             $("#source-code").text(data.source.code);
-
+            setBoxHeight(['source-code']);
             window.editor = ace.edit("source-code");
             editor.setReadOnly(false);
             editor.getSession().setUseWrapMode(true);
