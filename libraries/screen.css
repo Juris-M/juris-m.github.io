@@ -1,3 +1,8 @@
+li.inserted {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 .form-inline {
     width:300px !important;
     vertical-align:middle;
@@ -10,4 +15,12 @@
 .container {
     padding-left: 0px;
     padding-right: 0px;
+}
+
+#source, #errors {
+    margin-bottom: 0px;
+}
+
+#errors {
+    overflow: auto;
 }

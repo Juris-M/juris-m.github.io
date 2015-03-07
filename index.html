@@ -19,17 +19,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.11.2/URI.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js"></script>
     <script src="libraries/csl-validator.js"></script>
-
-
-    <style type="text/css" media="screen">
-      #source-code {
-      height: 400px;
-      }
-      li.inserted {
-      padding-top: 5px;
-      padding-bottom: 5px;
-      }
-    </style>
     <script>
       $(function() {
       $( "#tabs" ).tabs();
@@ -111,7 +100,7 @@
       </div>
       <div id="editor-view" class="container action-view" style="display:none;">
 	    <div class="row">
-	      <div class="col-xs-6">
+	      <div class="col-sm-6">
 	        <div class="input-group">
 	          <div id="source-method" value="url-source" class="input-group-btn">
 		        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Style source <span class="caret"></span></button>
@@ -126,7 +115,7 @@
               <input class="source-input form-control" id="search-source" type="search" placeholder="Search by entering country name" style="display:none;">
 	        </div>
 	      </div>
-	      <div class="col-xs-3">
+	      <div class="col-sm-3">
 	        <div class="input-group">
 	          <div id="schema-version" value="1.1mlz1" class="input-group-btn">
 		        <button id="load-source" type="button" class="btn btn-info ladda-button" data-style="zoom-in"><span class="ladda-label">Load</span></button>
@@ -141,7 +130,7 @@
               <input class="form-control" id="schema-name" readonly="true" value="Juris-M" type="text">
             </div><!-- /input-group -->
           </div><!-- /.col-lg-6 -->
-          <div class="col-xs-3">
+          <div class="col-sm-3">
             <div class="row">
 	          <div class="col-xs-4">
 	            <button id="validate" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Validate</span></button>
