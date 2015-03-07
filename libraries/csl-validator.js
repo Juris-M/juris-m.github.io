@@ -92,11 +92,12 @@ var CSLValidator = (function() {
                     var sourceMethod = target.attr('value');
                     $('#source-method').attr('value',sourceMethod);
                     $('.source-input').attr('style', 'display:none;')
-                    if (sourceMethod === 'file-source') {
-                        $('#' + sourceMethod).attr('style', 'display:inline;padding-top:0px;');
-                    } else {
+                    //$('.file-input').attr('style', 'display:none;')
+                    //if (sourceMethod === 'file-source') {
+                    //    $('.file-input').attr('style', 'display:inline;');
+                    //} else {
                         $('#' + sourceMethod).attr('style', 'display:inline;');
-                    }
+                    //}
                     loadButton.enable();
                     validateButton.disable();
                 }
@@ -117,6 +118,11 @@ var CSLValidator = (function() {
             }
         });
 
+        $("#file-input").fileinput(
+            {
+                showUpload: false,
+                showRemove: false
+            });
 
         $(window).bind('resize',function(){
             setBoxHeight(['source', 'errors']);
@@ -209,7 +215,7 @@ var CSLValidator = (function() {
             uri.search("");
             history.pushState({}, document.title, uri);
             
-            var documentFile = $('#file-source').get(0).files[0];
+            var documentFile = $('#file-input').get(0).files[0];
             var keys = '';
             for (var key in documentFile) {
                 keys += key + '\n';
