@@ -241,10 +241,12 @@ var CSLValidator = (function() {
         isFromLoad = false;
         var schemaURL = getSchemaURL();
         var sourceMethod = getSourceMethod();
+
         var documentFile = new Blob([getEditorContent()], {type: 'text/xml'});
         sourceMethodFunc = function (schemaURL, documentFile, sourceMethod) {
             return function () {
-                validateViaPOST(schemaURL, documentFile, sourceMethod);
+                // true is a reValidate tag, to suppress overwrite of editor data
+                validateViaPOST(schemaURL, documentFile, sourceMethod, true);
             }
         }(schemaURL, documentFile, sourceMethod);
         validate();
@@ -274,7 +276,7 @@ var CSLValidator = (function() {
             });
     }
 
-    function validateViaPOST(schemaURL, documentContent, sourceMethod) {
+    function validateViaPOST(schemaURL, documentContent, sourceMethod, reValidate) {
         var formData = new FormData();
         formData.append("schema", schemaURL);
         formData.append("parser", "xml");
@@ -294,7 +296,7 @@ var CSLValidator = (function() {
             url: "http://our.law.nagoya-u.ac.jp/validate/",
             data: formData,
             success: function(data) {
-                parseResponse(data);
+                parseResponse(data, reValidate);
             },
             processData: false,
             contentType: false
@@ -329,14 +331,14 @@ var CSLValidator = (function() {
         a.dispatchEvent(ev);
     }
 
-    function parseResponse(data) {
+    function parseResponse(data, reValidate) {
         //console.log(JSON.stringify(data));
 
         window.clearTimeout(responseTimer);
         responseEndTime = new Date();
         console.log("Received response from http://our.law.nagoya-u.ac.jp/validate/ after " + (responseEndTime - responseStartTime) + "ms");
 
-        removeValidationResults();
+        removeValidationResults(reValidate);
 
         var messages = data.messages;
         var errorCount = 0;
@@ -395,9 +397,9 @@ var CSLValidator = (function() {
             setBoxHeight(['source', 'errors']);
         }
 
-        if (data.source.code.length > 0) {
-            $("#source").append('<div class="panel-heading inserted"><h4 class="panel-title">Source</h4></div>');
-            $("#source").append('<div id="source-code" class="panel-body inserted"></div>');
+        if (data.source.code.length > 0 && !reValidate) {
+            $("#source").append('<div class="panel-heading inserted-to-source"><h4 class="panel-title">Source</h4></div>');
+            $("#source").append('<div id="source-code" class="panel-body inserted-to-source"></div>');
             $("#source").attr("class", "panel panel-primary");
             $("#source-code").text(data.source.code);
             setBoxHeight(['source-code']);
@@ -446,10 +448,13 @@ var CSLValidator = (function() {
         marker = editor.session.addMarker(sourceHighlightRange, "ace_selection", "text");
     }
 
-    function removeValidationResults() {
+    function removeValidationResults(reValidate) {
         $(".inserted").remove();
         $("#errors").removeAttr("class");
-        $("#source").removeAttr("class");
+        if (!reValidate) {
+            $("#source").removeAttr("class");
+            $(".inserted-to-source").remove();
+        }
     }
 
     function reportTimeOut() {
