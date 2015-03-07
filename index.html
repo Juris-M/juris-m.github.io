@@ -6,58 +6,90 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="favicon-32x32.png">
-    <link href='http://fonts.googleapis.com/css?family=Nunito' rel='stylesheet' type='text/css'>
-    <!-- Bootstrap core CSS -->
+    <link href="http://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="libraries/jquery-ui.1.11.3.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="libraries/ladda-themeless.min.css">
+    <link rel="stylesheet" href="libraries/screen.css">
+    <script src="libraries/jquery.1.11.3.min.js"></script>
+    <script src="libraries/jquery-ui.1.11.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="libraries/spin.min.js"></script>
+    <script src="libraries/ladda.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.11.2/URI.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js"></script>
+    <script src="libraries/csl-validator.js"></script>
+
+
+    <style type="text/css" media="screen">
+      #source-code {
+      height: 400px;
+      }
+      li.inserted {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      }
+    </style>
+    <script>
+      $(function() {
+      $( "#tabs" ).tabs();
+      });
+    </script>
   </head>
-  <body>
+  <body onload="CSLValidator.init();">
     <div class="container">
-      <h1 style="margin-bottom:0.5em;">
-        <span  style="border-radius:1em;background:#a0a0a0;padding:0.20em 0.3em 0.36em 0.3em;">
-          <span  style="border-radius:1em;background:white;padding:0.17em 0.4em 0.33em 0.4em;">
-            <span style="font-family: Nunito, sans-serif;vertical-align:middle;">Juris-</span><img style="padding-left:0.08em;height:1.2em;vertical-align:middle;" src="mlz-button-big.png">
-          </span>
-        </span>
-      </h1>
       <nav class="navbar navbar-default">
         <div class="container-fluid">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" onclick="window.location.hash='#';return false;">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Home</a>
+            <div class="navbar-brand" onclick="CSLValidator.setView(event,'main');">
+              <span  style="vertical-align:middle;font-size:110%;color:black !important;border-radius:1em;background:#909090;padding:0.25em 0.35em 0.35em 0.35em;">
+                <span  style="vertical-align:middle;border-radius:1em;background:white;padding:0.2em 0.5em 0.2em 0.5em;">
+                  <span style="font-family: Nunito, sans-serif;vertical-align:middle;">Juris-</span><img style="vertical-align:middle;padding-left:0.08em;height:1.2em;vertical-align:middle;" src="mlz-button-big.png">
+                </span>
+              </span>
+            </div>
           </div>
-
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li><a href="csl-validator">Style Manager</a></li>
-              <li><a href="z2csl">Field Map</a></li>
-              <li><a href="http://citationstylist.org">Legacy Site</a></li>
-              <!-- li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <li><a onclick="CSLValidator.setView(event,'editor');" href="#">Style Manager</a></li>
+              <li><a onclick="CSLValidator.setView(event,'fields');" href="#">Field Maps</a></li>
+              <li><a id="docs" href="#">Docs</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Downloads <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">One more separated link</a></li>
+                  <li><a href="#">Juris-M Client</a></li>
+                  <li><a href="#">Zotero Integration plugins</a></li>
+                  <li role="presentation" class="dropdown-header">Optional plugins</li>
+                  <li><a href="#">Abbreviation Filter</a></li>
+                  <li><a href="#">Jurisdiction Support</a></li>
+                  <li><a href="#">Bluebook Signals</a></li>
+                  <li><a href="#">RTF/ODF Scan</a></li>
+                  <li role="presentation" class="dropdown-header">Styles</li>
+                  <li><a href="#">Juris-M Bluebook 20th ed.</a></li>
+                  <li><a href="#">Juris-M Chicago Full Note</a></li>
+                  <li><a href="#">Juris-M OSCOLA</a></li>
+                  <li><a href="#">CSL Style Repository</a></li>
                 </ul>
-              </li -->
+              </li>
             </ul>
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
       </nav>
-      <div class="content">
-        <h2>Overview</h2>
+    </div>
+    <div class="container content">
+      <div id="main-view" class="container action-view">
         <p>
-          Juris-M is a bid to build a research support platform
+          Juris-M aims to be the last research manager you will ever need.
+          It solves two difficult problems in 
+          is a bid to build a research support platform
           suitable for all fields of study, including legal research
           and scholarship that crosses language boundaries. The system
           is made up of several components: a <b>Desktop Client</b>
@@ -67,7 +99,7 @@
           style-specific abbreviation support; and the <b>Juris-M</b>
           extended version of
           the <a href="https://citationstyles.org">Citation Style
-          Language</a>.
+            Language</a>.
         </p>
         <h2>Legal Styles</h2>
         <p>
@@ -77,8 +109,68 @@
           the Style Manager provided by this site.
         </p>
       </div>
+      <div id="editor-view" class="container action-view" style="display:none;">
+	    <div class="row">
+	      <div class="col-xs-6">
+	        <div class="input-group">
+	          <div id="source-method" value="url-source" class="input-group-btn">
+		        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Style source <span class="caret"></span></button>
+		        <ul class="dropdown-menu" role="menu">
+		          <li><a value="url-source" href="#">URL</a></li>
+		          <li><a value="file-source" href="#">File upload</a></li>
+		          <li><a value="search-source" href="#">Find jurisdiction</a></li>
+		        </ul>
+	          </div><!-- /btn-group -->
+              <input class="source-input form-control" style="display:inline;" id="url-source" type="text" placeholder="Enter style URL">
+              <input class="source-input form-control" id="file-source" style="display:none;" type="file">
+              <input class="source-input form-control" id="search-source" type="search" placeholder="Search by entering country name" style="display:none;">
+	        </div>
+	      </div>
+	      <div class="col-xs-3">
+	        <div class="input-group">
+	          <div id="schema-version" value="1.1mlz1" class="input-group-btn">
+		        <button id="load-source" type="button" class="btn btn-info ladda-button" data-style="zoom-in"><span class="ladda-label">Load</span></button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">with <span class="caret"></span></button>
+                <ul id="schema-version-dropdown" class="dropdown-menu" role="menu">
+                  <li><a value="1.1mlz1" href="#">Juris-M</a></li>
+                  <li><a value="1.0.1" href="#">CSL 1.0.1</a></li>
+                  <li><a value="1.0" href="#">CSL 1.0</a></li>
+                  <li><a value="0.8.1" href="#">CSL 0.8.1</a></li>
+                </ul>
+              </div><!-- /btn-group -->
+              <input class="form-control" id="schema-name" readonly="true" value="Juris-M" type="text">
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+          <div class="col-xs-3">
+            <div class="row">
+	          <div class="col-xs-4">
+	            <button id="validate" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Validate</span></button>
+	          </div>
+	          <div class="col-xs-4">
+	            <button id="save" type="button" class="btn btn-primary ladda-button" data-style="expand-left"><span class="ladda-label">Save</span></button>
+	          </div>
+	          <div class="col-xs-4">
+	            <button id="submit" type="button" class="btn btn-primary ladda-button" data-style="expand-left"><span class="ladda-label">Submit</span></button>
+	          </div>
+            </div>
+          </div>
+        </div>
+        <div class="row row-gap">
+          <div class="col-sm-12">
+            <div id="alert"></div>
+            <div id="tabs">
+	          <ul>
+		        <li><a id="source-tab" href="#source">Juris-M Style</a></li>
+		        <li><a id="errors-tab" href="#errors">Errors</a></li>
+	          </ul>
+	          <div id="source"></div>
+	          <div id="errors">
+		        <ol id="error-list"></ol>
+	          </div>
+	        </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   </body>
 </html>
