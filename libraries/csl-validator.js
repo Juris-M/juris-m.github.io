@@ -150,7 +150,7 @@ var CSLValidator = (function() {
                         pageCache[old].validate = $('#validate').prop('disabled');
                         pageCache[old].save = $('#save').prop('disabled');
                         pageCache[old].submit = $('#submit').prop('disabled');
-                        pageCache[old].errors = $('#error-list').get(0).cloneNode(false);
+                        pageCache[old].errors = document.getElementById('error-list').cloneNode(true);
                         pageCache[old].schema = $('#schema-version').attr('value');
                         // Not sure how we can use this - resetting the document query
                         // would reload the page and blast the editor content, no?
