@@ -157,7 +157,7 @@ var CSLValidator = (function() {
                             pageCache[old].urlQuery = false;
                         }
                     }
-                    if (pageCache[sourceMethod]) {
+                    if (pageCache[sourceMethod].editor) {
                         var novo = sourceMethod;
                         pageCache[novo].load ? loadButton.enable() : loadButton.disable();
                         pageCache[novo].validate ? validateButton.enable() : validateButton.disable();
