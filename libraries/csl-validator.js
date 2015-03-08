@@ -476,11 +476,11 @@ var CSLValidator = (function() {
     function moveToLine(event,firstLine, firstColumn, lastLine, lastColumn) {
         $("#source-tab").click();
         $("#error-banner").remove();
-        var errorNode = $('<div id="error-banner" class="inserted" style="display:inline;margin-left:1em;background:#white;border-radius:0.5em;border:1px solid #aaaaaa;padding:0.33em;"><span style="font-weight:bold;">ERROR @ </span><span>').get(0);
+        var errorNode = $('<div id="error-banner" class="inserted" style="display:inline;margin-left:1em;"><span style="font-weight:bold;">ERROR @ </span><span>').get(0);
         var infoNode = event.target.parentNode.cloneNode(true);
         lineNumber = infoNode.firstChild;
         lineNumber.removeAttribute('onclick');
-        lineNumber.setAttribute('style', 'color:white;font-weight:bold;text-size:smaller;border:none;');
+        lineNumber.setAttribute('style', 'color:white;font-weight:bold;text-size:smaller;');
         errorNode.appendChild(infoNode.firstChild);
         errorNode.appendChild(infoNode.lastChild);
         $("#source h4.panel-title").attr('style', 'display:inline;').after(errorNode);
