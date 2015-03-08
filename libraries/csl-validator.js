@@ -166,6 +166,14 @@ var CSLValidator = (function() {
                         $('#error-list').empty();
                         $('#error-list').append(pageCache[novo].errors);
                         $('#schema-version').prop('value', pageCache[novo].schema);
+                        editor.setSession(pageCache[novo].editor);
+                    } else {
+                        loadButton.disable();
+                        validateButton.disable();
+                        saveButton.disable();
+                        submitButton.disable();
+                        $('#error-list').empty();
+                        //how to clear editor? - session does not yet exist.
                     }
                 }
             }
@@ -507,7 +515,7 @@ var CSLValidator = (function() {
             $("#source").attr("class", "panel panel-primary");
 
             var aceDoc = ace.createEditSession(data.source.code)
-            pageCache[$('#source-method').attr('value')] = aceDoc;
+            pageCache[$('#source-method').attr('value')].editor = aceDoc;
 
             setBoxHeight(['source-code']);
             window.editor = ace.edit("source-code");
