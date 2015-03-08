@@ -59,7 +59,7 @@ var CSLValidator = (function() {
 
         //wake up load button on change, if content present
         $('.input-input').on('change', function(event) {
-            if (this.val()) {
+            if (this.value) {
                 loadButton.enable();
                 validateButton.enable();
             } else {
