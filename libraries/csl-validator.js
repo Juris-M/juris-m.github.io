@@ -1,5 +1,8 @@
 var CSLValidator = (function() {
 
+    //to access Ace
+    var editor;
+
     //to access URL parameters
     var uri;
 
@@ -166,7 +169,7 @@ var CSLValidator = (function() {
                         $('#error-list').empty();
                         $('#error-list').append(pageCache[novo].errors);
                         $('#schema-version').prop('value', pageCache[novo].schema);
-                        window.editor.setSession(pageCache[novo].editor);
+                        editor.setSession(pageCache[novo].editor);
                     } else {
                         loadButton.disable();
                         validateButton.disable();
@@ -518,7 +521,7 @@ var CSLValidator = (function() {
             pageCache[$('#source-method').attr('value')].editor = aceDoc;
 
             setBoxHeight(['source-code']);
-            window.editor = ace.edit("source-code");
+            editor = ace.edit("source-code");
             editor.setSession(aceDoc);
             editor.setReadOnly(false);
             editor.getSession().setUseWrapMode(true);
