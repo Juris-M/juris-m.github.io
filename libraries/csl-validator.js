@@ -21,6 +21,10 @@ var CSLValidator = (function() {
     var responseStartTime;
     var responseEndTime;
 
+    //keep track of the source at the last validation,
+    //so that button state can be restored (avoids losing)
+    //edits)
+    var lastSourceMethod = null;
 
     var init = function() {
         //Initialize URI.js
@@ -92,14 +96,14 @@ var CSLValidator = (function() {
                     var sourceMethod = target.attr('value');
                     $('#source-method').attr('value',sourceMethod);
                     $('.source-input').attr('style', 'display:none;')
-                    //$('.file-input').attr('style', 'display:none;')
-                    //if (sourceMethod === 'file-source') {
-                    //    $('.file-input').attr('style', 'display:inline;');
-                    //} else {
-                        $('#' + sourceMethod).attr('style', 'display:inline;');
-                    //}
-                    loadButton.enable();
-                    validateButton.disable();
+                    $('#' + sourceMethod).attr('style', 'display:inline;');
+                    if ((lastSourceMethod + '-source') === sourceMethod) {
+                        loadButton.disable();
+                        validateButton.enable();
+                    } else {
+                        loadButton.enable();
+                        validateButton.disable();
+                    }
                 }
             }
         });
@@ -112,8 +116,8 @@ var CSLValidator = (function() {
                 if (oldSchemaVersion !== target.attr('value')) {
                     $('#schema-name').attr('value', target.text());
                     $('#schema-version').attr('value',target.attr('value'));
-                    loadButton.enable();
-                    validateButton.disable();
+                    //loadButton.enable();
+                    //validateButton.disable();
                 }
             }
         });
@@ -190,6 +194,7 @@ var CSLValidator = (function() {
         var schemaURL = getSchemaURL();
         // Get source method
         var sourceMethod = getSourceMethod();
+        lastSourceMethod = sourceMethod;
 
         // Set function for submitting document for validation
         switch (sourceMethod) {
@@ -247,6 +252,7 @@ var CSLValidator = (function() {
         isFromLoad = false;
         var schemaURL = getSchemaURL();
         var sourceMethod = getSourceMethod();
+        lastSourceMethod = sourceMethod;
 
         var documentFile = new Blob([getEditorContent()], {type: 'text/xml'});
         sourceMethodFunc = function (schemaURL, documentFile, sourceMethod) {
