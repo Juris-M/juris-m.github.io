@@ -146,10 +146,10 @@ var CSLValidator = (function() {
                     // * Last-entered source value (url/filename)
                     if (oldSourceMethod) {
                         var old = oldSourceMethod;
-                        pageCache[old].load = loadButton.disabled;
-                        pageCache[old].validate = validateButton.disabled;
-                        pageCache[old].save = saveButton.disabled;
-                        pageCache[old].submit = submitButton.disabled;
+                        pageCache[old].load = $('#load-source').prop('disabled');
+                        pageCache[old].validate = $('#validate').prop('disabled');
+                        pageCache[old].save = $('#save').prop('disabled');
+                        pageCache[old].submit = $('#submit').prop('disabled');
                         pageCache[old].errors = $('#error-list').get(0).cloneNode(false);
                         pageCache[old].schema = $('#schema-version').attr('value');
                         // Not sure how we can use this - resetting the document query
