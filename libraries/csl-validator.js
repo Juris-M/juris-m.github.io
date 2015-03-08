@@ -79,11 +79,11 @@ var CSLValidator = (function() {
         //save on button click
         $("#save").click(saveFile);
 
-        //validate when pressing Enter in URL text field
+        //load when pressing Enter in URL text field
         $('#url-input').keydown(function(event) {
             if (event.keyCode == 13) {
                 event.preventDefault();
-                validate();
+                loadSource();
             }
         });
 
