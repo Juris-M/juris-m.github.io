@@ -95,8 +95,12 @@ var CSLValidator = (function() {
                 if (oldSourceMethod !== target.attr('value')) {
                     var sourceMethod = target.attr('value');
                     $('#source-method').attr('value',sourceMethod);
-                    $('.source-input').attr('style', 'display:none;')
-                    $('#' + sourceMethod).attr('style', 'display:inline;');
+                    $('.source-input').attr('style', 'display:none;');
+                    if (sourceMethod === 'file-source') {
+                        $('#' + sourceMethod).attr('style', 'border:none;padding:0px;margin:0px;display:inline;');
+                    } else {
+                        $('#' + sourceMethod).attr('style', 'display:inline;');
+                    }
                     if ((lastSourceMethod + '-source') === sourceMethod) {
                         loadButton.disable();
                         validateButton.enable();
