@@ -25,10 +25,19 @@ li.inserted {
     overflow: auto;
 }
 
-
-
 .form-control-feedback {
     position:absolute;
-    top:15px;
+    top:0px;
     cursor: pointer;
 }
+
+
+@-moz-document url-prefix() {
+    /* firefox-only css goes here */
+    .form-control-feedback {
+        position:absolute;
+        top:15px;
+        cursor: pointer;
+    }
+}
+
