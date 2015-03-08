@@ -146,8 +146,6 @@ var CSLValidator = (function() {
                     // * Last-entered source value (url/filename)
                     if (oldSourceMethod) {
 
-                        alert("SAVE state: "+$('#save').prop('disabled'));
-
                         var old = oldSourceMethod;
                         pageCache[old].load = $('#load-source').prop('disabled');
                         pageCache[old].validate = $('#validate').prop('disabled');
@@ -165,10 +163,10 @@ var CSLValidator = (function() {
                     }
                     if (pageCache[sourceMethod].editor) {
                         var novo = sourceMethod;
-                        pageCache[novo].load ? loadButton.enable() : loadButton.disable();
-                        pageCache[novo].validate ? validateButton.enable() : validateButton.disable();
-                        pageCache[novo].save ? saveButton.enable() : saveButton.disable();
-                        pageCache[novo].submit ? submitButton.enable() : submitButton.disable();
+                        pageCache[novo].load ? loadButton.disable() : loadButton.enable();
+                        pageCache[novo].validate ? validateButton.disable() : validateButton.enable();
+                        pageCache[novo].save ? saveButton.disable() : saveButton.enable();
+                        pageCache[novo].submit ? submitButton.disable() : submitButton.enable();
                         $('#error-list').empty();
                         document.getElementById('error-list').appendChild(pageCache[novo].errors);
                         $('#schema-version').attr('value', pageCache[novo].schema);
