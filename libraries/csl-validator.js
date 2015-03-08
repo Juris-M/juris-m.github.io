@@ -116,6 +116,24 @@ var CSLValidator = (function() {
                     }
                     if (editorCache[sourceMethod].editorContent) {
                         $("#source-code").text(editorCache[sourceMethod].editorContent);
+                        window.editor = ace.edit("source-code");
+                        editor.setReadOnly(false);
+                        editor.getSession().setUseWrapMode(true);
+                        editor.setHighlightActiveLine(true);
+                        editor.renderer.$cursorLayer.element.style.opacity = 1;
+                        editor.setTheme("ace/theme/eclipse");
+                        editor.getSession().setMode("ace/mode/xml");
+                        editor.commands.addCommand({
+                            name: 'saveFile',
+                            bindKey: {
+                                win: 'Ctrl-S',
+                                mac: 'Command-S',
+                                sender: 'editor|cli'
+                            },
+                            exec: function(env, args, request) {
+                                saveFile();
+                            }
+                        });
                     }
                     if ((lastSourceMethod + '-source') === sourceMethod) {
                         loadButton.disable();
