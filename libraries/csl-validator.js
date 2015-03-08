@@ -145,6 +145,9 @@ var CSLValidator = (function() {
                     // * Schema selection
                     // * Last-entered source value (url/filename)
                     if (oldSourceMethod) {
+
+                        alert("SAVE state: "+$('#save').prop('disabled'));
+
                         var old = oldSourceMethod;
                         pageCache[old].load = $('#load-source').prop('disabled');
                         pageCache[old].validate = $('#validate').prop('disabled');
