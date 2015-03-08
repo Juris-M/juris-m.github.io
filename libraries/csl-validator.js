@@ -22,11 +22,7 @@ var CSLValidator = (function() {
     var responseEndTime;
 
     //cache for editor content and errors
-    var editorCache = {
-        'url-source': {},
-        'file-source': {},
-        'search-source': {}
-    }
+    aceDocs = {};
 
     //keep track of the source at the last validation,
     //so that button state can be restored (avoids losing)
@@ -108,15 +104,8 @@ var CSLValidator = (function() {
                     } else {
                         $('#' + sourceMethod).attr('style', 'display:inline;');
                     }
-                    // cache and restore editor and errors
-                    var editorContent = window.editor.getSession().getValue();
-                    // getEditorContent();
-                    if (editorContent) {
-                        editorCache[oldSourceMethod].editorContent = editorContent;
-                        editorCache[oldSourceMethod].errorContent = $('#error-list').get(0).cloneNode(false);
-                    }
-                    if (editorCache[sourceMethod].editorContent) {
-                        editor.session.setValue(editorCache[sourceMethod].editorContent);
+                    if (aceDocs[sourceMethod]) {
+                        editor.setSession(aceDocs[sourceMethod]);
                     }
                     if ((lastSourceMethod + '-source') === sourceMethod) {
                         loadButton.disable();
@@ -465,9 +454,13 @@ var CSLValidator = (function() {
             $("#source").append('<div class="panel-heading inserted-to-source"><h4 class="panel-title">Source</h4></div>');
             $("#source").append('<div id="source-code" class="panel-body inserted-to-source"></div>');
             $("#source").attr("class", "panel panel-primary");
-            $("#source-code").text(data.source.code);
+
+            var aceDoc = ace.createEditSession(data.source.code)
+            aceDocs[$('#source-method').attr('value')] = aceDoc;
+
             setBoxHeight(['source-code']);
             window.editor = ace.edit("source-code");
+            editor.setSession(aceDoc);
             editor.setReadOnly(false);
             editor.getSession().setUseWrapMode(true);
             editor.setHighlightActiveLine(true);
