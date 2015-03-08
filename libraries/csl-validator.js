@@ -22,47 +22,28 @@ var CSLValidator = (function() {
     var responseEndTime;
 
     //cache for editor content and errors
-    aceDocs = {};
-
-    //keep track of the source at the last validation,
-    //so that button state can be restored (avoids losing)
-    //edits)
-    var lastSourceMethod = null;
-
+    pageCache = {};
 
     // We need an object that can be set to a key,
     // and will return values under that key.
 
-    var stVrs = new function () {
-        var vals = {
-            "url-source": {},
-            "file-source": {},
-            "search-source": {}
-        };
-        var schema = null;
-        this.setSchema = setSchema
-
-        function restoreState(setting) {
-            editor.setSession(vals[setting].aceDoc);
-        }
-
-        function setSchema(setting) {
-            schema = setting;
-        }
-        
-        // * Buttons (load/validate/save/submit)
-    }
-    // Need to save state:
-
-    // * Editor
-    // * Errors (nodes)
-    // * Schema selection
-    // * Last-entered source value (url/filename)
-
-
     var init = function() {
         //Initialize URI.js
         uri = new URI();
+
+        //Initialize page cache
+        $('.source-input').each(function(){
+            var key = this.getAttribute('id');
+            pageCache[key] = {
+                load: null,
+                validate: null,
+                save: null,
+                submit: null,
+                errors: null,
+                schema: null,
+                urlQuery: null
+            }
+        });
 
         //Create range for Ace editor
         Range = ace.require("ace/range").Range;
@@ -79,11 +60,11 @@ var CSLValidator = (function() {
         //set schema-version if specified
         if (uri.hasQuery('version')) {
             var setSchemaVersion = uri.query(true)['version'];
-            $('#schema-version').attr('value', setSchemaVersion);
+            $('#schema-version').prop('value', setSchemaVersion);
             $('#schema-version-dropdown').children().each(function(){
                 var labelSchemaVersion = this.firstChild.getAttribute('value');
                 if (labelSchemaVersion === setSchemaVersion) {
-                    $('#schema-name').attr('value', setSchemaVersion);
+                    $('#schema-name').prop('value', setSchemaVersion);
                     return false;
                 }
             });
@@ -104,20 +85,28 @@ var CSLValidator = (function() {
         $("#validate").click(reValidate);
         $("#load-source").click(loadSource);
 
-        //a change to the source input fields enables load button, disables revalidate
-        $('.source-input').change(function(){
-            loadButton.enable();
-            validateButton.disable();
-        });
-
         //save on button click
         $("#save").click(saveFile);
 
-        //load when pressing Enter in URL text field
-        $('#url-input').keydown(function(event) {
+        //load when pressing Enter in URL text field with content
+        //reset when pressing Enter in URL text field with no content
+        //reset when pressing Backspace in URL text field with no content
+        $('#url-input').keyup(function(event) {
             if (event.keyCode == 13) {
                 event.preventDefault();
-                loadSource();
+                if (!event.target.getAttribute('value')) {
+                    loadButton.enable();
+                    validateButton.disable();
+                } else {
+                    loadSource();
+                }
+            }
+            if (event.keyCode === 8) {
+                event.preventDefault();
+                if (!event.target.getAttribute('value')) {
+                    loadButton.enable();
+                    validateButton.disable();
+                }
             }
         });
 
@@ -135,20 +124,37 @@ var CSLValidator = (function() {
                     } else {
                         $('#' + sourceMethod).attr('style', 'display:inline;');
                     }
-                    // Need to save other state as well:
+                    // Save state:
+                    // * Editor
                     // * Buttons (load/validate/save/submit)
                     // * Errors (nodes)
                     // * Schema selection
                     // * Last-entered source value (url/filename)
-                    if (aceDocs[sourceMethod]) {
-                        editor.setSession(aceDocs[sourceMethod]);
+                    if (oldSourceMethod) {
+                        var old = oldSourceMethod;
+                        pageCache[old].load = loadButton.prop('disabled');
+                        pageCache[old].validate = validateButton.prop('disabled');
+                        pageCache[old].save = saveButton.prop('disabled');
+                        pageCache[old].submit = submitButton.prop('disabled');
+                        pageCache[old].errors = $('#error-list').get(0).cloneNode(false);
+                        pageCache[old].schema = $('#schema-version').prop('value');
+                        // Not sure how we can use this - resetting the document query
+                        // would reload the page and blast the editor content, no?
+                        if (uri.hasQuery('url')) {
+                            pageCache[old].urlQuery = uri.query(true)['url'];
+                        } else {
+                            pageCache[old].urlQuery = false;
+                        }
                     }
-                    if ((lastSourceMethod + '-source') === sourceMethod) {
-                        loadButton.disable();
-                        validateButton.enable();
-                    } else {
-                        loadButton.enable();
-                        validateButton.disable();
+                    if (pageCache[sourceMethod]) {
+                        var novo = sourceMethod;
+                        pageCache[novo].load ? loadButton.enable() : loadButton.disable();
+                        pageCache[novo].validate ? validateButton.enable() : validateButton.disable();
+                        pageCache[novo].save ? saveButton.enable() : saveButton.disable();
+                        pageCache[novo].submit ? submitButton.enable() : submitButton.disable();
+                        $('#error-list').empty();
+                        $('#error-list').append(pageCache[novo].errors);
+                        $('#schema-version').prop('value', pageCache[novo].schema);
                     }
                 }
             }
@@ -160,10 +166,8 @@ var CSLValidator = (function() {
                 event.preventDefault();
                 var oldSchemaVersion = $("#schema-version").attr('value');
                 if (oldSchemaVersion !== target.attr('value')) {
-                    $('#schema-name').attr('value', target.text());
-                    $('#schema-version').attr('value',target.attr('value'));
-                    //loadButton.enable();
-                    //validateButton.disable();
+                    $('#schema-name').prop('value', target.text());
+                    $('#schema-version').prop('value',target.attr('value'));
                 }
             }
         });
@@ -199,15 +203,12 @@ var CSLValidator = (function() {
     function loadValidateButton(state, noAction) {
         if (isFromLoad) {
             loadButton[state]();
-            stVrs.setButton('load', state)
         } else {
             validateButton[state]();
-            stVrs.setButton('validate', state)
         }
         if ('stop' === state && isFromLoad) {
             if (!noAction) {
                 loadButton.disable();
-                stVrs.setButton('load', 'disable')
             }
         }
     }
@@ -255,7 +256,7 @@ var CSLValidator = (function() {
     var sourceMethodFunc = null;
 
     function getSchemaURL () {
-        var cslVersion = $('#schema-version').attr('value');
+        var cslVersion = $('#schema-version').prop('value');
         var schemaURL = '';
         if (cslVersion.indexOf("mlz") > -1) {
             schemaURL = "https://raw.githubusercontent.com/fbennett/schema/v" + cslVersion + "/csl-mlz.rnc";
@@ -285,7 +286,7 @@ var CSLValidator = (function() {
         case "url":
             var documentURL = $('#url-input').val();
             uri.setSearch("url", documentURL);
-            uri.setSearch("version", $('#schema-version').attr('value'));
+            uri.setSearch("version", $('#schema-version').prop('value'));
             history.pushState({}, document.title, uri);
 
             //don't try validation on empty string
