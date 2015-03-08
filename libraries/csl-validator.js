@@ -148,7 +148,7 @@ var CSLValidator = (function() {
                         pageCache[old].save = saveButton.disabled;
                         pageCache[old].submit = submitButton.disabled;
                         pageCache[old].errors = $('#error-list').get(0).cloneNode(false);
-                        pageCache[old].schema = $('#schema-version').prop('value');
+                        pageCache[old].schema = $('#schema-version').attr('value');
                         // Not sure how we can use this - resetting the document query
                         // would reload the page and blast the editor content, no?
                         if (uri.hasQuery('url')) {
@@ -267,7 +267,7 @@ var CSLValidator = (function() {
     var sourceMethodFunc = null;
 
     function getSchemaURL () {
-        var cslVersion = $('#schema-version').prop('value');
+        var cslVersion = $('#schema-version').attr('value');
         var schemaURL = '';
         if (cslVersion.indexOf("mlz") > -1) {
             schemaURL = "https://raw.githubusercontent.com/fbennett/schema/v" + cslVersion + "/csl-mlz.rnc";
@@ -297,7 +297,7 @@ var CSLValidator = (function() {
         case "url":
             var documentURL = $('#url-input').val();
             uri.setSearch("url", documentURL);
-            uri.setSearch("version", $('#schema-version').prop('value'));
+            uri.setSearch("version", $('#schema-version').attr('value'));
             history.pushState({}, document.title, uri);
 
             //don't try validation on empty string
