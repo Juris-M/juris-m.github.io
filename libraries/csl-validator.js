@@ -131,18 +131,14 @@ var CSLValidator = (function() {
             t.next('span').toggle(Boolean(t.val()));
         });
         
+        alert("XX "+$(".clearer").prev('input').val());
+
         $(".clearer").hide($(this).prev('input').val());
         
         $(".clearer").click(function () {
             $(this).prev('input').val('').focus();
             $(this).hide();
         });
-
-        $("#file-input").fileinput(
-            {
-                showUpload: false,
-                showRemove: false
-            });
 
         $(window).bind('resize',function(){
             setBoxHeight(['source', 'errors']);
