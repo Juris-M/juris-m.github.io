@@ -170,6 +170,13 @@ var CSLValidator = (function() {
         };
         $('.action-view').attr('style', 'display:none;');
         $('#' + name + '-view').attr('style', 'display:block;');
+        var titles = {
+            main: 'Juris-M: Welcome',
+            editor: 'Style Manager'
+        }
+        if (titles[name]) {
+            document.title = titles[name];
+        }
     }
 
     var sourceMethodFunc = null;
