@@ -135,6 +135,10 @@ var CSLValidator = (function() {
             $(".clearer").show();
         }
 
+        $('#url-input').change(function(){
+            loadButton.enable();
+        });
+
         //$(".clearer").hide($(this).prev('input').val());
         
         $(".clearer").click(function () {
