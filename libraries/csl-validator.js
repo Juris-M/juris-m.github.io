@@ -131,9 +131,11 @@ var CSLValidator = (function() {
             t.next('span').toggle(Boolean(t.val()));
         });
         
-        alert("XX "+$(".clearer").prev('input').val());
+        if ($(".clearer").prev('input').val()) {
+            $(".clearer").show();
+        }
 
-        $(".clearer").hide($(this).prev('input').val());
+        //$(".clearer").hide($(this).prev('input').val());
         
         $(".clearer").click(function () {
             $(this).prev('input').val('').focus();
