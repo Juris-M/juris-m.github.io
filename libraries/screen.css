@@ -1,3 +1,7 @@
+#submit:before {
+    content:'&#9312;';
+}
+
 li.inserted {
     padding-top: 5px;
     padding-bottom: 5px;

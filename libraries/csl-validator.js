@@ -29,6 +29,37 @@ var CSLValidator = (function() {
     //edits)
     var lastSourceMethod = null;
 
+
+    // We need an object that can be set to a key,
+    // and will return values under that key.
+
+    var stVrs = new function () {
+        var vals = {
+            "url-source": {},
+            "file-source": {},
+            "search-source": {}
+        };
+        var schema = null;
+        this.setSchema = setSchema
+
+        function restoreState(setting) {
+            editor.setSession(vals[setting].aceDoc);
+        }
+
+        function setSchema(setting) {
+            schema = setting;
+        }
+        
+        // * Buttons (load/validate/save/submit)
+    }
+    // Need to save state:
+
+    // * Editor
+    // * Errors (nodes)
+    // * Schema selection
+    // * Last-entered source value (url/filename)
+
+
     var init = function() {
         //Initialize URI.js
         uri = new URI();
@@ -104,6 +135,11 @@ var CSLValidator = (function() {
                     } else {
                         $('#' + sourceMethod).attr('style', 'display:inline;');
                     }
+                    // Need to save other state as well:
+                    // * Buttons (load/validate/save/submit)
+                    // * Errors (nodes)
+                    // * Schema selection
+                    // * Last-entered source value (url/filename)
                     if (aceDocs[sourceMethod]) {
                         editor.setSession(aceDocs[sourceMethod]);
                     }
@@ -159,6 +195,22 @@ var CSLValidator = (function() {
 
 
     };
+
+    function loadValidateButton(state, noAction) {
+        if (isFromLoad) {
+            loadButton[state]();
+            stVrs.setButton('load', state)
+        } else {
+            validateButton[state]();
+            stVrs.setButton('validate', state)
+        }
+        if ('stop' === state && isFromLoad) {
+            if (!noAction) {
+                loadButton.disable();
+                stVrs.setButton('load', 'disable')
+            }
+        }
+    }
 
     /* code originally for scrolling
      * Ahnsirk Dasarp
@@ -269,19 +321,6 @@ var CSLValidator = (function() {
     }
 
     var isFromLoad = false;
-
-    function loadValidateButton(state, noAction) {
-        if (isFromLoad) {
-            loadButton[state]();
-        } else {
-            validateButton[state]();
-        }
-        if ('stop' === state && isFromLoad) {
-            if (!noAction) {
-                loadButton.disable();
-            }
-        }
-    }
 
     function reValidate() {
         isFromLoad = false;
