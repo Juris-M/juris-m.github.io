@@ -419,7 +419,7 @@ var CSLValidator = (function() {
     }
 
     function getEditorContent() {
-        var xmlStr = window.editor.getSession().getValue();
+        var xmlStr = editor.getSession().getValue();
         while (xmlStr.slice(0,1) === '\n') {
             xmlStr = xmlStr.slice(1);
         }
