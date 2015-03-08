@@ -74,11 +74,11 @@ var CSLValidator = (function() {
         //set schema-version if specified
         if (uri.hasQuery('version')) {
             var setSchemaVersion = uri.query(true)['version'];
-            $('#schema-version').prop('value', setSchemaVersion);
+            $('#schema-version').attr('value', setSchemaVersion);
             $('#schema-version-dropdown').children().each(function(){
                 var labelSchemaVersion = this.firstChild.getAttribute('value');
                 if (labelSchemaVersion === setSchemaVersion) {
-                    $('#schema-name').prop('value', setSchemaVersion);
+                    $('#schema-name').attr('value', setSchemaVersion);
                     return false;
                 }
             });
@@ -168,7 +168,7 @@ var CSLValidator = (function() {
                         pageCache[novo].submit ? submitButton.enable() : submitButton.disable();
                         $('#error-list').empty();
                         document.getElementById('error-list').appendChild(pageCache[novo].errors);
-                        $('#schema-version').prop('value', pageCache[novo].schema);
+                        $('#schema-version').attr('value', pageCache[novo].schema);
                         editor.setSession(pageCache[novo].editor);
                     } else {
                         loadButton.disable();
@@ -188,8 +188,8 @@ var CSLValidator = (function() {
                 event.preventDefault();
                 var oldSchemaVersion = $("#schema-version").attr('value');
                 if (oldSchemaVersion !== target.attr('value')) {
-                    $('#schema-name').prop('value', target.text());
-                    $('#schema-version').prop('value',target.attr('value'));
+                    $('#schema-name').attr('value', target.text());
+                    $('#schema-version').attr('value',target.attr('value'));
                 }
             }
         });
