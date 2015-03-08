@@ -24,3 +24,11 @@ li.inserted {
 #errors {
     overflow: auto;
 }
+
+
+
+.form-control-feedback {
+    position:absolute;
+    top:15px;
+    cursor: pointer;
+}

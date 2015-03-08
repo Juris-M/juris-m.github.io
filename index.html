@@ -135,7 +135,10 @@
 		          <li><a value="search-source" href="#">Find jurisdiction</a></li>
 		        </ul>
 	          </div><!-- /btn-group -->
-              <input class="source-input form-control" style="display:inline;" id="url-source" type="text" placeholder="Enter style URL">
+              <div class="source-input form-group has-feedback" id="url-source" style="display:inline;">
+                <input class="form-control hasclear" id="url-input" type="text" placeholder="Enter style URL">
+                <span class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span>
+              </div>
               <div class="source-input form-control" id="file-source" style="display:none;">
                 <input class="file" id="file-input" type="file" data-show-preview="false" data-show-upload="false">
               </div>

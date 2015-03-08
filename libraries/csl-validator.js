@@ -58,11 +58,11 @@ var CSLValidator = (function() {
         //run validation if URL parameters includes URL
         if (uri.hasQuery('url')) {
             var setURL = uri.query(true)['url'];
-            $("#url-source").val(setURL);
+            $("#url-input").val(setURL);
             setView(null,'editor');
             loadSource();
         } else {
-            $('#url-source').val('');
+            $('#url-input').val('');
             setView(null,'main');
         }
 
@@ -80,7 +80,7 @@ var CSLValidator = (function() {
         $("#save").click(saveFile);
 
         //validate when pressing Enter in URL text field
-        $('#url-source').keydown(function(event) {
+        $('#url-input').keydown(function(event) {
             if (event.keyCode == 13) {
                 event.preventDefault();
                 validate();
@@ -126,6 +126,18 @@ var CSLValidator = (function() {
             }
         });
 
+        $(".hasclear").keyup(function () {
+            var t = $(this);
+            t.next('span').toggle(Boolean(t.val()));
+        });
+        
+        $(".clearer").hide($(this).prev('input').val());
+        
+        $(".clearer").click(function () {
+            $(this).prev('input').val('').focus();
+            $(this).hide();
+        });
+
         $("#file-input").fileinput(
             {
                 showUpload: false,
@@ -136,6 +148,7 @@ var CSLValidator = (function() {
             setBoxHeight(['source', 'errors']);
             setBoxHeight(['source-code']);
         });
+
 
     };
 
@@ -210,7 +223,7 @@ var CSLValidator = (function() {
         // Set function for submitting document for validation
         switch (sourceMethod) {
         case "url":
-            var documentURL = $('#url-source').val();
+            var documentURL = $('#url-input').val();
             uri.setSearch("url", documentURL);
             uri.setSearch("version", $('#schema-version').attr('value'));
             history.pushState({}, document.title, uri);
