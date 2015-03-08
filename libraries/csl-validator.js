@@ -507,7 +507,7 @@ var CSLValidator = (function() {
             $("#source").attr("class", "panel panel-primary");
 
             var aceDoc = ace.createEditSession(data.source.code)
-            aceDocs[$('#source-method').attr('value')] = aceDoc;
+            pageCache[$('#source-method').attr('value')] = aceDoc;
 
             setBoxHeight(['source-code']);
             window.editor = ace.edit("source-code");
