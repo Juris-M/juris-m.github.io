@@ -57,6 +57,17 @@ var CSLValidator = (function() {
         submitButton = Ladda.create(document.querySelector('#submit'));
         submitButton.disable();
 
+        //wake up load button on change, if content present
+        $('.input-input').on('change', function(event) {
+            if (this.val()) {
+                loadButton.enable();
+                validateButton.enable();
+            } else {
+                loadButton.disable();
+                validateButton.enable();
+            }
+        });
+
         //set schema-version if specified
         if (uri.hasQuery('version')) {
             var setSchemaVersion = uri.query(true)['version'];
