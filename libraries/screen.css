@@ -1,5 +1,5 @@
-#submit:before {
-    content:'&#9312;';
+#submit-wrapper:before {
+    content:'①';
 }
 
 li.inserted {
