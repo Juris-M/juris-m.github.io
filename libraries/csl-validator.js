@@ -109,13 +109,14 @@ var CSLValidator = (function() {
                         $('#' + sourceMethod).attr('style', 'display:inline;');
                     }
                     // cache and restore editor and errors
-                    var editorContent = getEditorContent();
+                    var editorContent = window.editor.getSession().getValue();
+                    // getEditorContent();
                     if (editorContent) {
                         editorCache[oldSourceMethod].editorContent = editorContent;
                         editorCache[oldSourceMethod].errorContent = $('#error-list').get(0).cloneNode(false);
                     }
                     if (editorCache[sourceMethod].editorContent) {
-                        editor.setValue(editorCache[sourceMethod].editorContent);
+                        editor.session.setValue(editorCache[sourceMethod].editorContent);
                     }
                     if ((lastSourceMethod + '-source') === sourceMethod) {
                         loadButton.disable();
