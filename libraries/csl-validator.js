@@ -126,7 +126,7 @@ var CSLValidator = (function() {
             }
         });
 
-        $('#url-input').change(function(){
+        $('#url-input').keyup(function(){
             loadButton.enable();
         });
 
