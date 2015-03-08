@@ -126,6 +126,10 @@ var CSLValidator = (function() {
             }
         });
 
+        $('#url-input').change(function(){
+            loadButton.enable();
+        });
+
         $(".hasclear").keyup(function () {
             var t = $(this);
             t.next('span').toggle(Boolean(t.val()));
@@ -134,10 +138,6 @@ var CSLValidator = (function() {
         if ($(".clearer").prev('input').val()) {
             $(".clearer").show();
         }
-
-        $('#url-input').change(function(){
-            loadButton.enable();
-        });
 
         //$(".clearer").hide($(this).prev('input').val());
         
