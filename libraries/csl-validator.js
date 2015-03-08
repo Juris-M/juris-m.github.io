@@ -21,6 +21,13 @@ var CSLValidator = (function() {
     var responseStartTime;
     var responseEndTime;
 
+    //cache for editor content and errors
+    var editorCache = {
+        'url-source': {},
+        'file-source': {},
+        'search-source': {}
+    }
+
     //keep track of the source at the last validation,
     //so that button state can be restored (avoids losing)
     //edits)
@@ -100,6 +107,15 @@ var CSLValidator = (function() {
                         $('#' + sourceMethod).attr('style', 'border:none;padding:0px;margin:0px;display:inline;');
                     } else {
                         $('#' + sourceMethod).attr('style', 'display:inline;');
+                    }
+                    // cache and restore editor and errors
+                    var editorContent = getEditorContent();
+                    if (editorContent) {
+                        editorCache[oldSourceMethod].editorContent = editorContent;
+                        editorCache[oldSourceMethod].errorContent = $('#error-list').get(0).cloneNode(false);
+                    }
+                    if (editorCache[sourceMethod].editorContent) {
+                        $("#source-code").text(editorCache[sourceMethod].editorContent);
                     }
                     if ((lastSourceMethod + '-source') === sourceMethod) {
                         loadButton.disable();
