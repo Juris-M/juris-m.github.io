@@ -222,7 +222,8 @@ var CSLValidator = (function() {
                         validateViaGET(schemaURL, documentURL);
                     } else {
                         window.clearTimeout(responseTimer);
-                        loadValidateButton('stop');
+                        // true is for fail - do not disable the load button
+                        loadValidateButton('stop', true);
                     }
                 }
             }(schemaURL, documentURL);
@@ -248,14 +249,16 @@ var CSLValidator = (function() {
 
     var isFromLoad = false;
 
-    function loadValidateButton(state) {
+    function loadValidateButton(state, noAction) {
         if (isFromLoad) {
             loadButton[state]();
         } else {
             validateButton[state]();
         }
         if ('stop' === state && isFromLoad) {
-            loadButton.disable();
+            if (!noAction) {
+                loadButton.disable();
+            }
         }
     }
 
@@ -300,6 +303,12 @@ var CSLValidator = (function() {
     }
 
     function validateViaPOST(schemaURL, documentContent, sourceMethod, reValidate) {
+
+        //if (!documentContent) {
+        //    loadValidateButton('stop', true);
+        //    return;
+        //}
+
         var formData = new FormData();
         formData.append("schema", schemaURL);
         formData.append("parser", "xml");
