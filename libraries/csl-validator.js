@@ -528,6 +528,7 @@ var CSLValidator = (function() {
         if (nonDocumentError !== "") {
             $("#tabs").tabs("disable", "#errors");
             $("#alert").append('<div class="inserted alert alert-warning" role="alert">Validation failed: ' + nonDocumentError + '</div>');
+            setBoxHeight(['source', 'errors']);
         } else if (errorCount === 0) {
             $("#tabs").tabs("disable", "#errors");
             $('#validate').popover({
@@ -543,6 +544,7 @@ var CSLValidator = (function() {
                 }
             });
             $('#validate').popover('show');
+            setBoxHeight(['source', 'errors']);
         } else if (errorCount > 0) {
             if (errorCount == 1) {
                 $("#alert").append('<div class="inserted alert alert-danger" role="alert">Oops, I found 1 error.</div>');
@@ -554,6 +556,7 @@ var CSLValidator = (function() {
             $("#errors").attr("class", "panel panel-warning");
             $("#errors").prepend('<div class="panel-heading inserted"><h4 class="panel-title">Errors <a href="#" rel="tooltip" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="auto left" title="Click the link next to an error description to highlight the relevant lines in the Source window below"></a></h4></div>');
             $('[data-toggle="tooltip"]').tooltip();
+            setBoxHeight(['source', 'errors']);
         }
 
         if (data.source.code.length > 0 && !reValidate) {
@@ -564,7 +567,8 @@ var CSLValidator = (function() {
             var aceDoc = ace.createEditSession(data.source.code)
             pageCache[$('#source-method').attr('value')].editor = aceDoc;
 
-            setBoxHeight(['source-code']);
+            setBoxHeight(['source-code', 'source']);
+
             editor = ace.edit("source-code");
             editor.setSession(aceDoc);
             editor.setReadOnly(false);
@@ -586,7 +590,6 @@ var CSLValidator = (function() {
             });
         }
         
-        setBoxHeight(['source', 'errors']);
         loadValidateButton('stop');
         validateButton.enable();
         saveButton.enable();
