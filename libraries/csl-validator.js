@@ -567,6 +567,8 @@ var CSLValidator = (function() {
             var aceDoc = ace.createEditSession(data.source.code)
             pageCache[$('#source-method').attr('value')].editor = aceDoc;
 
+            setBoxHeight(['source-code']);
+
             editor = ace.edit("source-code");
             editor.setSession(aceDoc);
             editor.setReadOnly(false);
@@ -588,6 +590,9 @@ var CSLValidator = (function() {
             });
         }
 
+        // This gets the box - would need to resize ace also,
+        // but when all alerts are moved to popupovers, resizing
+        // will not be necessary. Even this can go.
         setBoxHeight(['source-code']);
         loadValidateButton('stop');
         validateButton.enable();
