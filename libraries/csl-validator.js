@@ -198,22 +198,6 @@ var CSLValidator = (function() {
             loadButton.enable();
         });
 
-        $(".hasclear").keyup(function () {
-            var t = $(this);
-            t.next('span').toggle(Boolean(t.val()));
-        });
-        
-        if ($(".clearer").prev('input').val()) {
-            $(".clearer").show();
-        }
-
-        //$(".clearer").hide($(this).prev('input').val());
-        
-        $(".clearer").click(function () {
-            $(this).prev('input').val('').focus();
-            $(this).hide();
-        });
-
         $(window).bind('resize',function(){
             setBoxHeight(['source', 'errors']);
             setBoxHeight(['source-code']);
