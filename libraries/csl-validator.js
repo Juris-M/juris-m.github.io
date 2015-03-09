@@ -143,9 +143,8 @@ var CSLValidator = (function() {
                     // * Buttons (load/validate/save/submit)
                     // * Errors (nodes)
                     // * Schema selection
-                    // * Last-entered source value (url/filename)
+                    // * TAB STATES
                     if (oldSourceMethod) {
-
                         var old = oldSourceMethod;
                         pageCache[old].load = $('#load-source').prop('disabled');
                         pageCache[old].validate = $('#validate').prop('disabled');
@@ -154,7 +153,7 @@ var CSLValidator = (function() {
                         pageCache[old].errors = document.getElementById('error-list').cloneNode(true);
                         pageCache[old].schema = $('#schema-version').attr('value');
                         // Not sure how we can use this - resetting the document query
-                        // would reload the page and blast the editor content, no?
+                        // would reload the page and blast the editor content ...
                         if (uri.hasQuery('url')) {
                             pageCache[old].urlQuery = uri.query(true)['url'];
                         } else {
@@ -167,8 +166,7 @@ var CSLValidator = (function() {
                         pageCache[novo].validate ? validateButton.disable() : validateButton.enable();
                         pageCache[novo].save ? saveButton.disable() : saveButton.enable();
                         pageCache[novo].submit ? submitButton.disable() : submitButton.enable();
-                        $('#error-list').empty();
-                        document.getElementById('error-list').appendChild(pageCache[novo].errors);
+                        document.getElementById('error-list').parentNode.replaceChild(pageCache[novo].errors);
                         $('#schema-version').attr('value', pageCache[novo].schema);
                         editor.setSession(pageCache[novo].editor);
                     } else {
