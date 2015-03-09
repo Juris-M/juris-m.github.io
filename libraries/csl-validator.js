@@ -567,8 +567,6 @@ var CSLValidator = (function() {
             var aceDoc = ace.createEditSession(data.source.code)
             pageCache[$('#source-method').attr('value')].editor = aceDoc;
 
-            setBoxHeight(['source-code', 'source']);
-
             editor = ace.edit("source-code");
             editor.setSession(aceDoc);
             editor.setReadOnly(false);
@@ -589,7 +587,8 @@ var CSLValidator = (function() {
                 }
             });
         }
-        
+
+        setBoxHeight(['source-code']);
         loadValidateButton('stop');
         validateButton.enable();
         saveButton.enable();
