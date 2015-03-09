@@ -61,7 +61,7 @@ var CSLValidator = (function() {
         submitButton.disable();
 
         //wake up load button on change, if content present
-        $('.input-input').on('change', function(event) {
+        $('#file-input').on('change', function(event) {
             if (this.value) {
                 loadButton.enable();
                 validateButton.enable();
@@ -88,6 +88,7 @@ var CSLValidator = (function() {
         if (uri.hasQuery('url')) {
             var setURL = uri.query(true)['url'];
             $("#url-input").val(setURL);
+            $('#url-source-remover').show();
             setView(null,'editor');
             loadSource();
         } else {
@@ -105,23 +106,35 @@ var CSLValidator = (function() {
         //load when pressing Enter in URL text field with content
         //reset when pressing Enter in URL text field with no content
         //reset when pressing Backspace in URL text field with no content
-        $('#url-input').keyup(function(event) {
+        $('#url-input, #search-input').keyup(function(event) {
+            var id = this.getAttribute('id').replace(/-.*/,'');
             if (event.keyCode == 13) {
                 event.preventDefault();
-                if (!event.target.getAttribute('value')) {
+                if (!this.value) {
                     loadButton.enable();
                     validateButton.disable();
-                } else {
-                    loadSource();
+                    $('#' + id + '-source-remover').hide();
                 }
             }
             if (event.keyCode === 8) {
                 event.preventDefault();
-                if (!event.target.getAttribute('value')) {
+                if (!this.value) {
                     loadButton.enable();
                     validateButton.disable();
+                    $('#' + id + '-source-remover').hide();
                 }
             }
+            if (this.value) {
+                $('#' + id + '-source-remover').show();
+                loadButton.enable();
+            }
+        });
+
+        $('#url-source-remover, #search-source-remover').click(function(event) {
+            var id = this.getAttribute('id').replace(/-.*/,'');
+            loadButton.disable();
+            $('#' + id + '-input').val('');
+            $('#' + id + '-source-remover').hide();
         });
 
         $("#source-method").click(function(event){
@@ -132,11 +145,27 @@ var CSLValidator = (function() {
                 if (oldSourceMethod !== target.attr('value')) {
                     var sourceMethod = target.attr('value');
                     $('#source-method').attr('value',sourceMethod);
-                    $('.source-input').attr('style', 'display:none;');
+                    $('.source-input').hide();
+                    $('.source-input-remover').hide();
                     if (sourceMethod === 'file-source') {
-                        $('#' + sourceMethod).attr('style', 'border:none;padding:0px;margin:0px;display:inline;');
-                    } else {
-                        $('#' + sourceMethod).attr('style', 'display:inline;');
+                        //$('#file-source').attr('style', 'border:none;padding:0px;margin:0px;display:inline;');
+                        $('#file-source').show();
+                    } else if (sourceMethod === 'search-source') {
+                        $('#search-source').show();
+                        if ($('search-input').val()) {
+                            $('#search-source-remover').show();
+                            $('#search-source-remover button:first-child').prop('disabled', false);
+                        } else {
+                            $('#search-source-remover').hide();
+                        }
+                    } else if (sourceMethod === 'url-source') {
+                        $('#url-source').show();
+                        if ($('#url-input').val()) {
+                            $('#url-source-remover').show();
+                            $('#url-source-remover button:first-child').prop('disabled', false);
+                        } else {
+                            $('#url-source-remover').hide();
+                        }
                     }
                     // Save state:
                     // * Editor
@@ -194,25 +223,6 @@ var CSLValidator = (function() {
             }
         });
 
-        $('#url-input').keyup(function(){
-            loadButton.enable();
-        });
-
-        $(".hasclear").keyup(function () {
-            var t = $(this);
-            t.next('span').toggle(Boolean(t.val()));
-        });
-        
-        if ($(".clearer").prev('input').val()) {
-            $(".clearer").show();
-        }
-
-        //$(".clearer").hide($(this).prev('input').val());
-        
-        $(".clearer").click(function () {
-            $(this).prev('input').val('').focus();
-            $(this).hide();
-        });
 
         $(window).bind('resize',function(){
             setBoxHeight(['source', 'errors']);
@@ -221,6 +231,9 @@ var CSLValidator = (function() {
 
 
     };
+
+    function maybeShowRemover () {
+    }
 
     function loadValidateButton(state, noAction) {
         if (isFromLoad) {
