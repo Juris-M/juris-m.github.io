@@ -130,20 +130,20 @@
 	          <div id="source-method" value="url-source" class="input-group-btn">
 		        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Style source <span class="caret"></span></button>
 		        <ul class="dropdown-menu" role="menu">
-		          <li><a value="url-source" href="#">URL</a></li>
+		          <li><a value="search-source" href="#">Jurisdiction module</a></li>
 		          <li><a value="file-source" href="#">File upload</a></li>
-		          <li><a value="search-source" href="#">Find jurisdiction</a></li>
+		          <li><a value="url-source" href="#">URL</a></li>
 		        </ul>
 	          </div><!-- /btn-group -->
-              <div class="source-input form-group has-feedback" id="url-source" style="display:inline;">
-                <input class="input-input form-control hasclear" id="url-input" type="text" placeholder="Enter style URL">
-                <span class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span>
+              <div class="source-input form-group" id="search-source" style="display:none;">
+                <input class="input-input form-control" id="search-input" type="search" placeholder="Search by entering country name" style="display:none;">
               </div>
               <div class="source-input form-control" id="file-source" style="display:none;">
                 <input class="input-input file" id="file-input" type="file" data-show-preview="false" data-show-upload="false">
               </div>
-              <div class="source-input form-group" id="search-source" style="display:none;">
-                <input class="input-input form-control" id="search-input" type="search" placeholder="Search by entering country name" style="display:none;">
+              <div class="source-input form-group has-feedback" id="url-source" style="display:inline;">
+                <input class="input-input form-control hasclear" id="url-input" type="text" placeholder="Enter style URL">
+                <span class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span>
               </div>
 	        </div>
 	      </div>
