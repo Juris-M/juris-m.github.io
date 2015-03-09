@@ -105,6 +105,7 @@ var CSLValidator = (function() {
                 $('#url-source-remover').show();
                 $('#url-source-remover button:first-child').prop('disabled', false);
             }
+            $('#source-method').attr('value', 'url-source');
             loadSource();
         } else {
             $('#url-input').val('');
