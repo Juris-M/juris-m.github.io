@@ -166,7 +166,8 @@ var CSLValidator = (function() {
                         pageCache[novo].validate ? validateButton.disable() : validateButton.enable();
                         pageCache[novo].save ? saveButton.disable() : saveButton.enable();
                         pageCache[novo].submit ? submitButton.disable() : submitButton.enable();
-                        document.getElementById('error-list').parentNode.replaceChild(pageCache[novo].errors);
+                        var errorList = document.getElementById('error-list');
+                        errorList.parentNode.replaceChild(pageCache[novo].errors,errorList);
                         $('#schema-version').attr('value', pageCache[novo].schema);
                         editor.setSession(pageCache[novo].editor);
                     } else {
