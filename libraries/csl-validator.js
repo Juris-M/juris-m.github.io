@@ -152,7 +152,7 @@ var CSLValidator = (function() {
                         $('#file-source').show();
                     } else if (sourceMethod === 'search-source') {
                         $('#search-source').show();
-                        if ($('search-input').val()) {
+                        if ($('#search-input').val()) {
                             $('#search-source-remover').show();
                             $('#search-source-remover button:first-child').prop('disabled', false);
                         } else {
