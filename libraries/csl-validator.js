@@ -1,5 +1,8 @@
 var CSLValidator = (function() {
 
+    //to access Ace
+    var editor;
+
     //to access URL parameters
     var uri;
 
@@ -21,14 +24,29 @@ var CSLValidator = (function() {
     var responseStartTime;
     var responseEndTime;
 
-    //keep track of the source at the last validation,
-    //so that button state can be restored (avoids losing)
-    //edits)
-    var lastSourceMethod = null;
+    //cache for editor content and errors
+    pageCache = {};
+
+    // We need an object that can be set to a key,
+    // and will return values under that key.
 
     var init = function() {
         //Initialize URI.js
         uri = new URI();
+
+        //Initialize page cache
+        $('.source-input').each(function(){
+            var key = this.getAttribute('id');
+            pageCache[key] = {
+                load: null,
+                validate: null,
+                save: null,
+                submit: null,
+                errors: null,
+                schema: null,
+                urlQuery: null
+            }
+        });
 
         //Create range for Ace editor
         Range = ace.require("ace/range").Range;
@@ -41,6 +59,17 @@ var CSLValidator = (function() {
         saveButton.disable();
         submitButton = Ladda.create(document.querySelector('#submit'));
         submitButton.disable();
+
+        //wake up load button on change, if content present
+        $('#file-input').on('change', function(event) {
+            if (this.value) {
+                loadButton.enable();
+                validateButton.enable();
+            } else {
+                loadButton.disable();
+                validateButton.enable();
+            }
+        });
 
         //set schema-version if specified
         if (uri.hasQuery('version')) {
@@ -59,6 +88,7 @@ var CSLValidator = (function() {
         if (uri.hasQuery('url')) {
             var setURL = uri.query(true)['url'];
             $("#url-input").val(setURL);
+            $('#url-source-remover').show();
             setView(null,'editor');
             loadSource();
         } else {
@@ -70,21 +100,41 @@ var CSLValidator = (function() {
         $("#validate").click(reValidate);
         $("#load-source").click(loadSource);
 
-        //a change to the source input fields enables load button, disables revalidate
-        $('.source-input').change(function(){
-            loadButton.enable();
-            validateButton.disable();
-        });
-
         //save on button click
         $("#save").click(saveFile);
 
-        //validate when pressing Enter in URL text field
-        $('#url-input').keydown(function(event) {
+        //load when pressing Enter in URL text field with content
+        //reset when pressing Enter in URL text field with no content
+        //reset when pressing Backspace in URL text field with no content
+        $('#url-input, #search-input').keyup(function(event) {
+            var id = this.getAttribute('id').replace(/-.*/,'');
             if (event.keyCode == 13) {
                 event.preventDefault();
-                validate();
+                if (!this.value) {
+                    loadButton.enable();
+                    validateButton.disable();
+                    $('#' + id + '-source-remover').hide();
+                }
             }
+            if (event.keyCode === 8) {
+                event.preventDefault();
+                if (!this.value) {
+                    loadButton.enable();
+                    validateButton.disable();
+                    $('#' + id + '-source-remover').hide();
+                }
+            }
+            if (this.value) {
+                $('#' + id + '-source-remover').show();
+                loadButton.enable();
+            }
+        });
+
+        $('#url-source-remover, #search-source-remover').click(function(event) {
+            var id = this.getAttribute('id').replace(/-.*/,'');
+            loadButton.disable();
+            $('#' + id + '-input').val('');
+            $('#' + id + '-source-remover').hide();
         });
 
         $("#source-method").click(function(event){
@@ -95,18 +145,67 @@ var CSLValidator = (function() {
                 if (oldSourceMethod !== target.attr('value')) {
                     var sourceMethod = target.attr('value');
                     $('#source-method').attr('value',sourceMethod);
-                    $('.source-input').attr('style', 'display:none;');
+                    $('.source-input').hide();
+                    $('.source-input-remover').hide();
                     if (sourceMethod === 'file-source') {
-                        $('#' + sourceMethod).attr('style', 'border:none;padding:0px;margin:0px;display:inline;');
-                    } else {
-                        $('#' + sourceMethod).attr('style', 'display:inline;');
+                        //$('#file-source').attr('style', 'border:none;padding:0px;margin:0px;display:inline;');
+                        $('#file-source').show();
+                    } else if (sourceMethod === 'search-source') {
+                        $('#search-source').show();
+                        if ($('search-input').val()) {
+                            $('#search-source-remover').show();
+                            $('#search-source-remover button:first-child').prop('disabled', false);
+                        } else {
+                            $('#search-source-remover').hide();
+                        }
+                    } else if (sourceMethod === 'url-source') {
+                        $('#url-source').show();
+                        if ($('#url-input').val()) {
+                            $('#url-source-remover').show();
+                            $('#url-source-remover button:first-child').prop('disabled', false);
+                        } else {
+                            $('#url-source-remover').hide();
+                        }
                     }
-                    if ((lastSourceMethod + '-source') === sourceMethod) {
-                        loadButton.disable();
-                        validateButton.enable();
+                    // Save state:
+                    // * Editor
+                    // * Buttons (load/validate/save/submit)
+                    // * Errors (nodes)
+                    // * Schema selection
+                    // * TAB STATES
+                    if (oldSourceMethod) {
+                        var old = oldSourceMethod;
+                        pageCache[old].load = $('#load-source').prop('disabled');
+                        pageCache[old].validate = $('#validate').prop('disabled');
+                        pageCache[old].save = $('#save').prop('disabled');
+                        pageCache[old].submit = $('#submit').prop('disabled');
+                        pageCache[old].errors = document.getElementById('error-list').cloneNode(true);
+                        pageCache[old].schema = $('#schema-version').attr('value');
+                        // Not sure how we can use this - resetting the document query
+                        // would reload the page and blast the editor content ...
+                        if (uri.hasQuery('url')) {
+                            pageCache[old].urlQuery = uri.query(true)['url'];
+                        } else {
+                            pageCache[old].urlQuery = false;
+                        }
+                    }
+                    if (pageCache[sourceMethod].editor) {
+                        var novo = sourceMethod;
+                        pageCache[novo].load ? loadButton.disable() : loadButton.enable();
+                        pageCache[novo].validate ? validateButton.disable() : validateButton.enable();
+                        pageCache[novo].save ? saveButton.disable() : saveButton.enable();
+                        pageCache[novo].submit ? submitButton.disable() : submitButton.enable();
+                        var errorList = document.getElementById('error-list');
+                        errorList.parentNode.replaceChild(pageCache[novo].errors,errorList);
+                        $('#schema-version').attr('value', pageCache[novo].schema);
+                        editor.setSession(pageCache[novo].editor);
                     } else {
-                        loadButton.enable();
+                        loadButton.disable();
                         validateButton.disable();
+                        saveButton.disable();
+                        submitButton.disable();
+                        $('#error-list').empty();
+                        //how to clear editor? - session does not yet exist.
                     }
                 }
             }
@@ -120,29 +219,10 @@ var CSLValidator = (function() {
                 if (oldSchemaVersion !== target.attr('value')) {
                     $('#schema-name').attr('value', target.text());
                     $('#schema-version').attr('value',target.attr('value'));
-                    //loadButton.enable();
-                    //validateButton.disable();
                 }
             }
         });
 
-        $(".hasclear").keyup(function () {
-            var t = $(this);
-            t.next('span').toggle(Boolean(t.val()));
-        });
-        
-        $(".clearer").hide($(this).prev('input').val());
-        
-        $(".clearer").click(function () {
-            $(this).prev('input').val('').focus();
-            $(this).hide();
-        });
-
-        $("#file-input").fileinput(
-            {
-                showUpload: false,
-                showRemove: false
-            });
 
         $(window).bind('resize',function(){
             setBoxHeight(['source', 'errors']);
@@ -151,6 +231,22 @@ var CSLValidator = (function() {
 
 
     };
+
+    function maybeShowRemover () {
+    }
+
+    function loadValidateButton(state, noAction) {
+        if (isFromLoad) {
+            loadButton[state]();
+        } else {
+            validateButton[state]();
+        }
+        if ('stop' === state && isFromLoad) {
+            if (!noAction) {
+                loadButton.disable();
+            }
+        }
+    }
 
     /* code originally for scrolling
      * Ahnsirk Dasarp
@@ -262,19 +358,6 @@ var CSLValidator = (function() {
 
     var isFromLoad = false;
 
-    function loadValidateButton(state, noAction) {
-        if (isFromLoad) {
-            loadButton[state]();
-        } else {
-            validateButton[state]();
-        }
-        if ('stop' === state && isFromLoad) {
-            if (!noAction) {
-                loadButton.disable();
-            }
-        }
-    }
-
     function reValidate() {
         isFromLoad = false;
         var schemaURL = getSchemaURL();
@@ -349,7 +432,7 @@ var CSLValidator = (function() {
     }
 
     function getEditorContent() {
-        var xmlStr = window.editor.getSession().getValue();
+        var xmlStr = editor.getSession().getValue();
         while (xmlStr.slice(0,1) === '\n') {
             xmlStr = xmlStr.slice(1);
         }
@@ -446,9 +529,13 @@ var CSLValidator = (function() {
             $("#source").append('<div class="panel-heading inserted-to-source"><h4 class="panel-title">Source</h4></div>');
             $("#source").append('<div id="source-code" class="panel-body inserted-to-source"></div>');
             $("#source").attr("class", "panel panel-primary");
-            $("#source-code").text(data.source.code);
+
+            var aceDoc = ace.createEditSession(data.source.code)
+            pageCache[$('#source-method').attr('value')].editor = aceDoc;
+
             setBoxHeight(['source-code']);
-            window.editor = ace.edit("source-code");
+            editor = ace.edit("source-code");
+            editor.setSession(aceDoc);
             editor.setReadOnly(false);
             editor.getSession().setUseWrapMode(true);
             editor.setHighlightActiveLine(true);

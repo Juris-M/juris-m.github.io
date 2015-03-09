@@ -1,3 +1,7 @@
+#submit-wrapper:before {
+    content:'①';
+}
+
 li.inserted {
     padding-top: 5px;
     padding-bottom: 5px;
