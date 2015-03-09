@@ -51,6 +51,9 @@ var CSLValidator = (function() {
         //Create range for Ace editor
         Range = ace.require("ace/range").Range;
 
+        //Disable at init (may be reenabled by URL load)
+        $("#tabs").tabs("disable", "#errors");
+
         //Initialize Ladda buttons
         loadButton = Ladda.create(document.querySelector('#load-source'));
         validateButton = Ladda.create(document.querySelector('#validate'));
@@ -229,7 +232,6 @@ var CSLValidator = (function() {
             }
         });
 
-        // Try.
         setBoxHeight(['tabs']);
 
         $(window).bind('resize',function(){
