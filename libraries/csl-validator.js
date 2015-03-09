@@ -229,17 +229,14 @@ var CSLValidator = (function() {
             }
         });
 
+        // Try.
+        setBoxHeight(['tabs']);
 
         $(window).bind('resize',function(){
             setBoxHeight(['source', 'errors']);
             setBoxHeight(['source-code']);
         });
-
-
     };
-
-    function maybeShowRemover () {
-    }
 
     function loadValidateButton(state, noAction) {
         if (isFromLoad) {
@@ -273,7 +270,7 @@ var CSLValidator = (function() {
             for (var i=0,ilen=lst.length;i<ilen;i++) {
                 var elem = document.getElementById(lst[i]);
                 if (elem) {
-                    elem.style.height = (boxHeight + 'px');
+                    elem.style['min-height'] = (boxHeight + 'px');
                 }
             }
         }
@@ -291,6 +288,10 @@ var CSLValidator = (function() {
         }
         if (titles[name]) {
             document.title = titles[name];
+        }
+        if (name === 'editor') {
+            // Try.
+            setBoxHeight(['tabs']);
         }
     }
 
@@ -515,6 +516,7 @@ var CSLValidator = (function() {
         }
 
         if (nonDocumentError !== "") {
+            $("#tabs").tabs("disable", "#errors");
             $("#alert").append('<div class="inserted alert alert-warning" role="alert">Validation failed: ' + nonDocumentError + '</div>');
             setBoxHeight(['source', 'errors']);
         } else if (errorCount === 0) {
