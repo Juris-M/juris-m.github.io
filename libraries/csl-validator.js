@@ -90,6 +90,12 @@ var CSLValidator = (function() {
             $("#url-input").val(setURL);
             $('#url-source-remover').show();
             setView(null,'editor');
+            $('.source-input').hide();
+            $('#url-source').show();
+            if ($('#url-input').val()) {
+                $('#url-source-remover').show();
+                $('#url-source-remover button:first-child').prop('disabled', false);
+            }
             loadSource();
         } else {
             $('#url-input').val('');
@@ -375,12 +381,16 @@ var CSLValidator = (function() {
     }
 
     function validate() {
+        if (!sourceMethodFunc) {
+            return;
+        }
         $("#tabs").tabs("enable");
         loadValidateButton('start');
         $("#source-tab").click();
         responseStartTime = new Date();
         responseTimer = window.setTimeout(reportTimeOut, responseMaxTime);
         sourceMethodFunc();
+        sourceMethodFunc = null;
     }
 
     function validateViaGET(schemaURL, documentURL) {
