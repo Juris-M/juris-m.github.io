@@ -62,11 +62,11 @@ var CSLValidator = (function() {
         //Create range for Ace editor
         Range = ace.require("ace/range").Range;
 
-        //Disable at init (may be reenabled by URL load)
-        $("#tabs").tabs("disable", "#errors");
-
         //Create an empty session for source modes not yet loaded
         emptyAceDoc = ace.createEditSession('')
+
+        //Disable at init (may be reenabled by URL load)
+        $("#tabs").tabs("disable", "#errors");
 
         //Initialize Ladda buttons
         loadButton = Ladda.create(document.querySelector('#load-source'));
@@ -92,13 +92,9 @@ var CSLValidator = (function() {
         if (uri.hasQuery('version')) {
             var setSchemaVersion = uri.query(true)['version'];
             $('#schema-version').attr('value', setSchemaVersion);
-            $('#schema-version-dropdown').children().each(function(){
-                var labelSchemaVersion = this.firstChild.getAttribute('value');
-                if (labelSchemaVersion === setSchemaVersion) {
-                    $('#schema-name').attr('value', setSchemaVersion);
-                    return false;
-                }
-            });
+            if (schemaLabel[setSchemaVersion]) {
+                $('#schema-name').attr('value', schemaLabel[setSchemaVersion]);
+            }
         }
 
         //run validation if URL parameters includes URL
