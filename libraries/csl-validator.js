@@ -256,12 +256,13 @@ var CSLValidator = (function() {
             }
         });
 
-        setBoxHeight(['tabs']);
 
         $(window).bind('resize',function(){
             setBoxHeight(['source', 'errors']);
             setBoxHeight(['source-code']);
         });
+        setBoxHeight(['source', 'errors']);
+        setBoxHeight(['source-code']);
     };
 
     function loadValidateButton(state, noAction) {
@@ -315,9 +316,15 @@ var CSLValidator = (function() {
         if (titles[name]) {
             document.title = titles[name];
         }
+
         if (name === 'editor') {
-            // Try.
-            setBoxHeight(['tabs']);
+            // This doesn't work when small display is set to main,
+            // then resized larger, then editor selected.
+            setBoxHeight(['errors', 'source']);
+            if (editor) {
+                setBoxHeight(['source-code']);
+                editor.renderer.updateFull();
+            }
         }
     }
 
@@ -556,7 +563,6 @@ var CSLValidator = (function() {
                 }
             });
             $('#validate').popover('show');
-            setBoxHeight(['source', 'errors']);
         } else if (errorCount === 0) {
             $("#tabs").tabs("disable", "#errors");
             $('#validate').popover({
@@ -572,7 +578,6 @@ var CSLValidator = (function() {
                 }
             });
             $('#validate').popover('show');
-            setBoxHeight(['source', 'errors']);
         } else if (errorCount > 0) {
             if (errorCount == 1) {
                 var popoverTitle = 'Oops, I found 1 error.';
@@ -595,7 +600,6 @@ var CSLValidator = (function() {
             $("#errors").attr("class", "panel panel-warning");
             $("#errors").prepend('<div class="panel-heading inserted"><h4 class="panel-title">Errors <a href="#" rel="tooltip" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="auto left" title="Click the link next to an error description to highlight the relevant lines in the Source window below"></a></h4></div>');
             $('[data-toggle="tooltip"]').tooltip();
-            setBoxHeight(['source', 'errors']);
         }
 
         if (data.source.code.length > 0 && !reValidate) {
@@ -606,6 +610,7 @@ var CSLValidator = (function() {
             var aceDoc = ace.createEditSession(data.source.code)
             pageCache[$('#source-method').attr('value')].aceDocument = aceDoc;
 
+            setBoxHeight(['errors', 'source']);
             setBoxHeight(['source-code']);
 
             editor = ace.edit("source-code");
@@ -627,12 +632,14 @@ var CSLValidator = (function() {
                     saveFile();
                 }
             });
+        } else {
+            setBoxHeight(['errors', 'source']);
+            setBoxHeight(['source-code']);
         }
 
         // This gets the box - would need to resize ace also,
         // but when all alerts are moved to popupovers, resizing
         // will not be necessary. Even this can go.
-        setBoxHeight(['source-code']);
         loadValidateButton('stop');
         validateButton.enable();
         saveButton.enable();
