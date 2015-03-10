@@ -281,7 +281,7 @@ var CSLValidator = (function() {
             for (var i=0,ilen=lst.length;i<ilen;i++) {
                 var elem = document.getElementById(lst[i]);
                 if (elem) {
-                    elem.style['min-height'] = (boxHeight + 'px');
+                    elem.style['min-height'] = ((boxHeight - 2) + 'px');
                 }
             }
         }
