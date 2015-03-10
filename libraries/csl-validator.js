@@ -41,10 +41,13 @@ var CSLValidator = (function() {
         $('.source-input').each(function(){
             var key = this.getAttribute('id');
             pageCache[key] = {
+                aceDocument: null,
                 load: null,
                 validate: null,
                 save: null,
                 submit: null,
+                sourceTab: null,
+                errorTab:null,
                 errors: null,
                 schema: null,
                 urlQuery: null
@@ -197,6 +200,8 @@ var CSLValidator = (function() {
                         pageCache[old].submit = $('#submit').prop('disabled');
                         pageCache[old].errors = document.getElementById('error-list').cloneNode(true);
                         pageCache[old].schema = $('#schema-version').attr('value');
+                        pageCache[old].sourceTab = $('#source-tab').parent().attr('aria-disabled');
+                        pageCache[old].errorsTab = $('#errors-tab').parent().attr('aria-disabled');
                         // Not sure how we can use this - resetting the document query
                         // would reload the page and blast the editor content ...
                         if (uri.hasQuery('url')) {
@@ -205,21 +210,25 @@ var CSLValidator = (function() {
                             pageCache[old].urlQuery = false;
                         }
                     }
-                    if (pageCache[sourceMethod].editor) {
+                    if (pageCache[sourceMethod].aceDocument) {
                         var novo = sourceMethod;
                         pageCache[novo].load ? loadButton.disable() : loadButton.enable();
                         pageCache[novo].validate ? validateButton.disable() : validateButton.enable();
                         pageCache[novo].save ? saveButton.disable() : saveButton.enable();
                         pageCache[novo].submit ? submitButton.disable() : submitButton.enable();
+                        $('#tabs').tabs('enable');
+                        pageCache[novo].sourceTab ? $('#tabs').tabs('disable', '#source') : null;
+                        pageCache[novo].errorsTab ? $('#tabs').tabs('disable', '#errors') : null;
                         var errorList = document.getElementById('error-list');
                         errorList.parentNode.replaceChild(pageCache[novo].errors,errorList);
                         $('#schema-version').attr('value', pageCache[novo].schema);
-                        editor.setSession(pageCache[novo].editor);
+                        editor.setSession(pageCache[novo].aceDocument);
                     } else {
                         loadButton.disable();
                         validateButton.disable();
                         saveButton.disable();
                         submitButton.disable();
+                        $('#tabs').tabs('enable');
                         $('#error-list').empty();
                         if (editor) {
                             editor.setSession(emptyAceDoc);
@@ -589,7 +598,7 @@ var CSLValidator = (function() {
             $("#source").attr("class", "panel panel-primary");
 
             var aceDoc = ace.createEditSession(data.source.code)
-            pageCache[$('#source-method').attr('value')].editor = aceDoc;
+            pageCache[$('#source-method').attr('value')].aceDocument = aceDoc;
 
             setBoxHeight(['source-code']);
 
