@@ -1,3 +1,12 @@
+.popover {
+    width: 20em;
+    background: #ccffcc;
+}
+
+.popover-title {
+    font-weight: bold !important;
+}
+
 #submit-wrapper:before {
     content:'①';
 }

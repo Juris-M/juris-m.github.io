@@ -25,7 +25,10 @@ var CSLValidator = (function() {
     var responseEndTime;
 
     //cache for editor content and errors
-    pageCache = {};
+    var pageCache = {};
+
+    //Empty editor
+    var emptyAceDoc;
 
     // We need an object that can be set to a key,
     // and will return values under that key.
@@ -53,6 +56,9 @@ var CSLValidator = (function() {
 
         //Disable at init (may be reenabled by URL load)
         $("#tabs").tabs("disable", "#errors");
+
+        //Create an empty session for source modes not yet loaded
+        emptyAceDoc = ace.createEditSession('')
 
         //Initialize Ladda buttons
         loadButton = Ladda.create(document.querySelector('#load-source'));
@@ -99,6 +105,7 @@ var CSLValidator = (function() {
                 $('#url-source-remover').show();
                 $('#url-source-remover button:first-child').prop('disabled', false);
             }
+            $('#source-method').attr('value', 'url-source');
             loadSource();
         } else {
             $('#url-input').val('');
@@ -214,7 +221,9 @@ var CSLValidator = (function() {
                         saveButton.disable();
                         submitButton.disable();
                         $('#error-list').empty();
-                        //how to clear editor? - session does not yet exist.
+                        if (editor) {
+                            editor.setSession(emptyAceDoc);
+                        }
                     }
                 }
             }
@@ -523,7 +532,19 @@ var CSLValidator = (function() {
             setBoxHeight(['source', 'errors']);
         } else if (errorCount === 0) {
             $("#tabs").tabs("disable", "#errors");
-            $("#alert").append('<div class="inserted alert alert-success" role="alert">Good job! No errors found.</br><small>Interested in contributing your style or locale file? See our <a href="https://github.com/citation-style-language/styles/blob/master/CONTRIBUTING.md">instructions</a>.</small></div>');
+            $('#validate').popover({
+                html: true,
+                title: 'Success <a class="close" href="#");">&times;</a>',
+                content: '<p>Good job! No errors found.</p><p>Interested in contributing your style or locale file? See our <a href="https://github.com/citation-style-language/styles/blob/master/CONTRIBUTING.md">instructions</a>.</p>',
+                trigger: 'manual',
+                placement: 'bottom'
+            });
+            $(document).click(function (e) {
+                if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
+                    $('#validate').popover('hide');
+                }
+            });
+            $('#validate').popover('show');
             setBoxHeight(['source', 'errors']);
         } else if (errorCount > 0) {
             if (errorCount == 1) {
@@ -548,6 +569,7 @@ var CSLValidator = (function() {
             pageCache[$('#source-method').attr('value')].editor = aceDoc;
 
             setBoxHeight(['source-code']);
+
             editor = ace.edit("source-code");
             editor.setSession(aceDoc);
             editor.setReadOnly(false);
@@ -568,7 +590,11 @@ var CSLValidator = (function() {
                 }
             });
         }
-        
+
+        // This gets the box - would need to resize ace also,
+        // but when all alerts are moved to popupovers, resizing
+        // will not be necessary. Even this can go.
+        setBoxHeight(['source-code']);
         loadValidateButton('stop');
         validateButton.enable();
         saveButton.enable();
