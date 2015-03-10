@@ -528,7 +528,19 @@ var CSLValidator = (function() {
 
         if (nonDocumentError !== "") {
             $("#tabs").tabs("disable", "#errors");
-            $("#alert").append('<div class="inserted alert alert-warning" role="alert">Validation failed: ' + nonDocumentError + '</div>');
+            $('#validate').popover({
+                html: true,
+                title: 'Validation failed <a class="close" href="#");">&times;</a>',
+                content: '<p>' + nonDocumentError + '</p>',
+                trigger: 'manual',
+                placement: 'bottom'
+            });
+            $(document).click(function (e) {
+                if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
+                    $('#validate').popover('destroy');
+                }
+            });
+            $('#validate').popover('show');
             setBoxHeight(['source', 'errors']);
         } else if (errorCount === 0) {
             $("#tabs").tabs("disable", "#errors");
@@ -541,19 +553,30 @@ var CSLValidator = (function() {
             });
             $(document).click(function (e) {
                 if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
-                    $('#validate').popover('hide');
+                    $('#validate').popover('destroy');
                 }
             });
             $('#validate').popover('show');
             setBoxHeight(['source', 'errors']);
         } else if (errorCount > 0) {
             if (errorCount == 1) {
-                $("#alert").append('<div class="inserted alert alert-danger" role="alert">Oops, I found 1 error.</div>');
+                var popoverTitle = 'Oops, I found 1 error.';
             } else {
-                $("#alert").append('<div class="inserted alert alert-danger" role="alert">Oops, I found ' + errorCount + ' errors.</div>');
+                var popoverTitle = 'Oops, I found ' + errorCount + ' errors.';
             }
-            $("#alert > div.alert-danger").append('</br><small>If you have trouble understanding the error messages below, start by reading the <a href="http://citationstyles.org/downloads/specification.html">CSL specification</a> and the <a href="http://citationstylist.org/docs/citeproc-js-csl.html">Juris-M Specification Supplement</a>.</small>');
-
+            $('#validate').popover({
+                html: true,
+                title: popoverTitle + ' <a class="close" href="#");">&times;</a>',
+                content: '<p>If you have trouble understanding the error messages below, start by reading the <a href="http://citationstyles.org/downloads/specification.html">CSL specification</a> and the <a href="http://citationstylist.org/docs/citeproc-js-csl.html">Juris-M Specification Supplement</a>.</p>',
+                trigger: 'manual',
+                placement: 'bottom'
+            });
+            $(document).click(function (e) {
+                if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
+                    $('#validate').popover('destroy');
+                }
+            });
+            $('#validate').popover('show');
             $("#errors").attr("class", "panel panel-warning");
             $("#errors").prepend('<div class="panel-heading inserted"><h4 class="panel-title">Errors <a href="#" rel="tooltip" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="auto left" title="Click the link next to an error description to highlight the relevant lines in the Source window below"></a></h4></div>');
             $('[data-toggle="tooltip"]').tooltip();
@@ -631,8 +654,19 @@ var CSLValidator = (function() {
         loadValidateButton('stop');
         removeValidationResults();
         console.log("Call to http://our.law.nagoya-u.ac.jp/validate/ timed out after " + responseMaxTime + "ms.");
-        $("#alert").append('<div class="inserted alert alert-warning" role="alert">Validation is taking longer than expected! (more than ' + responseMaxTime/1000 + ' seconds)</div>');
-        $("#alert > div.alert-warning").append('</br><small>This typically happens if the <a href="http://our.law.nagoya-u.ac.jp/validate/">Nu HTML Checker</a> website is down, but maybe you get lucky if you wait a little longer.</small>');
+        $('#validate').popover({
+            html: true,
+            title: 'Validation timeout',
+            content: '<p>This typically happens if the <a href="http://our.law.nagoya-u.ac.jp/validate/">Nagoya NU HTML Checker</a> website is down, but maybe you get lucky if you wait a little longer.</p>',
+            trigger: 'manual',
+            placement: 'bottom'
+        });
+        $(document).click(function (e) {
+            if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
+                $('#validate').popover('destroy');
+            }
+        });
+        $('#validate').popover('show');
     }
 
     return {
