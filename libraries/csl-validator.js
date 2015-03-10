@@ -30,9 +30,14 @@ var CSLValidator = (function() {
     //Empty editor
     var emptyAceDoc;
 
-    // We need an object that can be set to a key,
-    // and will return values under that key.
-
+    //Schema state labels
+    var schemaLabel = {
+        '1.1mlz1': 'Juris-M',
+        '1.0.1': 'CSL 1.0.1',
+        '1.0': 'CSL 1.0',
+        '0.8.1': 'CSL 0.8.1'
+    }
+    
     var init = function() {
         //Initialize URI.js
         uri = new URI();
@@ -222,6 +227,7 @@ var CSLValidator = (function() {
                         var errorList = document.getElementById('error-list');
                         errorList.parentNode.replaceChild(pageCache[novo].errors,errorList);
                         $('#schema-version').attr('value', pageCache[novo].schema);
+                        $('#schema-name').attr('value', schemaLabel[pageCache[novo].schema]);
                         editor.setSession(pageCache[novo].aceDocument);
                     } else {
                         loadButton.disable();
