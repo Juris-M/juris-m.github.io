@@ -316,7 +316,7 @@ var CSLValidator = (function() {
         if (name === 'editor') {
             // This doesn't work when small display is set to main,
             // then resized larger, then editor selected.
-            setBoxHeight(['errors', 'source']);
+            setBoxHeight(['tabs']);
             if (editor) {
                 setBoxHeight(['source-code']);
                 editor.renderer.updateFull();
