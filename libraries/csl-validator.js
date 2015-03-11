@@ -37,7 +37,58 @@ var CSLValidator = (function() {
         '1.0': 'CSL 1.0',
         '0.8.1': 'CSL 0.8.1'
     }
+
+    function parseXML (xmlStr) {
+        if (window.DOMParser) {
+            var parser=new DOMParser();
+            xmlDoc=parser.parseFromString(xmlStr,"text/xml");
+        } else { // code for IE
+            var xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+            xmlDoc.async=false;
+            xmlDoc.loadXML(xmlStr);
+        }
+        return xmlDoc;
+    }
     
+    var JSONWalker = function() {}
+
+    JSONWalker.prototype.walktojson = function(doc) {
+        var elem = doc.getElementsByTagName('style')[0];
+        var obj = this.walktoobject(elem);
+        var json = JSON.stringify(obj);
+        return json;
+    }
+
+    JSONWalker.prototype.walktoobject = function(elem) {
+        var obj = {};
+        obj.name = elem.nodeName;
+        obj.attrs = {};
+        if (elem.attributes) {
+            for (var i=0,ilen=elem.attributes.length;i<ilen;i++) {
+                var attr = elem.attributes[i];
+                obj.attrs[attr.name] = attr.value;
+            }
+        }
+        obj.children = [];
+        if (elem.childNodes.length === 0 && elem.tagName === 'term') {
+            obj.children = [''];
+        }
+        for (var i=0,ilen=elem.childNodes.length;i<ilen;i++) {
+            var child = elem.childNodes[i];
+            if (child.nodeName === '#comment') {
+                continue;
+            } else if (child.nodeName === '#text') {
+                if (elem.childNodes.length === 1 && ['term', 'single', 'multiple'].indexOf(child.nodeName) > -1) {
+                    obj.children.push(child.textContent)
+                }
+            } else {
+                obj.children.push(this.walktoobject(child));
+            }
+        }
+        return obj;
+    }
+    jsonWalker = new JSONWalker();
+
     var init = function() {
         //Initialize URI.js
         uri = new URI();
