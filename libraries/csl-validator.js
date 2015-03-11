@@ -53,6 +53,7 @@ var CSLValidator = (function() {
                 submit: null,
                 sourceTab: null,
                 errorTab:null,
+                errorBanner:null,
                 errors: null,
                 schema: null,
                 urlQuery: null
@@ -200,6 +201,13 @@ var CSLValidator = (function() {
                         pageCache[old].save = $('#save').prop('disabled');
                         pageCache[old].submit = $('#submit').prop('disabled');
                         pageCache[old].errors = document.getElementById('error-list').cloneNode(true);
+                        var errorBanner = document.getElementById('error-banner');
+                        if (errorBanner) {
+                            pageCache[old].errorBanner = errorBanner.cloneNode(true);
+                            errorBanner.parentNode.removeChild(errorBanner);
+                        } else {
+                            errorBanner = null;
+                        }
                         pageCache[old].schema = $('#schema-version').attr('value');
                         pageCache[old].sourceTab = $('#source-tab').parent().attr('aria-disabled');
                         pageCache[old].errorsTab = $('#errors-tab').parent().attr('aria-disabled');
@@ -220,6 +228,12 @@ var CSLValidator = (function() {
                         $('#tabs').tabs('enable');
                         pageCache[novo].sourceTab ? $('#tabs').tabs('disable', '#source') : null;
                         pageCache[novo].errorsTab ? $('#tabs').tabs('disable', '#errors') : null;
+                        if (pageCache[novo].errorBanner) {
+                            var sourceTitle = document.getElementById('source-title');
+                            if (sourceTitle) {
+                                sourceTitle.parentNode.appendChild(pageCache[novo].errorBanner);
+                            }
+                        }
                         var errorList = document.getElementById('error-list');
                         errorList.parentNode.replaceChild(pageCache[novo].errors,errorList);
                         $('#schema-version').attr('value', pageCache[novo].schema);
@@ -252,12 +266,15 @@ var CSLValidator = (function() {
             }
         });
 
-
+        $('#errors-tab').click(function(){
+            setBoxHeight(['error-list']);
+        });
+        
         $(window).bind('resize',function(){
             setBoxHeight(['source', 'errors']);
             setBoxHeight(['source-code']);
         });
-        setBoxHeight(['source', 'errors']);
+        setBoxHeight(['source']);
         setBoxHeight(['source-code']);
     };
 
@@ -279,21 +296,28 @@ var CSLValidator = (function() {
      * http://stackoverflow.com/questions/5007530/how-do-i-scroll-to-an-element-using-javascript
      */
     function setBoxHeight(lst) {
-        var obj = document.getElementById(lst[0]);
-        if (!obj) return;
-        var curtop = 0;
-        var curleft = 0;
-        if (obj.offsetParent) {
-            do {
-                curtop += obj.offsetTop;
-                curleft += obj.offsetLeft;
-            } while (obj = obj.offsetParent);
-            var docViewHeight = document.documentElement.clientHeight;
-            var boxHeight = (docViewHeight - curtop - 4);
-            for (var i=0,ilen=lst.length;i<ilen;i++) {
-                var elem = document.getElementById(lst[i]);
-                if (elem) {
-                    elem.style['min-height'] = ((boxHeight - 2) + 'px');
+        for (var i=0,ilen=lst.length;i<ilen;i++) {
+            var obj = document.getElementById(lst[i]);
+            if (!obj) return;
+            var offset = 0;
+            if (lst[i] === 'error-list') {
+                offset = 8;
+            }
+            var curtop = 0;
+            var curleft = 0;
+            if (obj.offsetParent) {
+                do {
+                    curtop += obj.offsetTop;
+                    curleft += obj.offsetLeft;
+                } while (obj = obj.offsetParent);
+                var docViewHeight = document.documentElement.clientHeight;
+                var boxHeight = (docViewHeight - curtop - 4);
+                for (var i=0,ilen=lst.length;i<ilen;i++) {
+                    var elem = document.getElementById(lst[i]);
+                    if (elem) {
+                        elem.style['min-height'] = ((boxHeight - offset) + 'px');
+                        elem.style['max-height'] = ((boxHeight - offset) + 'px');
+                    }
                 }
             }
         }
@@ -318,6 +342,7 @@ var CSLValidator = (function() {
             // then resized larger, then editor selected.
             setBoxHeight(['tabs']);
             if (editor) {
+                setBoxHeight(['source']);
                 setBoxHeight(['source-code']);
                 editor.renderer.updateFull();
             }
@@ -594,19 +619,19 @@ var CSLValidator = (function() {
             });
             $('#validate').popover('show');
             $("#errors").attr("class", "panel panel-warning");
-            $("#errors").prepend('<div class="panel-heading inserted"><h4 class="panel-title">Errors <a href="#" rel="tooltip" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="auto left" title="Click the link next to an error description to highlight the relevant lines in the Source window below"></a></h4></div>');
+            $("#errors").prepend('<div class="panel-heading inserted"><h4 id="source-title" class="panel-title">Errors <a href="#" rel="tooltip" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="auto left" title="Click the link next to an error description to highlight the relevant lines in the Source window below"></a></h4></div>');
             $('[data-toggle="tooltip"]').tooltip();
         }
 
         if (data.source.code.length > 0 && !reValidate) {
-            $("#source").append('<div class="panel-heading inserted-to-source"><h4 class="panel-title">Source</h4></div>');
+            $("#source").append('<div class="panel-heading inserted-to-source"><h4 id="source-title" class="panel-title">Source</h4></div>');
             $("#source").append('<div id="source-code" class="panel-body inserted-to-source"></div>');
             $("#source").attr("class", "panel panel-primary");
 
             var aceDoc = ace.createEditSession(data.source.code)
             pageCache[$('#source-method').attr('value')].aceDocument = aceDoc;
 
-            setBoxHeight(['errors', 'source']);
+            setBoxHeight(['source']);
             setBoxHeight(['source-code']);
 
             editor = ace.edit("source-code");
@@ -629,7 +654,7 @@ var CSLValidator = (function() {
                 }
             });
         } else {
-            setBoxHeight(['errors', 'source']);
+            setBoxHeight(['source']);
             setBoxHeight(['source-code']);
         }
 
@@ -661,9 +686,9 @@ var CSLValidator = (function() {
 
     function removeValidationResults(reValidate) {
         $(".inserted").remove();
-        $("#errors").removeAttr("class");
+        //$("#errors").removeAttr("class");
         if (!reValidate) {
-            $("#source").removeAttr("class");
+            //$("#source").removeAttr("class");
             $(".inserted-to-source").remove();
         }
     }
