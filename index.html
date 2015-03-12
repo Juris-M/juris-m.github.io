@@ -122,41 +122,46 @@
           enjoyed an amicable and productive arm's-length relationship
           with Zotero and CSL to the present, and that will continue.
         </p>
+        <p style="text-align:right;">
+          &mdash;&nbsp;Frank Bennett, 10 March 2015
+        </p>
       </div>
       <div id="editor-view" class="container action-view" style="display:none;">
-	    <div class="row">
-	      <div class="col-sm-6">
-	        <div class="input-group">
-	          <div id="source-method" value="search-source" class="input-group-btn">
-		        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Style source <span class="caret"></span></button>
-		        <ul class="dropdown-menu" role="menu">
-		          <li><a value="search-source" href="#">Jurisdiction module</a></li>
-		          <li><a value="file-source" href="#">File upload</a></li>
-		          <li><a value="url-source" href="#">URL</a></li>
-		        </ul>
-	          </div><!-- /btn-group -->
-		  <div class="source-input form-group" id="search-source" style="display:inline;">
-                    <input class="input-input form-control" id="search-input" type="search" placeholder="Enter country name to get started">
-		  </div>
-		  <div class="source-input form-control" id="file-source" style="display:none;">
-                    <input class="input-input file" id="file-input" type="file" data-show-preview="false" data-show-upload="false">
-		  </div>
-		  <span>
-		    <div class="source-input input-group" id="url-source" style="display:none;">
-                      <input class="input-input form-control" id="url-input" type="text" placeholder="Enter style URL">
-		      <div class="input-group-btn">
-			<button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i>Remove</button>
-		      </div>
-		    </div>
-		  </span>
-		</div>
-	      </div>
-	      <!-- style="display:inline;position:absolute;right:0px;z-index:2;" -->
-	      <div class="col-sm-3">
-	        <div class="input-group">
-	          <div id="schema-version" value="1.1mlz1" class="input-group-btn">
-		        <button id="load-source" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Load</span></button>
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">with <span class="caret"></span></button>
+	<div class="row">
+	  <div class="col-lg-6">
+	    <div class="input-group">
+	      <span id="source-method" value="search-source" class="input-group-btn">
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Style source <span class="caret"></span></button>
+		<ul class="dropdown-menu" role="menu">
+		  <li><a value="search-source" href="#">Jurisdiction module</a></li>
+		  <li><a value="file-source" href="#">File upload</a></li>
+		  <li><a value="url-source" href="#">URL</a></li>
+		</ul>
+	      </span><!-- /btn-group -->
+	      <span id="search-source" class="source-input">
+                <input class="input-input form-control" id="search-input" type="search" placeholder="Enter country name to get started">
+              </span>
+              <div id="file-source" class="row source-input" style="display:none;">
+                <div class="col-xs-12">
+                  <input class="input-input file form-control" id="file-input" type="file" data-show-preview="false" data-show-upload="false">
+                </div>
+              </div>
+              <span id="url-source" class="source-input" style="display:none;">
+                <input class="input-input form-control" id="url-input" type="text" placeholder="Enter style URL">
+              </span>
+              <span id="search-source-remover" class="input-group-btn source-input-remover" style="display:none;">
+		<button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
+              </span>
+              <span id="url-source-remover" class="input-group-btn source-input-remover" style="display:none;">
+		<button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
+              </span>
+	    </div>
+	  </div>
+	  <div class="col-lg-3">
+	    <div class="input-group">
+	      <div id="schema-version" value="1.1mlz1" class="input-group-btn">
+		<button id="load-source" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Load</span></button>
+                <button id="schema-version-caret" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">with <span class="caret"></span></button>
                 <ul id="schema-version-dropdown" class="dropdown-menu" role="menu">
                   <li><a value="1.1mlz1" href="#">Juris-M</a></li>
                   <li><a value="1.0.1" href="#">CSL 1.0.1</a></li>
@@ -166,19 +171,11 @@
               </div><!-- /btn-group -->
               <input class="form-control" id="schema-name" readonly="true" value="Juris-M" type="text">
             </div><!-- /input-group -->
-          </div><!-- /.col-lg-6 -->
-          <div class="col-sm-3">
-            <div class="row">
-	          <div class="col-xs-4">
-	            <button id="validate" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Validate</span></button>
-	          </div>
-	          <div class="col-xs-4">
-	            <button id="save" type="button" class="btn btn-primary ladda-button" data-style="expand-left"><span class="ladda-label">Save</span></button>
-	          </div>
-	          <div class="col-xs-4">
-	            <button id="submit" type="button" class="btn btn-success ladda-button" data-style="expand-left"><span class="ladda-label">Submit</span></button>
-	          </div>
-            </div>
+          </div><!-- /.col-s-6 -->
+          <div class="col-lg-3">
+	    <button id="validate" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Validate </span></button>
+	    <button id="save" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Save </span></button>
+	    <button id="submit" type="button" class="btn btn-success ladda-button" data-style="zoom-in"><span class="ladda-label">Submit </span></button>
           </div>
         </div>
         <div class="row row-gap">

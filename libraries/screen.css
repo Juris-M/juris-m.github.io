@@ -1,3 +1,27 @@
+/*
+ol#error-list {
+    overflow: auto;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+*/
+
+/*
+ol#errors {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+*/
+
+.popover {
+    width: 20em;
+    background: #dddddd;
+}
+
+.popover-title {
+    font-weight: bold !important;
+}
+
 #submit-wrapper:before {
     content:'①';
 }
