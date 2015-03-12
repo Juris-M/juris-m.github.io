@@ -1,4 +1,6 @@
+importScripts('xmljson.js,citeproc.js');
 
-importScripts('../citeproc.js');
+onmessage = function (data) {
 
-postMessage('Hello, running');
+}
+
