@@ -109,11 +109,25 @@ var CSLValidator = (function() {
     }
     jsonWalker = new JSONWalker();
 
+    var menuWorker = new Worker('libraries/worker-menu.js');
+    menuWorker.onmessage = function(event) {
+        switch (event.data.type) {
+        case 'GET MENU ITEMS OK':
+            $('#field-map-menu-container').html(event.data.html);
+            break;
+        case 'GET PAGE OK':
+            $('#fields-view').html(event.data.html);
+        }
+    }
+
     var citeprocWorker = new Worker('libraries/worker-citeproc.js');
     citeprocWorker.onmessage = function(event){
         var inObj = event.data;
         switch (inObj.type) {
         case 'PING OK':
+            break;
+        case 'ERROR':
+            alert("CSL Processor error: "+event.data.error);
             break;
         case 'STYLE OK LOCALES REQUESTED':
             outObj = {};
@@ -133,13 +147,18 @@ var CSLValidator = (function() {
             outObj = {};
             outObj.type = 'SETUP PROCESSOR';
             this.postMessage(outObj);
+            break;
         case 'PROCESSOR OK':
             // Processor ready, enable the Sampler tab
             $("#tabs").tabs("enable", "#sampler");
+            break;
         }
     }
     
     var init = function() {
+        //Crank up the field map menus
+        menuWorker.postMessage({type:"GET MENU ITEMS"});
+
         //Initialize URI.js
         uri = new URI();
 
@@ -382,6 +401,7 @@ var CSLValidator = (function() {
         });
         setBoxHeight(['source']);
         setBoxHeight(['source-code']);
+        setBoxHeight(['field-map-menu-container'])
         
         citeprocWorker.postMessage({type:'PING'});
     };
@@ -404,9 +424,11 @@ var CSLValidator = (function() {
      * http://stackoverflow.com/questions/5007530/how-do-i-scroll-to-an-element-using-javascript
      */
     function setBoxHeight(lst) {
+        var docViewHeight = document.documentElement.clientHeight;
         for (var i=0,ilen=lst.length;i<ilen;i++) {
             var obj = document.getElementById(lst[i]);
             if (!obj) return;
+            var origObj = obj;
             var offset = 0;
             if (lst[i] === 'error-list') {
                 offset = 8;
@@ -416,22 +438,20 @@ var CSLValidator = (function() {
             if (obj.offsetParent) {
                 do {
                     curtop += obj.offsetTop;
-                    curleft += obj.offsetLeft;
                 } while (obj = obj.offsetParent);
-                var docViewHeight = document.documentElement.clientHeight;
                 var boxHeight = (docViewHeight - curtop - 4);
-                for (var i=0,ilen=lst.length;i<ilen;i++) {
-                    var elem = document.getElementById(lst[i]);
-                    if (elem) {
-                        elem.style['min-height'] = ((boxHeight - offset) + 'px');
-                        elem.style['max-height'] = ((boxHeight - offset) + 'px');
-                    }
-                }
+                origObj.style['min-height'] = ((boxHeight - offset) + 'px');
+                origObj.style['max-height'] = ((boxHeight - offset) + 'px');
+            } else {
+                // for field-map-menu-container
+                var offsetTop = $('div.container.content').get(0).offsetTop;
+                origObj.style['min-height'] = ((docViewHeight - offsetTop - offset) + 'px');
+                origObj.style['max-height'] = ((docViewHeight - offsetTop - offset) + 'px');
             }
         }
     }
 
-    function setView(event,name) {
+    function setView(event, name, section) {
         if (event) {
             event.preventDefault();
         };
@@ -444,16 +464,15 @@ var CSLValidator = (function() {
         if (titles[name]) {
             document.title = titles[name];
         }
-
         if (name === 'editor') {
-            // This doesn't work when small display is set to main,
-            // then resized larger, then editor selected.
             setBoxHeight(['tabs']);
             if (editor) {
                 setBoxHeight(['source']);
                 setBoxHeight(['source-code']);
                 editor.renderer.updateFull();
             }
+        } else if (name === 'fields') {
+            menuWorker.postMessage({type:'GET PAGE',pageName:section});
         }
     }
 

@@ -1,3 +1,33 @@
+/* For small screen */
+div.field-map-data > :nth-child(even){
+  background-color: #dcdcdc;
+  border-radius: 0.5em;
+}
+div.field-map-data > :nth-child(odd){
+  background-color: #aaaaaa;
+  border-radius: 0.5em;
+}
+
+div.field-map-data div.field-label, div.field-map-data div.field-csl {
+    border:1px solid white;
+}
+div.field-map-data {
+    border-bottom:6px solid white;
+}
+div.field-header {
+    background-color: white !important;
+}
+div.field-label {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+div.field-csl {
+    font-family: Andale Mono, Courier New, monospace;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+
 /*
 ol#error-list {
     overflow: auto;
@@ -12,6 +42,10 @@ ol#errors {
     padding-bottom: 0px;
 }
 */
+
+#field-map-menu-container {
+    overflow:auto;
+}
 
 .popover {
     width: 20em;

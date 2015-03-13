@@ -51,7 +51,15 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li><a onclick="CSLValidator.setView(event,'editor');" href="#">Style Manager</a></li>
-              <li><a onclick="CSLValidator.setView(event,'fields');" href="#">Field Maps</a></li>
+              <!-- li><a onclick="CSLValidator.setView(event,'fields');" href="#">Field Maps</a></li -->
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                  Field Maps
+                  <span class="caret"></span></a>
+                <ul id="field-map-menu-container" class="dropdown-menu" role="menu">
+                  <li><a href="#">Placeholder</a></li>
+                </ul>
+              </li>
               <li><a id="docs" href="#">Docs</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Downloads <span class="caret"></span></a>
@@ -91,13 +99,13 @@
         <h2>Components</h2>
         <p>
           The system is made up of several components: a <b>Desktop
-          Client</b> (Firefox plugin) derived from
+            Client</b> (Firefox plugin) derived from
           the <a href="https://zotero.org">Zotero</a> research
           platform; an <b>Abbreviation Filter</b> (Firefox plugin) for
           style-specific abbreviation support; and the <b>Juris-M</b>
           extended version of
           the <a href="https://citationstyles.org">Citation Style
-          Language</a>.
+            Language</a>.
         </p>
         <h2>Legal Styles</h2>
         <p>
@@ -127,18 +135,18 @@
         </p>
       </div>
       <div id="editor-view" class="container action-view" style="display:none;">
-	<div class="row">
-	  <div class="col-lg-6">
-	    <div class="input-group">
-	      <span id="source-method" value="search-source" class="input-group-btn">
-		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Style source <span class="caret"></span></button>
-		<ul class="dropdown-menu" role="menu">
-		  <li><a value="search-source" href="#">Jurisdiction module</a></li>
-		  <li><a value="file-source" href="#">File upload</a></li>
-		  <li><a value="url-source" href="#">URL</a></li>
-		</ul>
-	      </span><!-- /btn-group -->
-	      <span id="search-source" class="source-input">
+	    <div class="row">
+	      <div class="col-lg-6">
+	        <div class="input-group">
+	          <span id="source-method" value="search-source" class="input-group-btn">
+		        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Style source <span class="caret"></span></button>
+		        <ul class="dropdown-menu" role="menu">
+		          <li><a value="search-source" href="#">Jurisdiction module</a></li>
+		          <li><a value="file-source" href="#">File upload</a></li>
+		          <li><a value="url-source" href="#">URL</a></li>
+		        </ul>
+	          </span><!-- /btn-group -->
+	          <span id="search-source" class="source-input">
                 <input class="input-input form-control" id="search-input" type="search" placeholder="Enter country name to get started">
               </span>
               <div id="file-source" class="row source-input" style="display:none;">
@@ -150,17 +158,17 @@
                 <input class="input-input form-control" id="url-input" type="text" placeholder="Enter style URL">
               </span>
               <span id="search-source-remover" class="input-group-btn source-input-remover" style="display:none;">
-		<button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
+		        <button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
               </span>
               <span id="url-source-remover" class="input-group-btn source-input-remover" style="display:none;">
-		<button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
+		        <button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
               </span>
-	    </div>
-	  </div>
-	  <div class="col-lg-3">
-	    <div class="input-group">
-	      <div id="schema-version" value="1.1mlz1" class="input-group-btn">
-		<button id="load-source" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Load</span></button>
+	        </div>
+	      </div>
+	      <div class="col-lg-3">
+	        <div class="input-group">
+	          <div id="schema-version" value="1.1mlz1" class="input-group-btn">
+		        <button id="load-source" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Load</span></button>
                 <button id="schema-version-caret" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">with <span class="caret"></span></button>
                 <ul id="schema-version-dropdown" class="dropdown-menu" role="menu">
                   <li><a value="1.1mlz1" href="#">Juris-M</a></li>
@@ -173,9 +181,9 @@
             </div><!-- /input-group -->
           </div><!-- /.col-s-6 -->
           <div class="col-lg-3">
-	    <button id="validate" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Validate </span></button>
-	    <button id="save" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Save </span></button>
-	    <button id="submit" type="button" class="btn btn-success ladda-button" data-style="zoom-in"><span class="ladda-label">Submit </span></button>
+	        <button id="validate" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Validate </span></button>
+	        <button id="save" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Save </span></button>
+	        <button id="submit" type="button" class="btn btn-success ladda-button" data-style="zoom-in"><span class="ladda-label">Submit </span></button>
           </div>
         </div>
         <div class="row row-gap">
@@ -195,6 +203,8 @@
 	        </div>
           </div>
         </div>
+      </div>
+      <div id="fields-view" class="container action-view" style="display:none;">
       </div>
     </div>
   </body>
