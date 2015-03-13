@@ -115,6 +115,9 @@ var CSLValidator = (function() {
         switch (inObj.type) {
         case 'PING OK':
             break;
+        case 'ERROR':
+            alert("CSL Processor error: "+event.data.error);
+            break;
         case 'STYLE OK LOCALES REQUESTED':
             outObj = {};
             outObj.locales = {};
@@ -133,9 +136,11 @@ var CSLValidator = (function() {
             outObj = {};
             outObj.type = 'SETUP PROCESSOR';
             this.postMessage(outObj);
+            break;
         case 'PROCESSOR OK':
             // Processor ready, enable the Sampler tab
             $("#tabs").tabs("enable", "#sampler");
+            break;
         }
     }
     
