@@ -109,6 +109,15 @@ var CSLValidator = (function() {
     }
     jsonWalker = new JSONWalker();
 
+    var menuWorker = new Worker('libraries/worker-menu.js');
+    menuWorker.onmessage = function(event) {
+        switch (event.data.type) {
+        case 'PING OK':
+            //alert(JSON.stringify(event.data, null, 2))
+            break
+        }
+    }
+
     var citeprocWorker = new Worker('libraries/worker-citeproc.js');
     citeprocWorker.onmessage = function(event){
         var inObj = event.data;
@@ -145,6 +154,9 @@ var CSLValidator = (function() {
     }
     
     var init = function() {
+        //Crank up the field map menus
+        menuWorker.postMessage({type:"PING"});
+
         //Initialize URI.js
         uri = new URI();
 
