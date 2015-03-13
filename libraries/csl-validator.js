@@ -37,6 +37,107 @@ var CSLValidator = (function() {
         '1.0': 'CSL 1.0',
         '0.8.1': 'CSL 0.8.1'
     }
+
+    function parseXML (xmlStr) {
+        if (window.DOMParser) {
+            var parser=new DOMParser();
+            xmlDoc=parser.parseFromString(xmlStr,"text/xml");
+        } else { // code for IE
+            var xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+            xmlDoc.async=false;
+            xmlDoc.loadXML(xmlStr);
+        }
+        return xmlDoc;
+    }
+    
+    var JSONWalker = function() {
+        this.locales = {
+            'en-US': true
+        };
+    }
+
+    JSONWalker.prototype.walkStyleToObj = function(doc) {
+        var elem = doc.getElementsByTagName('style')[0];
+        var defaultLocale = elem.getAttribute('default-locale');
+        if (defaultLocale) {
+            this.locales[defaultLocale] = true;
+        }
+        var obj = this.walkToObject(elem, true);
+        return {
+            obj: obj,
+            locales: this.locales
+        }
+    }
+
+    JSONWalker.prototype.walkLocaleToObj = function(doc) {
+        var elem = doc.getElementsByTagName('locale')[0];
+        var obj = this.walkToObject(elem);
+        return obj;
+    }
+
+    JSONWalker.prototype.walkToObject = function(elem, isStyle) {
+        var obj = {};
+        obj.name = elem.nodeName;
+        obj.attrs = {};
+        if (elem.attributes) {
+            for (var i=0,ilen=elem.attributes.length;i<ilen;i++) {
+                var attr = elem.attributes[i];
+                obj.attrs[attr.name] = attr.value;
+                if (isStyle && attr.name === 'locale') {
+                    var locale = attr.value.split(/\s+/)[0];
+                    this.locales[locale] = true;
+                }
+            }
+        }
+        obj.children = [];
+        if (elem.childNodes.length === 0 && elem.tagName === 'term') {
+            obj.children = [''];
+        }
+        for (var i=0,ilen=elem.childNodes.length;i<ilen;i++) {
+            var child = elem.childNodes[i];
+            if (child.nodeName === '#comment') {
+                continue;
+            } else if (child.nodeName === '#text') {
+                if (elem.childNodes.length === 1 && ['term', 'single', 'multiple'].indexOf(child.nodeName) > -1) {
+                    obj.children.push(child.textContent)
+                }
+            } else {
+                obj.children.push(this.walkToObject(child));
+            }
+        }
+        return obj;
+    }
+    jsonWalker = new JSONWalker();
+
+    var citeprocWorker = new Worker('libraries/worker-citeproc.js');
+    citeprocWorker.onmessage = function(event){
+        var inObj = event.data;
+        switch (inObj.type) {
+        case 'PING OK':
+            break;
+        case 'STYLE OK LOCALES REQUESTED':
+            outObj = {};
+            outObj.locales = {};
+            for (var locale in event.data.locales) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'locales/locales-' + locale + '.xml', false);
+                xhr.setRequestHeader("Content-type","text/xml");
+                xhr.send(null);
+                var doc = xhr.responseXML;
+                outObj.locales[locale] = jsonWalker.walkLocaleToObj(doc);
+            }
+            outObj.type = 'LOAD STYLE LOCALES';
+            this.postMessage(outObj);
+            break;
+        case 'STYLE LOCALES LOAD OK':
+            outObj = {};
+            outObj.type = 'SETUP PROCESSOR';
+            this.postMessage(outObj);
+        case 'PROCESSOR OK':
+            // Processor ready, enable the Sampler tab
+            $("#tabs").tabs("enable", "#sampler");
+        }
+    }
     
     var init = function() {
         //Initialize URI.js
@@ -66,8 +167,9 @@ var CSLValidator = (function() {
         //Create an empty session for source modes not yet loaded
         emptyAceDoc = ace.createEditSession('')
 
-        //Disable at init (may be reenabled by URL load)
-        $("#tabs").tabs("disable", "#errors");
+        //Disable errors and sampler at init (may be reenabled by URL load)
+        $("#tabs").tabs("disable", "#errors")
+        $("#tabs").tabs("disable", "#sampler");
 
         //Initialize Ladda buttons
         loadButton = Ladda.create(document.querySelector('#load-source'));
@@ -211,6 +313,7 @@ var CSLValidator = (function() {
                         pageCache[old].schema = $('#schema-version').attr('value');
                         pageCache[old].sourceTab = $('#source-tab').parent().attr('aria-disabled');
                         pageCache[old].errorsTab = $('#errors-tab').parent().attr('aria-disabled');
+                        pageCache[old].samplerTab = $('#sampler-tab').parent().attr('aria-disabled');
                         // Not sure how we can use this - resetting the document query
                         // would reload the page and blast the editor content ...
                         if (uri.hasQuery('url')) {
@@ -228,6 +331,7 @@ var CSLValidator = (function() {
                         $('#tabs').tabs('enable');
                         pageCache[novo].sourceTab ? $('#tabs').tabs('disable', '#source') : null;
                         pageCache[novo].errorsTab ? $('#tabs').tabs('disable', '#errors') : null;
+                        pageCache[novo].samplerTab ? $('#tabs').tabs('disable', '#sampler') : null;
                         if (pageCache[novo].errorBanner) {
                             var sourceTitle = document.getElementById('source-title');
                             if (sourceTitle) {
@@ -245,6 +349,8 @@ var CSLValidator = (function() {
                         saveButton.disable();
                         submitButton.disable();
                         $('#tabs').tabs('enable');
+                        $('#tabs').tabs('disable', '#errors');
+                        $('#tabs').tabs('disable', '#sampler');
                         $('#error-list').empty();
                         if (editor) {
                             editor.setSession(emptyAceDoc);
@@ -276,6 +382,8 @@ var CSLValidator = (function() {
         });
         setBoxHeight(['source']);
         setBoxHeight(['source-code']);
+        
+        citeprocWorker.postMessage({type:'PING'});
     };
 
     function loadValidateButton(state, noAction) {
@@ -439,7 +547,9 @@ var CSLValidator = (function() {
         if (!sourceMethodFunc) {
             return;
         }
-        $("#tabs").tabs("enable");
+        $("#tabs").tabs("enable", "source");
+        $("#tabs").tabs("disable", "errors");
+        $("#tabs").tabs("disable", "sampler");
         loadValidateButton('start');
         $("#source-tab").click();
         responseStartTime = new Date();
@@ -571,6 +681,7 @@ var CSLValidator = (function() {
 
         if (nonDocumentError !== "") {
             $("#tabs").tabs("disable", "#errors");
+            $("#tabs").tabs("disable", "#sampler");
             $('#validate').popover({
                 html: true,
                 title: 'Validation failed <a class="close" href="#");">&times;</a>',
@@ -586,6 +697,7 @@ var CSLValidator = (function() {
             $('#validate').popover('show');
         } else if (errorCount === 0) {
             $("#tabs").tabs("disable", "#errors");
+            $("#tabs").tabs("disable", "#sampler");
             $('#validate').popover({
                 html: true,
                 title: 'Success <a class="close" href="#");">&times;</a>',
@@ -656,6 +768,17 @@ var CSLValidator = (function() {
         } else {
             setBoxHeight(['source']);
             setBoxHeight(['source-code']);
+        }
+
+        if (errorCount === 0) {
+            var doc = parseXML(getEditorContent());
+            var styleObj = jsonWalker.walkStyleToObj(doc);
+            var outObj = {
+                type: 'LOAD STYLE AND SUBMIT LOCALES',
+                style: styleObj.obj,
+                locales: styleObj.locales
+            }
+            citeprocWorker.postMessage(outObj);
         }
 
         // This gets the box - would need to resize ace also,
