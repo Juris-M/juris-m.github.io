@@ -48,7 +48,7 @@ onmessage = function (event) {
         postMessage(outObj);
         break;
     case 'SETUP PROCESSOR':
-        citeproc = CSL.Engine(sys, processorElements.style);
+        citeproc = new CSL.Engine(sys, processorElements.style);
         outObj.type = 'PROCESSOR OK';
         postMessage(outObj);
         break;
