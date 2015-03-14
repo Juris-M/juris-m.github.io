@@ -119,7 +119,13 @@ var CSLValidator = (function() {
             $('#fields-view').html(event.data.html);
             break;
         case 'INIT SAMPLER PAGE OK':
-            citeprocWorker.postMessage({type:'INIT PAGE',itemTypes:event.data.itemTypes});
+            citeprocWorker.postMessage({
+                type: 'INIT PAGE',
+                itemTypes: event.data.itemTypes,
+                excludeFields: event.data.excludeFields,
+                legalTypes: event.data.legalTypes,
+                itemTypeData: event.data.itemTypeData
+            });
         }
     }
 

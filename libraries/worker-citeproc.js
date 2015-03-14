@@ -87,8 +87,39 @@ onmessage = function (event) {
                 outObj.html += '        <li><a href="#">' + event.data.itemTypes[i] + '</a></li>\n';
             }
             outObj.html += '      </ul>\n'
-                + '    </div>\n'
-                + '  </div>\n'
+                + '    </div>\n';
+            outObj.html += '    <div class="row">'
+                + '      <div id="unselected-csl-variables" class="col-lg-6">';
+            // Unselected variables
+            var excludeFields = event.data.excludeFields;
+            var fieldBundle = event.data.itemTypeData['Journal Article'];
+            var segments = ['creators','dateFields','numericFields','textFields'];
+            for (var i=0,ilen=segments.length;i<ilen;i++) {
+                var segment = segments[i];
+                for (var fieldLabel in fieldBundle[segment]) {
+                    var cslVarname = fieldBundle[segment][fieldLabel];
+                    if (excludeFields[cslVarname] || (cslVarname === 'jurisdiction' && event.data.legalTypes.indexOf('Journal Article') === -1)) {
+                        fieldLabel = fieldLabel.replace(" ", "&nbsp;");
+                        outObj.html += '<span class="sampler-bubble" value="' + cslVarname + '">' + fieldLabel + '</span> ';
+                    }
+                }
+            }
+            outObj.html += '      </div>'
+                + '      <div id="selected-csl-variables" class="col-lg-6">';
+            // Selected variables
+            for (var i=0,ilen=segments.length;i<ilen;i++) {
+                var segment = segments[i];
+                for (var fieldLabel in fieldBundle[segment]) {
+                    var cslVarname = fieldBundle[segment][fieldLabel];
+                    if (!excludeFields[cslVarname] && !(cslVarname === 'jurisdiction' && event.data.legalTypes.indexOf('Journal Article') === -1)) {
+                        fieldLabel = fieldLabel.replace(" ", "&nbsp;");
+                        outObj.html += '<span class="sampler-bubble" value="' + cslVarname + '">' + fieldLabel + '</span> ';
+                    }
+                }
+            }
+             outObj.html += '      </div>'
+                + '    </div>';
+            outObj.html += '  </div>\n'
                 + '  <div class="col-lg-6">\n'
                 + '  </div>\n'
                 + '</div>\n';
