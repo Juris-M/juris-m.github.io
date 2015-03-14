@@ -637,9 +637,9 @@ var CSLValidator = (function() {
         if (!sourceMethodFunc) {
             return;
         }
-        $("#tabs").tabs("enable", "source");
-        $("#tabs").tabs("disable", "errors");
-        $("#tabs").tabs("disable", "sampler");
+        $("#tabs").tabs("enable", "#source");
+        $("#tabs").tabs("disable", "#errors");
+        $("#tabs").tabs("disable", "#sampler");
         loadValidateButton('start');
         $("#source-tab").click();
         responseStartTime = new Date();
@@ -820,6 +820,7 @@ var CSLValidator = (function() {
                 }
             });
             $('#validate').popover('show');
+            $('#tabs').tabs('enable', '#errors');
             $("#errors").attr("class", "panel panel-warning");
             $("#errors").prepend('<div class="panel-heading inserted"><h4 id="source-title" class="panel-title">Errors <a href="#" rel="tooltip" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="auto left" title="Click the link next to an error description to highlight the relevant lines in the Source window below"></a></h4></div>');
             $('[data-toggle="tooltip"]').tooltip();

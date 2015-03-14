@@ -4,6 +4,10 @@
     border-radius: 1em;
 }
 
+.sampler-bubble:hover {
+    cursor: pointer;
+}
+
 #unselected-csl-variables, #selected-csl-variables {
     margin-top: 1em;
     line-height: 2.2em;
