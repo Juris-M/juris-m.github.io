@@ -164,6 +164,7 @@ var CSLValidator = (function() {
         case 'INIT PAGE OK':
             $('#sampler').html(event.data.html);
             setupDraggableNodes();
+            setBoxHeight(['sampler','sampler-preview']);
             break;
         case 'UNSELECT VARIABLE OK':
         case 'SELECT VARIABLE OK':
@@ -173,7 +174,7 @@ var CSLValidator = (function() {
             setupDraggableNodes();
             $('#sampler-citations').html(event.data.result.citations);
             $('#sampler-bibliography').html(event.data.result.bibliography);
-            setBoxHeight(['sampler-preview']);
+            setBoxHeight(['sampler','sampler-preview']);
             break;
         }
     }
