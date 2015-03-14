@@ -164,8 +164,42 @@ var CSLValidator = (function() {
         case 'INIT PAGE OK':
             $('#sampler').html(event.data.html);
             setBoxHeight(['sampler-itemtype-dropdown']);
+            $('.sampler-bubble').draggable({
+                revert: true
+            });
+            $('#selected-csl-variables').droppable({
+                drop: function(event){
+                    alert("Dropped on selected");
+                }
+            });
+            $('#unselected-csl-variables').droppable({
+                drop: function(event){
+                    alert("Dropped on unselected");
+                }
+            });
+            break;
+        case 'CHANGE ITEM TYPE OK':
+            $('#unselected-csl-variables').html(event.data.bubbles[0]);
+            $('#selected-csl-variables').html(event.data.bubbles[1]);
+            $('.sampler-bubble').draggable({
+                revert: true
+            });
+            $('#selected-csl-variables').droppable({
+                drop: function(event){
+                    alert("Dropped on selected");
+                }
+            });
+            $('#unselected-csl-variables').droppable({
+                drop: function(event){
+                    alert("Dropped on unselected");
+                }
+            });
             break;
         }
+    }
+
+    function changeSamplerItemType(event) {
+        citeprocWorker.postMessage({type:"CHANGE ITEM TYPE",itemType:event.originalTarget.textContent});
     }
     
     var init = function() {
@@ -881,6 +915,7 @@ var CSLValidator = (function() {
     return {
         init: init,
         moveToLine: moveToLine,
-	    setView: setView
+	    setView: setView,
+        changeSamplerItemType: changeSamplerItemType
     };
 }());
