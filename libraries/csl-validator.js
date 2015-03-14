@@ -98,7 +98,7 @@ var CSLValidator = (function() {
             if (child.nodeName === '#comment') {
                 continue;
             } else if (child.nodeName === '#text') {
-                if (elem.childNodes.length === 1 && ['term', 'single', 'multiple'].indexOf(child.nodeName) > -1) {
+                if (elem.childNodes.length === 1 && ['term', 'single', 'multiple'].indexOf(elem.nodeName) > -1) {
                     obj.children.push(child.textContent)
                 }
             } else {
@@ -171,6 +171,9 @@ var CSLValidator = (function() {
             $('#unselected-csl-variables').html(event.data.bubbles[0]);
             $('#selected-csl-variables').html(event.data.bubbles[1]);
             setupDraggableNodes();
+            $('#sampler-citations').html(event.data.result.citations);
+            $('#sampler-bibliography').html(event.data.result.bibliography);
+            setBoxHeight(['sampler-preview']);
             break;
         }
     }

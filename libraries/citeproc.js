@@ -8453,8 +8453,8 @@ CSL.Node.name = {
                     this.and.multiple.strings.prefix = this.and_prefix_multiple;
                     this.and.multiple.strings.suffix = this.and_suffix;
                 } else if (this.strings.delimiter) {
-                    this.and.single = new CSL.Blob(this.strings.delimiter);
-                    this.and.single.strings.prefix = "";
+                    this.and.single = new CSL.Blob(this.strings.delimiter); 
+                   this.and.single.strings.prefix = "";
                     this.and.single.strings.suffix = "";
                     this.and.multiple = new CSL.Blob(this.strings.delimiter);
                     this.and.multiple.strings.prefix = "";
