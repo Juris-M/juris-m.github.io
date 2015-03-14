@@ -7,15 +7,17 @@ var selectedVars = {};
 var unselectedVars = {};
 var currentItemType = 'Journal Article';
 
+var sampleData = {};
+
 var processorElements = {
     style: null,
     locales: {},
-    item: null
+    items: {}
 }
 
 var Sys = function(){};
 Sys.prototype.retrieveItem = function(id){
-    return processorElements.item;
+    return processorElements.items[id];
 };
 Sys.prototype.retrieveLocale = function(lang){
     return processorElements.locales[lang];
@@ -23,8 +25,33 @@ Sys.prototype.retrieveLocale = function(lang){
 var sys = new Sys();
 
 function generateSample() {
-    var item = processorElements.item;
+    // Samples
+    // * One author, plain title
+    // * Same author, differing title, with locator
+    // * id to previous with locator
+    // * id to previous with same locator (and so id)
+    // * backref to first (supra w/in 5)
+    // * Third ref with two authors
+    // * Fourth ref with ten authors
+    // * id without locator (and so supra beyond 5)
+    var fieldBundle = itemTypeData[currentItemType]
+    var item = {
+        id: 'Item-1',
+        type: fieldBundle.cslType
+    }
+    for (var key in selectedVars) {
+        item[key] = JSON.parse(JSON.stringify(sampleData[key]));
+    }
+    processorElement.items['Item-1'] = item;
     
+    item2 = JSON.parse(JSON.stringify(item));
+    item2.id = 'Item-2';
+    if (item2.title) {
+        item2.title += '-A';
+    }
+    processorElement.items['Item-2'] = item2;
+    
+    item3 = JSON.parse(JSON.stringify(item));
 };
 
 function workerExec(func, msg) {
@@ -44,6 +71,7 @@ function workerExec(func, msg) {
 }
 
 function getBubbles(event, itemTypeLabel, initVars) {
+    var cslVarname;
     if (!itemTypeLabel) {
         itemTypeLabel = currentItemType;
     } else {
@@ -51,6 +79,39 @@ function getBubbles(event, itemTypeLabel, initVars) {
     }
     var unselected = '';
     var selected = '';
+    if (!sampleData) {
+        for (var fieldLabel in fieldBundle.creators) {
+            var cslVarname = fieldBundle.creators[fieldLabel];
+            sampleData[cslVarname] = {
+                family: fieldLabel,
+                given: fieldLabel.slice(0,3) + 'bert'
+            }
+        }
+        var year = 1950;
+        var month = 1;
+        var day = 2;
+        for (var fieldLabel in fieldBundle.dateFields) {
+            cslVarname = fieldBundle.dateFields[fieldLabel];
+            sampleData[cslVarname] = {
+                'date-parts':[
+                    [year, month,day]
+                ]
+            }
+            year += 3;
+            month += 1;
+            day += 3;
+        }
+        for (var fieldLabel in fieldBundle.numericFields) {
+            cslVarname = fieldBundle.dateFields[fieldLabel];
+            var count = 1;
+            sampleData[cslVarname] = "" + count + count + count;
+            count += 1;
+        }
+        for (var fieldLabel in fieldBundle.textFields) {
+            cslVarname = fieldBundle.dateFields[fieldLabel];
+            sampleData[cslVarname] = fieldLabel;
+        }
+    }
     // Unselected variables
     var fieldBundle = itemTypeData[itemTypeLabel];
     var segments = ['creators','dateFields','numericFields','textFields'];
