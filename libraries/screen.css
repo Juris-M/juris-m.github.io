@@ -1,3 +1,7 @@
+#sampler-itemtype-dropdown {
+    overflow: auto;
+}
+
 /* For small screen */
 div.field-map-data > :nth-child(even){
   background-color: #dcdcdc;

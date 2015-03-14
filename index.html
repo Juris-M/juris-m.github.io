@@ -51,12 +51,11 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li><a onclick="CSLValidator.setView(event,'editor');" href="#">Style Manager</a></li>
-              <!-- li><a onclick="CSLValidator.setView(event,'fields');" href="#">Field Maps</a></li -->
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
                   Field Maps
                   <span class="caret"></span></a>
-                <ul id="field-map-menu-container" class="dropdown-menu" role="menu">
+                <ul id="field-map-menu-container" class="dropdown-menu" role="menu" onclick="CSLValidator.setView(event,'fields',event.originalTarget.textContent)">
                   <li><a href="#">Placeholder</a></li>
                 </ul>
               </li>

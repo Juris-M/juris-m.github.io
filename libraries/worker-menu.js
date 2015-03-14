@@ -53,7 +53,7 @@ onmessage = function(event) {
             labels.sort();
             for (var i=0,ilen=labels.length;i<ilen;i++) {
                 var label = labels[i];
-                outObj.html += '<li><a href="#" onclick="CSLValidator.setView(event,\'fields\',\'' + label + '\')">' + label + '</a></li>\n';
+                outObj.html += '<li><a href="#">' + label + '</a></li>\n';
             }
         }, 'GET MENU ITEMS OK');
         break;
@@ -63,84 +63,90 @@ onmessage = function(event) {
             var pageName = event.data.pageName;
             var pageData = jurisM[pageName];
             //Header (Juris-M name)
-            outObj.html += '<div class="row">\n';
-            outObj.html += '  <div class="col-lg-12"><h2>' + pageName + ' (' + jurisM[pageName].cslType + ')</h2></div>\n';
-            outObj.html += '</div>\n';
+            outObj.html += '<div class="row">\n'
+                + '  <div class="col-lg-12"><h2>' + pageName + ' (' + jurisM[pageName].cslType + ')</h2></div>\n'
+                + '</div>\n';
             //Categories: Names, Text Fields, Numeric Fields
             //Subheadings: Label, Field Name
-            outObj.html += '  <div class="col-lg-3 field-map-data">\n'
-            outObj.html += '    <div class="row field-header"><div class="col-lg-12"><h3>Names</h3></div></div>\n';
-            outObj.html += '    <div class="row field-header">\n';
-            outObj.html += '      <div class="col-xs-6"><h4>Label</h4></div>\n';
-            outObj.html += '      <div class="col-xs-6"><h4>Field Name</h4></div>\n';
-            outObj.html += '    </div>';
+            outObj.html  += '  <div class="col-lg-3 field-map-data">\n'
+                + '    <div class="row field-header"><div class="col-lg-12"><h3>Names</h3></div></div>\n'
+                + '    <div class="row field-header">\n'
+                + '      <div class="col-xs-6"><h4>Label</h4></div>\n'
+                + '      <div class="col-xs-6"><h4>Field Name</h4></div>\n'
+                + '    </div>';
             // Names
             var names = Object.keys(pageData.creators);
             names.sort();
             for (var i=0,ilen=names.length;i<ilen;i++) {
                 var name = names[i];
                 var cslVar = pageData.creators[name];
-                outObj.html += '    <div class="row">';
-                outObj.html += '      <div class="col-xs-6 field-label">' + name + '</div>\n';
-                outObj.html += '      <div class="col-xs-6 field-csl">' + cslVar + '</div>\n';
-                outObj.html += '    </div>\n';
+                outObj.html += '    <div class="row">'
+                    + '      <div class="col-xs-6 field-label">' + name + '</div>\n'
+                    + '      <div class="col-xs-6 field-csl">' + cslVar + '</div>\n'
+                    + '    </div>\n';
             }
-            outObj.html += '  </div>';
-            outObj.html += '  <div class="col-lg-3 field-map-data">\n'
-            outObj.html += '    <div class="row field-header"><div class="col-lg-12"><h3>Dates</h3></div></div>\n';
-            outObj.html += '    <div class="row field-header">\n';
-            outObj.html += '      <div class="col-xs-6"><h4>Label</h4></div>\n';
-            outObj.html += '      <div class="col-xs-6"><h4>Field Name</h4></div>\n';
-            outObj.html += '    </div>';
+            outObj.html += '  </div>'
+                + '  <div class="col-lg-3 field-map-data">\n'
+                + '    <div class="row field-header"><div class="col-lg-12"><h3>Dates</h3></div></div>\n'
+                + '    <div class="row field-header">\n'
+                + '      <div class="col-xs-6"><h4>Label</h4></div>\n'
+                + '      <div class="col-xs-6"><h4>Field Name</h4></div>\n'
+                + '    </div>';
             // Dates
             var dates = Object.keys(pageData.dateFields);
             dates.sort();
             for (var i=0,ilen=dates.length;i<ilen;i++) {
                 var date = dates[i];
                 var cslVar = pageData.dateFields[date];
-                outObj.html += '    <div class="row">';
-                outObj.html += '      <div class="col-xs-6 field-label">' + date + '</div>\n';
-                outObj.html += '      <div class="col-xs-6 field-csl">' + cslVar + '</div>\n';
-                outObj.html += '    </div>\n';
+                outObj.html += '    <div class="row">'
+                    + '      <div class="col-xs-6 field-label">' + date + '</div>\n'
+                    + '      <div class="col-xs-6 field-csl">' + cslVar + '</div>\n'
+                    + '    </div>\n';
             }
-            outObj.html += '  </div>';
-            outObj.html += '  <div class="col-lg-3 field-map-data">\n'
-            outObj.html += '    <div class="row field-header"><div class="col-lg-12"><h3>Numeric</h3></div></div>\n';
-            outObj.html += '    <div class="row field-header">\n';
-            outObj.html += '      <div class="col-xs-6"><h4>Label</h4></div>\n';
-            outObj.html += '      <div class="col-xs-6"><h4>Field Name</h4></div>\n';
-            outObj.html += '    </div>';
+            outObj.html += '  </div>\n'
+                + '  <div class="col-lg-3 field-map-data">\n'
+                + '    <div class="row field-header"><div class="col-lg-12"><h3>Numeric</h3></div></div>\n'
+                + '    <div class="row field-header">\n'
+                + '      <div class="col-xs-6"><h4>Label</h4></div>\n'
+                + '      <div class="col-xs-6"><h4>Field Name</h4></div>\n'
+                + '    </div>\n';
             // Numeric
             var numbers = Object.keys(pageData.numericFields);
             numbers.sort();
             for (var i=0,ilen=numbers.length;i<ilen;i++) {
                 var number = numbers[i];
                 var cslVar = pageData.numericFields[number];
-                outObj.html += '    <div class="row">';
-                outObj.html += '      <div class="col-xs-6 field-label">' + number + '</div>\n';
-                outObj.html += '      <div class="col-xs-6 field-csl">' + cslVar + '</div>\n';
-                outObj.html += '    </div>\n';
+                outObj.html += '    <div class="row">'
+                    + '      <div class="col-xs-6 field-label">' + number + '</div>\n'
+                    + '      <div class="col-xs-6 field-csl">' + cslVar + '</div>\n'
+                    + '    </div>\n';
             }
-            outObj.html += '  </div>';
-            outObj.html += '  <div class="col-lg-3 field-map-data">\n'
-            outObj.html += '    <div class="row field-header"><div class="col-lg-12"><h3>Text</h3></div></div>\n';
-            outObj.html += '    <div class="row field-header">\n';
-            outObj.html += '      <div class="col-xs-6"><h4>Label</h4></div>\n';
-            outObj.html += '      <div class="col-xs-6"><h4>Field Name</h4></div>\n';
-            outObj.html += '    </div>';
+            outObj.html += '  </div>\n'
+                + '  <div class="col-lg-3 field-map-data">\n'
+                + '    <div class="row field-header"><div class="col-lg-12"><h3>Text</h3></div></div>\n'
+                + '    <div class="row field-header">\n'
+                + '      <div class="col-xs-6"><h4>Label</h4></div>\n'
+                + '      <div class="col-xs-6"><h4>Field Name</h4></div>\n'
+                + '    </div>\n';
             // Text
             var texts = Object.keys(pageData.textFields);
             texts.sort();
             for (var i=0,ilen=texts.length;i<ilen;i++) {
                 var text = texts[i];
                 var cslVar = pageData.textFields[text];
-                outObj.html += '    <div class="row">';
-                outObj.html += '      <div class="col-xs-6 field-label">' + text + '</div>\n';
-                outObj.html += '      <div class="col-xs-6 field-csl">' + cslVar + '</div>\n';
-                outObj.html += '    </div>\n';
+                outObj.html += '    <div class="row">'
+                    + '      <div class="col-xs-6 field-label">' + text + '</div>\n'
+                    + '      <div class="col-xs-6 field-csl">' + cslVar + '</div>\n'
+                    + '    </div>\n';
             }
-            outObj.html += '  </div>';
+            outObj.html += '  </div>\n';
         }, 'GET PAGE OK');
         break;
+    case 'INIT SAMPLER PAGE':
+        workerExec(function() {
+            var labels = Object.keys(jurisM);
+            labels.sort();
+            outObj.itemTypes = labels;
+        }, 'INIT SAMPLER PAGE OK');
     }
 }

@@ -117,6 +117,9 @@ var CSLValidator = (function() {
             break;
         case 'GET PAGE OK':
             $('#fields-view').html(event.data.html);
+            break;
+        case 'INIT SAMPLER PAGE OK':
+            citeprocWorker.postMessage({type:'INIT PAGE',itemTypes:event.data.itemTypes});
         }
     }
 
@@ -151,6 +154,10 @@ var CSLValidator = (function() {
         case 'PROCESSOR OK':
             // Processor ready, enable the Sampler tab
             $("#tabs").tabs("enable", "#sampler");
+            break;
+        case 'INIT PAGE OK':
+            $('#sampler').html(event.data.html);
+            setBoxHeight(['sampler-itemtype-dropdown']);
             break;
         }
     }
@@ -404,6 +411,11 @@ var CSLValidator = (function() {
         setBoxHeight(['field-map-menu-container'])
         
         citeprocWorker.postMessage({type:'PING'});
+        
+        $('#sampler-tab').click(function(event){
+            menuWorker.postMessage({type:'INIT SAMPLER PAGE'});
+        });
+
     };
 
     function loadValidateButton(state, noAction) {
@@ -435,6 +447,10 @@ var CSLValidator = (function() {
             }
             var curtop = 0;
             var curleft = 0;
+            if (lst[i] === 'sampler-itemtype-dropdown') {
+                obj = obj.parentNode;
+                curtop = $('#sampler-itemtype-button').outerHeight(true);
+            }
             if (obj.offsetParent) {
                 do {
                     curtop += obj.offsetTop;
@@ -444,9 +460,11 @@ var CSLValidator = (function() {
                 origObj.style['max-height'] = ((boxHeight - offset) + 'px');
             } else {
                 // for field-map-menu-container
-                var offsetTop = $('div.container.content').get(0).offsetTop;
-                origObj.style['min-height'] = ((docViewHeight - offsetTop - offset) + 'px');
-                origObj.style['max-height'] = ((docViewHeight - offsetTop - offset) + 'px');
+                if (lst[i] === 'field-map-menu-container') {
+                    var offsetTop = $('div.container.content').get(0).offsetTop;
+                    origObj.style['min-height'] = ((docViewHeight - offsetTop - offset) + 'px');
+                    origObj.style['max-height'] = ((docViewHeight - offsetTop - offset) + 'px');
+                }
             }
         }
     }

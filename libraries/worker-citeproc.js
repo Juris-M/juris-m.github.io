@@ -72,10 +72,28 @@ onmessage = function (event) {
             // Figure out locales required for item and include in response
         }, 'ITEM OK');
         break;
-    case 'RUN':
+    case 'INIT PAGE':
         workerExec(function() {
-            this.outObj.result = generateSample();
-        }, 'RUN OK');
+            outObj.html = '';
+            outObj.html += '<div class="row">\n'
+                + '  <div class="col-lg-6">\n'
+                + '    <div class="btn-group">\n'
+                + '      <button id="sampler-itemtype-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">\n'
+                + '        Journal Article <span class="caret"></span>\n'
+                + '      </button>\n'
+                + '      <ul id="sampler-itemtype-dropdown" class="dropdown-menu" role="menu" onclick="$(\'#sampler-itemtype-button\').html(event.originalTarget.textContent + \' <span class=&quot;caret&quot;></span>\')">\n';
+            // Item types menu
+            for (var i=0,ilen=event.data.itemTypes.length;i<ilen;i++) {
+                outObj.html += '        <li><a href="#">' + event.data.itemTypes[i] + '</a></li>\n';
+            }
+            outObj.html += '      </ul>\n'
+                + '    </div>\n'
+                + '  </div>\n'
+                + '  <div class="col-lg-6">\n'
+                + '  </div>\n'
+                + '</div>\n';
+            //this.outObj.result = generateSample();
+        }, 'INIT PAGE OK');
         break;
     }
 }
