@@ -1,8 +1,20 @@
 
 importScripts('field-maps.js');
 
+var excludeFields = {};
+for (var i=0,ilen=fieldMaps.exclude.length;i<ilen;i++) {
+    var fieldName = fieldMaps.strings[fieldMaps.exclude[i]];
+    excludeFields[fieldName] = true;
+}
+
+//var legalTypes = {};
+//for (var i=0,ilen=fieldMaps.legal.length;i<ilen;i++) {
+//    var typeName = fieldMaps.strings[fieldMaps.legal[i]];
+//    legalTypes[typeName] = true;
+//}
+
 var jurisM = {}
-for (i in fieldMaps["Juris-M"]) {
+for (var i in fieldMaps["Juris-M"]) {
     var itemType = fieldMaps["Juris-M"][i];
     jurisM[itemType[0]] = {}
     jurisM[itemType[0]].cslType = fieldMaps.strings[itemType[1]]
@@ -147,6 +159,9 @@ onmessage = function(event) {
             var labels = Object.keys(jurisM);
             labels.sort();
             outObj.itemTypes = labels;
+            outObj.itemTypeData = jurisM;
+            outObj.excludeFields = excludeFields;
+            outObj.legalTypes = fieldMaps.legal;
         }, 'INIT SAMPLER PAGE OK');
     }
 }

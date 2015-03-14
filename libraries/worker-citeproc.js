@@ -1,5 +1,11 @@
 importScripts('xmljson.js','citeproc.js');
 var citeproc = null;
+var itemTypeData = null;
+var excludeFields = null;
+var legalTypes = null;
+var selectedVars = {};
+var unselectedVars = {};
+var currentItemType = 'Journal Article';
 
 var processorElements = {
     style: null,
@@ -35,6 +41,47 @@ function workerExec(func, msg) {
         }
         postMessage(outObj);
     }(me);
+}
+
+function getBubbles(event, itemTypeLabel, initVars) {
+    if (!itemTypeLabel) {
+        itemTypeLabel = currentItemType;
+    } else {
+        currentItemType = itemTypeLabel;
+    }
+    var unselected = '';
+    var selected = '';
+    // Unselected variables
+    var fieldBundle = itemTypeData[itemTypeLabel];
+    var segments = ['creators','dateFields','numericFields','textFields'];
+    for (var i=0,ilen=segments.length;i<ilen;i++) {
+        var segment = segments[i];
+        for (var fieldLabel in fieldBundle[segment]) {
+            var cslVarname = fieldBundle[segment][fieldLabel];
+            var defaultUnused = excludeFields[cslVarname] || (cslVarname === 'jurisdiction' && legalTypes.indexOf(itemTypeLabel) === -1);
+            var useMe = initVars ? defaultUnused : unselectedVars[cslVarname];
+            if (useMe) {
+                fieldLabel = fieldLabel.replace(" ", "&nbsp;", "g");
+                unselected += '<span class="sampler-bubble draggable" value="' + cslVarname + '">' + fieldLabel + ' </span> ';
+                unselectedVars[cslVarname] = true;
+            }
+        }
+    }
+    // Selected variables
+    for (var i=0,ilen=segments.length;i<ilen;i++) {
+        var segment = segments[i];
+        for (var fieldLabel in fieldBundle[segment]) {
+            var cslVarname = fieldBundle[segment][fieldLabel];
+            var defaultUsed = !excludeFields[cslVarname] && !(cslVarname === 'jurisdiction' && legalTypes.indexOf(itemTypeLabel) === -1);
+            var useMe = initVars ? defaultUsed : selectedVars[cslVarname];
+            if (useMe) {
+                fieldLabel = fieldLabel.replace(" ", "&nbsp;", "g");
+                selected += '<span class="sampler-bubble draggable" value="' + cslVarname + '">' + fieldLabel + ' </span> ';
+                selectedVars[cslVarname] = true;
+            }
+        }
+    }
+    return [unselected, selected];
 }
 
 onmessage = function (event) {
@@ -74,6 +121,11 @@ onmessage = function (event) {
         break;
     case 'INIT PAGE':
         workerExec(function() {
+            unselectedVars = {};
+            selectedVars = {};
+            itemTypeData = event.data.itemTypeData;
+            excludeFields = event.data.excludeFields;
+            legalTypes = event.data.legalTypes;
             outObj.html = '';
             outObj.html += '<div class="row">\n'
                 + '  <div class="col-lg-6">\n'
@@ -81,19 +133,51 @@ onmessage = function (event) {
                 + '      <button id="sampler-itemtype-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">\n'
                 + '        Journal Article <span class="caret"></span>\n'
                 + '      </button>\n'
-                + '      <ul id="sampler-itemtype-dropdown" class="dropdown-menu" role="menu" onclick="$(\'#sampler-itemtype-button\').html(event.originalTarget.textContent + \' <span class=&quot;caret&quot;></span>\')">\n';
+                + '      <ul id="sampler-itemtype-dropdown" class="dropdown-menu" role="menu" onclick="$(\'#sampler-itemtype-button\').html(event.originalTarget.textContent + \' <span class=&quot;caret&quot;></span>\');CSLValidator.changeSamplerItemType(event);">\n';
             // Item types menu
             for (var i=0,ilen=event.data.itemTypes.length;i<ilen;i++) {
                 outObj.html += '        <li><a href="#">' + event.data.itemTypes[i] + '</a></li>\n';
             }
             outObj.html += '      </ul>\n'
-                + '    </div>\n'
-                + '  </div>\n'
+                + '    </div>\n';
+            outObj.html += '    <div class="row">'
+                + '      <div id="unselected-csl-variables" class="col-lg-6 droppable">';
+            var bubbles = getBubbles(event, 'Journal Article', true);
+            outObj.html += bubbles[0];
+            outObj.html += '      </div>'
+                + '      <div id="selected-csl-variables" class="col-lg-6 droppable">';
+            outObj.html += bubbles[1];
+            outObj.html += '      </div>'
+                + '    </div>';
+            outObj.html += '  </div>\n'
                 + '  <div class="col-lg-6">\n'
                 + '  </div>\n'
                 + '</div>\n';
             //this.outObj.result = generateSample();
         }, 'INIT PAGE OK');
+        break;
+    case 'CHANGE ITEM TYPE':
+        workerExec(function() {
+            unselectedVars = {};
+            selectedVars = {};
+            outObj.bubbles = getBubbles(event, event.data.itemType, true);
+        }, 'CHANGE ITEM TYPE OK');
+        break;
+    case 'SELECT VARIABLE':
+        workerExec(function() {
+            var varName = event.data.selectedVarname;
+            delete unselectedVars[varName];
+            selectedVars[varName] = true;
+            outObj.bubbles = getBubbles(event);
+        }, 'SELECT VARIABLE OK');
+        break;
+    case 'UNSELECT VARIABLE':
+        workerExec(function() {
+            var varName = event.data.unselectedVarname;
+            delete selectedVars[varName];
+            unselectedVars[varName] = true;
+            outObj.bubbles = getBubbles(event);
+        }, 'UNSELECT VARIABLE OK');
         break;
     }
 }
