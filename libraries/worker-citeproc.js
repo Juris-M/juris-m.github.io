@@ -52,7 +52,7 @@ function getBubbles(event, itemTypeLabel) {
             var cslVarname = fieldBundle[segment][fieldLabel];
             if (excludeFields[cslVarname] || (cslVarname === 'jurisdiction' && legalTypes.indexOf(itemTypeLabel) === -1)) {
                 fieldLabel = fieldLabel.replace(" ", "&nbsp;");
-                unselected += '<span class="sampler-bubble" value="' + cslVarname + '">' + fieldLabel + '</span> ';
+                unselected += '<span class="sampler-bubble draggable" value="' + cslVarname + '">' + fieldLabel + '</span> ';
             }
         }
     }
@@ -63,7 +63,7 @@ function getBubbles(event, itemTypeLabel) {
             var cslVarname = fieldBundle[segment][fieldLabel];
             if (!excludeFields[cslVarname] && !(cslVarname === 'jurisdiction' && legalTypes.indexOf(itemTypeLabel) === -1)) {
                 fieldLabel = fieldLabel.replace(" ", "&nbsp;");
-                selected += '<span class="sampler-bubble" value="' + cslVarname + '">' + fieldLabel + '</span> ';
+                selected += '<span class="sampler-bubble draggable" value="' + cslVarname + '">' + fieldLabel + '</span> ';
             }
         }
     }
@@ -125,11 +125,11 @@ onmessage = function (event) {
             outObj.html += '      </ul>\n'
                 + '    </div>\n';
             outObj.html += '    <div class="row">'
-                + '      <div id="unselected-csl-variables" class="col-lg-6">';
+                + '      <div id="unselected-csl-variables" class="col-lg-6 droppable">';
             var bubbles = getBubbles(event, 'Journal Article');
             outObj.html += bubbles[0];
             outObj.html += '      </div>'
-                + '      <div id="selected-csl-variables" class="col-lg-6">';
+                + '      <div id="selected-csl-variables" class="col-lg-6 droppable">';
             outObj.html += bubbles[1];
             outObj.html += '      </div>'
                 + '    </div>';

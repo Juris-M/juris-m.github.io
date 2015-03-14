@@ -9,6 +9,16 @@
     line-height: 2.2em;
 }
 
+#unselected-csl-variables, #selected-csl-variables {
+    margin-top: 1em;
+    line-height: 2.2em;
+    border:4px solid white;
+}
+
+div.csl-drag-hover {
+    border:4px dashed #aaaaaa !important;
+}
+
 #sampler-itemtype-dropdown {
     overflow: auto;
 }

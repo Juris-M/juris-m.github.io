@@ -163,11 +163,17 @@ var CSLValidator = (function() {
             break;
         case 'INIT PAGE OK':
             $('#sampler').html(event.data.html);
-            setBoxHeight(['sampler-itemtype-dropdown']);
-            $('.sampler-bubble').draggable({
-                revert: true
+            $('#selected-csl-variables span.sampler-bubble').draggable({
+                revert: true,
+                scope: 'tounselect'
+            });
+            $('#unselected-csl-variables span.sampler-bubble').draggable({
+                revert: true,
+                scope: 'toselect'
             });
             $('#selected-csl-variables').droppable({
+                hoverClass: 'csl-drag-hover',
+                scope: "toselect",
                 drop: function(event){
                     alert("Dropped on selected");
                 }
@@ -175,24 +181,37 @@ var CSLValidator = (function() {
             $('#unselected-csl-variables').droppable({
                 drop: function(event){
                     alert("Dropped on unselected");
-                }
+                },
+                scope: "tounselect",
+                hoverClass: 'csl-drag-hover'
             });
+            setBoxHeight(['selected-csl-variables','unselected-csl-variables'], -8);
+            setBoxHeight(['sampler-itemtype-dropdown']);
             break;
         case 'CHANGE ITEM TYPE OK':
             $('#unselected-csl-variables').html(event.data.bubbles[0]);
             $('#selected-csl-variables').html(event.data.bubbles[1]);
-            $('.sampler-bubble').draggable({
-                revert: true
+            $('#selected-csl-variables span.sampler-bubble').draggable({
+                revert: true,
+                scope: 'tounselect'
+            });
+            $('#unselected-csl-variables span.sampler-bubble').draggable({
+                revert: true,
+                scope: 'toselect'
             });
             $('#selected-csl-variables').droppable({
                 drop: function(event){
                     alert("Dropped on selected");
-                }
+                },
+                scope: "toselect",
+                hoverClass: 'csl-drag-hover'
             });
             $('#unselected-csl-variables').droppable({
                 drop: function(event){
                     alert("Dropped on unselected");
-                }
+                },
+                scope: "tounselect",
+                hoverClass: 'csl-drag-hover'
             });
             break;
         }
@@ -475,7 +494,10 @@ var CSLValidator = (function() {
      * Ahnsirk Dasarp
      * http://stackoverflow.com/questions/5007530/how-do-i-scroll-to-an-element-using-javascript
      */
-    function setBoxHeight(lst) {
+    function setBoxHeight(lst, reduction) {
+        if (!reduction) {
+            reduction = 0;
+        }
         var docViewHeight = document.documentElement.clientHeight;
         for (var i=0,ilen=lst.length;i<ilen;i++) {
             var obj = document.getElementById(lst[i]);
@@ -496,14 +518,14 @@ var CSLValidator = (function() {
                     curtop += obj.offsetTop;
                 } while (obj = obj.offsetParent);
                 var boxHeight = (docViewHeight - curtop - 4);
-                origObj.style['min-height'] = ((boxHeight - offset) + 'px');
-                origObj.style['max-height'] = ((boxHeight - offset) + 'px');
+                origObj.style['min-height'] = ((boxHeight - offset + reduction) + 'px');
+                origObj.style['max-height'] = ((boxHeight - offset + reduction) + 'px');
             } else {
                 // for field-map-menu-container
                 if (lst[i] === 'field-map-menu-container') {
                     var offsetTop = $('div.container.content').get(0).offsetTop;
-                    origObj.style['min-height'] = ((docViewHeight - offsetTop - offset) + 'px');
-                    origObj.style['max-height'] = ((docViewHeight - offsetTop - offset) + 'px');
+                    origObj.style['min-height'] = ((docViewHeight - offsetTop - offset + reduction) + 'px');
+                    origObj.style['max-height'] = ((docViewHeight - offsetTop - offset + reduction) + 'px');
                 }
             }
         }
