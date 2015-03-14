@@ -51,8 +51,8 @@ function getBubbles(event, itemTypeLabel) {
         for (var fieldLabel in fieldBundle[segment]) {
             var cslVarname = fieldBundle[segment][fieldLabel];
             if (excludeFields[cslVarname] || (cslVarname === 'jurisdiction' && legalTypes.indexOf(itemTypeLabel) === -1)) {
-                fieldLabel = fieldLabel.replace(" ", "&nbsp;");
-                unselected += '<span class="sampler-bubble draggable" value="' + cslVarname + '">' + fieldLabel + '</span> ';
+                fieldLabel = fieldLabel.replace(" ", "&nbsp;", "g");
+                unselected += '<span class="sampler-bubble draggable" value="' + cslVarname + '">' + fieldLabel + ' </span> ';
             }
         }
     }
@@ -62,8 +62,8 @@ function getBubbles(event, itemTypeLabel) {
         for (var fieldLabel in fieldBundle[segment]) {
             var cslVarname = fieldBundle[segment][fieldLabel];
             if (!excludeFields[cslVarname] && !(cslVarname === 'jurisdiction' && legalTypes.indexOf(itemTypeLabel) === -1)) {
-                fieldLabel = fieldLabel.replace(" ", "&nbsp;");
-                selected += '<span class="sampler-bubble draggable" value="' + cslVarname + '">' + fieldLabel + '</span> ';
+                fieldLabel = fieldLabel.replace(" ", "&nbsp;", "g");
+                selected += '<span class="sampler-bubble draggable" value="' + cslVarname + '">' + fieldLabel + ' </span> ';
             }
         }
     }

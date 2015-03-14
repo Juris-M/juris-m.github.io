@@ -164,23 +164,27 @@ var CSLValidator = (function() {
         case 'INIT PAGE OK':
             $('#sampler').html(event.data.html);
             $('#selected-csl-variables span.sampler-bubble').draggable({
-                revert: true,
+                revert: 'invalid',
                 scope: 'tounselect'
             });
             $('#unselected-csl-variables span.sampler-bubble').draggable({
-                revert: true,
+                revert: 'invalid',
                 scope: 'toselect'
             });
             $('#selected-csl-variables').droppable({
                 hoverClass: 'csl-drag-hover',
                 scope: "toselect",
-                drop: function(event){
-                    alert("Dropped on selected");
+                drop: function(event, ui) {
+                    var node = ui.draggable;
+                    node.attr('style', 'position:relative;').detach().appendTo('#selected-csl-variables');
+                    node.draggable("option","scope", "tounselect");
                 }
             });
             $('#unselected-csl-variables').droppable({
-                drop: function(event){
-                    alert("Dropped on unselected");
+                drop: function(event, ui){
+                    var node = ui.draggable;
+                    node.attr('style', 'position:relative;').detach().appendTo('#unselected-csl-variables');
+                    node.draggable("option","scope", "toselect");
                 },
                 scope: "tounselect",
                 hoverClass: 'csl-drag-hover'
@@ -192,23 +196,27 @@ var CSLValidator = (function() {
             $('#unselected-csl-variables').html(event.data.bubbles[0]);
             $('#selected-csl-variables').html(event.data.bubbles[1]);
             $('#selected-csl-variables span.sampler-bubble').draggable({
-                revert: true,
+                revert: 'invalid',
                 scope: 'tounselect'
             });
             $('#unselected-csl-variables span.sampler-bubble').draggable({
-                revert: true,
+                revert: 'invalid',
                 scope: 'toselect'
             });
             $('#selected-csl-variables').droppable({
-                drop: function(event){
-                    alert("Dropped on selected");
+                drop: function(event, ui){
+                    var node = ui.draggable;
+                    node.draggable.attr('style', 'position:relative;').detach().appendTo('#selected-csl-variables');
+                    node.draggable("option","scope", "tounselect");
                 },
                 scope: "toselect",
                 hoverClass: 'csl-drag-hover'
             });
             $('#unselected-csl-variables').droppable({
-                drop: function(event){
-                    alert("Dropped on unselected");
+                drop: function(event, ui){
+                    var node = ui.draggable;
+                    node.attr('style', 'position:relative;').detach().appendTo('#unselected-csl-variables');
+                    node.draggable("option","scope", "toselect");
                 },
                 scope: "tounselect",
                 hoverClass: 'csl-drag-hover'
