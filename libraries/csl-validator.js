@@ -163,70 +163,53 @@ var CSLValidator = (function() {
             break;
         case 'INIT PAGE OK':
             $('#sampler').html(event.data.html);
-            $('#selected-csl-variables span.sampler-bubble').draggable({
-                revert: 'invalid',
-                scope: 'tounselect'
-            });
-            $('#unselected-csl-variables span.sampler-bubble').draggable({
-                revert: 'invalid',
-                scope: 'toselect'
-            });
-            $('#selected-csl-variables').droppable({
-                hoverClass: 'csl-drag-hover',
-                scope: "toselect",
-                drop: function(event, ui) {
-                    var node = ui.draggable;
-                    node.attr('style', 'position:relative;').detach().appendTo('#selected-csl-variables');
-                    node.draggable("option","scope", "tounselect");
-                }
-            });
-            $('#unselected-csl-variables').droppable({
-                drop: function(event, ui){
-                    var node = ui.draggable;
-                    node.attr('style', 'position:relative;').detach().appendTo('#unselected-csl-variables');
-                    node.draggable("option","scope", "toselect");
-                },
-                scope: "tounselect",
-                hoverClass: 'csl-drag-hover'
-            });
-            setBoxHeight(['selected-csl-variables','unselected-csl-variables'], -8);
-            setBoxHeight(['sampler-itemtype-dropdown']);
+            setupDraggableNodes();
             break;
+        case 'UNSELECT VARIABLE OK':
+        case 'SELECT VARIABLE OK':
         case 'CHANGE ITEM TYPE OK':
             $('#unselected-csl-variables').html(event.data.bubbles[0]);
             $('#selected-csl-variables').html(event.data.bubbles[1]);
-            $('#selected-csl-variables span.sampler-bubble').draggable({
-                revert: 'invalid',
-                scope: 'tounselect'
-            });
-            $('#unselected-csl-variables span.sampler-bubble').draggable({
-                revert: 'invalid',
-                scope: 'toselect'
-            });
-            $('#selected-csl-variables').droppable({
-                drop: function(event, ui){
-                    var node = ui.draggable;
-                    node.draggable.attr('style', 'position:relative;').detach().appendTo('#selected-csl-variables');
-                    node.draggable("option","scope", "tounselect");
-                },
-                scope: "toselect",
-                hoverClass: 'csl-drag-hover'
-            });
-            $('#unselected-csl-variables').droppable({
-                drop: function(event, ui){
-                    var node = ui.draggable;
-                    node.attr('style', 'position:relative;').detach().appendTo('#unselected-csl-variables');
-                    node.draggable("option","scope", "toselect");
-                },
-                scope: "tounselect",
-                hoverClass: 'csl-drag-hover'
-            });
+            setupDraggableNodes();
             break;
         }
     }
 
     function changeSamplerItemType(event) {
         citeprocWorker.postMessage({type:"CHANGE ITEM TYPE",itemType:event.originalTarget.textContent});
+    }
+
+    function setupDraggableNodes() {
+        $('#selected-csl-variables span.sampler-bubble').draggable({
+            revert: 'invalid',
+            scope: 'tounselect'
+        });
+        $('#unselected-csl-variables span.sampler-bubble').draggable({
+            revert: 'invalid',
+            scope: 'toselect'
+        });
+        $('#selected-csl-variables').droppable({
+            hoverClass: 'csl-drag-hover',
+            scope: "toselect",
+            drop: function(event, ui) {
+                var node = ui.draggable;
+                node.attr('style', 'position:relative;').detach().appendTo('#selected-csl-variables');
+                node.draggable("option","scope", "tounselect");
+                citeprocWorker.postMessage({type:'SELECT VARIABLE',selectedVarname:node.attr('value')});
+            }
+        });
+        $('#unselected-csl-variables').droppable({
+            drop: function(event, ui){
+                var node = ui.draggable;
+                node.attr('style', 'position:relative;').detach().appendTo('#unselected-csl-variables');
+                node.draggable("option","scope", "toselect");
+                citeprocWorker.postMessage({type:'UNSELECT VARIABLE',unselectedVarname:node.attr('value')});
+            },
+            scope: "tounselect",
+            hoverClass: 'csl-drag-hover'
+        });
+        setBoxHeight(['selected-csl-variables','unselected-csl-variables'], -8);
+        setBoxHeight(['sampler-itemtype-dropdown']);
     }
     
     var init = function() {
