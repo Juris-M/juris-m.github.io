@@ -146,14 +146,16 @@
 		          <li><a value="url-source" href="#">URL</a></li>
 		        </ul>
 	          </div><!-- /btn-group -->
-              <input id="search-input" class="typeahead input-input form-control" type="text" placeholder="Enter a country or institution">
+              <span id="search-source" class="source-input">
+                <input id="search-input" class="typeahead form-control" type="text" placeholder="Enter a country or institution">
+              </span>
               <div id="file-source" class="row source-input" style="display:none;">
                 <div class="col-xs-12">
-                  <input class="input-input file form-control" id="file-input" type="file" data-show-preview="false" data-show-upload="false">
+                  <input class="file form-control" id="file-input" type="file" data-show-preview="false" data-show-upload="false">
                 </div>
               </div>
               <span id="url-source" class="source-input" style="display:none;">
-                <input class="input-input form-control" id="url-input" type="text" placeholder="Enter style URL">
+                <input class="form-control" id="url-input" type="text" placeholder="Enter style URL">
               </span>
               <span id="search-source-remover" class="input-group-btn source-input-remover" style="display:none;">
 		        <button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>

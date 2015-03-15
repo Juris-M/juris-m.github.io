@@ -550,7 +550,7 @@ var CSLValidator = (function() {
             menuWorker.postMessage({type:'INIT SAMPLER PAGE'});
         });
 
-        $('#search-source .typeahead').typeahead({
+        $('#search-input.typeahead').typeahead({
             hint: true,
             highlight: true,
             minLength: 1
@@ -559,7 +559,7 @@ var CSLValidator = (function() {
             displayKey: 'value',
             source: substringMatcher(states)
         });
-        
+
     };
 
     function loadValidateButton(state, noAction) {
@@ -605,7 +605,7 @@ var CSLValidator = (function() {
                 do {
                     curtop += obj.offsetTop;
                 } while (obj = obj.offsetParent);
-                var boxHeight = (docViewHeight - curtop - 4);
+                var boxHeight = (docViewHeight - curtop - 5);
                 origObj.style['min-height'] = ((boxHeight - offset + reduction) + 'px');
                 origObj.style['max-height'] = ((boxHeight - offset + reduction) + 'px');
             } else {
