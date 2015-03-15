@@ -178,6 +178,11 @@ function getBubbles(event, itemTypeLabel) {
     if (itemTypeLabel && itemTypeLabel !== currentItemType) {
         initVars = true;
     }
+
+    if (!Object.keys(selectedVars).length && !Object.keys(unselectedVars)) {
+        // Safety catch. Shouldn't ever be needed.
+        initVars = true;
+    }
     if (itemTypeLabel) {
         currentItemType = itemTypeLabel;
     }
@@ -287,7 +292,6 @@ onmessage = function (event) {
         break;
     case 'LOAD STYLE AND SUBMIT LOCALES':
         workerExec(function() {
-            sampleData = null;
             nextStyleName = event.data.styleName;
             processorElements.style = event.data.style;
             outObj.pageInit = event.data.pageInit;
@@ -323,11 +327,10 @@ onmessage = function (event) {
                 excludeFields = event.data.excludeFields;
                 legalTypes = event.data.legalTypes;
             }
-            // Initialize other vars only if the style name has changed
+            // Is this test ever useful for anything?
             if (nextStyleName !== lastStyleName) {
-                sampleData = null;
-                unselectedVars = {};
-                selectedVars = {};
+                //unselectedVars = {};
+                //selectedVars = {};
                 lastStyleName = nextStyleName;
             }
             outObj.bubbles = getBubbles(event);
