@@ -220,7 +220,10 @@ var CSLValidator = (function() {
     }
 
     function changeSamplerItemType(event) {
-        citeprocWorker.postMessage({type:"CHANGE ITEM TYPE",itemType:event.originalTarget.textContent});
+        // srcElement for WebKit, originalTarget for Gecko 
+        var originalElement = event.originalTarget ? event.originalTarget : event.srcElement;
+        $('#sampler-itemtype-button').html(originalElement.textContent + ' <span class="caret"></span>');
+        citeprocWorker.postMessage({type:"CHANGE ITEM TYPE",itemType:originalElement.textContent});
     }
 
     function setupDraggableNodes() {

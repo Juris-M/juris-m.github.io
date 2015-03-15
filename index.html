@@ -55,7 +55,7 @@
                 <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
                   Field Maps
                   <span class="caret"></span></a>
-                <ul id="field-map-menu-container" class="dropdown-menu" role="menu" onclick="CSLValidator.setView(event,'fields',event.originalTarget.textContent)">
+                <ul id="field-map-menu-container" class="dropdown-menu" role="menu" onclick="CSLValidator.setView(event,'fields',event.originalTarget ? event.originalTarget.textContent : event.srcElement.textContent)">
                   <li><a href="#">Placeholder</a></li>
                 </ul>
               </li>
@@ -205,7 +205,7 @@
                       <button id="sampler-itemtype-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         Journal Article <span class="caret"></span>
                       </button>
-                      <ul id="sampler-itemtype-dropdown" class="dropdown-menu" role="menu" onclick="$('#sampler-itemtype-button').html(event.originalTarget.textContent + ' <span class=&quot;caret&quot;></span>');CSLValidator.changeSamplerItemType(event);">
+                      <ul id="sampler-itemtype-dropdown" class="dropdown-menu" role="menu" onclick="CSLValidator.changeSamplerItemType(event);">
                         <!-- item types -->
                       </ul>
                     </div>
