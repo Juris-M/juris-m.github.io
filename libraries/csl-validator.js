@@ -463,9 +463,7 @@ var CSLValidator = (function() {
                         $('#schema-version').attr('value', pageCache[novo].schema);
                         $('#schema-name').attr('value', schemaLabel[pageCache[novo].schema]);
                         editor.setSession(pageCache[novo].aceDocument);
-                        if ($('#tabs').tabs('option', 'active') === 2) {
-                            initializeStyle();
-                        }
+                        initializeStyle();
                     } else {
                         loadButton.disable();
                         validateButton.disable();
@@ -533,6 +531,9 @@ var CSLValidator = (function() {
      * http://stackoverflow.com/questions/5007530/how-do-i-scroll-to-an-element-using-javascript
      */
     function setBoxHeight(lst, reduction) {
+        if (document.documentElement.clientWidth < 992) {
+            return;
+        }
         if (!reduction) {
             reduction = 0;
         }
