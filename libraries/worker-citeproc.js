@@ -1,11 +1,13 @@
 importScripts('xmljson.js','citeproc.js');
 var citeproc = null;
+var lastStyleName = null;
+var nextStyleName = null;
 var itemTypeData = null;
 var excludeFields = null;
 var legalTypes = null;
 var selectedVars = {};
 var unselectedVars = {};
-var currentItemType = 'Journal Article';
+var currentItemType = null;
 
 var sampleData = null;
 
@@ -56,6 +58,7 @@ function makeItems() {
     processorElements.items['ITEM-2'] = item;
     
     item = cloneObject(item);
+    item.id = 'ITEM-3';
     for (var key in selectedVars) {
         if (itemTypeData[currentItemType].creators[key]) {
             item[key] = sampleData[key](2);
@@ -67,6 +70,7 @@ function makeItems() {
     processorElements.items['ITEM-3'] = item;
     
     item = cloneObject(item);
+    item.id = 'ITEM-4';
     for (var key in selectedVars) {
         if (itemTypeData[currentItemType].creators[key]) {
             item[key] = sampleData[key](10);
@@ -164,13 +168,20 @@ function workerExec(func, msg) {
     }(me);
 }
 
-function getBubbles(event, itemTypeLabel, initVars) {
+function getBubbles(event, itemTypeLabel) {
     var cslVarname;
-    if (!itemTypeLabel) {
-        itemTypeLabel = currentItemType;
-    } else {
+    if (currentItemType === null) {
+        itemTypeLabel = 'Journal Article';
+        currentItemType = itemTypeLabel;
+        initVars = true;
+    }
+    if (itemTypeLabel && itemTypeLabel !== currentItemType) {
+        initVars = true;
+    }
+    if (itemTypeLabel) {
         currentItemType = itemTypeLabel;
     }
+
     var unselected = '';
     var selected = '';
     if (!sampleData) {
@@ -218,7 +229,7 @@ function getBubbles(event, itemTypeLabel, initVars) {
         }
     }
     // Unselected variables
-    var fieldBundle = itemTypeData[itemTypeLabel];
+    var fieldBundle = itemTypeData[currentItemType];
     var segments = ['creators','dateFields','numericFields','textFields'];
     for (var i=0,ilen=segments.length;i<ilen;i++) {
         var segment = segments[i];
@@ -242,11 +253,13 @@ function getBubbles(event, itemTypeLabel, initVars) {
             var useMe = initVars ? defaultUsed : selectedVars[cslVarname];
             if (useMe) {
                 fieldLabel = fieldLabel.replace(" ", "&nbsp;", "g");
-                selected += '<span class="sampler-bubble draggable" value="' + cslVarname + '">' + fieldLabel + ' </span> ';
+                var newHTML = '<span class="sampler-bubble draggable" value="' + cslVarname + '">' + fieldLabel + ' </span> ';
+                selected += newHTML;
                 selectedVars[cslVarname] = true;
             }
         }
     }
+    initVars = false;
     return [unselected, selected];
 }
 
@@ -275,7 +288,9 @@ onmessage = function (event) {
     case 'LOAD STYLE AND SUBMIT LOCALES':
         workerExec(function() {
             sampleData = null;
+            nextStyleName = event.data.styleName;
             processorElements.style = event.data.style;
+            outObj.pageInit = event.data.pageInit;
             outObj.locales = {};
             for (var locale in event.data.locales) {
                 if (CSL.LANG_BASES[locale]) {
@@ -287,6 +302,7 @@ onmessage = function (event) {
         break;
     case 'LOAD STYLE LOCALES':
         workerExec(function() {
+            outObj.pageInit = event.data.pageInit;
             for (var locale in event.data.locales) {
                 processorElements.locales[locale] = event.data.locales[locale];
             }
@@ -294,67 +310,44 @@ onmessage = function (event) {
         break;
     case 'SETUP PROCESSOR':
         workerExec(function() {
+            outObj.pageInit = event.data.pageInit;
             citeproc = new CSL.Engine(sys, processorElements.style);
         }, 'PROCESSOR OK');
         break;
     case 'INIT PAGE':
         workerExec(function() {
-            unselectedVars = {};
-            selectedVars = {};
-            itemTypeData = reverseMapping(event.data.itemTypeData);
-            excludeFields = event.data.excludeFields;
-            legalTypes = event.data.legalTypes;
-            outObj.html = '';
-            outObj.html += '<div class="row">\n'
-                + '  <div class="col-lg-6">\n'
-                + '    <div class="btn-group">\n'
-                + '      <button id="sampler-itemtype-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">\n'
-                + '        Journal Article <span class="caret"></span>\n'
-                + '      </button>\n'
-                + '      <ul id="sampler-itemtype-dropdown" class="dropdown-menu" role="menu" onclick="$(\'#sampler-itemtype-button\').html(event.originalTarget.textContent + \' <span class=&quot;caret&quot;></span>\');CSLValidator.changeSamplerItemType(event);">\n';
-            // Item types menu
-            for (var i=0,ilen=event.data.itemTypes.length;i<ilen;i++) {
-                outObj.html += '        <li><a href="#">' + event.data.itemTypes[i] + '</a></li>\n';
+            var ret = [];
+            // These are constants, initialize just once
+            if (!itemTypeData) {
+                itemTypeData = reverseMapping(event.data.itemTypeData);
+                excludeFields = event.data.excludeFields;
+                legalTypes = event.data.legalTypes;
             }
-            outObj.html += '      </ul>\n'
-                + '    </div>\n';
-            outObj.html += '    <div class="row">'
-                + '      <div id="unselected-csl-variables" class="col-lg-6 droppable">';
-            var bubbles = getBubbles(event, 'Journal Article', true);
-            outObj.html += bubbles[0];
-            outObj.html += '      </div>'
-                + '      <div id="selected-csl-variables" class="col-lg-6 droppable">';
-            outObj.html += bubbles[1];
-            outObj.html += '      </div>'
-                + '    </div>';
-
+            // Initialize other vars only if the style name has changed
+            if (nextStyleName !== lastStyleName) {
+                sampleData = null;
+                unselectedVars = {};
+                selectedVars = {};
+                lastStyleName = nextStyleName;
+            }
+            outObj.bubbles = getBubbles(event);
             var result = generateSample();
-
-            outObj.html += '  </div>\n'
-                + '  <div id="sampler-preview" class="col-lg-6">\n'
-                + '    <div class="row"><div class="col-lg-12"><h3>Citations</h3></div></div>'
-                + '    <div class="row">'
-                + '      <div class="col-lg-12">'
-                + '        <ol id="sampler-citations">';
+            var citations = '';
             for (var i=0,ilen=result.citations.length;i<ilen;i++) {
                 var citation = result.citations[i];
-                outObj.html += citation;
+                citations += citation;
             }
-            outObj.html += '        </ol>'
-                + '      </div>'
-                + '    </div>'
-                + '    <div class="row"><div class="col-lg-12"><h3>Bibliography</h3></div></div>'
-                + '    <div class="row">'
-                + '      <div id="sampler-bibliography" class="col-lg-12">'
-            for (var i=0,ilen=result.bibliography.length;i<ilen;i++) {
-                var entry = result.bibliography[i];
-                outObj.html += entry;
+            outObj.citations = citations;
+            var bibliography = '';
+            if (result.bibliography) {
+                for (var i=0,ilen=result.bibliography.length;i<ilen;i++) {
+                    var entry = result.bibliography[i];
+                    bibliography += entry;
+                }
+            } else {
+                bibliography += '<div class="csl-entry">(this style has no bibliography)</div>'
             }
-
-            outObj.html +=  '      </div>'
-                + '    </div>'
-                + '  </div>\n'
-                + '</div>\n';
+            outObj.bibliography = bibliography;
         }, 'INIT PAGE OK');
         break;
     case 'CHANGE ITEM TYPE':
@@ -363,7 +356,9 @@ onmessage = function (event) {
             unselectedVars = {};
             selectedVars = {};
             outObj.bubbles = getBubbles(event, event.data.itemType, true);
-            outObj.result = generateSample();
+            var result = generateSample();
+            outObj.citations = result.citations;
+            outObj.bibliography = result.bibliography;
         }, 'CHANGE ITEM TYPE OK');
         break;
     case 'SELECT VARIABLE':
@@ -372,7 +367,9 @@ onmessage = function (event) {
             delete unselectedVars[varName];
             selectedVars[varName] = true;
             outObj.bubbles = getBubbles(event);
-            outObj.result = generateSample();
+            var result = generateSample();
+            outObj.citations = result.citations;
+            outObj.bibliography = result.bibliography;
         }, 'SELECT VARIABLE OK');
         break;
     case 'UNSELECT VARIABLE':
@@ -381,8 +378,9 @@ onmessage = function (event) {
             delete selectedVars[varName];
             unselectedVars[varName] = true;
             outObj.bubbles = getBubbles(event);
-            outObj.result = generateSample();
+            var result = generateSample();
+            outObj.citations = result.citations;
+            outObj.bibliography = result.bibliography;
         }, 'UNSELECT VARIABLE OK');
-        break;
     }
 }

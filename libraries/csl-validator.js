@@ -119,13 +119,20 @@ var CSLValidator = (function() {
             $('#fields-view').html(event.data.html);
             break;
         case 'INIT SAMPLER PAGE OK':
+            // Item types menu
+            $('#sampler-itemtype-dropdown').empty();
+            var menuItems = '';
+            for (var i=0,ilen=event.data.itemTypes.length;i<ilen;i++) {
+                 menuItems += '<li><a href="#">' + event.data.itemTypes[i] + '</a></li>';
+            }
+            $('#sampler-itemtype-dropdown').html(menuItems);
             citeprocWorker.postMessage({
                 type: 'INIT PAGE',
-                itemTypes: event.data.itemTypes,
                 excludeFields: event.data.excludeFields,
                 legalTypes: event.data.legalTypes,
                 itemTypeData: event.data.itemTypeData
             });
+            break;
         }
     }
 
@@ -141,29 +148,59 @@ var CSLValidator = (function() {
         case 'STYLE OK LOCALES REQUESTED':
             outObj = {};
             outObj.locales = {};
-            for (var locale in event.data.locales) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'locales/locales-' + locale + '.xml', false);
-                xhr.setRequestHeader("Content-type","text/xml");
-                xhr.send(null);
-                var doc = xhr.responseXML;
-                outObj.locales[locale] = jsonWalker.walkLocaleToObj(doc);
-            }
+            outObj.pageInit = event.data.pageInit;
             outObj.type = 'LOAD STYLE LOCALES';
-            this.postMessage(outObj);
+            
+
+            var localesToLoad = Object.keys(event.data.locales);
+            var pos = 0;
+            function sendLocales(pos, localesToLoad) {
+                if (pos == localesToLoad.length) {
+                    citeprocWorker.postMessage(outObj);
+                    return;
+                }
+                var locale = localesToLoad[pos];
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'locales/locales-' + locale + '.xml', true);
+                xhr.setRequestHeader("Content-type","text/xml");
+                xhr.onload = function(e) {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            var doc = xhr.responseXML;
+                            outObj.locales[locale] = jsonWalker.walkLocaleToObj(doc);
+                            pos += 1;
+                            sendLocales(pos, localesToLoad);
+                        } else {
+                            dump("XXX OOPS in xmlHttpRequest() " + xhr.statusText + "\n");
+                        }
+                    }
+                }
+                xhr.onerror = function (e) {
+                    dump("XXX OOPS in xmlHttpRequest() " + xhr.statusText + "\n");
+                };
+                xhr.send(null);
+            }
+            sendLocales(0, localesToLoad);
             break;
         case 'STYLE LOCALES LOAD OK':
             outObj = {};
+            outObj.pageInit = event.data.pageInit;
             outObj.type = 'SETUP PROCESSOR';
             this.postMessage(outObj);
             break;
         case 'PROCESSOR OK':
             // Processor ready, enable the Sampler tab
             $("#tabs").tabs("enable", "#sampler");
+            if (event.data.pageInit) {
+                menuWorker.postMessage({type:'INIT SAMPLER PAGE'});
+            }
             break;
         case 'INIT PAGE OK':
-            $('#sampler').html(event.data.html);
+            $('#unselected-csl-variables').html(event.data.bubbles[0]);
+            $('#selected-csl-variables').html(event.data.bubbles[1]);
             setupDraggableNodes();
+            $('#sampler-citations').html(event.data.citations);
+            $('#sampler-bibliography').html(event.data.bibliography);
             setBoxHeight(['sampler','sampler-preview']);
             break;
         case 'UNSELECT VARIABLE OK':
@@ -172,10 +209,13 @@ var CSLValidator = (function() {
             $('#unselected-csl-variables').html(event.data.bubbles[0]);
             $('#selected-csl-variables').html(event.data.bubbles[1]);
             setupDraggableNodes();
-            $('#sampler-citations').html(event.data.result.citations);
-            $('#sampler-bibliography').html(event.data.result.bibliography);
+            $('#sampler-citations').animate({'opacity': 0.5}, 500, function(){
+                $(this).html(event.data.citations).animate({'opacity': 1}, 500);    
+            });
+            $('#sampler-bibliography').animate({'opacity': 0.5}, 500, function(){
+                $(this).html(event.data.bibliography).animate({'opacity': 1}, 500);    
+            });
             setBoxHeight(['sampler','sampler-preview']);
-            break;
         }
     }
 
@@ -423,6 +463,9 @@ var CSLValidator = (function() {
                         $('#schema-version').attr('value', pageCache[novo].schema);
                         $('#schema-name').attr('value', schemaLabel[pageCache[novo].schema]);
                         editor.setSession(pageCache[novo].aceDocument);
+                        if ($('#tabs').tabs('option', 'active') === 2) {
+                            initializeStyle();
+                        }
                     } else {
                         loadButton.disable();
                         validateButton.disable();
@@ -614,7 +657,6 @@ var CSLValidator = (function() {
                     validateViaPOST(schemaURL, documentFile, sourceMethod);
                 }
             }(schemaURL, documentFile, sourceMethod);
-            break;
         }
         validate(true);
     }
@@ -709,6 +751,21 @@ var CSLValidator = (function() {
             xmlStr = '<?xml version="1.0" encoding="utf-8"?>\n' + xmlStr;
         }
         return xmlStr;
+    }
+
+    function initializeStyle() {
+        var doc = parseXML(getEditorContent());
+        var styleName = doc.getElementsByTagName('title')[0].textContent.trim();
+        $('#style-name').html(styleName);
+        var styleObj = jsonWalker.walkStyleToObj(doc);
+        var outObj = {
+            styleName: styleName,
+            type: 'LOAD STYLE AND SUBMIT LOCALES',
+            pageInit: true,
+            style: styleObj.obj,
+            locales: styleObj.locales
+        }
+        citeprocWorker.postMessage(outObj);
     }
 
     function saveFile() {
@@ -866,14 +923,7 @@ var CSLValidator = (function() {
         }
 
         if (errorCount === 0) {
-            var doc = parseXML(getEditorContent());
-            var styleObj = jsonWalker.walkStyleToObj(doc);
-            var outObj = {
-                type: 'LOAD STYLE AND SUBMIT LOCALES',
-                style: styleObj.obj,
-                locales: styleObj.locales
-            }
-            citeprocWorker.postMessage(outObj);
+            initializeStyle();
         }
 
         // This gets the box - would need to resize ace also,

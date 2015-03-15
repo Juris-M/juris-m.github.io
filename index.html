@@ -198,7 +198,54 @@
 	          <div id="errors">
 		        <ol id="error-list"></ol>
 	          </div>
-		      <div id="sampler"></div>
+		      <div id="sampler">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="btn-group">
+                      <button id="sampler-itemtype-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        Journal Article <span class="caret"></span>
+                      </button>
+                      <ul id="sampler-itemtype-dropdown" class="dropdown-menu" role="menu" onclick="$('#sampler-itemtype-button').html(event.originalTarget.textContent + ' <span class=&quot;caret&quot;></span>');CSLValidator.changeSamplerItemType(event);">
+                        <!-- item types -->
+                      </ul>
+                    </div>
+                    <div class="row">
+                      <div id="unselected-csl-variables" class="col-lg-6 droppable">
+                        <!-- unselected bubbles -->
+                      </div>
+                      <div class="col-lg-6 droppable">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <h4>Included fields</h4>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div id="selected-csl-variables" class="col-lg-12 droppable">
+                            <!-- selected bubbles -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="sampler-preview" class="col-lg-6">
+                    <div class="row"><div class="col-lg-12"><i id="style-name">My Style</i></div></div>
+                    <div class="row"><div class="col-lg-12"><h3>Citations</h3></div></div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <ol id="sampler-citations">
+                          <!-- citations -->
+                        </ol>
+                      </div>
+                    </div>
+                    <div class="row"><div class="col-lg-12"><h3>Bibliography</h3></div></div>
+                    <div class="row">
+                      <div id="sampler-bibliography" class="col-lg-12">
+                        <!-- bibliography entries -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 	        </div>
           </div>
         </div>
