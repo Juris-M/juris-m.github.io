@@ -94,10 +94,39 @@ function requestUI(key, name) {
     xhr.send(null);
 }
 
+function requestModuleTemplate(key, name) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '../templates/module.csl', true);
+    xhr.setRequestHeader("Content-type","text/xml");
+    xhr.onload = function(e) {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var src = xhr.responseText;
+                sendTemplate(key, name, src);
+            } else {
+                dump("XXX OOPS in worker xmlHttpRequest() " + xhr.statusText + "\n");
+            }
+        }
+    }
+    xhr.onerror = function (e) {
+        dump("XXX OOPS in worker xmlHttpRequest() " + xhr.statusText + "\n");
+    };
+    xhr.send(null);
+}
+
+function sendTemplate(key, name, src) {
+    src = src.replace('@@KEY@@', key, 'g');
+    src = src.replace('@@NAME@@', name, 'g');
+    postMessage({type:'REQUEST MODULE TEMPLATE OK',src});
+}
+
 onmessage = function(event) {
     switch (event.data.type) {
     case 'REQUEST UI':
         requestUI(event.data.key, event.data.name);
+        break;
+    case 'REQUEST MODULE TEMPLATE':
+        requestModuleTemplate(event.data.key, event.data.name);
         break;
     }
 }
