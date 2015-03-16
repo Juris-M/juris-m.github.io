@@ -210,10 +210,14 @@ var CSLValidator = (function() {
                     if (info[1] == 0) {
                         var prefix = baseKey.split(':').join(', ').toUpperCase();
                         setJurisdictionButton(fullKey, prefix + ', ' + target.text());
+                    } else {
+                        jurisdictionWorker.postMessage({type:'REQUEST UI',key:fullKey,name:target.text()});
                     }
                 }
             });
             $('#search-source-remover').show();
+            loadButton.enable();
+            //dump("XXX ****** (1)\n");
             break;
         }
     }
@@ -378,6 +382,7 @@ var CSLValidator = (function() {
 
         //Initialize Ladda buttons
         loadButton = Ladda.create(document.querySelector('#load-source'));
+        loadButton.disable();
         validateButton = Ladda.create(document.querySelector('#validate'));
         validateButton.disable();
         saveButton = Ladda.create(document.querySelector('#save'));
@@ -388,6 +393,7 @@ var CSLValidator = (function() {
         //wake up load button on change, if content present
         $('#file-input').on('change', function(event) {
             if (this.value) {
+                dump("XXX ****** (17)\n");
                 loadButton.enable();
                 validateButton.enable();
             } else {
@@ -434,29 +440,40 @@ var CSLValidator = (function() {
         //load when pressing Enter in URL text field with content
         //reset when pressing Enter in URL text field with no content
         //reset when pressing Backspace in URL text field with no content
-        $('#url-input, #search-input').keyup(function(event) {
+        $('#url-input, #search-input').keyup(urlAndSearchKeyAction);
+
+        function urlAndSearchKeyAction(event) {
             var id = this.getAttribute('id').replace(/-.*/,'');
             if (event.keyCode == 13) {
                 event.preventDefault();
                 if (!this.value) {
-                    loadButton.enable();
-                    validateButton.disable();
+                    loadButton.disable();
+                    //validateButton.disable();
+                    dump("XXX ****** (2)\n");
                     $('#' + id + '-source-remover').hide();
+                } else {
+                    $('#' + id + '-source-remover').show();
+                    loadButton.enable();
                 }
             }
             if (event.keyCode === 8) {
                 event.preventDefault();
                 if (!this.value) {
-                    loadButton.enable();
-                    validateButton.disable();
+                    dump("XXX ****** (22)\n");
+                    loadButton.disable();
+                    //validateButton.disable();
                     $('#' + id + '-source-remover').hide();
                 }
             }
-            if (this.value) {
+            /*
+            if (this.getAttribute('id') === 'url-input' && this.value) {
+                dump("XXX ****** (3)\n");
                 $('#' + id + '-source-remover').show();
                 loadButton.enable();
             }
-        });
+            */
+        }
+
 
         $('#url-source-remover, #search-source-remover').click(function(event) {
             var id = this.getAttribute('id').replace(/-.*/,'');
@@ -464,7 +481,6 @@ var CSLValidator = (function() {
             var isDropdown = $('#search-input').hasClass('search-input-as-dropdown');
             var isButton = $('#search-input').hasClass('search-input-as-button');
             if (isDropdown || isButton) {
-                dump("XXX ----> REQUESTING SEARCH UI <------------\n");
                 jurisdictionWorker.postMessage({type:'REQUEST UI'});
             } else {
                 $('#' + id + '-input').val('');
@@ -487,6 +503,7 @@ var CSLValidator = (function() {
                     } else if (sourceMethod === 'search-source') {
                         $('#search-source').show();
                         if ($('#search-input').val()) {
+                            //dump("XXX ****** (5)\n");
                             $('#search-source-remover').show();
                             $('#search-source-remover button:first-child').prop('disabled', false);
                         } else {
@@ -616,16 +633,21 @@ var CSLValidator = (function() {
                 setJurisdictionButton(info[0], this.value);
             }
         });
-    }
+   }
 
     function setJurisdictionButton(key, name) {
         var html = '<button id="search-input" class="btn btn-info form-control search-input-as-button" value="' + key + '">' + name + '</button>';
         $('#search-source').html(html);
         $('#search-source-remover').show();
+        loadButton.enable();
+        //dump("XXX ****** (7)\n");
     }
 
     function loadValidateButton(state, noAction) {
         if (isFromLoad) {
+            if (state === 'enable') {
+                dump("XXX ****** (77)\n");
+            }
             loadButton[state]();
         } else {
             validateButton[state]();

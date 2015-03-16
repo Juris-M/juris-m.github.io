@@ -1,7 +1,6 @@
 var cache = {};
 
 function composeSearch() {
-    dump("XXX composeSearch()\n");
     var outObj = {};
     outObj.html = '<input id="search-input" class="typeahead form-control" type="text" placeholder="Enter a country or institution">';
     outObj.type = 'SEARCH UI HTML OK';
@@ -15,7 +14,7 @@ function composeSplitButton(key, name, json) {
     var prefix = '';
     if (lst.length > 1) {
         var prefix = lst.slice(0,-1);
-        prefix = (prefix.join(', ') + ', ');
+        prefix = (prefix.join(', ') + ', ').toUpperCase();
     }
 	var html = '<div id="search-input" value="' + key + '" class="input-group-btn search-input-as-dropdown">'
         + '  <button id="search-input-button" type="button" class="btn btn-info">' + prefix + name + '</button>'
@@ -54,7 +53,6 @@ function sendUI(key, name, json) {
     if (!key) {
         // Cache UI HTML for typeahead
         cache[key] = composeSearch();
-        dump("XXX cached response for ["+key+"]\n");
         // If we reach this, we are initializing,
         // so send the data
         var outObj = unpackData(json);
@@ -74,7 +72,6 @@ function keyToPath(key) {
 function requestUI(key, name) {
     key = key ? key : '';
     if (cache[key]) {
-        dump("XXX SENDING CACHED RESPONSE FOR ["+key+"] :" + JSON.stringify(cache[key]) + "\n");
         postMessage(cache[key]);
         return;
     }
@@ -85,7 +82,6 @@ function requestUI(key, name) {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 var json = xhr.responseText;
-                dump("XXX SEND UI\n");
                 sendUI(key, name, json);
             } else {
                 dump("XXX OOPS in worker xmlHttpRequest() " + xhr.statusText + "\n");
@@ -101,7 +97,6 @@ function requestUI(key, name) {
 onmessage = function(event) {
     switch (event.data.type) {
     case 'REQUEST UI':
-        dump("XXX REQUEST UI\n");
         requestUI(event.data.key, event.data.name);
         break;
     }
