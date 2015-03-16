@@ -1,24 +1,27 @@
 var cache = {};
 
 function composeSearch() {
+    dump("XXX composeSearch()\n");
     var outObj = {};
     outObj.html = '<input id="search-input" class="typeahead form-control" type="text" placeholder="Enter a country or institution">';
     outObj.type = 'SEARCH UI HTML OK';
     return outObj;
 }
 
-function composeSplitButton(key, json) {
+function composeSplitButton(key, name, json) {
     var data = unpackData(json);
-
-    // Whuuups. Need the parents of the key also. How to get that?
-    var fullKey = key;
-
-	var html = '<div id="search-input" value="' + fullKey + '" class="input-group-btn">'
-        + '  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true">'
-        + '    ' + name + '(' + fullKey + ') '
-        + '    <span class="caret"></span>'
-        + '  </button>'
-		+ '  <ul class="dropdown-menu" role="menu">';
+    var outObj = {};
+    var lst = key.split(':');
+    var prefix = '';
+    if (lst.length > 1) {
+        var prefix = lst.slice(0,-1);
+        prefix = (prefix.join(', ') + ', ');
+    }
+	var html = '<div id="search-input" value="' + key + '" class="input-group-btn search-input-as-dropdown">'
+        + '  <button id="search-input-button" type="button" class="btn btn-info">' + prefix + name + '</button>'
+        + '  <button id="search-input-caret" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">'
+        + '    <span class="caret"></span></button>'
+		+ '  <ul id="search-input-dropdown" class="dropdown-menu" role="menu">';
 
     for (var i=0,ilen=data.names.length;i<ilen;i++) {
         var name = data.names[i];
@@ -26,8 +29,10 @@ function composeSplitButton(key, json) {
         html += '<li><a value="' + nameData[0] + ':' + nameData[1] + '" href="#">' + name + '</a></li>'
     }
 	html += '  </ul>'
-        +  '</div>'
-    
+        +  '</div>';
+    outObj.html = html;
+    outObj.type = 'BUTTON UI HTML OK';
+    return outObj;
 }
 
 function unpackData(json) {
@@ -44,18 +49,19 @@ function unpackData(json) {
     };
 }
 
-function sendUI(key, json) {
+function sendUI(key, name, json) {
     var data = unpackData(json)
     if (!key) {
         // Cache UI HTML for typeahead
         cache[key] = composeSearch();
+        dump("XXX cached response for ["+key+"]\n");
         // If we reach this, we are initializing,
         // so send the data
         var outObj = unpackData(json);
         outObj.type = 'COUNTRY LIST INIT OK';
         postMessage(outObj);
     } else {
-        cache[key] = composeSplitButton(key, json);
+        cache[key] = composeSplitButton(key, name, json);
         postMessage(cache[key]);
     }
 }
@@ -65,9 +71,10 @@ function keyToPath(key) {
     return (key.split(':').join('/') + '/');
 }
 
-function requestUI(key) {
+function requestUI(key, name) {
     key = key ? key : '';
     if (cache[key]) {
+        dump("XXX SENDING CACHED RESPONSE FOR ["+key+"] :" + JSON.stringify(cache[key]) + "\n");
         postMessage(cache[key]);
         return;
     }
@@ -78,7 +85,8 @@ function requestUI(key) {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 var json = xhr.responseText;
-                sendUI(key, json);
+                dump("XXX SEND UI\n");
+                sendUI(key, name, json);
             } else {
                 dump("XXX OOPS in worker xmlHttpRequest() " + xhr.statusText + "\n");
             }
@@ -93,7 +101,8 @@ function requestUI(key) {
 onmessage = function(event) {
     switch (event.data.type) {
     case 'REQUEST UI':
-        requestUI(event.data.key);
+        dump("XXX REQUEST UI\n");
+        requestUI(event.data.key, event.data.name);
         break;
     }
 }

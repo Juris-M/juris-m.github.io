@@ -170,18 +170,38 @@ var CSLValidator = (function() {
         case 'COUNTRY LIST INIT OK':
             countries = inObj.names;
             countriesMap = inObj.map;
-            var countries = new Bloodhound({
+            var countriesIdx = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 // `states` is an array of state names defined in "The Basics"
                 local: $.map(countries, function(country) { return { value: country }; })
             }); 
-            countries.initialize();
+            countriesIdx.initialize();
             $('#search-input.typeahead').typeahead(null, {
                 name: 'countries',
                 displayKey: 'value',
-                source: countries.ttAdapter()
+                source: countriesIdx.ttAdapter()
             });
+            break;
+        case 'SEARCH UI HTML OK':
+            $('#search-source').html(event.data.html);
+            var countriesIdx = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                // `states` is an array of state names defined in "The Basics"
+                local: $.map(countries, function(country) { return { value: country }; })
+            }); 
+            countriesIdx.initialize();
+            $('#search-input.typeahead').typeahead(null, {
+                name: 'countries',
+                displayKey: 'value',
+                source: countriesIdx.ttAdapter()
+            });
+            setTypeaheadListener();
+            break;
+        case 'BUTTON UI HTML OK':
+            $('#search-source').html(event.data.html);
+            $('#search-source-remover').show();
             break;
         }
     }
@@ -429,7 +449,14 @@ var CSLValidator = (function() {
         $('#url-source-remover, #search-source-remover').click(function(event) {
             var id = this.getAttribute('id').replace(/-.*/,'');
             loadButton.disable();
-            $('#' + id + '-input').val('');
+            var isDropdown = $('#search-input').hasClass('search-input-as-dropdown');
+            var isButton = $('#search-input').hasClass('search-input-as-button');
+            if (isDropdown || isButton) {
+                dump("XXX ----> REQUESTING SEARCH UI <------------\n");
+                jurisdictionWorker.postMessage({type:'REQUEST UI'});
+            } else {
+                $('#' + id + '-input').val('');
+            }
             $('#' + id + '-source-remover').hide();
         });
 
@@ -444,7 +471,6 @@ var CSLValidator = (function() {
                     $('.source-input').hide();
                     $('.source-input-remover').hide();
                     if (sourceMethod === 'file-source') {
-                        //$('#file-source').attr('style', 'border:none;padding:0px;margin:0px;display:inline;');
                         $('#file-source').show();
                     } else if (sourceMethod === 'search-source') {
                         $('#search-source').show();
@@ -565,8 +591,26 @@ var CSLValidator = (function() {
         });
 
         jurisdictionWorker.postMessage({type:'REQUEST UI'});
+        setTypeaheadListener();
 
     };
+
+    function setTypeaheadListener() {
+        $('#search-input.typeahead').on('typeahead:selected typeahead:autocompleted', function(event) {
+            var info = countriesMap[this.value]
+            if (info[1]) {
+                jurisdictionWorker.postMessage({type:'REQUEST UI',key:info[0],name:this.value});
+            } else {
+                setJurisdictionButton(info[0], this.value);
+            }
+        });
+    }
+
+    function setJurisdictionButton(key, name) {
+        var html = '<button id="search-input" class="btn btn-info form-control search-input-as-button" value="' + key + '">' + name + '</button>';
+        $('#search-source').html(html);
+        $('#search-source-remover').show();
+    }
 
     function loadValidateButton(state, noAction) {
         if (isFromLoad) {
