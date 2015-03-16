@@ -24,6 +24,7 @@ Sys.prototype.retrieveItem = function(id){
 Sys.prototype.retrieveLocale = function(lang){
     return processorElements.locales[lang];
 };
+Sys.prototype.retrieveStyleModule = function(){};
 var sys = new Sys();
 
 function cloneObject(obj) {

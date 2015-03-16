@@ -136,30 +136,6 @@ var CSLValidator = (function() {
         }
     }
 
-    var substringMatcher = function(strs) {
-        return function findMatches(q, cb) {
-            var matches, substrRegex;
-            
-            // an array that will be populated with substring matches
-            matches = [];
-            
-            // regex used to determine if a string contains the substring `q`
-            substrRegex = new RegExp(q, 'i');
-            
-            // iterate through the pool of strings and for any string that
-            // contains the substring `q`, add it to the `matches` array
-            $.each(strs, function(i, str) {
-                if (substrRegex.test(str)) {
-                    // the typeahead jQuery plugin expects suggestions to a
-                    // JavaScript object, refer to typeahead docs for more info
-                    matches.push({ value: str });
-                }
-            });
-            
-            cb(matches);
-        };
-    };
-    
     var countries = null;
     var countriesMap = null;
 
@@ -217,6 +193,18 @@ var CSLValidator = (function() {
             });
             $('#search-source-remover').show();
             loadButton.enable();
+            break;
+        case 'REQUEST MODULE TEMPLATE OK':
+            var schemaURL = getSchemaURL();
+            var sourceMethod = getSourceMethod();
+            var documentFile = new Blob([event.data.src], {type: 'text/xml'});
+            var keys = '';
+            sourceMethodFunc = function (schemaURL, documentFile, sourceMethod) {
+                return function () {
+                    validateViaPOST(schemaURL, documentFile, sourceMethod);
+                }
+            }(schemaURL, documentFile, sourceMethod);
+            validate(true);
             break;
         }
     }
@@ -767,6 +755,7 @@ var CSLValidator = (function() {
                     }
                 }
             }(schemaURL, documentURL);
+            validate(true);
             break;
         case "file":
             uri.search("");
@@ -774,16 +763,22 @@ var CSLValidator = (function() {
             
             var documentFile = $('#file-input').get(0).files[0];
             var keys = '';
-            for (var key in documentFile) {
-                keys += key + '\n';
-            }
             sourceMethodFunc = function (schemaURL, documentFile, sourceMethod) {
                 return function () {
                     validateViaPOST(schemaURL, documentFile, sourceMethod);
                 }
             }(schemaURL, documentFile, sourceMethod);
+            validate(true);
+            break;
+        case "search":
+            var key = $('#search-input').attr('value');
+            var name = $('#search-input-button').text();
+            // Get the user's GitHub repo copy, or ...
+            // Get the master GitHub repo copy, or ...
+            // Get the template!
+            jurisdictionWorker.postMessage({type:'REQUEST MODULE TEMPLATE',key:key,name:name});
+            break;
         }
-        validate(true);
     }
 
     var isFromLoad = false;
