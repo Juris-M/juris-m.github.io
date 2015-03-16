@@ -172,7 +172,7 @@ function workerExec(func, msg) {
 function getBubbles(event, itemTypeLabel) {
     var cslVarname;
     if (currentItemType === null) {
-        itemTypeLabel = 'Journal Article';
+        itemTypeLabel = 'Case';
         currentItemType = itemTypeLabel;
         initVars = true;
     }

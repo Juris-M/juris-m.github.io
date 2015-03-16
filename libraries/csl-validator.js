@@ -123,9 +123,20 @@ var CSLValidator = (function() {
             $('#sampler-itemtype-dropdown').empty();
             var menuItems = '';
             for (var i=0,ilen=event.data.itemTypes.length;i<ilen;i++) {
-                 menuItems += '<li><a href="#">' + event.data.itemTypes[i] + '</a></li>';
+                var itemTypeLabel = event.data.itemTypes[i];
+                var legalTypes = event.data.legalTypes;
+                if (legalTypes.indexOf(itemTypeLabel) > -1) {
+                    menuItems += '<li><a class="legal-type" href="#">' + itemTypeLabel + '</a></li>';
+                } else {
+                    menuItems += '<li><a class="non-legal-type" href="#">' + event.data.itemTypes[i] + '</a></li>';
+                }
             }
             $('#sampler-itemtype-dropdown').html(menuItems);
+            if (getSourceMethod() == 'search') {
+                $('a.non-legal-type').hide();
+            } else {
+                $('a.non-legal-type').show();
+            }
             citeprocWorker.postMessage({
                 type: 'INIT PAGE',
                 excludeFields: event.data.excludeFields,
