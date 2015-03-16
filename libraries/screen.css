@@ -1,5 +1,10 @@
 /* ignore this line */
 
+#search-source .tt-dropdown-menu {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
 #search-source {
     height: 34px;
 }
@@ -51,6 +56,11 @@
 
 .twitter-typeahead, .tt-hint, .typeahead {
     width: 100% !important;
+}
+
+.tt-cursor{
+    background-color:#0097cf;
+    color: white;
 }
 
 

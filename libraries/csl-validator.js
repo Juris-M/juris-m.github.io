@@ -160,18 +160,32 @@ var CSLValidator = (function() {
         };
     };
     
-    var states = [
-        'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-        'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-        'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-        'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-        'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-        'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-        'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-        'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-        'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-    ];
-    
+    var countries = null;
+    var countriesMap = null;
+
+    var jurisdictionWorker = new Worker('libraries/worker-jurisdictions.js');
+    jurisdictionWorker.onmessage = function(event) {
+        var inObj = event.data;
+        switch (inObj.type) {
+        case 'COUNTRY LIST INIT OK':
+            countries = inObj.names;
+            countriesMap = inObj.map;
+            var countries = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                // `states` is an array of state names defined in "The Basics"
+                local: $.map(countries, function(country) { return { value: country }; })
+            }); 
+            countries.initialize();
+            $('#search-input.typeahead').typeahead(null, {
+                name: 'countries',
+                displayKey: 'value',
+                source: countries.ttAdapter()
+            });
+            break;
+        }
+    }
+ 
     var citeprocWorker = new Worker('libraries/worker-citeproc.js');
     citeprocWorker.onmessage = function(event){
         var inObj = event.data;
@@ -550,15 +564,7 @@ var CSLValidator = (function() {
             menuWorker.postMessage({type:'INIT SAMPLER PAGE'});
         });
 
-        $('#search-input.typeahead').typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        }, {
-            name: 'states',
-            displayKey: 'value',
-            source: substringMatcher(states)
-        });
+        jurisdictionWorker.postMessage({type:'REQUEST UI'});
 
     };
 
