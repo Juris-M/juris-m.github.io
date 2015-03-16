@@ -217,7 +217,6 @@ var CSLValidator = (function() {
             });
             $('#search-source-remover').show();
             loadButton.enable();
-            //dump("XXX ****** (1)\n");
             break;
         }
     }
@@ -393,7 +392,6 @@ var CSLValidator = (function() {
         //wake up load button on change, if content present
         $('#file-input').on('change', function(event) {
             if (this.value) {
-                dump("XXX ****** (17)\n");
                 loadButton.enable();
                 validateButton.enable();
             } else {
@@ -449,7 +447,6 @@ var CSLValidator = (function() {
                 if (!this.value) {
                     loadButton.disable();
                     //validateButton.disable();
-                    dump("XXX ****** (2)\n");
                     $('#' + id + '-source-remover').hide();
                 } else {
                     $('#' + id + '-source-remover').show();
@@ -459,7 +456,6 @@ var CSLValidator = (function() {
             if (event.keyCode === 8) {
                 event.preventDefault();
                 if (!this.value) {
-                    dump("XXX ****** (22)\n");
                     loadButton.disable();
                     //validateButton.disable();
                     $('#' + id + '-source-remover').hide();
@@ -503,7 +499,6 @@ var CSLValidator = (function() {
                     } else if (sourceMethod === 'search-source') {
                         $('#search-source').show();
                         if ($('#search-input').val()) {
-                            //dump("XXX ****** (5)\n");
                             $('#search-source-remover').show();
                             $('#search-source-remover button:first-child').prop('disabled', false);
                         } else {
@@ -640,14 +635,10 @@ var CSLValidator = (function() {
         $('#search-source').html(html);
         $('#search-source-remover').show();
         loadButton.enable();
-        //dump("XXX ****** (7)\n");
     }
 
     function loadValidateButton(state, noAction) {
         if (isFromLoad) {
-            if (state === 'enable') {
-                dump("XXX ****** (77)\n");
-            }
             loadButton[state]();
         } else {
             validateButton[state]();
