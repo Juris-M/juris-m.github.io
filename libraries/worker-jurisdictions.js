@@ -1,6 +1,7 @@
 var cache = {};
 
 function composeSearch() {
+    dump("XXX composeSearch()\n");
     var outObj = {};
     outObj.html = '<input id="search-input" class="typeahead form-control" type="text" placeholder="Enter a country or institution">';
     outObj.type = 'SEARCH UI HTML OK';
@@ -9,16 +10,14 @@ function composeSearch() {
 
 function composeSplitButton(key, json) {
     var data = unpackData(json);
-
+    var outObj = {};
     // Whuuups. Need the parents of the key also. How to get that?
     var fullKey = key;
-
-	var html = '<div id="search-input" value="' + fullKey + '" class="input-group-btn">'
-        + '  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true">'
-        + '    ' + name + '(' + fullKey + ') '
-        + '    <span class="caret"></span>'
-        + '  </button>'
-		+ '  <ul class="dropdown-menu" role="menu">';
+	var html = '<div id="search-input" value="' + fullKey + '" class="input-group-btn search-input-as-dropdown">'
+        + '  <button id="search-input-button " type="button" class="btn btn-info">' + fullName + '</button>'
+        + '  <button id="search-input-caret" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">'
+        + '    <span class="caret"></span></button>'
+		+ '  <ul id="search-input-dropdown" class="dropdown-menu" role="menu">';
 
     for (var i=0,ilen=data.names.length;i<ilen;i++) {
         var name = data.names[i];
@@ -26,8 +25,9 @@ function composeSplitButton(key, json) {
         html += '<li><a value="' + nameData[0] + ':' + nameData[1] + '" href="#">' + name + '</a></li>'
     }
 	html += '  </ul>'
-        +  '</div>'
-    
+        +  '</div>';
+    outObj.html = html;
+    outObj.type = 'BUTTON UI HTML OK';
 }
 
 function unpackData(json) {
@@ -49,6 +49,7 @@ function sendUI(key, json) {
     if (!key) {
         // Cache UI HTML for typeahead
         cache[key] = composeSearch();
+        dump("XXX cached response for ["+key+"]\n");
         // If we reach this, we are initializing,
         // so send the data
         var outObj = unpackData(json);
@@ -68,6 +69,7 @@ function keyToPath(key) {
 function requestUI(key) {
     key = key ? key : '';
     if (cache[key]) {
+        dump("XXX SENDING CACHED RESPONSE FOR ["+key+"] :" + JSON.stringify(cache[key]) + "\n");
         postMessage(cache[key]);
         return;
     }
@@ -78,6 +80,7 @@ function requestUI(key) {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 var json = xhr.responseText;
+                dump("XXX SEND UI\n");
                 sendUI(key, json);
             } else {
                 dump("XXX OOPS in worker xmlHttpRequest() " + xhr.statusText + "\n");
@@ -93,6 +96,7 @@ function requestUI(key) {
 onmessage = function(event) {
     switch (event.data.type) {
     case 'REQUEST UI':
+        dump("XXX REQUEST UI\n");
         requestUI(event.data.key);
         break;
     }

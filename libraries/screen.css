@@ -1,5 +1,20 @@
 /* ignore this line */
 
+#search-input-button {
+    z-index: 2;
+    width: 100%;
+}
+
+#search-input-caret {
+    z-index: 3;
+    right: 31px;
+}
+
+#search-input-button .btn-info:hover {
+    background-color: #5BC0DE;
+    border-color: #46B8DA;
+}
+
 #search-source .tt-dropdown-menu {
     max-height: 150px;
     overflow-y: auto;

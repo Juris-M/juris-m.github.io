@@ -147,7 +147,18 @@
 		        </ul>
 	          </div><!-- /btn-group -->
               <div id="search-source" class="source-input">
-                <input id="search-input" class="typeahead form-control" type="text" placeholder="Enter a country or institution">
+	            <div id="search-input" value="us:c0" class="input-group-btn search-input-as-dropdown">
+		          <button id="search-input-button" type="button" class="btn btn-info">United States</button>
+                  <button id="search-input-caret" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <span class="caret"></span></button>
+                  <ul id="search-input-dropdown" class="dropdown-menu" role="menu">
+                    <li><a value="us:c0" href="#">Federal Circuit</a></li>
+                    <li><a value="us:c1" href="#">First Circuit</a></li>
+                    <li><a value="us:c2" href="#">Second Circuit</a></li>
+                    <li><a value="us:c3" href="#">Third Circuit</a></li>
+                  </ul>
+                </div>
+                <!-- button id="search-input" class="btn btn-info form-control search-input-as-button" value="us:dc">US District of Columbia</button -->
+                <!-- input id="search-input" class="typeahead form-control" type="text" placeholder="Enter a country or institution" -->
               </div>
               <div id="file-source" class="row source-input" style="display:none;">
                 <div class="col-xs-12">
@@ -157,7 +168,7 @@
               <span id="url-source" class="source-input" style="display:none;">
                 <input class="form-control" id="url-input" type="text" placeholder="Enter style URL">
               </span>
-              <span id="search-source-remover" class="input-group-btn source-input-remover" style="display:none;">
+              <span id="search-source-remover" class="input-group-btn source-input-remover">
 		        <button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
               </span>
               <span id="url-source-remover" class="input-group-btn source-input-remover" style="display:none;">
