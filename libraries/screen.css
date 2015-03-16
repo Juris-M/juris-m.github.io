@@ -1,4 +1,9 @@
 /* ignore this line */
+
+#search-source {
+    height: 34px;
+}
+
 .tt-dropdown-menu {
     min-width: 160px;
     margin-top: 2px;
@@ -46,7 +51,6 @@
 
 .twitter-typeahead, .tt-hint, .typeahead {
     width: 100% !important;
-    top: 1px;
 }
 
 
@@ -190,9 +194,6 @@ li.inserted {
         position:absolute;
         top:15px;
         cursor: pointer;
-    }
-    .twitter-typeahead, .tt-hint, .typeahead {
-        top: 1.5px;
     }
 }
 
