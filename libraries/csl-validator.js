@@ -197,6 +197,11 @@ var CSLValidator = (function() {
                 displayKey: 'value',
                 source: countriesIdx.ttAdapter()
             });
+            setTypeaheadListener();
+            break;
+        case 'BUTTON UI HTML OK':
+            $('#search-source').html(event.data.html);
+            $('#search-source-remover').show();
             break;
         }
     }
@@ -586,8 +591,26 @@ var CSLValidator = (function() {
         });
 
         jurisdictionWorker.postMessage({type:'REQUEST UI'});
+        setTypeaheadListener();
 
     };
+
+    function setTypeaheadListener() {
+        $('#search-input.typeahead').on('typeahead:selected typeahead:autocompleted', function(event) {
+            var info = countriesMap[this.value]
+            if (info[1]) {
+                jurisdictionWorker.postMessage({type:'REQUEST UI',key:info[0],name:this.value});
+            } else {
+                setJurisdictionButton(info[0], this.value);
+            }
+        });
+    }
+
+    function setJurisdictionButton(key, name) {
+        var html = '<button id="search-input" class="btn btn-info form-control search-input-as-button" value="' + key + '">' + name + '</button>';
+        $('#search-source').html(html);
+        $('#search-source-remover').show();
+    }
 
     function loadValidateButton(state, noAction) {
         if (isFromLoad) {

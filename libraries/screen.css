@@ -15,7 +15,7 @@
     border-color: #46B8DA;
 }
 
-#search-source .tt-dropdown-menu {
+#search-source .tt-dropdown-menu, #search-input-dropdown {
     max-height: 150px;
     overflow-y: auto;
 }
