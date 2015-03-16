@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="libraries/screen.css">
     <script src="libraries/jquery.1.11.3.min.js"></script>
     <script src="libraries/jquery-ui.1.11.3.min.js"></script>
+    <script src="libraries/typeahead.bundle.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="libraries/fileinput.min.js" type="text/javascript"></script>
     <script src="libraries/spin.min.js"></script>
@@ -136,25 +137,25 @@
       <div id="editor-view" class="container action-view" style="display:none;">
 	    <div class="row">
 	      <div class="col-lg-6">
-	        <div class="input-group">
-	          <span id="source-method" value="search-source" class="input-group-btn">
+	        <div class="input-append input-group">
+	          <div id="source-method" value="search-source" class="input-group-btn">
 		        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Style source <span class="caret"></span></button>
 		        <ul class="dropdown-menu" role="menu">
 		          <li><a value="search-source" href="#">Jurisdiction module</a></li>
 		          <li><a value="file-source" href="#">File upload</a></li>
 		          <li><a value="url-source" href="#">URL</a></li>
 		        </ul>
-	          </span><!-- /btn-group -->
-	          <span id="search-source" class="source-input">
-                <input class="input-input form-control" id="search-input" type="search" placeholder="Enter country name to get started">
-              </span>
+	          </div><!-- /btn-group -->
+              <div id="search-source" class="source-input">
+                <input id="search-input" class="typeahead form-control" type="text" placeholder="Enter a country or institution">
+              </div>
               <div id="file-source" class="row source-input" style="display:none;">
                 <div class="col-xs-12">
-                  <input class="input-input file form-control" id="file-input" type="file" data-show-preview="false" data-show-upload="false">
+                  <input class="file form-control" id="file-input" type="file" data-show-preview="false" data-show-upload="false">
                 </div>
               </div>
               <span id="url-source" class="source-input" style="display:none;">
-                <input class="input-input form-control" id="url-input" type="text" placeholder="Enter style URL">
+                <input class="form-control" id="url-input" type="text" placeholder="Enter style URL">
               </span>
               <span id="search-source-remover" class="input-group-btn source-input-remover" style="display:none;">
 		        <button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>

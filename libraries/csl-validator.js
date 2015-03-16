@@ -136,6 +136,56 @@ var CSLValidator = (function() {
         }
     }
 
+    var substringMatcher = function(strs) {
+        return function findMatches(q, cb) {
+            var matches, substrRegex;
+            
+            // an array that will be populated with substring matches
+            matches = [];
+            
+            // regex used to determine if a string contains the substring `q`
+            substrRegex = new RegExp(q, 'i');
+            
+            // iterate through the pool of strings and for any string that
+            // contains the substring `q`, add it to the `matches` array
+            $.each(strs, function(i, str) {
+                if (substrRegex.test(str)) {
+                    // the typeahead jQuery plugin expects suggestions to a
+                    // JavaScript object, refer to typeahead docs for more info
+                    matches.push({ value: str });
+                }
+            });
+            
+            cb(matches);
+        };
+    };
+    
+    var countries = null;
+    var countriesMap = null;
+
+    var jurisdictionWorker = new Worker('libraries/worker-jurisdictions.js');
+    jurisdictionWorker.onmessage = function(event) {
+        var inObj = event.data;
+        switch (inObj.type) {
+        case 'COUNTRY LIST INIT OK':
+            countries = inObj.names;
+            countriesMap = inObj.map;
+            var countries = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                // `states` is an array of state names defined in "The Basics"
+                local: $.map(countries, function(country) { return { value: country }; })
+            }); 
+            countries.initialize();
+            $('#search-input.typeahead').typeahead(null, {
+                name: 'countries',
+                displayKey: 'value',
+                source: countries.ttAdapter()
+            });
+            break;
+        }
+    }
+ 
     var citeprocWorker = new Worker('libraries/worker-citeproc.js');
     citeprocWorker.onmessage = function(event){
         var inObj = event.data;
@@ -514,6 +564,8 @@ var CSLValidator = (function() {
             menuWorker.postMessage({type:'INIT SAMPLER PAGE'});
         });
 
+        jurisdictionWorker.postMessage({type:'REQUEST UI'});
+
     };
 
     function loadValidateButton(state, noAction) {
@@ -559,7 +611,7 @@ var CSLValidator = (function() {
                 do {
                     curtop += obj.offsetTop;
                 } while (obj = obj.offsetParent);
-                var boxHeight = (docViewHeight - curtop - 4);
+                var boxHeight = (docViewHeight - curtop - 5);
                 origObj.style['min-height'] = ((boxHeight - offset + reduction) + 'px');
                 origObj.style['max-height'] = ((boxHeight - offset + reduction) + 'px');
             } else {
