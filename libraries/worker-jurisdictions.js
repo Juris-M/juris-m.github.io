@@ -26,7 +26,7 @@ function composeSplitButton(key, name, json) {
     for (var i=0,ilen=data.names.length;i<ilen;i++) {
         var name = data.names[i];
         var nameData = data.map[name];
-        html += '<li><a value="' + nameData[0] + ':' + nameData[1] + '" href="#">' + name + '</a></li>'
+        html += '<li><a value="' + nameData[0] + '::' + nameData[1] + '" href="#">' + name + '</a></li>'
     }
 	html += '  </ul>'
         +  '</div>';

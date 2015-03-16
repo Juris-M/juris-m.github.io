@@ -201,6 +201,18 @@ var CSLValidator = (function() {
             break;
         case 'BUTTON UI HTML OK':
             $('#search-source').html(event.data.html);
+            $('#search-input').on('click', function(event) {
+                var target = $(event.target);
+                if (target.is('A')) {
+                    var info = target.attr('value').split('::');
+                    var baseKey = this.getAttribute('value');
+                    var fullKey = baseKey + ':' + info[0];
+                    if (info[1] == 0) {
+                        var prefix = baseKey.split(':').join(', ').toUpperCase();
+                        setJurisdictionButton(fullKey, prefix + ', ' + target.text());
+                    }
+                }
+            });
             $('#search-source-remover').show();
             break;
         }
