@@ -76,7 +76,7 @@ function requestUI(key, name) {
         return;
     }
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '../jurisdictions/' + keyToPath(key) + 'info.json', true);
+    xhr.open('GET', '../src/jurisdictions/' + keyToPath(key) + 'info.json', true);
     xhr.setRequestHeader("Content-type","application/json");
     xhr.onload = function(e) {
         if (xhr.readyState === 4) {
@@ -84,19 +84,19 @@ function requestUI(key, name) {
                 var json = xhr.responseText;
                 sendUI(key, name, json);
             } else {
-                dump("XXX OOPS in worker xmlHttpRequest() " + xhr.statusText + "\n");
+                dump("XXX OOPS in jurisdictions worker requestUI(1): " + xhr.statusText + "\n");
             }
         }
     }
     xhr.onerror = function (e) {
-        dump("XXX OOPS in worker xmlHttpRequest() " + xhr.statusText + "\n");
+        dump("XXX OOPS in jurisdictions worker requestUI(2): " + xhr.statusText + "\n");
     };
     xhr.send(null);
 }
 
 function requestModuleTemplate(key, name) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '../templates/module.csl', true);
+    xhr.open('GET', '../src/templates/module.csl', true);
     xhr.setRequestHeader("Content-type","text/xml");
     xhr.onload = function(e) {
         if (xhr.readyState === 4) {
@@ -104,12 +104,12 @@ function requestModuleTemplate(key, name) {
                 var src = xhr.responseText;
                 sendTemplate(key, name, src);
             } else {
-                dump("XXX OOPS in worker xmlHttpRequest() " + xhr.statusText + "\n");
+                dump("XXX OOPS in jurisdictions worker requestModuleTemplate(1): " + xhr.statusText + "\n");
             }
         }
     }
     xhr.onerror = function (e) {
-        dump("XXX OOPS in worker xmlHttpRequest() " + xhr.statusText + "\n");
+        dump("XXX OOPS in jurisdictions worker requestModuleTemplate(2): " + xhr.statusText + "\n");
     };
     xhr.send(null);
 }

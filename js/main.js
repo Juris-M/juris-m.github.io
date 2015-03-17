@@ -109,7 +109,7 @@ var CSLValidator = (function() {
     }
     jsonWalker = new JSONWalker();
 
-    var menuWorker = new Worker('libraries/worker-menu.js');
+    var menuWorker = new Worker('web-worker/menu.js');
     menuWorker.onmessage = function(event) {
         switch (event.data.type) {
         case 'GET MENU ITEMS OK':
@@ -150,7 +150,7 @@ var CSLValidator = (function() {
     var countries = null;
     var countriesMap = null;
 
-    var jurisdictionWorker = new Worker('libraries/worker-jurisdictions.js');
+    var jurisdictionWorker = new Worker('web-worker/jurisdictions.js');
     jurisdictionWorker.onmessage = function(event) {
         var inObj = event.data;
         switch (inObj.type) {
@@ -220,7 +220,7 @@ var CSLValidator = (function() {
         }
     }
  
-    var citeprocWorker = new Worker('libraries/worker-citeproc.js');
+    var citeprocWorker = new Worker('web-worker/cites.js');
     citeprocWorker.onmessage = function(event){
         var inObj = event.data;
         switch (inObj.type) {
@@ -245,7 +245,7 @@ var CSLValidator = (function() {
                 }
                 var locale = localesToLoad[pos];
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'locales/locales-' + locale + '.xml', true);
+                xhr.open('GET', 'src/locales/locales-' + locale + '.xml', true);
                 xhr.setRequestHeader("Content-type","text/xml");
                 xhr.onload = function(e) {
                     if (xhr.readyState === 4) {
@@ -255,12 +255,12 @@ var CSLValidator = (function() {
                             pos += 1;
                             sendLocales(pos, localesToLoad);
                         } else {
-                            dump("XXX OOPS in xmlHttpRequest() " + xhr.statusText + "\n");
+                            dump("XXX OOPS in main(1): " + xhr.statusText + "\n");
                         }
                     }
                 }
                 xhr.onerror = function (e) {
-                    dump("XXX OOPS in xmlHttpRequest() " + xhr.statusText + "\n");
+                    dump("XXX OOPS in main(2): " + xhr.statusText + "\n");
                 };
                 xhr.send(null);
             }
@@ -422,10 +422,13 @@ var CSLValidator = (function() {
             }
             $('#source-method').attr('value', 'url-source');
             loadSource();
-        } else {
-            $('#url-input').val('');
-            setView(null,'main');
         }
+        // With this, if user selected the editor during page
+        // load, the view was yanked back to main on completion.
+        //else {
+        //    $('#url-input').val('');
+        //    setView(null,'main');
+        //}
 
         //validate on button click
         $("#validate").click(reValidate);
