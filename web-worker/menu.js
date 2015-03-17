@@ -1,59 +1,83 @@
+var cache = null;
 
-importScripts('field-maps.js');
-
-var excludeFields = {};
-for (var i=0,ilen=fieldMaps.exclude.length;i<ilen;i++) {
-    var fieldName = fieldMaps.strings[fieldMaps.exclude[i]];
-    excludeFields[fieldName] = true;
+function getMenuData(callback) {
+    if (cache) return callback(); 
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '../src/fields.json', true);
+    xhr.setRequestHeader("Content-type","application/json");
+    xhr.onload = function(e) {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var json = xhr.responseText;
+                setupData(json, callback);
+            } else {
+                dump("XXX OOPS in menu worker(1): " + xhr.statusText + "\n");
+            }
+        }
+    }
+    xhr.onerror = function (e) {
+        dump("XXX OOPS in menu worker(2): " + xhr.statusText + "\n");
+    };
+    xhr.send(null);
 }
 
-//var legalTypes = {};
-//for (var i=0,ilen=fieldMaps.legal.length;i<ilen;i++) {
-//    var typeName = fieldMaps.strings[fieldMaps.legal[i]];
-//    legalTypes[typeName] = true;
-//}
-
-var jurisM = {}
-for (var i in fieldMaps["Juris-M"]) {
-    var itemType = fieldMaps["Juris-M"][i];
-    jurisM[itemType[0]] = {}
-    jurisM[itemType[0]].cslType = fieldMaps.strings[itemType[1]]
-    jurisM[itemType[0]].creators = {}
-    jurisM[itemType[0]].dateFields = {}
-    jurisM[itemType[0]].numericFields = {}
-    jurisM[itemType[0]].textFields = {}
-    for (var j in itemType[2]) {
-        var fieldPosPair = itemType[2][j];
-        jurisM[itemType[0]].creators[fieldMaps.strings[fieldPosPair[0]]] = fieldMaps.strings[fieldPosPair[1]]
+function setupData(json, callback) {
+    var fieldMaps = JSON.parse(json);
+    var jurisM = {};
+    var excludeFields = {};
+    for (var i=0,ilen=fieldMaps.exclude.length;i<ilen;i++) {
+        var fieldName = fieldMaps.strings[fieldMaps.exclude[i]];
+        excludeFields[fieldName] = true;
     }
-    for (var j in itemType[3]) {
-        var fieldPosPair = itemType[3][j];
-        jurisM[itemType[0]].dateFields[fieldMaps.strings[fieldPosPair[0]]] = fieldMaps.strings[fieldPosPair[1]]
+    for (var i in fieldMaps["Juris-M"]) {
+        var itemType = fieldMaps["Juris-M"][i];
+        jurisM[itemType[0]] = {}
+        jurisM[itemType[0]].cslType = fieldMaps.strings[itemType[1]]
+        jurisM[itemType[0]].creators = {}
+        jurisM[itemType[0]].dateFields = {}
+        jurisM[itemType[0]].numericFields = {}
+        jurisM[itemType[0]].textFields = {}
+        for (var j in itemType[2]) {
+            var fieldPosPair = itemType[2][j];
+            jurisM[itemType[0]].creators[fieldMaps.strings[fieldPosPair[0]]] = fieldMaps.strings[fieldPosPair[1]]
+        }
+        for (var j in itemType[3]) {
+            var fieldPosPair = itemType[3][j];
+            jurisM[itemType[0]].dateFields[fieldMaps.strings[fieldPosPair[0]]] = fieldMaps.strings[fieldPosPair[1]]
+        }
+        for (var j in itemType[4]) {
+            var fieldPosPair = itemType[4][j];
+            jurisM[itemType[0]].numericFields[fieldMaps.strings[fieldPosPair[0]]] = fieldMaps.strings[fieldPosPair[1]]
+        }
+        for (var j in itemType[5]) {
+            var fieldPosPair = itemType[5][j];
+            jurisM[itemType[0]].textFields[fieldMaps.strings[fieldPosPair[0]]] = fieldMaps.strings[fieldPosPair[1]]
+        }
     }
-    for (var j in itemType[4]) {
-        var fieldPosPair = itemType[4][j];
-        jurisM[itemType[0]].numericFields[fieldMaps.strings[fieldPosPair[0]]] = fieldMaps.strings[fieldPosPair[1]]
+    cache = {
+        fieldMaps: fieldMaps,
+        jurisM: jurisM,
+        excludeFields: excludeFields
     }
-    for (var j in itemType[5]) {
-        var fieldPosPair = itemType[5][j];
-        jurisM[itemType[0]].textFields[fieldMaps.strings[fieldPosPair[0]]] = fieldMaps.strings[fieldPosPair[1]]
-    }
+    return callback();
 }
 
 function workerExec(func, msg) {
     var outObj = {};
-    var me = this;
-    return function (me) {
-        me.outObj = outObj;
-        try {
-            func.call(me);
-            outObj.type = msg;
-        } catch (e) {
-            outObj.type = 'ERROR';
-            outObj.error = "" + e;
-        }
-        postMessage(outObj);
-    }(me);
+    getMenuData(function() {
+        var me = this;
+        return function (me) {
+            me.outObj = outObj;
+            try {
+                func.call(me);
+                outObj.type = msg;
+            } catch (e) {
+                outObj.type = 'ERROR';
+                outObj.error = "" + e;
+            }
+            postMessage(outObj);
+        }(me);
+    });
 }
 
 onmessage = function(event) {
@@ -61,7 +85,7 @@ onmessage = function(event) {
     case 'GET MENU ITEMS':
         workerExec(function() {
             outObj.html = '';
-            var labels = Object.keys(jurisM);
+            var labels = Object.keys(cache.jurisM);
             labels.sort();
             for (var i=0,ilen=labels.length;i<ilen;i++) {
                 var label = labels[i];
@@ -73,10 +97,10 @@ onmessage = function(event) {
         workerExec(function() {
             outObj.html = '';
             var pageName = event.data.pageName;
-            var pageData = jurisM[pageName];
+            var pageData = cache.jurisM[pageName];
             //Header (Juris-M name)
             outObj.html += '<div class="row">\n'
-                + '  <div class="col-lg-12"><h2>' + pageName + ' (' + jurisM[pageName].cslType + ')</h2></div>\n'
+                + '  <div class="col-lg-12"><h2>' + pageName + ' (' + cache.jurisM[pageName].cslType + ')</h2></div>\n'
                 + '</div>\n';
             //Categories: Names, Text Fields, Numeric Fields
             //Subheadings: Label, Field Name
@@ -156,12 +180,12 @@ onmessage = function(event) {
         break;
     case 'INIT SAMPLER PAGE':
         workerExec(function() {
-            var labels = Object.keys(jurisM);
+            var labels = Object.keys(cache.jurisM);
             labels.sort();
             outObj.itemTypes = labels;
-            outObj.itemTypeData = jurisM;
-            outObj.excludeFields = excludeFields;
-            outObj.legalTypes = fieldMaps.legal;
+            outObj.itemTypeData = cache.jurisM;
+            outObj.excludeFields = cache.excludeFields;
+            outObj.legalTypes = cache.fieldMaps.legal;
         }, 'INIT SAMPLER PAGE OK');
     }
 }

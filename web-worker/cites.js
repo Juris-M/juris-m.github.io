@@ -1,4 +1,4 @@
-importScripts('xmljson.js','citeproc.js');
+importScripts('../js/xmljson.js','../js/citeproc.js');
 var citeproc = null;
 var lastStyleName = null;
 var nextStyleName = null;

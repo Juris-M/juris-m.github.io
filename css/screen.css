@@ -1,5 +1,9 @@
 /* ignore this line */
 
+#juris-m-button {
+    cursor: pointer;
+}
+
 #search-input-button {
     z-index: 2;
     width: 100%;
