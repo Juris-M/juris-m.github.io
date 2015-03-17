@@ -169,7 +169,8 @@ ol#errors {
 */
 
 #field-map-menu-container {
-    overflow:auto;
+    overflow-y:auto;
+    max-height:200px;
 }
 
 .popover {

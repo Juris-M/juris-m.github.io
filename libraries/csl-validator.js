@@ -227,7 +227,7 @@ var CSLValidator = (function() {
         case 'PING OK':
             break;
         case 'ERROR':
-            alert("CSL Processor error: "+event.data.error);
+            dump("CSL Processor error: "+event.data.error+"\n");
             break;
         case 'STYLE OK LOCALES REQUESTED':
             outObj = {};
@@ -605,7 +605,6 @@ var CSLValidator = (function() {
         });
         setBoxHeight(['source']);
         setBoxHeight(['source-code']);
-        setBoxHeight(['field-map-menu-container'])
         
         citeprocWorker.postMessage({type:'PING'});
         
@@ -680,6 +679,7 @@ var CSLValidator = (function() {
                     curtop += obj.offsetTop;
                 } while (obj = obj.offsetParent);
                 var boxHeight = (docViewHeight - curtop - 5);
+                origObj.style['height'] = ((boxHeight - offset + reduction) + 'px');
                 origObj.style['min-height'] = ((boxHeight - offset + reduction) + 'px');
                 origObj.style['max-height'] = ((boxHeight - offset + reduction) + 'px');
             } else {
@@ -715,6 +715,10 @@ var CSLValidator = (function() {
             }
         } else if (name === 'fields') {
             menuWorker.postMessage({type:'GET PAGE',pageName:section});
+        } else if (name === 'spec') {
+            setBoxHeight(['spec-view']);
+        } else if (name === 'supp') {
+            setBoxHeight(['supp-view']);
         }
     }
 
@@ -784,6 +788,9 @@ var CSLValidator = (function() {
         case "search":
             var key = $('#search-input').attr('value');
             var name = $('#search-input-button').text();
+            if (!name) {
+                name = $('#search-input').text();
+            }
             // Get the user's GitHub repo copy, or ...
             // Get the master GitHub repo copy, or ...
             // Get the template!
