@@ -285,7 +285,7 @@ var CSLValidator = (function() {
             setupDraggableNodes();
             $('#sampler-citations').html(event.data.citations);
             $('#sampler-bibliography').html(event.data.bibliography);
-            setBoxHeight(['sampler','sampler-preview']);
+            //setBoxHeight(['sampler','sampler-preview']);
             break;
         case 'UNSELECT VARIABLE OK':
         case 'SELECT VARIABLE OK':
@@ -299,12 +299,13 @@ var CSLValidator = (function() {
             $('#sampler-bibliography').animate({'opacity': 0.5}, 500, function(){
                 $(this).html(event.data.bibliography).animate({'opacity': 1}, 500);    
             });
-            setBoxHeight(['sampler','sampler-preview']);
+            //setBoxHeight(['sampler','sampler-preview']);
         }
     }
 
     function changeSamplerItemType(event) {
         // srcElement for WebKit, originalTarget for Gecko 
+        event.preventDefault();
         var originalElement = event.originalTarget ? event.originalTarget : event.srcElement;
         $('#sampler-itemtype-button').html(originalElement.textContent + ' <span class="caret"></span>');
         citeprocWorker.postMessage({type:"CHANGE ITEM TYPE",itemType:originalElement.textContent});
@@ -655,10 +656,7 @@ var CSLValidator = (function() {
      * Ahnsirk Dasarp
      * http://stackoverflow.com/questions/5007530/how-do-i-scroll-to-an-element-using-javascript
      */
-    function setBoxHeight(lst, reduction) {
-        if (document.documentElement.clientWidth < 992) {
-            return;
-        }
+    function setBoxHeight(lst, reduction, minHeight) {
         if (!reduction) {
             reduction = 0;
         }
@@ -667,6 +665,10 @@ var CSLValidator = (function() {
             var obj = document.getElementById(lst[i]);
             if (!obj) return;
             var origObj = obj;
+            origObj.style['min-height'] = (minHeight ? minHeight : 200) + 'px';
+            //if (document.documentElement.clientWidth < 992) {
+            //    continue;
+            //}
             var offset = 0;
             if (lst[i] === 'error-list') {
                 offset = 8;
@@ -683,13 +685,12 @@ var CSLValidator = (function() {
                 } while (obj = obj.offsetParent);
                 var boxHeight = (docViewHeight - curtop - 5);
                 origObj.style['height'] = ((boxHeight - offset + reduction) + 'px');
-                origObj.style['min-height'] = ((boxHeight - offset + reduction) + 'px');
                 origObj.style['max-height'] = ((boxHeight - offset + reduction) + 'px');
             } else {
                 // for field-map-menu-container
                 if (lst[i] === 'field-map-menu-container') {
                     var offsetTop = $('div.container.content').get(0).offsetTop;
-                    origObj.style['min-height'] = ((docViewHeight - offsetTop - offset + reduction) + 'px');
+                    origObj.style['height'] = ((docViewHeight - offsetTop - offset + reduction) + 'px');
                     origObj.style['max-height'] = ((docViewHeight - offsetTop - offset + reduction) + 'px');
                 }
             }
@@ -710,10 +711,10 @@ var CSLValidator = (function() {
             document.title = titles[name];
         }
         if (name === 'editor') {
-            setBoxHeight(['tabs']);
+            //XXX setBoxHeight(['tabs']);
             if (editor) {
-                setBoxHeight(['source']);
-                setBoxHeight(['source-code']);
+                setBoxHeight(['source'], null, 400);
+                setBoxHeight(['source-code'], null, 400);
                 editor.renderer.updateFull();
             }
         } else if (name === 'fields') {
