@@ -282,9 +282,11 @@ var CSLValidator = (function() {
         case 'INIT PAGE OK':
             $('#unselected-csl-variables').html(event.data.bubbles[0]);
             $('#selected-csl-variables').html(event.data.bubbles[1]);
-            setupDraggableNodes();
             $('#sampler-citations').html(event.data.citations);
             $('#sampler-bibliography').html(event.data.bibliography);
+            setupDraggableNodes();
+
+            //setBoxHeight(['selected-csl-variables','unselected-csl-variables'], -6);
             //setBoxHeight(['sampler','sampler-preview']);
             break;
         case 'UNSELECT VARIABLE OK':
@@ -292,13 +294,13 @@ var CSLValidator = (function() {
         case 'CHANGE ITEM TYPE OK':
             $('#unselected-csl-variables').html(event.data.bubbles[0]);
             $('#selected-csl-variables').html(event.data.bubbles[1]);
-            setupDraggableNodes();
             $('#sampler-citations').animate({'opacity': 0.5}, 500, function(){
                 $(this).html(event.data.citations).animate({'opacity': 1}, 500);    
             });
             $('#sampler-bibliography').animate({'opacity': 0.5}, 500, function(){
                 $(this).html(event.data.bibliography).animate({'opacity': 1}, 500);    
             });
+            setupDraggableNodes();
             //setBoxHeight(['sampler','sampler-preview']);
         }
     }
@@ -340,7 +342,6 @@ var CSLValidator = (function() {
             scope: "tounselect",
             hoverClass: 'csl-drag-hover'
         });
-        //setBoxHeight(['selected-csl-variables','unselected-csl-variables'], -6);
     }
     
     var init = function() {
