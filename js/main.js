@@ -340,8 +340,7 @@ var CSLValidator = (function() {
             scope: "tounselect",
             hoverClass: 'csl-drag-hover'
         });
-        setBoxHeight(['selected-csl-variables','unselected-csl-variables'], -8);
-        setBoxHeight(['sampler-itemtype-dropdown']);
+        //setBoxHeight(['selected-csl-variables','unselected-csl-variables'], -6);
     }
     
     var init = function() {
@@ -675,10 +674,6 @@ var CSLValidator = (function() {
             }
             var curtop = 0;
             var curleft = 0;
-            if (lst[i] === 'sampler-itemtype-dropdown') {
-                obj = obj.parentNode;
-                curtop = $('#sampler-itemtype-button').outerHeight(true);
-            }
             if (obj.offsetParent) {
                 do {
                     curtop += obj.offsetTop;
@@ -713,8 +708,8 @@ var CSLValidator = (function() {
         if (name === 'editor') {
             //XXX setBoxHeight(['tabs']);
             if (editor) {
-                setBoxHeight(['source'], null, 400);
-                setBoxHeight(['source-code'], null, 400);
+                setBoxHeight(['source']);
+                setBoxHeight(['source-code']);
                 editor.renderer.updateFull();
             }
         } else if (name === 'fields') {

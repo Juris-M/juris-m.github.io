@@ -1,5 +1,17 @@
 /* ignore this line */
 
+.small-faint-heading {
+    font-size: smaller;
+    font-weight: bold;
+    color: #999999;
+    text-indent: -1em;
+}
+
+.small-note {
+    text-size: smaller;
+    color: red;
+}
+
 #juris-m-button {
     cursor: pointer;
 }
@@ -112,11 +124,7 @@
 #unselected-csl-variables, #selected-csl-variables {
     margin-top: 1em;
     line-height: 2.2em;
-}
-
-#unselected-csl-variables, #selected-csl-variables {
-    margin-top: 1em;
-    line-height: 2.2em;
+    min-height: 150px;
     border:4px solid transparent;
 }
 
@@ -125,6 +133,7 @@ div.csl-drag-hover {
 }
 
 #sampler-itemtype-dropdown {
+    max-height: 200px;
     overflow: auto;
 }
 

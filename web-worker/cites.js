@@ -234,11 +234,15 @@ function getBubbles(event, itemTypeLabel) {
             sampleData[cslVarname] = fieldLabel;
         }
     }
+
+    var categoryLabels = ['Creators', 'Dates', 'Numbers', 'Ordinary Text'];
+
     // Unselected variables
     var fieldBundle = itemTypeData[currentItemType];
     var segments = ['creators','dateFields','numericFields','textFields'];
     for (var i=0,ilen=segments.length;i<ilen;i++) {
         var segment = segments[i];
+        unselected += '<div class="small-faint-heading">' + categoryLabels[i] + '</div><div>';
         for (var cslVarname in fieldBundle[segment]) {
             var fieldLabel = fieldBundle[segment][cslVarname];
             var defaultUnused = excludeFields[cslVarname] || (cslVarname === 'jurisdiction' && legalTypes.indexOf(itemTypeLabel) === -1);
@@ -249,10 +253,12 @@ function getBubbles(event, itemTypeLabel) {
                 unselectedVars[cslVarname] = true;
             }
         }
+        unselected += '</div>';
     }
     // Selected variables
     for (var i=0,ilen=segments.length;i<ilen;i++) {
         var segment = segments[i];
+        selected += '<div class="small-faint-heading">' + categoryLabels[i] + '</div><div>';
         for (var cslVarname in fieldBundle[segment]) {
             var fieldLabel = fieldBundle[segment][cslVarname];
             var defaultUsed = !excludeFields[cslVarname] && !(cslVarname === 'jurisdiction' && legalTypes.indexOf(itemTypeLabel) === -1);
@@ -264,6 +270,7 @@ function getBubbles(event, itemTypeLabel) {
                 selectedVars[cslVarname] = true;
             }
         }
+        selected += '</div>';
     }
     initVars = false;
     return [unselected, selected];
