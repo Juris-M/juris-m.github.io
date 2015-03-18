@@ -117,7 +117,7 @@ function requestModuleTemplate(key, name) {
 function sendTemplate(key, name, src) {
     src = src.replace('@@KEY@@', key, 'g');
     src = src.replace('@@NAME@@', name, 'g');
-    postMessage({type:'REQUEST MODULE TEMPLATE OK',name:src});
+    postMessage({type:'REQUEST MODULE TEMPLATE OK',src:src});
 }
 
 onmessage = function(event) {

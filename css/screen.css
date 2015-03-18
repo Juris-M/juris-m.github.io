@@ -124,8 +124,8 @@
 #unselected-csl-variables, #selected-csl-variables {
     margin-top: 0px;
     line-height: 2.2em;
-    min-height: 150px;
     border:4px solid transparent;
+    min-height: 150;
 }
 
 div.csl-drag-hover {
