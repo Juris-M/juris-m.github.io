@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="css/screen.css">
     <script src="js/jquery.1.11.3.min.js"></script>
     <script src="js/jquery-ui.1.11.3.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.min.js"></script>
     <script src="js/typeahead.bundle.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="js/fileinput.min.js" type="text/javascript"></script>
@@ -213,36 +214,21 @@
 	          </div>
 		      <div id="sampler">
                 <div class="row">
-                  <div class="col-lg-6">
-                    <div class="btn-group">
-                      <button id="sampler-itemtype-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        Case <span class="caret"></span>
-                      </button>
-                      <ul id="sampler-itemtype-dropdown" class="dropdown-menu" role="menu" onclick="CSLValidator.changeSamplerItemType(event);">
-                        <!-- item types -->
-                      </ul>
-                    </div>
-                    <div class="row">
-                      <div id="unselected-csl-variables" class="col-lg-6 droppable">
-                        <!-- unselected bubbles -->
-                      </div>
-                      <div class="col-lg-6 droppable">
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <h4>Included fields</h4>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div id="selected-csl-variables" class="col-lg-12 droppable">
-                            <!-- selected bubbles -->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                   <div id="sampler-preview" class="col-lg-6">
-                    <div class="row"><div class="col-lg-12"><i id="style-name">My Style</i></div></div>
-                    <div class="row"><div class="col-lg-12"><h3>Citations</h3></div></div>
+                    <div class="row"><div class="col-lg-12"><b id="style-name">My Style</b></div></div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="btn-group">
+                          <button id="sampler-itemtype-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            Case <span class="caret"></span>
+                          </button>
+                          <ul id="sampler-itemtype-dropdown" class="dropdown-menu" role="menu" onclick="CSLValidator.changeSamplerItemType(event);">
+                            <!-- item types -->
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row"><div class="col-lg-12"><h3 style="margin-top:5px;">Citations</h3></div></div>
                     <div class="row">
                       <div class="col-lg-12">
                         <ol id="sampler-citations">
@@ -254,6 +240,39 @@
                     <div class="row">
                       <div id="sampler-bibliography" class="col-lg-12">
                         <!-- bibliography entries -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="small-note">drag fields to add or remove them</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h4>Included fields</h4>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div id="selected-csl-variables" class="col-xs-12 droppable">
+                            <!-- selected bubbles -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-6">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h4>Excluded fields</h4>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div id="unselected-csl-variables" class="col-xs-12 droppable">
+                            <!-- unselected bubbles -->
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -1,5 +1,17 @@
 /* ignore this line */
 
+.small-faint-heading {
+    font-size: smaller;
+    font-weight: bold;
+    color: #999999;
+    text-indent: -1em;
+}
+
+.small-note {
+    font-size: smaller;
+    color: red;
+}
+
 #juris-m-button {
     cursor: pointer;
 }
@@ -88,10 +100,11 @@
     color: white;
 }
 
-
+/*
 #sampler-preview {
     overflow: auto;
 }
+*/
 
 .csl-entry {
     margin: 0.5em 0 0.5em 1em;
@@ -109,14 +122,10 @@
 }
 
 #unselected-csl-variables, #selected-csl-variables {
-    margin-top: 1em;
-    line-height: 2.2em;
-}
-
-#unselected-csl-variables, #selected-csl-variables {
-    margin-top: 1em;
+    margin-top: 0px;
     line-height: 2.2em;
     border:4px solid transparent;
+    min-height: 150;
 }
 
 div.csl-drag-hover {
@@ -124,6 +133,7 @@ div.csl-drag-hover {
 }
 
 #sampler-itemtype-dropdown {
+    max-height: 200px;
     overflow: auto;
 }
 
