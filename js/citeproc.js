@@ -5719,6 +5719,7 @@ CSL.Node.group = {
                 text_node.execs.push(func);
                 target.push(text_node);
                 var group_end = new CSL.Token("group", CSL.END);
+                group_end.decorations = this.decorations.slice();
                 CSL.Node.group.build.call(group_end, state, target);
                 var if_end = new CSL.Token("if", CSL.END);
                 CSL.Node.if.build.call(if_end, state, target);
