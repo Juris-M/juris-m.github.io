@@ -5787,9 +5787,9 @@ CSL.Node.group = {
                 CSL.Node.choose.build.call(choose_end, state, target);
             }
         }
-        //if (!this.juris) {
-        //    target.push(this);
-        //}
+        if (!this.juris) {
+            target.push(this);
+        }
         if (this.tokentype === CSL.END) {
             if (state.build.substitute_level.value()) {
                 state.build.substitute_level.replace((state.build.substitute_level.value() - 1));
