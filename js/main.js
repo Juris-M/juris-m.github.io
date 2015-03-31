@@ -728,7 +728,7 @@ var CSLValidator = (function() {
         var cslVersion = $('#schema-version').attr('value');
         var schemaURL = '';
         if (cslVersion.indexOf("mlz") > -1) {
-            schemaURL = "https://raw.githubusercontent.com/fbennett/schema/v" + cslVersion + "/csl-mlz.rnc";
+            schemaURL = "https://raw.githubusercontent.com/juris-m/schema/v" + cslVersion + "/csl-mlz.rnc";
         } else {
             schemaURL = "https://raw.githubusercontent.com/citation-style-language/schema/v" + cslVersion + "/csl.rnc";
         }
