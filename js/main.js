@@ -833,7 +833,7 @@ var CSLValidator = (function() {
     }
 
     function validateViaGET(schemaURL, documentURL) {
-        $.get("http://our.law.nagoya-u.ac.jp/validate/", {
+        $.get("https://our.law.nagoya-u.ac.jp/validate/", {
                 doc: documentURL,
                 schema: schemaURL,
                 parser: "xml",
@@ -870,7 +870,7 @@ var CSLValidator = (function() {
 
         $.ajax({
             type: "POST",
-            url: "http://our.law.nagoya-u.ac.jp/validate/",
+            url: "https://our.law.nagoya-u.ac.jp/validate/",
             data: formData,
             success: function(data) {
                 parseResponse(data, reValidate);
@@ -928,7 +928,7 @@ var CSLValidator = (function() {
 
         window.clearTimeout(responseTimer);
         responseEndTime = new Date();
-        console.log("Received response from http://our.law.nagoya-u.ac.jp/validate/ after " + (responseEndTime - responseStartTime) + "ms");
+        console.log("Received response from https://our.law.nagoya-u.ac.jp/validate/ after " + (responseEndTime - responseStartTime) + "ms");
 
         removeValidationResults(reValidate);
 
@@ -1102,11 +1102,11 @@ var CSLValidator = (function() {
     function reportTimeOut() {
         loadValidateButton('stop');
         removeValidationResults();
-        console.log("Call to http://our.law.nagoya-u.ac.jp/validate/ timed out after " + responseMaxTime + "ms.");
+        console.log("Call to https://our.law.nagoya-u.ac.jp/validate/ timed out after " + responseMaxTime + "ms.");
         $('#validate').popover({
             html: true,
             title: 'Validation timeout',
-            content: '<p>This typically happens if the <a href="http://our.law.nagoya-u.ac.jp/validate/">Nagoya NU HTML Checker</a> website is down, but maybe you get lucky if you wait a little longer.</p>',
+            content: '<p>This typically happens if the <a href="https://our.law.nagoya-u.ac.jp/validate/">Nagoya NU HTML Checker</a> website is down, but maybe you get lucky if you wait a little longer.</p>',
             trigger: 'manual',
             placement: 'bottom'
         });
