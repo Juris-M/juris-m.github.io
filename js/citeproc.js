@@ -5652,6 +5652,7 @@ CSL.Node.group = {
                 for (var x=0,xlen=target.length;x<xlen;x++) {
                     var token = target[x];
                 }
+                target.push(this);
                 var choose_start = new CSL.Token("choose", CSL.START);
                 CSL.Node.choose.build.call(choose_start, state, target);
                 var if_start = new CSL.Token("if", CSL.START);
@@ -5705,7 +5706,6 @@ CSL.Node.group = {
                 if_start.tests.push(func);
                 if_start.test = state.fun.match.any(if_start, state, if_start.tests);
                 target.push(if_start);
-                target.push(this);
                 var text_node = new CSL.Token("text", CSL.SINGLETON);
                 func = function (state, Item, item) {
                     var next = 0;
@@ -5718,12 +5718,6 @@ CSL.Node.group = {
                 text_node.juris = this.juris;
                 text_node.execs.push(func);
                 target.push(text_node);
-                var group_end = new CSL.Token("group", CSL.END);
-                //dump("XXX WOWOWOW "+this.decorations+"\n");
-                //if (this.decorations) {
-                //    group_end.decorations = this.decorations.slice();
-                //}
-                CSL.Node.group.build.call(group_end, state, target);
                 var if_end = new CSL.Token("if", CSL.END);
                 CSL.Node.if.build.call(if_end, state, target);
                 var else_start = new CSL.Token("else", CSL.START);
@@ -5785,6 +5779,15 @@ CSL.Node.group = {
                 CSL.Node.else.build.call(else_end, state, target);
                 var choose_end = new CSL.Token("choose", CSL.END);
                 CSL.Node.choose.build.call(choose_end, state, target);
+
+
+                var group_end = new CSL.Token("group", CSL.END);
+                //dump("XXX WOWOWOW "+this.decorations+"\n");
+                if (this.decorations) {
+                    group_end.decorations = this.decorations.slice();
+                }
+                CSL.Node.group.build.call(group_end, state, target);
+
             }
         }
         if (!this.juris) {
