@@ -87,13 +87,26 @@
           </choose>
           <number variable="volume"/>
           <text form="short" variable="container-title"/>
+          <choose>
+            <if variable="locator" match="none">
+              <number variable="page-first"/>
+            </if>
+          </choose>
         </group>
       </else>
     </choose>
   </macro>
 
   <macro name="juris-space-locator">
-    <text macro="juris-locator"/>
+    <choose>
+      <if position="first" locator="page" match="all">
+        <text macro="juris-locator"/>
+      </if>
+      <else>
+        <text value="at"/>
+        <text macro="juris-locator"/>
+      </else>
+    </choose>
   </macro>
 
   <macro name="juris-comma-locator">
@@ -131,18 +144,53 @@
     <text value=""/>
   </macro>
 
+  <macro name="at">
+    <text value="at"/>
+  </macro>
+
+  <macro name="full">
+    <group delimiter=", ">
+      <text macro="juris-title"/>
+      <group delimiter=" ">
+        <group delimiter=", ">
+          <text macro="juris-main"/>
+          <text macro="juris-comma-locator"/>
+        </group>
+        <text macro="juris-space-locator"/>
+        <text macro="juris-tail"/>
+      </group>
+    </group>
+  </macro>
+
   <citation>
     <layout>
-      <group delimiter=", ">
-        <text macro="juris-title"/>
-        <group delimiter=" ">
-          <group>
-            <text macro="juris-main"/>
-            <text macro="juris-comma-pinpoint"/>
+      <choose>
+        <if position="ibid-with-locator">
+          <group delimiter=" ">
+            <text term="ibid"/>
+            <text macro="juris-locator-label" alternative-macro="at"/>
+            <text macro="juris-locator"/>
           </group>
-          <text macro="juris-tail"/>
-        </group>
-      </group>
+        </if>
+        <else-if position="ibid">
+          <text term="ibid"/>
+        </else-if>
+        <else-if position="near-note">
+          <text macro="full"/>
+        </else-if>
+        <else-if position="subsequent">
+          <group delimiter=", ">
+            <text macro="juris-title-short"/>
+            <group delimiter=" ">
+              <text macro="juris-main-short"/>
+              <text macro="juris-space-locator"/>
+            </group>
+          </group>
+        </else-if>
+        <else>
+          <text macro="full"/>
+        </else>
+      </choose>
     </layout>
   </citation>
 </style>
