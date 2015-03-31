@@ -5719,15 +5719,16 @@ CSL.Node.group = {
                 text_node.execs.push(func);
                 target.push(text_node);
                 var group_end = new CSL.Token("group", CSL.END);
-                dump("XXX WOWOWOW "+this.decorations+"\n");
-                if (this.decorations) {
-                    group_end.decorations = this.decorations.slice();
-                }
+                //dump("XXX WOWOWOW "+this.decorations+"\n");
+                //if (this.decorations) {
+                //    group_end.decorations = this.decorations.slice();
+                //}
                 CSL.Node.group.build.call(group_end, state, target);
                 var if_end = new CSL.Token("if", CSL.END);
                 CSL.Node.if.build.call(if_end, state, target);
                 var else_start = new CSL.Token("else", CSL.START);
                 CSL.Node.else.build.call(else_start, state, target);
+                target.push(this);
             }
         }
         if (this.tokentype === CSL.END) {
@@ -5774,15 +5775,21 @@ CSL.Node.group = {
             };
             this.execs.push(func);
             if (this.juris) {
+                var group_end = new CSL.Token("group", CSL.END);
+                //dump("XXX WOWOWOW "+this.decorations+"\n");
+                if (this.decorations) {
+                    group_end.decorations = this.decorations.slice();
+                }
+                CSL.Node.group.build.call(group_end, state, target);
                 var else_end = new CSL.Token("else", CSL.END);
                 CSL.Node.else.build.call(else_end, state, target);
                 var choose_end = new CSL.Token("choose", CSL.END);
                 CSL.Node.choose.build.call(choose_end, state, target);
             }
         }
-        if (!this.juris) {
-            target.push(this);
-        }
+        //if (!this.juris) {
+        //    target.push(this);
+        //}
         if (this.tokentype === CSL.END) {
             if (state.build.substitute_level.value()) {
                 state.build.substitute_level.replace((state.build.substitute_level.value() - 1));
