@@ -5649,6 +5649,7 @@ CSL.Node.group = {
                 this.execs.push(func);
             }
             if (this.juris) {
+                dump("XXX DOING JURIS\n");
                 for (var x=0,xlen=target.length;x<xlen;x++) {
                     var token = target[x];
                 }
@@ -5719,7 +5720,6 @@ CSL.Node.group = {
                 text_node.execs.push(func);
                 target.push(text_node);
                 var group_end = new CSL.Token("group", CSL.END);
-                dump("XXX WOWOWOW "+this.decorations+"\n");
                 CSL.Node.group.build.call(group_end, state, target);
                 var if_end = new CSL.Token("if", CSL.END);
                 CSL.Node.if.build.call(if_end, state, target);
