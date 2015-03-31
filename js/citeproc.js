@@ -5775,12 +5775,12 @@ CSL.Node.group = {
             };
             this.execs.push(func);
             if (this.juris) {
-                var group_end = new CSL.Token("group", CSL.END);
+                //var group_end = new CSL.Token("group", CSL.END);
                 //dump("XXX WOWOWOW "+this.decorations+"\n");
-                if (this.decorations) {
-                    group_end.decorations = this.decorations.slice();
-                }
-                CSL.Node.group.build.call(group_end, state, target);
+                //if (this.decorations) {
+                //    group_end.decorations = this.decorations.slice();
+                //}
+                //CSL.Node.group.build.call(group_end, state, target);
                 var else_end = new CSL.Token("else", CSL.END);
                 CSL.Node.else.build.call(else_end, state, target);
                 var choose_end = new CSL.Token("choose", CSL.END);
