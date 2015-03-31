@@ -5728,7 +5728,7 @@ CSL.Node.group = {
                 CSL.Node.if.build.call(if_end, state, target);
                 var else_start = new CSL.Token("else", CSL.START);
                 CSL.Node.else.build.call(else_start, state, target);
-                target.push(this);
+                //target.push(this);
             }
         }
         if (this.tokentype === CSL.END) {
