@@ -145,7 +145,6 @@ function generateSample() {
     var citations = citationFactory.citations;
     for (var i=0,ilen=citations.length;i<ilen;i++) {
         res = citeproc.processCitationCluster(citations[i][0], citations[i][1], citations[i][2]);
-        dump("XXX JSON: "+JSON.stringify(res, null, 2));
         for (var j=0,jlen=res[1].length;j<jlen;j++) {
             citationResults[res[1][j][0]] = '<li>' + res[1][j][1] + '</li>';
         }
