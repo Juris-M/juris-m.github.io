@@ -177,12 +177,12 @@
         <else-if position="ibid">
           <text term="ibid"/>
         </else-if>
-        <else-if position="near-note">
+        <else-if position="near-note" match="none">
           <text macro="full"/>
         </else-if>
         <else-if position="subsequent">
           <group delimiter=", ">
-            <text macro="juris-title-short"/>
+            <text macro="juris-title-short" font-style="italic"/>
             <group delimiter=" ">
               <text macro="juris-main-short"/>
               <text macro="juris-space-locator"/>
