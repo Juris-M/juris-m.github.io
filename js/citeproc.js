@@ -5724,8 +5724,6 @@ CSL.Node.group = {
                 CSL.Node.if.build.call(if_end, state, target);
                 var else_start = new CSL.Token("else", CSL.START);
                 CSL.Node.else.build.call(else_start, state, target);
-                var group_start = new CSL.Token("group", CSL.START);
-                CSL.Node.group.build.call(group_start, state, target);
             }
         }
         if (this.tokentype === CSL.END) {
@@ -5772,9 +5770,6 @@ CSL.Node.group = {
             };
             this.execs.push(func);
             if (this.juris) {
-                var group_end = new CSL.Token("group", CSL.END);
-                group_end.decorations = this.decorations.slice();
-                CSL.Node.group.build.call(group_end, state, target);
                 var else_end = new CSL.Token("else", CSL.END);
                 CSL.Node.else.build.call(else_end, state, target);
                 var choose_end = new CSL.Token("choose", CSL.END);
