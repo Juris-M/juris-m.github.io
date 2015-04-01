@@ -231,6 +231,7 @@ function getBubbles(event, itemTypeLabel) {
         var count = 1;
         for (var cslVarname in fieldBundle.numericFields) {
             //fieldLabel = fieldBundle.numericFields[cslVarname];
+            dump("cslVarname="+cslVarname);
             if (cslVarname === 'year-as-volume') {
                 sampleData[cslVarname] = "2000";
             } else {
