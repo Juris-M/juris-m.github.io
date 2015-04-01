@@ -230,9 +230,13 @@ function getBubbles(event, itemTypeLabel) {
         }
         var count = 1;
         for (var cslVarname in fieldBundle.numericFields) {
-            fieldLabel = fieldBundle.numericFields[cslVarname];
-            sampleData[cslVarname] = "" + count + count + count;
-            count += 1;
+            //fieldLabel = fieldBundle.numericFields[cslVarname];
+            if (cslVarname === 'year-as-volume') {
+                sampleData[cslVarname] = "2000";
+            } else {
+                sampleData[cslVarname] = "" + count + count + count;
+                count += 1;
+            }
         }
         for (var cslVarname in fieldBundle.textFields) {
             fieldLabel = fieldBundle.textFields[cslVarname];
