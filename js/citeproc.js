@@ -6219,6 +6219,7 @@ CSL.Node.label = {
                 if (termtxt) {
                     flag = state.tmp.group_context.value();
                     //print("setting TERM to true [0]");
+                    dump("OH DARN -- setting flag[0]!!!!!");
                     flag[0] = true;
                     state.tmp.group_context.replace(flag);
                 }
