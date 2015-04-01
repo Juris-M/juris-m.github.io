@@ -3,6 +3,9 @@ var CSLValidator = (function() {
     //to access Ace
     var editor;
 
+    //GitHub API access token
+    var access_token = null;
+
     //to access URL parameters
     var uri;
 
@@ -20,7 +23,7 @@ var CSLValidator = (function() {
 
     //keep track of how much time validator.nu is taking
     var responseTimer;
-    var responseMaxTime = 6000; //in milliseconds
+    var responseMaxTime = 10000; //in milliseconds
     var responseStartTime;
     var responseEndTime;
 
@@ -343,13 +346,235 @@ var CSLValidator = (function() {
             hoverClass: 'csl-drag-hover'
         });
     }
-    
-    var init = function() {
-        //Crank up the field map menus
-        menuWorker.postMessage({type:"GET MENU ITEMS"});
 
+    function ghMsg(type, desc, err, disable) {
+        if (err && err.message) {
+            err = err.message;
+        } else if ('string' !== typeof err) {
+            err = false;
+        }
+        err = err ? '<h3>GitHub says</h3><p>' + err + '</p>' : '';
+        $('#submit').popover({
+            html: true,
+            title: type + ' <a class="close" href="#");">&times;</a>',
+            content: '<p>' + desc + '</p>' + err,
+            trigger: 'manual',
+            placement: 'bottom'
+        });
+        $(document).click(function (e) {
+            if (($('.popover').has(e.target).length == 0) || $(e.target).is('.close')) {
+                $('#submit').popover('destroy');
+            }
+        });
+        $('#submit').popover('show');
+        submitButton.stop();
+        if (disable) {
+            submitButton.disable();
+        }
+    }
+    
+    function githubApiCall(method, path, options, callback) {
+        var xhr = new XMLHttpRequest();
+        if (method === 'GET') {
+            var query = options ? '?' + $.param(options) : '';
+            var options = null;
+        } else {
+            var query = '';
+            var options = JSON.stringify(options);
+        }
+        //dump("XXX USE THIS METHOD: "+method+"\n");
+        //dump('XXX CALL WITH THIS: https://api.github.com' + path+query+"\n");
+        //dump("XXX USE THIS AS THE HEADER: Authorization: token "+access_token+"\n")
+        //dump("XXX USE THIS FOR DATA: "+options+"\n");
+        xhr.open(method, 'https://api.github.com' + path + query, true);
+        xhr.responseType = 'json';
+        xhr.setRequestHeader("Authorization", "token " + access_token);
+        xhr.setRequestHeader("Content-type","application/json");
+        xhr.onload = function(e) {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var obj = xhr.response;
+                    callback(null, obj);
+                } else {
+                    callback(xhr.statusText);
+                }
+            }
+        }
+        xhr.onerror = function (e) {
+            callback(e);
+        };
+        xhr.send(options);
+    }
+
+    function retrieveFromGitHubOrSetFromTemplate(key, name) {
+        githubApiCall('GET', '/user', null, function(err, user){
+            if (err) {
+                ghMsg('Error', 'Unable to get GitHub user', err);
+            } else {
+                var username = user.login;
+                githubApiCall('GET', '/repos/juris-m/style-modules/contents/' + key + '.csl', {ref:'master'}, function(err, contents){
+                    if (err || !contents) {
+                        // Assume this is triggered because the file does not yet exist
+                        jurisdictionWorker.postMessage({type:'REQUEST MODULE TEMPLATE',key:key,name:name});
+                    } else {
+                        var content = atob(contents.content);
+                        var schemaURL = getSchemaURL();
+                        var sourceMethod = getSourceMethod();
+                        var documentFile = new Blob([content], {type: 'text/xml'});
+                        var keys = '';
+                        sourceMethodFunc = function (schemaURL, documentFile, sourceMethod) {
+                            return function () {
+                                validateViaPOST(schemaURL, documentFile, sourceMethod);
+                            }
+                        }(schemaURL, documentFile, sourceMethod);
+                        validate(true);
+                    }
+                })
+            }
+        });
+    }
+    function githubPullRequest(username, moduleName, moduleContents) {
+        // Be sure this pull request will actually change something
+        githubApiCall('GET', '/repos/juris-m/style-modules/contents/' + moduleName + '.csl', {ref:'master'}, function(err, contents){
+            if (err) {
+                // Assume this is triggered because the file does not yet exist
+                // For the present.
+            }
+            var content = null;
+            if (contents) {
+                content = atob(contents.content).trim();
+            }
+            if (content === moduleContents) {
+                ghMsg('No Action', 'This submission would not change the existing module code.');
+            } else {
+                // Look for existing pull request
+                var oldPull = {
+                    state: "open",
+                    head: username + ":" + moduleName,
+                    base: "master"
+                }
+                githubApiCall('GET', '/repos/juris-m/style-modules/pulls', oldPull, function(err, pulls){
+                    if (err) {
+                        ghMsg('Error', 'Unable to get a list of submissions for some reason', err);
+                    } else {
+                        if (pulls.length == 0) {
+                            // Create a pull request
+                            var pull = {
+                                title: "Update to style module: " + moduleName + '.csl',
+                                body: 'Pull request automatically generated by Juris-M',
+                                base: "master",
+                                head: username + ":" + moduleName
+                            };
+                            dump("XXX WTF? "+JSON.stringify(pull)+'\n')
+                            githubApiCall('POST', '/repos/juris-m/style-modules/pulls', pull, function(err, pullRequest) {
+                                if (err && !err === 'Created') {
+                                    ghMsg('Error', 'Unable to create a submission request for some reason.', err);
+                                } else {
+                                    ghMsg('Success', 'Thank you for your submission!', null, true);
+                                }
+                            });
+                        } else {
+                            // Update pull request
+                            var pull = {
+                                title: pulls[0].title,
+                                body: pulls[0].body,
+                                state: "open"
+                            }
+                            githubApiCall('PATCH', '/repos/juris-m/style-modules/pulls/' + pulls[0].number, pull, function(err){
+                                submitButton.stop();
+                                if (err) {
+                                    ghMsg('Error', 'Unable to update the existing submission request for some reason.', err);
+                                } else {
+                                    ghMsg('Success', 'Your submission has been updated. Thank you for your contributions!', null, true);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    }
+        
+    function githubWriteAndPullRequest(jRepo, username, repo, moduleName, moduleContents) {
+        repo.write(moduleName, moduleName+'.csl', moduleContents, 'Module submission: ' + moduleName + '.csl', function(err) {
+            if (err) {
+                ghMsg('Error', 'Unable to save your personal copy of the file on GitHub for some reason.', err);
+            } else {
+                githubPullRequest(username, moduleName, moduleContents);
+            }
+        });
+    }
+    
+    function saveToGitHub() {
+        var moduleContents = getEditorContent();
+        moduleContents = moduleContents ? moduleContents.trim() : "";
+        var github = new Github({
+            token: access_token,
+            auth: "oauth"
+        });
+        var moduleName = $('#search-input').attr('value');
+        // Okay! So now some useful stuff.
+        // Get the Juris-M style modules repo.
+        // ... fork it ... and get the user's copy.
+        // Write the file into the user's repo copy.
+        // Create a pull request to Juris-M.
+        // Done!
+        var user = github.getUser();
+        user.show(null, function(err, user){
+            var username = user.login;
+            var jRepo = github.getRepo('Juris-M', 'style-modules');
+            jRepo.fork(function(err){
+                if (err) {
+                    ghMsg('Error', 'There seems to be a problem with making a copy of the style modules repository. It may be a transient failure.', err);
+                } else {
+                    var repo = github.getRepo(username, 'style-modules');
+                    // Check that the user's repo is a direct fork from Juris-M
+                    repo.show(function(err, repoInfo){
+                        if (err) {
+                            ghMsg('Error', 'There seems to be a problem with getting the details of your freshly minted copy of the style modules repository. It may be a transient failure.', err);
+                        }
+                        if (repoInfo.parent && repoInfo.parent.full_name === 'Juris-M/style-modules') {
+                            // Check for new content, or an actual difference from existing content
+                            githubApiCall('GET', '/repos/' + username + '/style-modules/contents/' + moduleName + '.csl', {ref:moduleName}, function(err, contents){
+                                if (err) {
+                                    // Assume this is triggered because the file does not yet exist
+                                    // For the present.
+                                }
+                                var content = contents ? atob(contents.content) : '';
+                                if (!content || content.trim() !== moduleContents) {
+                                    repo.listBranches(function(err, branches){
+                                        if (branches.indexOf(moduleName) > -1) {
+                                            githubWriteAndPullRequest(jRepo, username, repo, moduleName, moduleContents);
+                                        } else {
+                                            repo.branch('master', moduleName, function(err) {
+                                                if (err) {
+                                                    ghMsg('Error', 'Something went wrong setting up the working area for your file on GitHub.', err);
+                                                } else {
+                                                    githubWriteAndPullRequest(jRepo, username, repo, moduleName, moduleContents);
+                                                }
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    ghMsg('No Action', 'Your copy of the module code has not been changed.');
+                                }
+                            });
+                        } else {
+                            ghMsg('Error', 'You have a <span style="font-family:mono;">style-modules</span> repository on GitHub that is not forked from Juris-M. You will need to rename it to continue.');
+                        }
+                    });
+                }
+            });
+        });
+
+    }
+
+    var init = function() {
         //Initialize URI.js
         uri = new URI();
+
+        //Crank up the field map menus
+        menuWorker.postMessage({type:"GET MENU ITEMS"});
 
         //Initialize page cache
         $('.source-input').each(function(){
@@ -437,6 +662,9 @@ var CSLValidator = (function() {
 
         //save on button click
         $("#save").click(saveFile);
+
+        //submit on button click
+        $("#submit").click(submitFile);
 
         //load when pressing Enter in URL text field with content
         //reset when pressing Enter in URL text field with no content
@@ -619,6 +847,10 @@ var CSLValidator = (function() {
         jurisdictionWorker.postMessage({type:'REQUEST UI'});
         setTypeaheadListener();
 
+        $('#source').on('click', function(event){
+            submitButton.disable();
+        });
+
     };
 
     function setTypeaheadListener() {
@@ -794,7 +1026,18 @@ var CSLValidator = (function() {
             // Get the user's GitHub repo copy, or ...
             // Get the master GitHub repo copy, or ...
             // Get the template!
-            jurisdictionWorker.postMessage({type:'REQUEST MODULE TEMPLATE',key:key,name:name});
+
+            // First things first. Login to GitHub if necessary.
+            if (!access_token) {
+                function receiveMessage(event) {
+                    access_token = event.data.token;
+                    retrieveFromGitHubOrSetFromTemplate(key, name);
+                }
+                window.addEventListener('message', receiveMessage, false);
+                window.open('https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=12345');
+            } else {
+                retrieveFromGitHubOrSetFromTemplate(key, name);
+            }
             break;
         }
     }
@@ -923,6 +1166,13 @@ var CSLValidator = (function() {
         a.dispatchEvent(ev);
     }
 
+    function submitFile() {
+        // Call for authentication if necessary
+        // (fires only once in a session, otherwise we use the existing token)
+        submitButton.start();
+        saveToGitHub();
+    }
+
     function parseResponse(data, reValidate) {
         //console.log(JSON.stringify(data));
 
@@ -973,7 +1223,7 @@ var CSLValidator = (function() {
             $("#tabs").tabs("disable", "#sampler");
             $('#validate').popover({
                 html: true,
-                title: 'Validation failed <a class="close" href="#");">&times;</a>',
+                title: 'Validation failed <a class="close" href="#">&times;</a>',
                 content: '<p>' + nonDocumentError + '</p>',
                 trigger: 'manual',
                 placement: 'bottom'
@@ -989,7 +1239,7 @@ var CSLValidator = (function() {
             $("#tabs").tabs("disable", "#sampler");
             $('#validate').popover({
                 html: true,
-                title: 'Success <a class="close" href="#");">&times;</a>',
+                title: 'Success <a class="close" href="#">&times;</a>',
                 content: '<p>Good job! No errors found.</p><p>Interested in contributing your style or locale file? See our <a href="https://github.com/citation-style-language/styles/blob/master/CONTRIBUTING.md">instructions</a>.</p>',
                 trigger: 'manual',
                 placement: 'bottom'
@@ -1008,7 +1258,7 @@ var CSLValidator = (function() {
             }
             $('#validate').popover({
                 html: true,
-                title: popoverTitle + ' <a class="close" href="#");">&times;</a>',
+                title: popoverTitle + ' <a class="close" href="#">&times;</a>',
                 content: '<p>If you have trouble understanding the error messages below, start by reading the <a href="http://citationstyles.org/downloads/specification.html">CSL specification</a> and the <a href="http://citationstylist.org/docs/citeproc-js-csl.html">Juris-M Specification Supplement</a>.</p>',
                 trigger: 'manual',
                 placement: 'bottom'
@@ -1069,6 +1319,7 @@ var CSLValidator = (function() {
         // will not be necessary. Even this can go.
         loadValidateButton('stop');
         validateButton.enable();
+        submitButton.enable();
         saveButton.enable();
     }
 
