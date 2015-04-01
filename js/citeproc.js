@@ -1,3 +1,73 @@
+/*
+ * Copyright (c) 2009-2014 Frank G. Bennett
+ * 
+ * Unless otherwise indicated, the files in this repository are subject
+ * to the Common Public Attribution License Version 1.0 (the “License”);
+ * you may not use this file except in compliance with the License. You
+ * may obtain a copy of the License at:
+ * 
+ * http://bitbucket.org/fbennett/citeproc-js/src/tip/LICENSE.
+ * 
+ * (See also the note on attribution information below)
+ * 
+ * The License is based on the Mozilla Public License Version 1.1 but
+ * Sections 1.13, 14 and 15 have been added to cover use of software over a
+ * computer network and provide for limited attribution for the
+ * Original Developer. In addition, Exhibit A has been modified to be
+ * consistent with Exhibit B.
+ * 
+ * Software distributed under the License is distributed on an “AS IS”
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+ * the License for the specific language governing rights and limitations
+ * under the License.
+ * 
+ * The Original Code is the citation formatting software known as
+ * "citeproc-js" (an implementation of the Citation Style Language
+ * [CSL]), including the original test fixtures and software located
+ * under the ./tests subdirectory of the distribution archive.
+ * 
+ * The Original Developer is not the Initial Developer and is
+ * __________. If left blank, the Original Developer is the Initial
+ * Developer.
+ * 
+ * The Initial Developer of the Original Code is Frank Bennett. All
+ * portions of the code written by Frank Bennett are Copyright (c)
+ * 2009-2014 Frank Bennett.
+ * 
+ * ***
+ * 
+ * Alternatively, the files in this repository may be used under the
+ * terms of the GNU Affero General Public License (the [AGPLv3] License),
+ * in which case the provisions of [AGPLv3] License are applicable
+ * instead of those above. If you wish to allow use of your version of
+ * this file only under the terms of the [AGPLv3] License and not to
+ * allow others to use your version of this file under the CPAL, indicate
+ * your decision by deleting the provisions above and replace them with
+ * the notice and other provisions required by the [AGPLv3] License. If
+ * you do not delete the provisions above, a recipient may use your
+ * version of this file under either the CPAL or the [AGPLv3] License.
+ * 
+ * ***
+ * 
+ * Attribution Information (CPAL)
+ * 
+ * Attribution Copyright Notice: [no separate attribution copyright notice is required]
+ * 
+ * Attribution Phrase: "Citations by CSL (citeproc-js)"
+ * 
+ * Attribution URL: http://citationstyles.org/
+ * 
+ * Graphic Image: [there is no requirement to display a Graphic Image]
+ * 
+ * Display of Attribution Information is REQUIRED in Larger Works which
+ * are defined in the CPAL as a work which combines Covered Code or
+ * portions thereof with code not governed by the terms of the CPAL.
+ * 
+ * Display of Attribution Information is also REQUIRED on Associated
+ * Websites.
+ * 
+ * [ citeproc-js license :: version 1.1 :: 2012.06.30 ]
+ */
 if (!Array.indexOf) {
     Array.prototype.indexOf = function (obj) {
         var i, len;
@@ -10,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.5",
+    PROCESSOR_VERSION: "1.1.6",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -811,9 +881,9 @@ CSL.expandMacro = function (macro_key_token, target) {
     }
     if (macro_key_token.juris) {
         end_of_macro.juris = mkey;
-    }
-    if (macro_key_token.alt_macro) {
-        end_of_macro.alt_macro = macro_key_token.alt_macro;
+        if (macro_key_token.alt_macro) {
+            end_of_macro.alt_macro = macro_key_token.alt_macro;
+        }
     }
     CSL.Node.group.build.call(end_of_macro, this, target);
     this.build.macro_stack.pop();
@@ -5652,7 +5722,6 @@ CSL.Node.group = {
                 for (var x=0,xlen=target.length;x<xlen;x++) {
                     var token = target[x];
                 }
-                target.push(this);
                 var choose_start = new CSL.Token("choose", CSL.START);
                 CSL.Node.choose.build.call(choose_start, state, target);
                 var if_start = new CSL.Token("if", CSL.START);
@@ -5684,7 +5753,8 @@ CSL.Node.group = {
                                 for (var i=0,ilen=myNodes.length;i<ilen;i++) {
                                     var myName = state.sys.xml.getAttributeValue(myNodes[i], "name");
                                     if (!CSL.MODULE_MACROS[myName]) {
-                                        throw "CSL ERROR: illegal macro name \"" + myName + "\" in module context";
+                                        CSL.debug("CSL: skipping non-modular macro name \"" + myName + "\" in module context");
+                                        continue;
                                     };
                                     myCount++;
                                     state.juris[jurisdiction][myName] = [];
@@ -5722,7 +5792,6 @@ CSL.Node.group = {
                 CSL.Node.if.build.call(if_end, state, target);
                 var else_start = new CSL.Token("else", CSL.START);
                 CSL.Node.else.build.call(else_start, state, target);
-                //target.push(this);
             }
         }
         if (this.tokentype === CSL.END) {
@@ -5769,25 +5838,10 @@ CSL.Node.group = {
             };
             this.execs.push(func);
             if (this.juris) {
-                //var group_end = new CSL.Token("group", CSL.END);
-                //dump("XXX WOWOWOW "+this.decorations+"\n");
-                //if (this.decorations) {
-                //    group_end.decorations = this.decorations.slice();
-                //}
-                //CSL.Node.group.build.call(group_end, state, target);
                 var else_end = new CSL.Token("else", CSL.END);
                 CSL.Node.else.build.call(else_end, state, target);
                 var choose_end = new CSL.Token("choose", CSL.END);
                 CSL.Node.choose.build.call(choose_end, state, target);
-
-
-                var group_end = new CSL.Token("group", CSL.END);
-                //dump("XXX WOWOWOW "+this.decorations+"\n");
-                if (this.decorations) {
-                    group_end.decorations = this.decorations.slice();
-                }
-                CSL.Node.group.build.call(group_end, state, target);
-
             }
         }
         if (!this.juris) {
@@ -7854,8 +7908,7 @@ CSL.NameOutput.prototype._droppingParticle = function (name, pos, j) {
         }
         name["comma-dropping-particle"] = "";
     } else if (this.state.output.append(str, this.given_decor, true)) {
-        var ret = this.state.output.pop();
-        return ret;
+        return this.state.output.pop();
     }
     return false;
 };
@@ -8467,8 +8520,8 @@ CSL.Node.name = {
                     this.and.multiple.strings.prefix = this.and_prefix_multiple;
                     this.and.multiple.strings.suffix = this.and_suffix;
                 } else if (this.strings.delimiter) {
-                    this.and.single = new CSL.Blob(this.strings.delimiter); 
-                   this.and.single.strings.prefix = "";
+                    this.and.single = new CSL.Blob(this.strings.delimiter);
+                    this.and.single.strings.prefix = "";
                     this.and.single.strings.suffix = "";
                     this.and.multiple = new CSL.Blob(this.strings.delimiter);
                     this.and.multiple.strings.prefix = "";
@@ -11427,13 +11480,13 @@ CSL.Util.Names.initializeWith = function (state, name, terminator, normalizeOnly
     if (!name) {
         return "";
     }
+    if (!terminator) {
+        terminator = "";
+    }
     if (["Lord", "Lady"].indexOf(name) > -1
         || (!name.match(CSL.STARTSWITH_ROMANESQUE_REGEXP)
             && !terminator.match("%s"))) {
         return name;
-    }
-    if (!terminator) {
-        terminator = "";
     }
     var namelist = name;
     if (state.opt["initialize-with-hyphen"] === false) {
@@ -12876,7 +12929,7 @@ CSL.Output.Formatters.title = function (state, string) {
     }
     var doppel = CSL.Output.Formatters.doppelString(string, CSL.TAG_ESCAPE);
     function capitalise (word) {
-        var m = word.match(/([:?!]+\s+|-|^)(.)(.*)/);
+        var m = word.match(/([:?!]+\s+|-|^)([a-zA-Z])(.*)/);
         if (m) {
             return m[1] + m[2].toUpperCase() + m[3];
         }
