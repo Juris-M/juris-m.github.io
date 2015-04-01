@@ -142,8 +142,8 @@ function generateSample() {
     citationFactory.addCitation('ITEM-2', 'paragraph', '22');
     citationFactory.addCitation('ITEM-3', 'section', '33');
     citationFactory.addCitation('ITEM-4', 'chapter', '44');
-    citationFactory.addCitation('ITEM-2', 'section', '33');
-    citationFactory.addCitation('ITEM-2', 'section', '33');
+    citationFactory.addCitation('ITEM-4', 'page', '55');
+    citationFactory.addCitation('ITEM-4', 'page', '55');
     citationFactory.addCitation('ITEM-1', 'chapter', '44');
     citationFactory.addCitation('ITEM-3', 'paragraph', '55');
     citationFactory.addCitation('ITEM-4', 'section', '66');
