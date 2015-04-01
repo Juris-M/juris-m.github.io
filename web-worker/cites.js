@@ -140,6 +140,8 @@ function generateSample() {
     var citationFactory = new CitationFactory();
     citationFactory.addCitation('ITEM-1', 'page', '11');
     citationFactory.addCitation('ITEM-2', 'paragraph', '22');
+    citationFactory.addCitation('ITEM-3', 'section', '33');
+    citationFactory.addCitation('ITEM-4', 'chapter', '44');
     citationFactory.addCitation('ITEM-2', 'section', '33');
     citationFactory.addCitation('ITEM-2', 'section', '33');
     citationFactory.addCitation('ITEM-1', 'chapter', '44');
