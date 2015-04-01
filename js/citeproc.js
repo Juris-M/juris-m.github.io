@@ -803,6 +803,8 @@ CSL.tokenExec = function (token, Item, item) {
 CSL.expandMacro = function (macro_key_token, target) {
     var mkey, start_token, key, end_token, navi, macro_nodes, newoutput, mergeoutput, end_of_macro, func;
     mkey = macro_key_token.postponed_macro;
+    var alt_macro = macro_key_token.alt_macro;
+    macro_key_token = new CSL.Token("group", CSL.START);
     var hasDate = false;
     var macroid = false;
     macro_nodes = this.sys.xml.getNodesByName(this.cslXml, 'macro', mkey);
@@ -824,8 +826,6 @@ CSL.expandMacro = function (macro_key_token, target) {
     } else {
         this.build.macro_stack.push(mkey);
     }
-    macro_key_token.name = "group";
-    macro_key_token.tokentype = CSL.START;
     macro_key_token.cslid = macroid;
     if (CSL.MODULE_MACROS[mkey]) {
         macro_key_token.juris = mkey;
@@ -841,7 +841,6 @@ CSL.expandMacro = function (macro_key_token, target) {
         CSL.configureMacro.call(this, mytarget);
     }
     if (!this.build.extension) {
-        var text_node = new CSL.Token("text", CSL.SINGLETON);
         var func = function(macro_name, alt_macro) {
             return function (state, Item, item) {
                 var next = 0;
@@ -863,12 +862,12 @@ CSL.expandMacro = function (macro_key_token, target) {
                     }
                 }
             }
-        }(mkey, macro_key_token.alt_macro);
+        }(mkey, alt_macro);
+        var text_node = new CSL.Token("text", CSL.SINGLETON);
         text_node.execs.push(func);
         target.push(text_node);
     }
-    end_of_macro = CSL.Util.cloneToken(macro_key_token);
-    end_of_macro.tokentype = CSL.END;
+    end_of_macro = new CSL.Token("group", CSL.END);
     if (hasDate) {
         func = function (state, Item) {
             if (state.tmp.extension) {
@@ -879,8 +878,8 @@ CSL.expandMacro = function (macro_key_token, target) {
     }
     if (macro_key_token.juris) {
         end_of_macro.juris = mkey;
-        if (macro_key_token.alt_macro) {
-            end_of_macro.alt_macro = macro_key_token.alt_macro;
+        if (alt_macro) {
+            end_of_macro.alt_macro = alt_macro;
         }
     }
     CSL.Node.group.build.call(end_of_macro, this, target);
@@ -5682,6 +5681,9 @@ CSL.Node.group = {
             if (state.build.substitute_level.value()) {
                 state.build.substitute_level.replace((state.build.substitute_level.value() + 1));
             }
+            if (!this.juris) {
+                target.push(this);
+            }
             func = function (state, Item) {
                 state.output.startTag("group", this);
                 if (state.tmp.group_context.mystack.length) {
@@ -5843,6 +5845,9 @@ CSL.Node.group = {
             }
         }
         if (this.tokentype === CSL.END) {
+            if (!this.juris) {
+                target.push(this);
+            }
             if (state.build.substitute_level.value()) {
                 state.build.substitute_level.replace((state.build.substitute_level.value() - 1));
             }
@@ -8907,7 +8912,15 @@ CSL.Node.text = {
     build: function (state, target) {
         var variable, func, form, plural, id, num, number, formatter, firstoutput, specialdelimiter, label, myname, names, name, year, suffix, term, dp, len, pos, n, m, value, flag;
         if (this.postponed_macro) {
-            return CSL.expandMacro.call(state, this, target);
+            var group_start = CSL.Util.cloneToken(this);
+            group_start.name = "group";
+            group_start.tokentype = CSL.START;
+            CSL.Node.group.build.call(group_start, state, target);
+            CSL.expandMacro.call(state, this, target);
+            var group_end = CSL.Util.cloneToken(this);
+            group_end.name = "group";
+            group_end.tokentype = CSL.END;
+            CSL.Node.group.build.call(group_end, state, target);
         } else {
             CSL.Util.substituteStart.call(this, state, target);
             if (!this.variables_real) {
