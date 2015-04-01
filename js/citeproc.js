@@ -867,10 +867,8 @@ CSL.expandMacro = function (macro_key_token, target) {
         text_node.execs.push(func);
         target.push(text_node);
     }
-    end_of_macro = new CSL.Token("group", CSL.END);
-	if (macro_key_token.decorations) {
-		end_of_macro.decorations = macro_key_token.decorations.slice();
-    }
+    end_of_macro = CSL.Util.cloneToken(macro_key_token);
+    end_of_macro.tokentype = CSL.END;
     if (hasDate) {
         func = function (state, Item) {
             if (state.tmp.extension) {
@@ -5844,9 +5842,6 @@ CSL.Node.group = {
                 CSL.Node.choose.build.call(choose_end, state, target);
             }
         }
-        //if (!this.juris) {
-        //    target.push(this);
-        //}
         if (this.tokentype === CSL.END) {
             if (state.build.substitute_level.value()) {
                 state.build.substitute_level.replace((state.build.substitute_level.value() - 1));
