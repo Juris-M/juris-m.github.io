@@ -98,15 +98,7 @@
   </macro>
 
   <macro name="juris-space-locator">
-    <choose>
-      <if position="first" locator="page" match="all">
-        <text macro="juris-locator"/>
-      </if>
-      <else>
-        <text value="at"/>
-        <text macro="juris-locator"/>
-      </else>
-    </choose>
+    <text macro="juris-locator"/>
   </macro>
 
   <macro name="juris-comma-locator">
@@ -144,11 +136,8 @@
     <text value=""/>
   </macro>
 
-  <macro name="at-locator">
-    <group delimiter=" ">
-      <text value="at"/>
-      <text macro="juris-locator"/>
-    </group>
+  <macro name="at-locator-label">
+    <text value="at"/>
   </macro>
 
   <macro name="full">
@@ -171,7 +160,8 @@
         <if position="ibid-with-locator">
           <group delimiter=" ">
             <text term="ibid"/>
-            <text macro="juris-space-locator" alternative-macro="at-locator"/>
+            <text macro="juris-locator-label" alternative-macro="at-locator-label"/>
+            <text macro="juris-locator"/>
           </group>
         </if>
         <else-if position="ibid">
