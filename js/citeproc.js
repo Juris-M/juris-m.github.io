@@ -6216,6 +6216,12 @@ CSL.Node.label = {
                     state.parallel.AppendToVariable(item.label);
                     item.section_form_override = this.strings.form;
                 }
+                if (termtxt) {
+                    flag = state.tmp.group_context.value();
+                    //print("setting TERM to true [0]");
+                    flag[0] = true;
+                    state.tmp.group_context.replace(flag);
+                }
                 state.output.append(termtxt, this);
                 if (item && this.strings.term === "locator") {
                     state.parallel.CloseVariable();
