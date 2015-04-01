@@ -849,6 +849,7 @@ CSL.expandMacro = function (macro_key_token, target) {
                 }
                 var flag = state.tmp.group_context.value();
                 if (((flag[1] && !flag[2]) || (!flag[0] && !flag[1])) && alt_macro) {
+                    dump("OH DARN: "+flag+"\n")
                     flag[1] = false;
                     var mytarget = CSL.getMacroTarget.call(state, alt_macro);
                     if (mytarget) {
