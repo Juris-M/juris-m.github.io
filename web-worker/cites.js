@@ -47,7 +47,9 @@ function makeItems() {
     var baseTitle = '';
     if (item.title) {
         baseTitle = item.title;
+        baseShortTitle = item["title-short"];
         item.title = (baseTitle + '-A');
+        item["title-short"] = (baseShortTitle + '-A');
     }
     processorElements.items['ITEM-1'] = cloneObject(item);
     
@@ -55,6 +57,7 @@ function makeItems() {
     item.id = 'ITEM-2';
     if (item.title) {
         item.title = (baseTitle + '-B');
+        item["title-short"] = (baseShortTitle + '-B');
     }
     processorElements.items['ITEM-2'] = item;
     
@@ -67,6 +70,7 @@ function makeItems() {
     }
     if (item.title) {
         item.title = (baseTitle + '-C');
+        item["title-short"] = (baseShortTitle + '-C');
     }
     processorElements.items['ITEM-3'] = item;
     
@@ -79,6 +83,7 @@ function makeItems() {
     }
     if (item.title) {
         item.title = (baseTitle + '-D');
+        item["title-short"] = (baseShortTitle + '-D');
     }
     processorElements.items['ITEM-4'] = item;
 }
@@ -135,8 +140,10 @@ function generateSample() {
     var citationFactory = new CitationFactory();
     citationFactory.addCitation('ITEM-1', 'page', '11');
     citationFactory.addCitation('ITEM-2', 'paragraph', '22');
-    citationFactory.addCitation('ITEM-2', 'section', '33');
-    citationFactory.addCitation('ITEM-2', 'section', '33');
+    citationFactory.addCitation('ITEM-3', 'section', '33');
+    citationFactory.addCitation('ITEM-4', 'chapter', '44');
+    citationFactory.addCitation('ITEM-4', 'page', '55');
+    citationFactory.addCitation('ITEM-4', 'page', '55');
     citationFactory.addCitation('ITEM-1', 'chapter', '44');
     citationFactory.addCitation('ITEM-3', 'paragraph', '55');
     citationFactory.addCitation('ITEM-4', 'section', '66');
@@ -225,9 +232,13 @@ function getBubbles(event, itemTypeLabel) {
         }
         var count = 1;
         for (var cslVarname in fieldBundle.numericFields) {
-            fieldLabel = fieldBundle.numericFields[cslVarname];
-            sampleData[cslVarname] = "" + count + count + count;
-            count += 1;
+            //fieldLabel = fieldBundle.numericFields[cslVarname];
+            if (cslVarname === 'collection-number') {
+                sampleData[cslVarname] = "2000";
+            } else {
+                sampleData[cslVarname] = "" + count + count + count;
+                count += 1;
+            }
         }
         for (var cslVarname in fieldBundle.textFields) {
             fieldLabel = fieldBundle.textFields[cslVarname];
