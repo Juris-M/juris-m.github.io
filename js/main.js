@@ -209,16 +209,8 @@ var CSLValidator = (function() {
             loadButton.enable();
             break;
         case 'REQUEST MODULE TEMPLATE OK':
-            var schemaURL = getSchemaURL();
-            var sourceMethod = getSourceMethod();
-            var documentFile = new Blob([event.data.src], {type: 'text/xml'});
-            var keys = '';
-            sourceMethodFunc = function (schemaURL, documentFile, sourceMethod) {
-                return function () {
-                    validateViaPOST(schemaURL, documentFile, sourceMethod);
-                }
-            }(schemaURL, documentFile, sourceMethod);
-            validate(true);
+            var content = event.data.src;
+            validateContent(content);
             break;
         }
     }
@@ -347,17 +339,45 @@ var CSLValidator = (function() {
         });
     }
 
-    function ghMsg(type, desc, err, disable) {
+    function validateContent(content) {
+        var schemaURL = getSchemaURL();
+        var sourceMethod = getSourceMethod();
+        var documentFile = new Blob([content], {type: 'text/xml'});
+        var keys = '';
+        sourceMethodFunc = function (schemaURL, documentFile, sourceMethod) {
+            return function () {
+                validateViaPOST(schemaURL, documentFile, sourceMethod);
+            }
+        }(schemaURL, documentFile, sourceMethod);
+        validate(true);
+    }
+
+    /*
+     * General functions
+     */
+
+    var debugFlag = false;
+
+    function debugMsg(msg) {
+        if (debugFlag) {
+            dump("XXX " + msg + "\n")
+        }
+    }
+
+    function ghMsg(errorSpec, err) {
+        if (!errorSpec) {
+            return;
+        }
         if (err && err.message) {
             err = err.message;
         } else if ('string' !== typeof err) {
             err = false;
         }
-        err = err ? '<h3>GitHub says</h3><p>' + err + '</p>' : '';
+        err = err ? '<div style="font-size:larger;font-weight:bold;">GitHub says</div><p>' + JSON.stringify(err) + '</p>' : '';
         $('#submit').popover({
             html: true,
-            title: type + ' <a class="close" href="#");">&times;</a>',
-            content: '<p>' + desc + '</p>' + err,
+            title: errorSpec.type + ' <a class="close" href="#");">&times;</a>',
+            content: '<p>' + errorSpec.desc + '</p>' + err,
             trigger: 'manual',
             placement: 'bottom'
         });
@@ -368,12 +388,14 @@ var CSLValidator = (function() {
         });
         $('#submit').popover('show');
         submitButton.stop();
-        if (disable) {
+        if (errorSpec.disable) {
             submitButton.disable();
+            return false;
         }
+        return true;
     }
     
-    function githubApiCall(method, path, options, callback) {
+    function ghApi(method, path, options, errorSpec, callback) {
         var xhr = new XMLHttpRequest();
         if (method === 'GET') {
             var query = options ? '?' + $.param(options) : '';
@@ -386,189 +408,325 @@ var CSLValidator = (function() {
         //dump('XXX CALL WITH THIS: https://api.github.com' + path+query+"\n");
         //dump("XXX USE THIS AS THE HEADER: Authorization: token "+access_token+"\n")
         //dump("XXX USE THIS FOR DATA: "+options+"\n");
+        
+        // dump("XXX >> "+method+" "+'https://api.github.com' + path + query+"\n");
+        // dump("XXX >>     data="+options+"\n");
+
         xhr.open(method, 'https://api.github.com' + path + query, true);
         xhr.responseType = 'json';
         xhr.setRequestHeader("Authorization", "token " + access_token);
-        xhr.setRequestHeader("Content-type","application/json");
+        xhr.setRequestHeader('Accept','application/vnd.github.v3+json');
+        xhr.setRequestHeader('Content-Type','application/json;charset=UTF-8');
         xhr.onload = function(e) {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    var obj = xhr.response;
-                    callback(null, obj);
+            if (this.readyState === 4) {
+                if (this.status >= 200 && this.status < 300 || this.status === 304) {
+                    var obj = this.response;
+                    callback(obj);
                 } else {
-                    callback(xhr.statusText);
+                    if (errorSpec) {
+                        ghMsg(errorSpec, this.statusText);
+                    } else {
+                        callback(null);
+                    }
                 }
             }
         }
         xhr.onerror = function (e) {
-            callback(e);
+            ghMsg(errorSpec, e);
         };
         xhr.send(options);
     }
 
-    function retrieveFromGitHubOrSetFromTemplate(key, name) {
-        githubApiCall('GET', '/user', null, function(err, user){
-            if (err) {
-                ghMsg('Error', 'Unable to get GitHub user', err);
-            } else {
-                var username = user.login;
-                githubApiCall('GET', '/repos/juris-m/style-modules/contents/juris-' + key + '.csl', {ref:'master'}, function(err, contents){
-                    if (err || !contents) {
-                        // Assume this is triggered because the file does not yet exist
-                        jurisdictionWorker.postMessage({type:'REQUEST MODULE TEMPLATE',key:key,name:name});
-                    } else {
-                        var content = atob(contents.content);
-                        var schemaURL = getSchemaURL();
-                        var sourceMethod = getSourceMethod();
-                        var documentFile = new Blob([content], {type: 'text/xml'});
-                        var keys = '';
-                        sourceMethodFunc = function (schemaURL, documentFile, sourceMethod) {
-                            return function () {
-                                validateViaPOST(schemaURL, documentFile, sourceMethod);
-                            }
-                        }(schemaURL, documentFile, sourceMethod);
-                        validate(true);
-                    }
-                })
-            }
-        });
-    }
-    function githubPullRequest(username, moduleName, moduleContents) {
-        // Be sure this pull request will actually change something
-        githubApiCall('GET', '/repos/juris-m/style-modules/contents/juris-' + moduleName + '.csl', {ref:'master'}, function(err, contents){
-            if (err) {
-                // Assume this is triggered because the file does not yet exist
-                // For the present.
-            }
-            var content = null;
-            if (contents) {
-                content = atob(contents.content).trim();
-            }
-            if (content === moduleContents) {
-                ghMsg('No Action', 'This submission would not change the existing module code.');
-            } else {
-                // Look for existing pull request
-                var oldPull = {
-                    state: "open",
-                    head: username + ":" + moduleName,
-                    base: "master"
+    function ghWaitForFileContents(owner, branch, fileName, callback) {
+        var counter = 0;
+        var _ghWaitForFileContents = function(owner, branch, fileName, callback, info) {
+            return function () {
+                var options = {
+                    ref: branch
                 }
-                githubApiCall('GET', '/repos/juris-m/style-modules/pulls', oldPull, function(err, pulls){
-                    if (err) {
-                        ghMsg('Error', 'Unable to get a list of submissions for some reason', err);
+                ghApi('GET', '/repos/' + owner + '/style-modules/contents/' + fileName, options, null, function(contents){
+                    if (contents) {
+                        callback();
                     } else {
-                        if (pulls.length == 0) {
-                            // Create a pull request
-                            var pull = {
-                                title: "Update to style module: juris-" + moduleName + '.csl',
-                                body: 'Pull request automatically generated by Juris-M',
-                                base: "master",
-                                head: username + ":" + moduleName
-                            };
-                            dump("XXX WTF? "+JSON.stringify(pull)+'\n')
-                            githubApiCall('POST', '/repos/juris-m/style-modules/pulls', pull, function(err, pullRequest) {
-                                if (err && !err === 'Created') {
-                                    ghMsg('Error', 'Unable to create a submission request for some reason.', err);
-                                } else {
-                                    ghMsg('Success', 'Thank you for your submission!', null, true);
-                                }
-                            });
-                        } else {
-                            // Update pull request
-                            var pull = {
-                                title: pulls[0].title,
-                                body: pulls[0].body,
-                                state: "open"
-                            }
-                            githubApiCall('PATCH', '/repos/juris-m/style-modules/pulls/' + pulls[0].number, pull, function(err){
-                                submitButton.stop();
-                                if (err) {
-                                    ghMsg('Error', 'Unable to update the existing submission request for some reason.', err);
-                                } else {
-                                    ghMsg('Success', 'Your submission has been updated. Thank you for your contributions!', null, true);
-                                }
-                            });
+                        if (counter < 10) {
+                            setTimeout(_ghWaitForFileContents, 500);
+                            counter += 1;
                         }
                     }
                 });
             }
+        }(owner, branch, fileName, callback);
+        _ghWaitForFileContents();
+        
+    }
+
+    /* 
+     * Intermediate functions
+     */
+
+    function ghGetModuleMaster(key, name, callback) {
+        debugMsg("ghGetModuleMaster()");
+        ghApi('GET', '/repos/juris-m/style-modules/contents/juris-' + key + '.csl', {ref:'master'}, null, callback);
+    }
+
+    function ghGetUser(info) {
+        debugMsg("ghGetUser()");
+        var errorSpec = {
+            type: 'Error',
+            desc: 'Unable to get your user account details for some reason.',
+            disable: true
+        }
+        ghApi('GET', '/user', null, errorSpec, function(user){
+            // Create or open a fork of style-modules
+            info.username = user.login;
+            ghOpenFork(info);
+        });
+    }
+
+    function ghOpenFork(info) {
+        debugMsg("ghOpenFork()");
+        var errorSpec = {
+            type: 'Error',
+            desc: 'There seems to be a problem with making a copy of the style modules repository. It is worth trying again, as this may be a transient failure.',
+            disable: true
+        }
+        ghApi('POST', '/repos/juris-m/style-modules/forks', {}, errorSpec, function(fork) {
+            ghWaitForFileContents(info.username, 'master', 'README.md', function() {
+                if (fork.parent && fork.parent.full_name === 'Juris-M/style-modules') {
+                    ghGetUpstreamMasterSha(info);
+                } else {
+                    var msgSpec = {
+                        type: 'Error',
+                        desc: 'You have a <span style="font-family:mono;">style-modules</span> repository on GitHub that is not forked from Juris-M. You will need to rename it to continue.',
+                        disable: true
+                    }
+                }
+            });
         });
     }
         
-    function githubWriteAndPullRequest(jRepo, username, repo, moduleName, moduleContents) {
-        repo.write(moduleName, 'juris-' + moduleName + '.csl', moduleContents, 'Module submission: juris-' + moduleName + '.csl', function(err) {
-            if (err) {
-                ghMsg('Error', 'Unable to save your personal copy of the file on GitHub for some reason.', err);
+    function ghGetUpstreamMasterSha(info) {
+        debugMsg("ghGetUpstreamMasterSha()");
+        var errorSpec = {
+            type: 'Error',
+            desc: 'Unable to get the latest changes to the master copy for some reason.',
+            disable: true
+        }
+        ghApi('GET', '/repos/juris-m/style-modules/git/refs/heads/master', null, errorSpec, function(ref) {
+            // Update the fork master from upstream
+            info.master_repo_sha = ref.object.sha
+            ghCheckForkBranch(info);
+        });
+    }
+
+    function ghCheckForkBranch(info) {
+        debugMsg("ghCheckForkBranch()");
+        ghApi('GET', '/repos/' + info.username + '/style-modules/git/refs/heads/' + info.moduleName, null, null, function(ref){
+            if (ref && ref.object) {
+                ghGetMasterFileContent(info);
             } else {
-                githubPullRequest(username, moduleName, moduleContents);
+                ghCastBranchFromMaster(info);
+            }
+        });
+    }
+
+    function ghCastBranchFromMaster(info) {
+        debugMsg("ghCastBranchFromMaster()");
+        var errorSpec = {
+            type: 'Error',
+            desc: 'Unable to create a working copy of the Juris-M repository for some reason.',
+            disable: true
+        }
+        var options = {
+            ref: 'refs/heads/' + info.moduleName,
+            sha: info.master_repo_sha
+        }
+        ghApi('POST', '/repos/' + info.username + '/style-modules/git/refs', options, errorSpec, function(){
+            ghGetMasterFileContent(info);
+        });
+    }
+
+    function ghGetMasterFileContent(info) {
+        debugMsg("ghGetMasterFileContent()");
+        var options = {
+            ref: 'master'
+        }
+        ghApi('GET', '/repos/juris-m/style-modules/contents/juris-' + info.moduleName + '.csl', options, null, function(contents){
+            if (!contents) {
+                ghCheckForkBranchFile(info);
+            } else {
+                var content = contents.content;
+                if (info.moduleContent === content.replace('\n', '', 'g')) {
+                    var msgSpec = {
+                        type: 'No Action',
+                        desc: 'This submission would not change the existing module code.',
+                        disable: true
+                    }
+                    ghMsg(msgSpec);
+                } else {
+                    ghCheckForkBranchFile(info);
+                }
+            }
+        });
+    }
+
+    function ghCheckForkBranchFile(info) {
+        debugMsg("ghCheckForkBranchFile()");
+        var options = {
+            ref: info.moduleName
+        }
+        ghApi('GET', '/repos/' + info.username + '/style-modules/contents/juris-' + info.moduleName + '.csl', options, null, function(contents){
+            if (!contents) {
+                ghCreateFile(info);
+            } else {
+                info.old_file_sha = contents.sha;
+                var oldContent = contents.content;
+                if (oldContent.replace('\n', '', 'g') !== info.moduleContent) {
+                    ghUpdateFile(info);
+                } else {
+                    var msgSpec = {
+                        type: 'No Action',
+                        desc: 'No changes made to the existing file.',
+                        disable: true
+                    }
+                    ghMsg(msgSpec);
+                }
+            }
+        });
+    }
+
+    function ghCreateFile(info) {
+        debugMsg("ghCreateFile()");
+        var errorSpec = {
+            type: 'Error',
+            desc: 'Unable to create the style module file in your GitHub account for some reason.',
+            disable: true
+        }
+        var options = {
+            message: 'Juris-M file submission: juris-' + info.moduleName + '.csl',
+            content: info.moduleContent,
+            branch: info.moduleName
+        }
+        ghApi('PUT', '/repos/' + info.username + '/style-modules/contents/juris-' + info.moduleName + '.csl', options, errorSpec, function(data){
+            ghWaitForFileContents(info.username, info.moduleName, 'juris-' + info.moduleName + '.csl', function(){
+                ghCreatePullRequest(info);
+                //ghUpdateForkBranchSha(info);
+           });
+        });
+    }
+
+    function ghUpdateFile(info) {
+        debugMsg("ghUpdateFile()");
+        var errorSpec = {
+            type: 'Error',
+            desc: 'Unable to update the style module file in your GitHub account for some reason.',
+            disable: true
+        }
+        var options = {
+            path: 'juris-' + info.moduleName + '.csl',
+            message: 'Juris-M update: juris-' + info.moduleName + '.csl',
+            content: info.moduleContent,
+            sha: info.old_file_sha,
+            branch: info.moduleName
+        }
+        ghApi('PUT', '/repos/' + info.username + '/style-modules/contents/juris-' + info.moduleName + '.csl', options, errorSpec, function(data){
+            ghCheckForPullRequest(info);
+        });
+    }
+
+    function ghCheckForPullRequest(info) {
+        debugMsg("ghCheckForPullRequest()");
+        var options = {
+            state: 'open',
+            head: info.username + ':' + info.moduleName,
+            base: 'master'
+        }
+        ghApi('GET', '/repos/juris-m/style-modules/pulls', options, null, function(pulls){
+            if (pulls && pulls.length) {
+                msgSpec = {
+                    type: 'Success',
+                    desc: 'Your latest changes have been added to the edit request. Thank you for your submissions!',
+                    disable: true
+                }
+                ghMsg(msgSpec);
+            } else {
+                ghWaitForFileContents(info.username, info.moduleName, 'juris-' + info.moduleName + '.csl', function(){
+                    //ghUpdateForkBranchSha(info);
+                    ghCreatePullRequest(info);
+                });
+            }
+        });
+    }
+
+    // Jump over this for now. It seems to be making the update unprocessable as a pull request.
+    function ghUpdateForkBranchSha(info) {
+        debugMsg("ghUpdateForkBranchSha()");
+        var errorSpec = {
+            type: 'Error',
+            desc: 'Unable to update your working copy of the Juris-M repository for some reason.',
+            disable: true
+        }
+        var input = {
+            sha: info.master_repo_sha,
+            force: true
+        }
+        ghApi('PATCH', '/repos/' + info.username + '/style-modules/git/refs/heads/' + info.moduleName, input, errorSpec, function(){
+            ghCreatePullRequest(info);
+        });
+    }
+
+    function ghCreatePullRequest(info) {
+        debugMsg("ghCreatePullRequest()");
+        var errorSpec = {
+            type: 'Error',
+            desc: 'Your edit request did not go through for some reason.'
+        }
+        var pull = {
+            title: "Update to style module: juris-" + info.moduleName + '.csl',
+            body: 'Pull request automatically generated by Juris-M',
+            base: "master",
+            head: info.username + ":" + info.moduleName
+        };
+        ghApi('POST', '/repos/juris-m/style-modules/pulls', pull, errorSpec, function(pullRequest) {
+            msgSpec = {
+                type: 'Success',
+                desc: 'Thank you for your submission!',
+                disable: true
+            }
+            ghMsg(msgSpec);
+        });
+    }
+   
+    /*
+     * Top-level functions
+     */
+
+    function githubGetModuleMaster(key, name) {
+        debugMsg("githubGetModuleMaster() *****");
+        ghGetModuleMaster(key, name, function(contents){
+            if (!contents) {
+                // The file does not yet exist
+                jurisdictionWorker.postMessage({type:'REQUEST MODULE TEMPLATE',key:key,name:name});
+            } else {
+                var content = atob(contents.content);
+                validateContent(content);
             }
         });
     }
     
-    function saveToGitHub() {
-        var moduleContents = getEditorContent();
-        moduleContents = moduleContents ? moduleContents.trim() : "";
-        var github = new Github({
-            token: access_token,
-            auth: "oauth"
-        });
+    function githubSubmitPullRequest() {
+        debugMsg("githubSubmitPullRequest() *****");
+        var moduleContent = getEditorContent();
+        moduleContent = moduleContent ? btoa(moduleContent.trim()) : btoa("");
         var moduleName = $('#search-input').attr('value');
-        // Okay! So now some useful stuff.
-        // Get the Juris-M style modules repo.
-        // ... fork it ... and get the user's copy.
-        // Write the file into the user's repo copy.
-        // Create a pull request to Juris-M.
-        // Done!
-        var user = github.getUser();
-        user.show(null, function(err, user){
-            var username = user.login;
-            var jRepo = github.getRepo('Juris-M', 'style-modules');
-            jRepo.fork(function(err){
-                if (err) {
-                    ghMsg('Error', 'There seems to be a problem with making a copy of the style modules repository. It may be a transient failure.', err);
-                } else {
-                    var repo = github.getRepo(username, 'style-modules');
-                    // Check that the user's repo is a direct fork from Juris-M
-                    repo.show(function(err, repoInfo){
-                        if (err) {
-                            ghMsg('Error', 'There seems to be a problem with getting the details of your freshly minted copy of the style modules repository. It may be a transient failure.', err);
-                        }
-                        if (repoInfo.parent && repoInfo.parent.full_name === 'Juris-M/style-modules') {
-                            // Check for new content, or an actual difference from existing content
-                            githubApiCall('GET', '/repos/' + username + '/style-modules/contents/juris-' + moduleName + '.csl', {ref:moduleName}, function(err, contents){
-                                if (err) {
-                                    // Assume this is triggered because the file does not yet exist
-                                    // For the present.
-                                }
-                                var content = contents ? atob(contents.content) : '';
-                                if (!content || content.trim() !== moduleContents) {
-                                    repo.listBranches(function(err, branches){
-                                        if (branches.indexOf(moduleName) > -1) {
-                                            githubWriteAndPullRequest(jRepo, username, repo, moduleName, moduleContents);
-                                        } else {
-                                            repo.branch('master', moduleName, function(err) {
-                                                if (err) {
-                                                    ghMsg('Error', 'Something went wrong setting up the working area for your file on GitHub.', err);
-                                                } else {
-                                                    githubWriteAndPullRequest(jRepo, username, repo, moduleName, moduleContents);
-                                                }
-                                            });
-                                        }
-                                    });
-                                } else {
-                                    ghMsg('No Action', 'Your copy of the module code has not been changed.');
-                                }
-                            });
-                        } else {
-                            ghMsg('Error', 'You have a <span style="font-family:mono;">style-modules</span> repository on GitHub that is not forked from Juris-M. You will need to rename it to continue.');
-                        }
-                    });
-                }
-            });
-        });
-
+        var info = {
+            moduleContent: moduleContent,
+            moduleName: moduleName
+        }
+        // Get the user and proceed.
+        ghGetUser(info);
     }
-
+    
     var init = function() {
         //Initialize URI.js
         uri = new URI();
@@ -976,6 +1134,7 @@ var CSLValidator = (function() {
 
     function loadSource () {
         isFromLoad = true;
+        loadButton.start();
         // Get schema URL
         var schemaURL = getSchemaURL();
         // Get source method
@@ -1023,20 +1182,18 @@ var CSLValidator = (function() {
             if (!name) {
                 name = $('#search-input').text();
             }
-            // Get the user's GitHub repo copy, or ...
-            // Get the master GitHub repo copy, or ...
-            // Get the template!
 
-            // First things first. Login to GitHub if necessary.
+            // Login to GitHub if necessary.
+            // Then get the master copy of the module or set from template.
             if (!access_token) {
                 function receiveMessage(event) {
                     access_token = event.data.token;
-                    retrieveFromGitHubOrSetFromTemplate(key, name);
+                    githubGetModuleMaster(key, name);
                 }
                 window.addEventListener('message', receiveMessage, false);
                 window.open('https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=12345');
             } else {
-                retrieveFromGitHubOrSetFromTemplate(key, name);
+                githubGetModuleMaster(key, name);
             }
             break;
         }
@@ -1154,7 +1311,7 @@ var CSLValidator = (function() {
         var fileName = "SomeFileName.txt"
         m = xmlStr.match(/.*<id>.*\/(.*)<\/id>/);
         if (m) {
-            fileName = "juris-" + m[1] + ".csl";
+            fileName = m[1] + ".csl";
         }
         xmlStr = btoa(xmlStr);
         var a = document.createElement('a');
@@ -1170,7 +1327,7 @@ var CSLValidator = (function() {
         // Call for authentication if necessary
         // (fires only once in a session, otherwise we use the existing token)
         submitButton.start();
-        saveToGitHub();
+        githubSubmitPullRequest();
     }
 
     function parseResponse(data, reValidate) {
