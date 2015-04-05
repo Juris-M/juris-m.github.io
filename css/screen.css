@@ -1,5 +1,20 @@
 /* ignore this line */
 
+.courier {
+    font-family: Ubuntu Mono;
+    font-size: 120%;
+    font-weight: bold;
+    color: #666666;
+}
+
+.boxy {
+    margin-left: 1em;
+    padding: 0.5em;
+    border: 1px solid #666666;
+    font-family: 'Architects Daughter', cursive;
+    font-size: larger;
+}
+
 .small-faint-heading {
     font-size: smaller;
     font-weight: bold;
