@@ -23,17 +23,22 @@
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         var obj = JSON.parse(xhr.responseText);
-                        dump("XXX SUCCESS! HURRAY! " + obj.token + "\n");
+                        console.log("XXX SUCCESS! HURRAY! " + obj.token + "\n");
                         // So ... this is the access token???
-                        window.opener.postMessage(obj, "*");
+                        //var body = document.getElementsByTagName("body")[0];
+                        //var node = document.createElement("input");
+                        //node.setAttribute("value", obj.token);
+                        //node.hidden = "true";
+                        //body.appendChild(node);
+                        window.opener.postMessage(obj, "*", "*");
                         window.close();
                     } else {
-                        dump("XXX OOPS in main(3): " + xhr.statusText + "\n");
+                        console.log("XXX OOPS in main(3): " + xhr.statusText + "\n");
                     }
                 }
             }
             xhr.onerror = function (e) {
-                dump("XXX OOPS in main(4): " + xhr.statusText + "\n");
+                console.log("XXX OOPS in main(4): " + xhr.statusText + "\n");
             };
             xhr.send(null);
         }
