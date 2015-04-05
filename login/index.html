@@ -38,7 +38,7 @@
                 }
             }
             xhr.onerror = function (e) {
-                console.log("XXX OOPS in main(4): " + xhr.statusText + "\n");
+                console.log("XXX OOPS in main(4): " + e + "\n");
             };
             xhr.send(null);
         }
