@@ -1397,7 +1397,7 @@ var CSLValidator = (function() {
             $('#validate').popover({
                 html: true,
                 title: 'Success <a class="close" href="#">&times;</a>',
-                content: '<p>Good job! No errors found.</p><p>Interested in contributing your style or locale file? See our <a href="https://github.com/citation-style-language/styles/blob/master/CONTRIBUTING.md">instructions</a>.</p>',
+                content: '<p>Welcome to Juris-M style development!</p><p>You can edit the style code, validate it, and check the result in the Sampler tab. Use the Submit button to share your work with legal researchers worldwide.</p>',
                 trigger: 'manual',
                 placement: 'bottom'
             });
