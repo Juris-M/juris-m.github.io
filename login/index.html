@@ -30,7 +30,7 @@
                         //node.setAttribute("value", obj.token);
                         //node.hidden = "true";
                         //body.appendChild(node);
-                        window.opener.postMessage(obj, "*", "*");
+                        window.opener.postMessage(obj, "*");
                         window.close();
                     } else {
                         console.log("XXX OOPS in main(3): " + xhr.statusText + "\n");
