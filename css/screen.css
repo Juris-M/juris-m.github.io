@@ -1,0 +1,260 @@
+/* ignore this line */
+
+.courier {
+    font-family: Ubuntu Mono;
+    font-size: 120%;
+    font-weight: bold;
+    color: #666666;
+}
+
+.boxy {
+    margin-left: 1em;
+    padding: 0.5em;
+    border: 1px solid #666666;
+    font-family: 'Architects Daughter', cursive;
+    font-size: larger;
+}
+
+.small-faint-heading {
+    font-size: smaller;
+    font-weight: bold;
+    color: #999999;
+    text-indent: -1em;
+}
+
+.small-note {
+    font-size: smaller;
+    color: red;
+}
+
+#juris-m-button {
+    cursor: pointer;
+}
+
+#search-input-button {
+    z-index: 2;
+    width: 100%;
+}
+
+#search-input-caret {
+    z-index: 3;
+    right: 31px;
+}
+
+#search-input-button .btn-info:hover {
+    background-color: #5BC0DE;
+    border-color: #46B8DA;
+}
+
+#search-input-dropdown a:hover, #search-input-dropdown a:focus {
+    background-color: #5BC0DE;
+    border-color: #46B8DA;
+    color: white;
+}
+
+#search-source .tt-dropdown-menu, #search-input-dropdown {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#search-source {
+    height: 34px;
+}
+
+.tt-dropdown-menu {
+    min-width: 160px;
+    margin-top: 2px;
+    padding: 5px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.2);
+    *border-right-width: 2px;
+    *border-bottom-width: 2px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+}
+
+.tt-suggestion {
+    display: block;
+    padding: 3px 20px;
+}
+
+.tt-suggestion.tt-is-under-cursor {
+    color: #fff;
+    background-color: #0081c2;
+    background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
+    background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
+    background-image: -o-linear-gradient(top, #0088cc, #0077b3);
+    background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0)
+}
+
+.tt-suggestion.tt-is-under-cursor a {
+    color: #fff;
+}
+
+.tt-suggestion p {
+    margin: 0;
+}
+
+.twitter-typeahead, .tt-hint, .typeahead {
+    width: 100% !important;
+}
+
+.tt-cursor{
+    background-color:#0097cf;
+    color: white;
+}
+
+/*
+#sampler-preview {
+    overflow: auto;
+}
+*/
+
+.csl-entry {
+    margin: 0.5em 0 0.5em 1em;
+    text-indent: -1em;
+}
+
+.sampler-bubble {
+    padding: 0.25em;
+    border: 1px solid black;
+    border-radius: 1em;
+}
+
+.sampler-bubble:hover {
+    cursor: pointer;
+}
+
+#unselected-csl-variables, #selected-csl-variables {
+    margin-top: 0px;
+    line-height: 2.2em;
+    border:4px solid transparent;
+    min-height: 150;
+}
+
+div.csl-drag-hover {
+    border:4px dashed #aaaaaa !important;
+}
+
+#sampler-itemtype-dropdown {
+    max-height: 200px;
+    overflow: auto;
+}
+
+/* For small screen */
+div.field-map-data > :nth-child(even){
+  background-color: #dcdcdc;
+  border-radius: 0.5em;
+}
+div.field-map-data > :nth-child(odd){
+  background-color: #aaaaaa;
+  border-radius: 0.5em;
+}
+
+div.field-map-data div.field-label, div.field-map-data div.field-csl {
+    border:1px solid white;
+}
+div.field-map-data {
+    border-bottom:6px solid white;
+}
+div.field-header {
+    background-color: white !important;
+}
+div.field-label {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+div.field-csl {
+    font-family: Andale Mono, Courier New, monospace;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+
+/*
+ol#error-list {
+    overflow: auto;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+*/
+
+/*
+ol#errors {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+*/
+
+#field-map-menu-container {
+    overflow-y:auto;
+    max-height:200px;
+}
+
+.popover {
+    width: 20em;
+    background: #dddddd;
+}
+
+.popover-title {
+    font-weight: bold !important;
+}
+
+#submit-wrapper:before {
+    content:'①';
+}
+
+li.inserted {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.form-inline {
+    width:300px !important;
+    vertical-align:middle;
+}
+
+.row-gap {
+    margin-top: 1em;
+}
+
+.container {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#source, #errors {
+    margin-bottom: 0px;
+}
+
+#errors {
+    overflow: auto;
+}
+
+.form-control-feedback {
+    position:absolute;
+    top:0px;
+    cursor: pointer;
+}
+
+
+@-moz-document url-prefix() {
+    /* firefox-only css goes here */
+    .form-control-feedback {
+        position:absolute;
+        top:15px;
+        cursor: pointer;
+    }
+}
+

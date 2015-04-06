@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Juris-M: Login</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon-32x32.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.11.2/URI.min.js"></script>
+    <script>
+      function loginStart() {
+        //Initialize URI.js
+        uri = new URI();
+
+        // If we have a GitHub code in the URL, handle that first real quick.
+        if (uri.hasQuery('code')) {
+            var code = uri.query(true)['code'];
+            var url = 'https://our.law.nagoya-u.ac.jp/juris-m/authenticate/' + code
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.setRequestHeader("Content-type","application/json");
+            xhr.onload = function(e) {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        var obj = JSON.parse(xhr.responseText);
+                        console.log("XXX SUCCESS! HURRAY! " + obj.token + "\n");
+                        // So ... this is the access token???
+                        //var body = document.getElementsByTagName("body")[0];
+                        //var node = document.createElement("input");
+                        //node.setAttribute("value", obj.token);
+                        //node.hidden = "true";
+                        //body.appendChild(node);
+                        window.opener.postMessage(obj, "*", "*");
+                        window.close();
+                    } else {
+                        console.log("XXX OOPS in main(3): " + xhr.statusText + "\n");
+                    }
+                }
+            }
+            xhr.onerror = function (e) {
+                console.log("XXX OOPS in main(4): " + e + "\n");
+            };
+            xhr.send(null);
+        }
+
+        
+      }
+    </script>
+  </head>
+  <body onload="loginStart();">
+    <div class="login-page">
+    </div>
+  </body>
+</html>

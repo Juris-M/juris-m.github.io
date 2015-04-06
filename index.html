@@ -6,21 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="favicon-32x32.png">
-    <link href="http://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="libraries/jquery-ui.1.11.3.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link href="libraries/fileinput.min.css" media="all" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="libraries/ladda-themeless.min.css">
-    <link rel="stylesheet" href="libraries/screen.css">
-    <script src="libraries/jquery.1.11.3.min.js"></script>
-    <script src="libraries/jquery-ui.1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito">
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.1.11.3.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/fileinput.min.css">
+    <link rel="stylesheet" type="text/css" href="css/ladda-themeless.min.css">
+    <link rel="stylesheet" type="text/css" href="css/screen.css">
+    <script src="js/jquery.1.11.3.min.js"></script>
+    <script src="js/jquery-ui.1.11.3.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.min.js"></script>
+    <script src="js/typeahead.bundle.js"></script>
+    <script src="js/underscore-min.js"></script>
+    <script src="js/github.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script src="libraries/fileinput.min.js" type="text/javascript"></script>
-    <script src="libraries/spin.min.js"></script>
-    <script src="libraries/ladda.min.js"></script>
+    <script src="js/fileinput.min.js" type="text/javascript"></script>
+    <script src="js/spin.min.js"></script>
+    <script src="js/ladda.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.11.2/URI.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js"></script>
-    <script src="libraries/csl-validator.js"></script>
+    <script src="js/main.js"></script>
     <script>
       $(function() {
       $( "#tabs" ).tabs();
@@ -39,7 +45,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <div class="navbar-brand" onclick="CSLValidator.setView(event,'main');">
+            <div id="juris-m-button" class="navbar-brand" onclick="CSLValidator.setView(event,'main');">
               <span  style="vertical-align:middle;font-size:110%;color:black !important;border-radius:1em;background:#909090;padding:0.25em 0.35em 0.35em 0.35em;">
                 <span  style="vertical-align:middle;border-radius:1em;background:white;padding:0.25em 0.5em 0.2em 0.5em;">
                   <span style="font-family: Nunito, sans-serif;vertical-align:middle;">Juris-</span><img style="vertical-align:middle;padding-left:0.08em;height:1.2em;vertical-align:middle;" src="mlz-button-big.png">
@@ -51,23 +57,38 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li><a onclick="CSLValidator.setView(event,'editor');" href="#">Style Manager</a></li>
-              <li><a onclick="CSLValidator.setView(event,'fields');" href="#">Field Maps</a></li>
-              <li><a id="docs" href="#">Docs</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                  Field Maps
+                  <span class="caret"></span></a>
+                <ul id="field-map-menu-container" class="dropdown-menu" role="menu" onclick="CSLValidator.setView(event,'fields',event.originalTarget ? event.originalTarget.textContent : event.srcElement.textContent)">
+                  <li><a href="#">Placeholder</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Docs <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="http://docs.citationstyles.org/en/stable/specification.html">CSL Specification</a></li>
+                  <li><a href="http://citationstylist.org/docs/citeproc-js-csl.html">Juris-M (CSL-m) Specification Supplement</a></li>
+                </ul>
+              </li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Downloads <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Juris-M Client</a></li>
-                  <li><a href="#">Zotero Integration plugins</a></li>
-                  <li role="presentation" class="dropdown-header">Optional plugins</li>
-                  <li><a href="#">Abbreviation Filter</a></li>
-                  <li><a href="#">Jurisdiction Support</a></li>
-                  <li><a href="#">Bluebook Signals</a></li>
-                  <li><a href="#">RTF/ODF Scan</a></li>
+                  <li role="presentation" class="dropdown-header">Core plugins (Firefox)</li>
+                  <li><a href="http://gsl-nagoya-u.net/http/pub/zotero-multi-3.xpi">Desktop Client</a></li>
+                  <li><a href="http://gsl-nagoya-u.net/http/pub/abbreviations-for-zotero.xpi">Abbreviation Filter</a></li>
+                  <li role="presentation" class="dropdown-header">Optional plugins (Firefox)</li>
+                  <li><a href="https://www.zotero.org/support/word_processor_plugin_installation">Word Processor Integration</a></li>
+                  <li><a href="http://citationstylist.org/2015/02/26/modular-legal-styles-an-mlz-how-to/">Jurisdiction Support</a></li>
+                  <li><a href="http://fbennett.github.io/bluebook-signals-for-zotero/">Bluebook Signals</a></li>
+                  <li><a href="http://zotero-odf-scan.github.io/zotero-odf-scan/">RTF/ODF Scan</a></li>
                   <li role="presentation" class="dropdown-header">Styles</li>
-                  <li><a href="#">Juris-M Bluebook 20th ed.</a></li>
-                  <li><a href="#">Juris-M Chicago Full Note</a></li>
-                  <li><a href="#">Juris-M OSCOLA</a></li>
-                  <li><a href="#">CSL Style Repository</a></li>
+                  <li><a href="http://citationstylist.org/github/mlz-amlaw.csl?install=1">Juris-M Baby Blue</a></li>
+                  <li><a href="http://citationstylist.org/github/mlz-cms-full.csl?install=1">Juris-M Chicago Full Note</a></li>
+                  <li><a href="http://citationstylist.org/github/mlz-new-zealand-law.csl?install=1">Juris-M New Zealand Law</a></li>
+                  <li><a href="http://citationstylist.org/github/mlz-oscola.csl?install=1">Juris-M OSCOLA</a></li>
+                  <li><a href="https://zotero.org/styles">CSL Style Repository</a></li>
                 </ul>
               </li>
             </ul>
@@ -77,46 +98,34 @@
     </div>
     <div class="container content">
       <div id="main-view" class="container action-view">
-        <p>
-          Juris-M is a reference manager designed for the 21st
-          century, with robust support for multilingual citations, and
-          next-generation legal referencing capabilities. Juris-M
-          development is driven by a desire to broaden and deepen
-          public discourse by lowering the obstacles to participation.
-          In this case, the ideal is a friend of the pragmatic: if
-          you work across multiple languages, Juris-M was built with
-          your needs in mind. There is no charge for taking a closer
-          look&mdash;and you may be glad that you did.
+        <h3 class="courier">Briefly describe your project</h3>
+        <p class="boxy">
+          "Juris-M" is a massively awesome reference manager that can
+          do legal referencing and works with multiple languages.
         </p>
-        <h2>Components</h2>
-        <p>
-          The system is made up of several components: a <b>Desktop
-          Client</b> (Firefox plugin) derived from
-          the <a href="https://zotero.org">Zotero</a> research
-          platform; an <b>Abbreviation Filter</b> (Firefox plugin) for
-          style-specific abbreviation support; and the <b>Juris-M</b>
-          extended version of
-          the <a href="https://citationstyles.org">Citation Style
-          Language</a>.
+        <h3 class="courier">Mention something interactive</h3>
+        <p class="boxy">
+          Click on "Style Manager" and type something where it says
+          "Enter a country or institution."  Select a country, click
+          "Load," and when it's ready click on "Sampler" and drag
+          things around.
         </p>
-        <h2>Legal Styles</h2>
-        <p>
-          Juris-M enables modular application of legal styles, to
-          permit precise, jurisdiction-specific generation of
-          references. To create or modify a jurisdiction module, use
-          the Style Manager provided by this site.
+        <h3 class="courier">List up things to help users get started</h3>
+        <p class="boxy">
+          To use Juris-M, install the <b>Desktop Client</b> (a Firefox
+            plugin), and the <b>Abbreviation Filter</b>. (The desktop client
+          looks a lot like Zotero, because that is what it is based on.)
         </p>
-        <h2>Rebranding</h2>
-        <p>
+        <h3 class="courier">Talk a little about history and stuff</h3>
+        <p class="boxy">
           Juris-M is a rebranding of two projects that I have been
-          maintaining for several years. From the formal rollout of
-          this website, Multilingual Zotero (aka MLZ) will be released
-          as "the Juris-M client"; and the
+          maintaining for several years. Multilingual Zotero (aka MLZ) will be released
+          in due course as "the Juris-M client"; and the
           <span style="font-variant:small-caps:">CSL-m</span>
           extensions to the Citation Style Language will be known as
-          "the Juris-M citation language." The new names are only
+          "the Juris-M citation language."The new names are only
           that; nothing will change in the relation between the work
-          here and these two mainstream projects on which it heavily
+          here and the mainstream projects on which it heavily
           depends. The main effect will be to save some typing, and to
           avoid some confusion: the tools that are now Juris-M have
           enjoyed an amicable and productive arm's-length relationship
@@ -127,40 +136,40 @@
         </p>
       </div>
       <div id="editor-view" class="container action-view" style="display:none;">
-	<div class="row">
-	  <div class="col-lg-6">
-	    <div class="input-group">
-	      <span id="source-method" value="search-source" class="input-group-btn">
-		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Style source <span class="caret"></span></button>
-		<ul class="dropdown-menu" role="menu">
-		  <li><a value="search-source" href="#">Jurisdiction module</a></li>
-		  <li><a value="file-source" href="#">File upload</a></li>
-		  <li><a value="url-source" href="#">URL</a></li>
-		</ul>
-	      </span><!-- /btn-group -->
-	      <span id="search-source" class="source-input">
-                <input class="input-input form-control" id="search-input" type="search" placeholder="Enter country name to get started">
-              </span>
+	    <div class="row">
+	      <div class="col-lg-6">
+	        <div class="input-append input-group">
+	          <div id="source-method" value="search-source" class="input-group-btn">
+		        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Style source <span class="caret"></span></button>
+		        <ul class="dropdown-menu" role="menu">
+		          <li><a value="search-source" href="#">Jurisdiction module</a></li>
+		          <li><a value="file-source" href="#">File upload</a></li>
+		          <li><a value="url-source" href="#">URL</a></li>
+		        </ul>
+	          </div><!-- /btn-group -->
+              <div id="search-source" class="source-input">
+                <input id="search-input" class="typeahead form-control" type="text" placeholder="Enter a country or institution">
+              </div>
               <div id="file-source" class="row source-input" style="display:none;">
                 <div class="col-xs-12">
-                  <input class="input-input file form-control" id="file-input" type="file" data-show-preview="false" data-show-upload="false">
+                  <input class="file form-control" id="file-input" type="file" data-show-preview="false" data-show-upload="false">
                 </div>
               </div>
               <span id="url-source" class="source-input" style="display:none;">
-                <input class="input-input form-control" id="url-input" type="text" placeholder="Enter style URL">
+                <input class="form-control" id="url-input" type="text" placeholder="Enter style URL">
               </span>
               <span id="search-source-remover" class="input-group-btn source-input-remover" style="display:none;">
-		<button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
+		        <button class="btn btn-default" title="Clear Jurisdiction" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
               </span>
               <span id="url-source-remover" class="input-group-btn source-input-remover" style="display:none;">
-		<button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
+		        <button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
               </span>
-	    </div>
-	  </div>
-	  <div class="col-lg-3">
-	    <div class="input-group">
-	      <div id="schema-version" value="1.1mlz1" class="input-group-btn">
-		<button id="load-source" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Load</span></button>
+	        </div>
+	      </div>
+	      <div class="col-lg-3">
+	        <div class="input-group">
+	          <div id="schema-version" value="1.1mlz1" class="input-group-btn">
+		        <button id="load-source" type="button" class="btn btn-primary ladda-button" data-style="zoom-in" disabled=""><span class="ladda-label">Load</span></button>
                 <button id="schema-version-caret" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">with <span class="caret"></span></button>
                 <ul id="schema-version-dropdown" class="dropdown-menu" role="menu">
                   <li><a value="1.1mlz1" href="#">Juris-M</a></li>
@@ -173,9 +182,9 @@
             </div><!-- /input-group -->
           </div><!-- /.col-s-6 -->
           <div class="col-lg-3">
-	    <button id="validate" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Validate </span></button>
-	    <button id="save" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Save </span></button>
-	    <button id="submit" type="button" class="btn btn-success ladda-button" data-style="zoom-in"><span class="ladda-label">Submit </span></button>
+	        <button id="validate" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Validate </span></button>
+	        <button id="save" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Download </span></button>
+	        <button id="submit" type="button" class="btn btn-success ladda-button" data-style="zoom-in"><span class="ladda-label">Submit </span></button>
           </div>
         </div>
         <div class="row row-gap">
@@ -185,16 +194,83 @@
 	          <ul>
 		        <li><a id="source-tab" href="#source">Juris-M Style</a></li>
 		        <li><a id="errors-tab" href="#errors">Errors</a></li>
-		        <li><a id="samples-tab" href="#samples">Samples</a></li>
+		        <li><a id="sampler-tab" href="#sampler">Sampler</a></li>
 	          </ul>
 	          <div id="source"></div>
 	          <div id="errors">
 		        <ol id="error-list"></ol>
 	          </div>
-		  <div id="samples"></div>
+		      <div id="sampler">
+                <div class="row">
+                  <div id="sampler-preview" class="col-lg-6">
+                    <div class="row"><div class="col-lg-12"><b id="style-name">My Style</b></div></div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="btn-group">
+                          <button id="sampler-itemtype-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            Case <span class="caret"></span>
+                          </button>
+                          <ul id="sampler-itemtype-dropdown" class="dropdown-menu" role="menu" onclick="CSLValidator.changeSamplerItemType(event);">
+                            <!-- item types -->
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row"><div class="col-lg-12"><h3 style="margin-top:5px;">Citations</h3></div></div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <ol id="sampler-citations">
+                          <!-- citations -->
+                        </ol>
+                      </div>
+                    </div>
+                    <div class="row"><div class="col-lg-12"><h3>Bibliography</h3></div></div>
+                    <div class="row">
+                      <div id="sampler-bibliography" class="col-lg-12">
+                        <!-- bibliography entries -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="small-note">drag fields to add or remove them</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h4>Included fields</h4>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div id="selected-csl-variables" class="col-xs-12 droppable">
+                            <!-- selected bubbles -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-6">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h4>Excluded fields</h4>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div id="unselected-csl-variables" class="col-xs-12 droppable">
+                            <!-- unselected bubbles -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 	        </div>
           </div>
         </div>
+      </div>
+      <div id="fields-view" class="container action-view" style="display:none;">
       </div>
     </div>
   </body>
