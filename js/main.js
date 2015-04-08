@@ -166,6 +166,7 @@ var CSLValidator = (function() {
             var countriesIdx = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
+                limit: 10,
                 // `states` is an array of state names defined in "The Basics"
                 local: $.map(countries, function(country) { return { value: country }; })
             }); 
