@@ -1150,7 +1150,7 @@ var CSLValidator = (function() {
 
     function reportTimeOut() {
         loadValidateButton('stop');
-        removeValidationResults();
+        //removeValidationResults();
         console.log("Call to https://our.law.nagoya-u.ac.jp/validate/ timed out after " + responseMaxTime + "ms.");
         $('#validate').popover({
             html: true,
