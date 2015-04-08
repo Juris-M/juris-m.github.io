@@ -1,5 +1,10 @@
 /* ignore this line */
 
+.search-input-as-dropdown {
+    width: 100%;
+    display: block;
+}
+
 .hanging {
     text-indent: -1em;
     padding-left: 1em;
