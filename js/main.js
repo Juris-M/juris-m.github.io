@@ -1037,7 +1037,7 @@ var CSLValidator = (function() {
                 $('#schema-version').popover({
                     html: true,
                     title: 'Success and welcome! <a class="close" href="#">&times;</a>',
-                    content: '<p>Some tips:</p><p class="hanging"><span class="tabby">Juris-M Style</span> the style code editor</p><p class="hanging"><span class="buttony">Validate</span> check code syntax</p><p class="hanging"><span class="tabby">Sampler</span> preview citations</p><p class="hanging"><span class="green buttony">Submit</span> submit code for review</p><p class="hanging"><span class="buttony">Download</span> save a copy</p>',
+                    content: '<p>Some tips:</p><p class="hanging"><span class="tabby">Juris-M Style</span> edit style code</p><p class="hanging"><span class="buttony">Validate</span> check code syntax</p><p class="hanging"><span class="tabby">Sampler</span> preview citations</p><p class="hanging"><span class="green buttony">Submit</span> submit code for review</p><p class="hanging"><span class="buttony">Download</span> save a copy</p>',
                     trigger: 'manual',
                     placement: 'bottom'
                 });
