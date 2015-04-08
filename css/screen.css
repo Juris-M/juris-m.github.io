@@ -13,6 +13,10 @@
     padding: 0.2em 0.25em 0.2em 0.25em;
 }
 
+.green.buttony {
+    background: #5cb85c;
+}
+
 .tabby {
     background: #ffffff;
     border: 1px solid #cccccc;
