@@ -230,12 +230,9 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
         }
         ghWaitForFileContents(info.username, info.moduleName, 'juris-' + info.moduleName + '.csl', function(contents) {
             if (!contents) {
-                dump("XXX NO CONTENT ON FORK BRANCH???\n");
                 ghGetForkBranchCommit(info);
             } else {
                 ghGetFileContent(info.username, contents.sha, function(content){
-                    dump("XXX CONTENT: "+content+"\n");
-                    dump("XXX NEW: "+info.moduleContent+"\n");
                     if (content.trim() !== info.moduleContent) {
                         ghGetForkBranchCommit(info);
                     } else {
@@ -248,7 +245,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
                     }
                 });
             }
-	    });
+	    }, 'fallback');
     }
     
     function ghGetForkBranchCommit(info) {
