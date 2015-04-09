@@ -1110,8 +1110,9 @@ var CSLValidator = (function() {
             setBoxHeight(['source-code']);
         }
 
-        if (errorCount === 0) {
+        if (errorCount === 0 && nonDocumentError !== "") {
             initializeStyle();
+            submitButton.enable();
         }
 
         // This gets the box - would need to resize ace also,
@@ -1119,7 +1120,6 @@ var CSLValidator = (function() {
         // will not be necessary. Even this can go.
         loadValidateButton('stop');
         validateButton.enable();
-        submitButton.enable();
         saveButton.enable();
     }
 
