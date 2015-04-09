@@ -902,12 +902,7 @@ var CSLValidator = (function() {
         formData.append("level", "error");
         formData.append("out", "json");
         formData.append("showsource", "yes");
-
-        if (sourceMethod == "textarea") {
-            formData.append("content", documentContent);
-        } else {
-            formData.append("file", documentContent);
-        }
+        formData.append("file", documentContent);
 
         $.ajax({
             type: "POST",
