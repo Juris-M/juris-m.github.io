@@ -176,6 +176,16 @@ var CSLValidator = (function() {
                 displayKey: 'value',
                 source: countriesIdx.ttAdapter()
             });
+            //Set jurisdiction button if there is a lurking value
+            if ($('#search-input').typeahead('val')) {
+                var name = $('#search-input').typeahead('val');
+                var info = countriesMap[name];
+                if (info && info[1]) {
+                    jurisdictionWorker.postMessage({type:'REQUEST UI',key:info[0],name:name});
+                } else {
+                    $('#search-input').typeahead('val', '');
+                }
+            }
             break;
         case 'SEARCH UI HTML OK':
             $('#search-source').html(event.data.html);
@@ -368,6 +378,7 @@ var CSLValidator = (function() {
     }
 
     var init = function() {
+        
         //Initialize URI.js
         uri = new URI();
 
@@ -506,6 +517,7 @@ var CSLValidator = (function() {
             var isDropdown = $('#search-input').hasClass('search-input-as-dropdown');
             var isButton = $('#search-input').hasClass('search-input-as-button');
             if (isDropdown || isButton) {
+                $('#' + id + '-input').typeahead('val', '');
                 jurisdictionWorker.postMessage({type:'REQUEST UI'});
             } else {
                 $('#' + id + '-input').val('');
@@ -635,10 +647,12 @@ var CSLValidator = (function() {
         });
         setBoxHeight(['source']);
         setBoxHeight(['source-code']);
-        
+
+        console.log("XXX PING citeproc");
         citeprocWorker.postMessage({type:'PING'});
         
         $('#sampler-tab').click(function(event){
+            console.log("XXX INIT SAMPLER PAGE citeproc");
             menuWorker.postMessage({type:'INIT SAMPLER PAGE'});
         });
 
@@ -654,7 +668,7 @@ var CSLValidator = (function() {
     function setTypeaheadListener() {
         $('#search-input.typeahead').on('typeahead:selected typeahead:autocompleted', function(event) {
             var info = countriesMap[this.value]
-            if (info[1]) {
+            if (info && info[1]) {
                 jurisdictionWorker.postMessage({type:'REQUEST UI',key:info[0],name:this.value});
             } else {
                 setJurisdictionButton(info[0], this.value);
@@ -1029,7 +1043,7 @@ var CSLValidator = (function() {
             $('#validate').popover('show');
         } else if (errorCount === 0) {
             $("#tabs").tabs("disable", "#errors");
-            $("#tabs").tabs("disable", "#sampler");
+            $("#tabs").tabs("enable", "#sampler");
             if (isFromLoad) {
                 $('#schema-version').popover({
                     html: true,
@@ -1065,6 +1079,7 @@ var CSLValidator = (function() {
             });
             $('#validate').popover('show');
             $('#tabs').tabs('enable', '#errors');
+            $('#tabs').tabs('disable', '#sampler');
             $("#errors").attr("class", "panel panel-warning");
             $("#errors").prepend('<div class="panel-heading inserted"><h4 id="source-title" class="panel-title">Errors <a href="#" rel="tooltip" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="auto left" title="Click the link next to an error description to highlight the relevant lines in the Source window below"></a></h4></div>');
             $('[data-toggle="tooltip"]').tooltip();
@@ -1105,7 +1120,7 @@ var CSLValidator = (function() {
             setBoxHeight(['source-code']);
         }
 
-        if (errorCount === 0 && nonDocumentError !== "") {
+        if (errorCount === 0 && nonDocumentError === "") {
             initializeStyle();
             submitButton.enable();
         }
