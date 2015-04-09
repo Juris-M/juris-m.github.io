@@ -180,7 +180,7 @@ var CSLValidator = (function() {
             if ($('#search-input').typeahead('val')) {
                 var name = $('#search-input').typeahead('val');
                 var info = countriesMap[name];
-                if (info) {
+                if (info && info[1]) {
                     jurisdictionWorker.postMessage({type:'REQUEST UI',key:info[0],name:name});
                 } else {
                     $('#search-input').typeahead('val', '');
@@ -667,7 +667,7 @@ var CSLValidator = (function() {
     function setTypeaheadListener() {
         $('#search-input.typeahead').on('typeahead:selected typeahead:autocompleted', function(event) {
             var info = countriesMap[this.value]
-            if (info) {
+            if (info && info[1]) {
                 jurisdictionWorker.postMessage({type:'REQUEST UI',key:info[0],name:this.value});
             } else {
                 setJurisdictionButton(info[0], this.value);
