@@ -787,7 +787,7 @@ var CSLValidator = (function() {
             var documentURL = $('#url-input').val();
             uri.setSearch("url", documentURL);
             uri.setSearch("version", $('#schema-version').attr('value'));
-            history.pushState({}, document.title, uri);
+            history.replaceState({}, document.title, uri.search(""));
 
             //don't try validation on empty string
             sourceMethodFunc = function(schemaURL, documentURL) {
@@ -902,12 +902,7 @@ var CSLValidator = (function() {
         formData.append("level", "error");
         formData.append("out", "json");
         formData.append("showsource", "yes");
-
-        if (sourceMethod == "textarea") {
-            formData.append("content", documentContent);
-        } else {
-            formData.append("file", documentContent);
-        }
+        formData.append("file", documentContent);
 
         $.ajax({
             type: "POST",
@@ -1110,8 +1105,9 @@ var CSLValidator = (function() {
             setBoxHeight(['source-code']);
         }
 
-        if (errorCount === 0) {
+        if (errorCount === 0 && nonDocumentError !== "") {
             initializeStyle();
+            submitButton.enable();
         }
 
         // This gets the box - would need to resize ace also,
@@ -1119,7 +1115,6 @@ var CSLValidator = (function() {
         // will not be necessary. Even this can go.
         loadValidateButton('stop');
         validateButton.enable();
-        submitButton.enable();
         saveButton.enable();
     }
 
