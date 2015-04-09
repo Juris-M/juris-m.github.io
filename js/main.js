@@ -378,7 +378,6 @@ var CSLValidator = (function() {
     }
 
     var init = function() {
-        window.localStorage.clear()
         
         //Initialize URI.js
         uri = new URI();
@@ -648,10 +647,12 @@ var CSLValidator = (function() {
         });
         setBoxHeight(['source']);
         setBoxHeight(['source-code']);
-        
+
+        console.log("XXX PING citeproc");
         citeprocWorker.postMessage({type:'PING'});
         
         $('#sampler-tab').click(function(event){
+            console.log("XXX INIT SAMPLER PAGE citeproc");
             menuWorker.postMessage({type:'INIT SAMPLER PAGE'});
         });
 
@@ -1119,7 +1120,7 @@ var CSLValidator = (function() {
             setBoxHeight(['source-code']);
         }
 
-        if (errorCount === 0 && nonDocumentError !== "") {
+        if (errorCount === 0 && nonDocumentError === "") {
             initializeStyle();
             submitButton.enable();
         }

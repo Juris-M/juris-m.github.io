@@ -324,6 +324,7 @@ onmessage = function (event) {
         }, 'STYLE OK LOCALES REQUESTED');
         break;
     case 'LOAD STYLE LOCALES':
+        console.log("XXX LOAD STYLE LOCALES");
         workerExec(function() {
             outObj.pageInit = event.data.pageInit;
             for (var locale in event.data.locales) {
