@@ -1,5 +1,7 @@
 /* ignore this line */
 
+
+
 .search-input-as-dropdown {
     width: 100%;
     display: block;
@@ -134,6 +136,13 @@
 .tt-suggestion p {
     margin: 0;
 }
+
+/*
+.tt-hint {
+    font-size: 0;
+    visibility: none;
+}
+*/
 
 .twitter-typeahead, .tt-hint, .typeahead {
     width: 100% !important;

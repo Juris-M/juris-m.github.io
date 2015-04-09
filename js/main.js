@@ -176,6 +176,16 @@ var CSLValidator = (function() {
                 displayKey: 'value',
                 source: countriesIdx.ttAdapter()
             });
+            //Set jurisdiction button if there is a lurking value
+            if ($('#search-input').typeahead('val')) {
+                var name = $('#search-input').typeahead('val');
+                var info = countriesMap[name];
+                if (info) {
+                    jurisdictionWorker.postMessage({type:'REQUEST UI',key:info[0],name:name});
+                } else {
+                    $('#search-input').typeahead('val', '');
+                }
+            }
             break;
         case 'SEARCH UI HTML OK':
             $('#search-source').html(event.data.html);
@@ -368,6 +378,8 @@ var CSLValidator = (function() {
     }
 
     var init = function() {
+        window.localStorage.clear()
+        
         //Initialize URI.js
         uri = new URI();
 
@@ -506,6 +518,7 @@ var CSLValidator = (function() {
             var isDropdown = $('#search-input').hasClass('search-input-as-dropdown');
             var isButton = $('#search-input').hasClass('search-input-as-button');
             if (isDropdown || isButton) {
+                $('#' + id + '-input').typeahead('val', '');
                 jurisdictionWorker.postMessage({type:'REQUEST UI'});
             } else {
                 $('#' + id + '-input').val('');
@@ -654,7 +667,7 @@ var CSLValidator = (function() {
     function setTypeaheadListener() {
         $('#search-input.typeahead').on('typeahead:selected typeahead:autocompleted', function(event) {
             var info = countriesMap[this.value]
-            if (info[1]) {
+            if (info) {
                 jurisdictionWorker.postMessage({type:'REQUEST UI',key:info[0],name:this.value});
             } else {
                 setJurisdictionButton(info[0], this.value);
