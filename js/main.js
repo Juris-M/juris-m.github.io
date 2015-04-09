@@ -1029,7 +1029,7 @@ var CSLValidator = (function() {
             $('#validate').popover('show');
         } else if (errorCount === 0) {
             $("#tabs").tabs("disable", "#errors");
-            $("#tabs").tabs("disable", "#sampler");
+            $("#tabs").tabs("enable", "#sampler");
             if (isFromLoad) {
                 $('#schema-version').popover({
                     html: true,
@@ -1065,6 +1065,7 @@ var CSLValidator = (function() {
             });
             $('#validate').popover('show');
             $('#tabs').tabs('enable', '#errors');
+            $('#tabs').tabs('disable', '#sampler');
             $("#errors").attr("class", "panel panel-warning");
             $("#errors").prepend('<div class="panel-heading inserted"><h4 id="source-title" class="panel-title">Errors <a href="#" rel="tooltip" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="auto left" title="Click the link next to an error description to highlight the relevant lines in the Source window below"></a></h4></div>');
             $('[data-toggle="tooltip"]').tooltip();
