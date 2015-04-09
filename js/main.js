@@ -787,7 +787,7 @@ var CSLValidator = (function() {
             var documentURL = $('#url-input').val();
             uri.setSearch("url", documentURL);
             uri.setSearch("version", $('#schema-version').attr('value'));
-            history.pushState({}, document.title, uri);
+            history.replaceState({}, document.title, uri.search(""));
 
             //don't try validation on empty string
             sourceMethodFunc = function(schemaURL, documentURL) {
