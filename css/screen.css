@@ -1,6 +1,94 @@
 /* ignore this line */
 
+.downloads .row.odd .col-lg-4:nth-child(odd), .downloads .row.even .col-lg-4:nth-child(even) {
+    padding-top: 3px;
+}
 
+.downloads .row.even .col-lg-4:nth-child(odd), .downloads .row.odd .col-lg-4:nth-child(even) {
+    padding-top: 3px;
+    background: #eeeeee;
+}
+
+
+
+.download-button, .download-button:visited, .download-button:active, .download-button:focus {
+    cursor:pointer;
+    text-decoration:none;
+    border:2px solid #008000;
+    border-radius:2em;
+    float:right;
+    width:14em;
+    padding:0.5em;
+    color:#333;
+    margin:0.5em;
+    background: rgba(0, 80, 0, 0.1);
+}
+
+.download-button:hover {
+    background:green;
+    color:white;
+    text-decoration:none;
+    transition: background .3s, color .3s;
+}
+
+.download-button .bigtext {
+    font-size:115%;
+    text-align: center;
+}
+
+.download-button .smalltext {
+    font-size:90%;
+    text-align: center;
+}
+
+col-lg-6.vcenter {
+    vertical-align:middle;
+    float:none;
+    display:inline-block;
+    font-size: 200%;
+}
+
+.big-button-top {
+    border-radius:2em 2em 0 0;
+    border-left:3px solid #888888;
+    border-right:3px solid #888888;
+    border-bottom:1px solid #888888;
+    border-top:3px solid #888888;
+    margin:20px 20px 0 20px;
+    text-align:center;
+    background:#cccccc;
+    font-size: 200%;
+    cursor:pointer;
+}
+
+.big-button-bottom {
+    border-radius: 0 0 2em 2em;
+    border-left:3px solid #888888;
+    border-right:3px solid #888888;
+    border-bottom:3px solid #888888;
+    min-height:10em;
+    margin:0 20px 20px 20px;
+    padding:1em;
+    background:#eeeeee;
+    font-size: 120%;
+    cursor:pointer;
+}
+
+.big-button-bottom:hover {
+    background: white;
+}
+
+.big-button-bottom dd {
+    margin-left: 1em;
+}
+
+.big-button-top div {
+    padding: 0.25em 0 0.25em 0;
+    background: #dddddd;
+    margin-bottom: 0;
+    margin-top: 0;
+    border-radius: 2em 2em 0 0;
+}
 
 .search-input-as-dropdown {
     width: 100%;

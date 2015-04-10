@@ -6,9 +6,6 @@ var CSLValidator = (function() {
     //to access the GitHub API library object
     var gh;
 
-    //GitHub API access token
-    var access_token = null;
-
     //to access URL parameters
     var uri;
 
@@ -115,7 +112,7 @@ var CSLValidator = (function() {
     }
     jsonWalker = new JSONWalker();
 
-    var menuWorker = new Worker('web-worker/menu.js');
+    var menuWorker = new Worker('../web-worker/menu.js');
     menuWorker.onmessage = function(event) {
         switch (event.data.type) {
         case 'GET MENU ITEMS OK':
@@ -156,7 +153,7 @@ var CSLValidator = (function() {
     var countries = null;
     var countriesMap = null;
 
-    var jurisdictionWorker = new Worker('web-worker/jurisdictions.js');
+    var jurisdictionWorker = new Worker('../web-worker/jurisdictions.js');
     jurisdictionWorker.onmessage = function(event) {
         var inObj = event.data;
         switch (inObj.type) {
@@ -230,7 +227,7 @@ var CSLValidator = (function() {
         }
     }
  
-    var citeprocWorker = new Worker('web-worker/cites.js');
+    var citeprocWorker = new Worker('../web-worker/cites.js');
     citeprocWorker.onmessage = function(event){
         var inObj = event.data;
         switch (inObj.type) {
@@ -255,7 +252,7 @@ var CSLValidator = (function() {
                 }
                 var locale = localesToLoad[pos];
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'src/locales/locales-' + locale + '.xml', true);
+                xhr.open('GET', '../src/locales/locales-' + locale + '.xml', true);
                 xhr.setRequestHeader("Content-type","text/xml");
                 xhr.onload = function(e) {
                     if (xhr.readyState === 4) {
@@ -266,21 +263,21 @@ var CSLValidator = (function() {
                             sendLocales(pos, localesToLoad);
                         } else {
                             var errorSpec = {
-                                title: "Error",
+                                type: "Error",
                                 desc: xhr.statusText,
                                 disable: true
                             }
-                            ghMsg(errorSpec);
+                            gh.ghMsg(errorSpec);
                         }
                     }
                 }
                 xhr.onerror = function (e) {
                     var errorSpec = {
-                        title: "Error",
+                        type: "Error",
                         desc: "Failure attempting to load locales",
                         disable: true
                     }
-                    ghMsg(errorSpec);
+                    gh.ghMsg(errorSpec);
                 };
                 xhr.send(null);
             }
@@ -378,7 +375,7 @@ var CSLValidator = (function() {
     }
 
     var init = function() {
-        
+
         //Initialize URI.js
         uri = new URI();
 
@@ -836,20 +833,10 @@ var CSLValidator = (function() {
             if (!name) {
                 name = $('#search-input').text();
             }
-
-            // Login to GitHub if necessary.
-            // Then get the master copy of the module or set from template.
-            if (!access_token) {
-                function receiveMessage(event) {
-                    access_token = event.data.token;
-                    gh = new GitHub(access_token, jurisdictionWorker, validateContent, submitButton);
-                    gh.getModuleMaster(key, name);
-                }
-                window.addEventListener('message', receiveMessage, false);
-                window.open('https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=12345');
-            } else {
-                gh.getModuleMaster(key, name);
+            if (!gh) {
+                gh = new GitHub(access_token, jurisdictionWorker, validateContent, submitButton);
             }
+            gh.getModuleMaster(key, name);
             break;
         }
     }

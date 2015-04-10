@@ -13,32 +13,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="favicon-32x32.png">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito">
-    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:700' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/jquery-ui.1.11.3.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/fileinput.min.css">
-    <link rel="stylesheet" type="text/css" href="css/ladda-themeless.min.css">
     <link rel="stylesheet" type="text/css" href="css/screen.css">
     <script src="js/jquery.1.11.3.min.js"></script>
     <script src="js/jquery-ui.1.11.3.min.js"></script>
     <script src="js/jquery.ui.touch-punch.min.js"></script>
-    <script src="js/typeahead.bundle.js"></script>
-    <script src="js/underscore-min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script src="js/fileinput.min.js" type="text/javascript"></script>
-    <script src="js/spin.min.js"></script>
-    <script src="js/ladda.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.11.2/URI.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js"></script>
-    <script src="js/main.js"></script>
     <script>
-      $(function() {
-      $( "#tabs" ).tabs();
-      });
+      var initScript = function() {
+        var last = null;
+        $(".big-button-bottom").each(function(count){
+          if ((count % 2) == 1) {
+            if ($(this).outerHeight() > last.outerHeight()) {
+              last.attr('style', 'height:' + $(this).outerHeight() + 'px;');
+            } else {
+              this.attr('style', 'height:' + last.outerHeight() + 'px;');
+            }
+          } else {
+            last = $(this);
+          }
+        });
+        $(".button1").click(function(event){
+          document.location.href="downloads";
+          //document.location.href="https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=12345";
+        });
+        $(".button2").click(function(event){
+          document.location.href="https://github.com/login/oauth/authorize?client_id=e8c0052c29d0147de5c3&scope=public_repo&status=12345";
+          //document.location.href="https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=12345";
+        });
+      }
     </script>
   </head>
-  <body onload="CSLValidator.init();">
+  <body onload="initScript();">
     <div class="container">
       <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -61,223 +68,83 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li><a onclick="CSLValidator.setView(event,'editor');" href="#">Style Manager</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
-                  Field Maps
-                  <span class="caret"></span></a>
-                <ul id="field-map-menu-container" class="dropdown-menu" role="menu" onclick="CSLValidator.setView(event,'fields',event.originalTarget ? event.originalTarget.textContent : event.srcElement.textContent)">
-                  <li><a href="#">Placeholder</a></li>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Docs <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="http://docs.citationstyles.org/en/stable/specification.html">CSL Specification</a></li>
-                  <li><a href="http://citationstylist.org/docs/citeproc-js-csl.html">Juris-M (CSL-m) Specification Supplement</a></li>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Downloads <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li role="presentation" class="dropdown-header">Core plugins (Firefox)</li>
-                  <li><a href="http://gsl-nagoya-u.net/http/pub/zotero-multi-3.xpi">Desktop Client</a></li>
-                  <li><a href="http://gsl-nagoya-u.net/http/pub/abbreviations-for-zotero.xpi">Abbreviation Filter</a></li>
-                  <li role="presentation" class="dropdown-header">Optional plugins (Firefox)</li>
-                  <li><a href="https://www.zotero.org/support/word_processor_plugin_installation">Word Processor Integration</a></li>
-                  <li><a href="http://citationstylist.org/2015/02/26/modular-legal-styles-an-mlz-how-to/">Jurisdiction Support</a></li>
-                  <li><a href="http://fbennett.github.io/bluebook-signals-for-zotero/">Bluebook Signals</a></li>
-                  <li><a href="http://zotero-odf-scan.github.io/zotero-odf-scan/">RTF/ODF Scan</a></li>
-                  <li role="presentation" class="dropdown-header">Styles</li>
-                  <li><a href="http://citationstylist.org/github/mlz-amlaw.csl?install=1">Juris-M Baby Blue</a></li>
-                  <li><a href="http://citationstylist.org/github/mlz-cms-full.csl?install=1">Juris-M Chicago Full Note</a></li>
-                  <li><a href="http://citationstylist.org/github/mlz-new-zealand-law.csl?install=1">Juris-M New Zealand Law</a></li>
-                  <li><a href="http://citationstylist.org/github/mlz-oscola.csl?install=1">Juris-M OSCOLA</a></li>
-                  <li><a href="https://zotero.org/styles">CSL Style Repository</a></li>
-                </ul>
-              </li>
+              <li><a href="blog">News & Views</a></li>
             </ul>
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
       </nav>
     </div>
     <div class="container content">
-      <div id="main-view" class="container action-view" style="display:none;">
-        <h3 class="courier">Briefly describe your project</h3>
-        <p class="boxy">
-          "Juris-M" is a massively awesome reference manager that can
-          do legal referencing and works with multiple languages.
-        </p>
-        <h3 class="courier">Tempt the reader with something interactive</h3>
-        <p class="boxy">
-          Click on "Style Manager" and type something where it says
-          "Enter a country or institution."  Select a country, click
-          "Load," and when it's ready click on "Sampler" and drag
-          things around.
-        </p>
-        <h3 class="courier">List up things to help the reader get started</h3>
-        <p class="boxy">
-          To use Juris-M, install the <b>Desktop Client</b> (a Firefox
-            plugin), and the <b>Abbreviation Filter</b>. (The desktop client
-          looks a lot like Zotero, because that is what it is based on.)
-        </p>
-        <h3 class="courier">Talk a little about history and stuff</h3>
-        <p class="boxy">
-          Juris-M is a rebranding of two projects that I have been
-          maintaining for several years. Multilingual Zotero (aka MLZ) will be released
-          in due course as "the Juris-M client"; and the
-          <span style="font-variant:small-caps:">CSL-m</span>
-          extensions to the Citation Style Language will be known as
-          "the Juris-M citation language."The new names are only
-          that; nothing will change in the relation between the work
-          here and the mainstream projects on which it heavily
-          depends. The main effect will be to save some typing, and to
-          avoid some confusion: the tools that are now Juris-M have
-          enjoyed an amicable and productive arm's-length relationship
-          with Zotero and CSL and that will continue.
-        </p>
-        <p style="text-align:right;">
-          &mdash;&nbsp;Frank Bennett, 10 March 2015
-        </p>
-      </div>
-      <div id="editor-view" class="container action-view">
-	    <div class="row">
-	      <div class="col-lg-6">
-	        <div class="input-append input-group">
-	          <div id="source-method" value="search-source" class="input-group-btn">
-		        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Style source <span class="caret"></span></button>
-		        <ul class="dropdown-menu" role="menu">
-		          <li><a value="search-source" href="#">Jurisdiction module</a></li>
-		          <li><a value="file-source" href="#">File upload</a></li>
-		          <li><a value="url-source" href="#">URL</a></li>
-		        </ul>
-	          </div><!-- /btn-group -->
-              <div id="search-source" class="source-input">
-                <input id="search-input" autocomplete="off" class="typeahead form-control" type="text" placeholder="Enter a country or institution">
-              </div>
-              <div id="file-source" class="row source-input" style="display:none;">
-                <div class="col-xs-12">
-                  <input class="file form-control" id="file-input" type="file" data-show-preview="false" data-show-upload="false">
-                </div>
-              </div>
-              <span id="url-source" class="source-input" style="display:none;">
-                <input class="form-control" id="url-input" type="text" placeholder="Enter style URL">
-              </span>
-              <span id="search-source-remover" class="input-group-btn source-input-remover" style="display:none;">
-		        <button class="btn btn-default" title="Clear Jurisdiction" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
-              </span>
-              <span id="url-source-remover" class="input-group-btn source-input-remover" style="display:none;">
-		        <button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
-              </span>
-	        </div>
-	      </div>
-	      <div class="col-lg-3">
-	        <div class="input-group">
-	          <div id="schema-version" value="1.1mlz1" class="input-group-btn">
-		        <button id="load-source" type="button" class="btn btn-primary ladda-button" data-style="zoom-in" disabled=""><span class="ladda-label">Load</span></button>
-                <button id="schema-version-caret" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">with <span class="caret"></span></button>
-                <ul id="schema-version-dropdown" class="dropdown-menu" role="menu">
-                  <li><a value="1.1mlz1" href="#">Juris-M</a></li>
-                  <li><a value="1.0.1" href="#">CSL 1.0.1</a></li>
-                  <li><a value="1.0" href="#">CSL 1.0</a></li>
-                  <li><a value="0.8.1" href="#">CSL 0.8.1</a></li>
-                </ul>
-              </div><!-- /btn-group -->
-              <input class="form-control" id="schema-name" readonly="true" value="Juris-M" type="text">
-            </div><!-- /input-group -->
-          </div><!-- /.col-s-6 -->
-          <div class="col-lg-3">
-	        <button id="validate" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Validate </span></button>
-	        <button id="save" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Download </span></button>
-	        <button id="submit" type="button" class="btn btn-success ladda-button" data-style="zoom-in"><span class="ladda-label">Submit </span></button>
-          </div>
-        </div>
-        <div class="row row-gap">
-          <div class="col-sm-12">
-            <div id="alert"></div>
-            <div id="tabs">
-	          <ul>
-		        <li><a id="source-tab" href="#source">Juris-M Style</a></li>
-		        <li><a id="errors-tab" href="#errors">Errors</a></li>
-		        <li><a id="sampler-tab" href="#sampler">Sampler</a></li>
-	          </ul>
-	          <div id="source"></div>
-	          <div id="errors">
-		        <ol id="error-list"></ol>
-	          </div>
-		      <div id="sampler">
-                <div class="row">
-                  <div id="sampler-preview" class="col-lg-6">
-                    <div class="row"><div class="col-lg-12"><b id="style-name">My Style</b></div></div>
-                    <div class="row">
-                      <div class="col-lg-12">
-                        <div class="btn-group">
-                          <button id="sampler-itemtype-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            Case <span class="caret"></span>
-                          </button>
-                          <ul id="sampler-itemtype-dropdown" class="dropdown-menu" role="menu" onclick="CSLValidator.changeSamplerItemType(event);">
-                            <!-- item types -->
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row"><div class="col-lg-12"><h3 style="margin-top:5px;">Citations</h3></div></div>
-                    <div class="row">
-                      <div class="col-lg-12">
-                        <ol id="sampler-citations">
-                          <!-- citations -->
-                        </ol>
-                      </div>
-                    </div>
-                    <div class="row"><div class="col-lg-12"><h3>Bibliography</h3></div></div>
-                    <div class="row">
-                      <div id="sampler-bibliography" class="col-lg-12">
-                        <!-- bibliography entries -->
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="row">
-                      <div class="col-xs-12">
-                        <div class="small-note">drag fields to add or remove them</div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-xs-6">
-                        <div class="row">
-                          <div class="col-xs-12">
-                            <h4>Included fields</h4>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div id="selected-csl-variables" class="col-xs-12 droppable">
-                            <!-- selected bubbles -->
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-xs-6">
-                        <div class="row">
-                          <div class="col-xs-12">
-                            <h4>Excluded fields</h4>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div id="unselected-csl-variables" class="col-xs-12 droppable">
-                            <!-- unselected bubbles -->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-	        </div>
+      <div class="row">
+        <div class="col-lg-12" style="font-size:140%;">
+          <div style="margin:0 3em 0 3em;padding:0.5em 1em 0.5em 1em;">
+            <div style="text-align:center;margin-bottom:0.5em;">
+              A personal library and research assistant.
+            </div>
+            <div style="text-align:center;">
+              For scholars of all fields, in any jurisdiction, across all languages.
+            </div>
           </div>
         </div>
       </div>
-      <div id="fields-view" class="container action-view" style="display:none;">
+      <div class="row">
+        <div class="col-lg-6 vcenter">
+          <div class="big-button-top button1">
+            <div>Research Tools</div>
+          </div>
+          <div class="big-button-bottom button1">
+            <p>Click here to install tools from the Juris-M suite.</p>
+            <dl>
+              <dt>
+                Desktop Resource Manager
+              </dt>
+              <dd>
+                The Juris-M resource manager is a variant of the
+                Zotero Firefox plugin, modified and extended to
+                support legal and multilingual referencing.
+              </dd>
+              <dt>
+                Abbreviation Filter
+              </dt>
+              <dd>
+                Style-specific abbreviation lists for law and other
+                fields, with a simple editor for adding and editing
+                entries.
+              </dd>
+            </dl>
+            <p>Juris-M is free software.</p>
+          </div>
+        </div><!--
+        --><div class="col-lg-6 vcenter">
+          <div class="big-button-top button2">
+            <div>Style Development</div>
+          </div>
+          <div class="big-button-bottom button2">
+            <p>Click here to enter the Juris-M legal style editor</p>
+            <dl>
+              <dt>
+                Modular styles
+              </dt>
+              <dd>
+                Juris-M supports jurisdiction-specific modular styles
+                for legal referencing, using an extended version of
+                the same powerful Citation Style Language that drives
+                Zotero. In the style editor, you can tune citation
+                formats to the specific requirements of any
+                jurisdiction.
+              </dd>
+              <dt>
+                GitHub account required
+              </dt>
+              <dd>
+                You must have a GitHub account to contribute legal style
+                code. The site will request access to your public GitHub 
+                repositories in order to manage your submissions.
+              </dd>
+            </dl>
+          </div>
+        </div>
       </div>
     </div>
-    <script src="js/github-lib.js"></script>
   </body>
 </html>
