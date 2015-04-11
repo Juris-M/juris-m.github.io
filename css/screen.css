@@ -1,5 +1,12 @@
 /* ignore this line */
 
+.top-blurb {
+    margin:0 15px 0 15px;
+    padding:0.5em 0 0.5em 0;
+    border:3px solid #888888;
+    border-radius:2em;
+}
+
 .downloads .row.odd .col-lg-4:nth-child(odd), .downloads .row.even .col-lg-4:nth-child(even) {
     padding-top: 3px;
 }
