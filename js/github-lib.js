@@ -3,9 +3,12 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
      * Exports
      */
 
-    this.getModuleMaster = githubGetModuleMaster;
+    this.githubInit = githubInit;
     this.submitPullRequest = githubSubmitPullRequest;
     this.ghMsg = ghMsg;
+    this.username = username;
+
+    var username = null;
     
     /*
      * General functions
@@ -15,7 +18,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
 
     function debugMsg(msg) {
         if (debugFlag) {
-            console.log("XXX " + msg + "\n")
+            console.log("XXX " + msg)
         }
     }
 
@@ -122,6 +125,58 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
      * Intermediate functions
      */
 
+    function ghInitGetUser(info) {
+        debugMsg("ghInitGetUser()");
+        var errorSpec = {
+            type: 'Error',
+            desc: 'Unable to get your user account details for some reason.',
+            disable: true
+        }
+        ghApi('GET', '/user', null, errorSpec, function(user){
+            info.username = user.login;
+            // Expose username in the GitHub login object
+            username = info.username;
+            // Now try to acquire the master. This should always work, in theory at least.
+            ghInitGetMaster(info);
+        });
+    }
+
+
+    function ghInitGetMaster(info) {
+        debugMsg("ghInitGetMaster()");
+        ghWaitForFileContents('juris-m', 'master', 'juris-' + info.jurisdictionKey + '.csl', function(contents) {
+            if (!contents) {
+                // The file does not yet exist
+                jurisdictionWorker.postMessage({type:'REQUEST MODULE TEMPLATE',key:info.jurisdictionKey,name:info.jurisdictionName});
+            } else {
+                // Make a note of the SHA. We'll need this later if the upcoming attempt
+                // to retrieve a user copy fails.
+                info.masterSha = contents.sha;
+                ghInitUserCopy(info);
+            }
+        }, 'fallback');
+    }
+
+    function ghInitUserCopy(info) {
+        debugMsg("ghInitUserCopy()");
+        ghWaitForFileContents(info.username, info.jurisdictionKey, 'juris-' + info.jurisdictionKey + '.csl', function(contents) {
+            if (!contents) {
+                // If we failed on the user copy, use the master
+                ghGetFileContent('juris-m', info.masterSha, function(content){
+                    validateContent(content);
+                });
+            } else {
+                // If we did get a user copy, use it
+                ghGetFileContent(info.username, contents.sha, function(content){
+                    validateContent(content);
+                });
+                // Also expose a link to the user's GitHub branch
+                $('#github-link').attr('href', 'https://github.com/' + info.username + '/style-modules');
+                $('#github-link').show();
+            }
+        }, 'fallback');
+    }
+    
     function ghGetUser(info) {
         debugMsg("ghGetUser()");
         var errorSpec = {
@@ -146,6 +201,10 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
         ghApi('POST', '/repos/juris-m/style-modules/forks', {}, errorSpec, function(fork) {
             ghWaitForFileContents(info.username, 'master', 'README.md', function() {
                 if (fork.parent && fork.parent.full_name === 'Juris-M/style-modules') {
+                    // While we're here, be sure the GitHub view is exposed for the user
+                    $('#github-link').attr('href', 'https://github.com/' + info.username + '/style-modules');
+                    $('#github-link').show();
+                    // Proceed with pull request chain
                     ghGetUpstreamMasterSha(info);
                 } else {
                     var msgSpec = {
@@ -377,6 +436,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
     }
 
     function ghGetFileContent(owner, sha, callback) {
+        debugMsg("ghGetFileContent()");
         var errorSpec = {
             type: 'Error',
             desc: 'Failed to read a file from GitHub for some reason.',
@@ -389,22 +449,15 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
      * Top-level functions
      */
 
-    function githubGetModuleMaster(key, name) {
-        debugMsg("githubGetModuleMaster() *****");
-        ghWaitForFileContents('juris-m', 'master', 'juris-' + key + '.csl', function(contents) {
-            if (!contents) {
-                // The file does not yet exist
-                jurisdictionWorker.postMessage({type:'REQUEST MODULE TEMPLATE',key:key,name:name});
-            } else {
-                // Get the SHA and use it to fetch the Blob linewise
-                var sha = contents.sha;
-                ghGetFileContent('juris-m', sha, function(content){
-                    validateContent(content);
-                });
-            }
-        }, 'fallback');
+    function githubInit(key, name) {
+        debugMsg("githubInit() **********");
+        var info = {
+            jurisdictionKey: key,
+            jurisdictionName: name
+        }
+        ghInitGetUser(info);
     }
-    
+
     function githubSubmitPullRequest(moduleName, moduleContent) {
         debugMsg("githubSubmitPullRequest() *****");
         var info = {
