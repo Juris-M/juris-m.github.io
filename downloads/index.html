@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script type="text/javascript">
+      // Force HTTPS
+      var enforce = "juris-m.github.io";
+      if ((enforce == window.location.host) && (window.location.protocol != "https:")) {
+      window.location.protocol = "https";
+      }
+    </script>
+    <title>Juris-M: Downloads</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../favicon-32x32.png">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito">
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../css/jquery-ui.1.11.3.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/screen.css">
+    <script src="../js/jquery.1.11.3.min.js"></script>
+    <script src="../js/jquery-ui.1.11.3.min.js"></script>
+    <script src="../js/jquery.ui.touch-punch.min.js"></script>
+    <script src="../js/underscore-min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.11.2/URI.min.js"></script>
+    <script>
+      var initScript = function() {
+        var heights = [null, null, null];
+        var nodes = [null, null, null];
+        $(".downloads .row .col-lg-4").each(function(count){
+          var pos = (count % 3);
+          heights[pos] = $(this).outerHeight();
+          nodes[pos] = this;
+          if (pos === 2) {
+            var maxheight = heights[0];
+            for (var i=1,ilen=3;i<ilen;i++) {
+              if (heights[i] > maxheight) {
+                maxheight = heights[i];
+              }
+            }
+            for (var i=0,ilen=3;i<ilen;i++) {
+               nodes[i].setAttribute('style', 'height:' + maxheight + 'px;');
+            }
+            heights = [null, null, null];
+            nodes = [null, null, null];
+          }
+        });
+      };
+    </script>
+  </head>
+  <body onload="initScript();">
+    <div class="container">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <div id="juris-m-button" class="navbar-brand" onclick="window.location.href=window.location.href.replace('/downloads', '')">
+              <span  style="vertical-align:middle;font-size:110%;color:black !important;border-radius:1em;background:#909090;padding:0.25em 0.35em 0.35em 0.35em;">
+                <span  style="vertical-align:middle;border-radius:1em;background:white;padding:0.25em 0.5em 0.2em 0.5em;">
+                  <span style="font-family: Nunito, sans-serif;vertical-align:middle;">Juris-</span><img style="vertical-align:middle;padding-left:0.08em;height:1.2em;vertical-align:middle;" src="../mlz-button-big.png">
+                </span>
+              </span>
+            </div>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a>Downloads</a></li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+    </div>
+    <div class="container content downloads">
+      <div class="row">
+        <div class="col-lg-12">
+          <h2>Core Plugins</h2>
+        </div>
+      </div>
+      <div class="row odd">
+        <div class="col-lg-4">
+          <a class="download-button" href="http://gsl-nagoya-u.net/http/pub/zotero-multi-3.xpi">
+            <div class="bigtext">
+              Desktop Client
+            </div>
+            <div class="smalltext">
+              version 4.0.26m512
+            </div>
+          </a>
+          <p>
+            A variant of the popular Zotero reference manager, with
+            support for legal materials and multilingual citations.
+            The Juris-M Desktop Client is a Firefox plugin, and will
+            install automatically when the link is clicked from
+            Firefox.
+          </p>
+          <p>
+            Please note that the plugin will modify an existing Zotero
+            database, and that after installation the database cannot
+            be accessed with Zotero Standalone on the same computer.
+          </p>
+          <p>
+            This is a simple rebranding of Multilingual Zotero (MLZ),
+            with no major code changes, and is still maintained by
+            Frank Bennett.
+          </p>
+        </div>
+        <div class="col-lg-4">
+          <a class="download-button" href="http://gsl-nagoya-u.net/http/pub/abbreviations-for-zotero.xpi">
+            <div class="bigtext">
+              Abbreviation Filter
+            </div>
+            <div class="smalltext">
+              version 1.0.200
+            </div>
+          </a>
+          <p>
+            Style-specific abbreviation lists for use with the Juris-M
+            Desktop Client. This is also a Firefox plugin, and will
+            install automatically when the link is clicked from Firefox.
+          </p>
+          <p>
+            Abbreviation entries can be added and edited from within
+            a document, or through the CSL Editor accessed from the
+            Advanced tab of the Preferences popup in the Desktop Client.
+          </p>
+        </div>
+        <div class="col-lg-4">
+          <a class="download-button" href="https://www.zotero.org/support/word_processor_plugin_installation">
+            <div class="bigtext">
+              WP Integration
+            </div>
+            <div class="smalltext">
+              from Zotero
+            </div>
+          </a>
+          <p>
+            Most users will choose to install one of the word
+            processor integration plugins offered by the Zotero team,
+            which provide the same functionality enjoyed by users of
+            mainstream Zotero.
+          </p>
+          <p>
+            No special configuration is required to use the Zotero
+            word processor plugins with Juris-M.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <h2>Additional Plugins</h2>
+        </div>
+      </div>
+      <div class="row even">
+        <div class="col-lg-4">
+          <a class="download-button">
+            <div class="bigtext">
+              Jurisdiction Support
+            </div>
+            <div class="smalltext">
+              forthcoming
+            </div>
+          </a>
+          <p>
+            Jurisdiction modules submitted through the Style Editor will
+            be distributed as a simple Firefox plugin. When the plugin
+            is installed, the citation formats of individual
+            jurisdictions will be applied automatically as appropriate
+            (for Juris-M styles only).
+          </p>
+          <p>
+            Juris-M styles that support modular formats are not yet
+            available. Look for an initial release by the end of this
+            month (April 2015).
+          </p>
+        </div>
+        <div class="col-lg-4">
+          <a class="download-button" href="http://fbennett.github.io/bluebook-signals-for-zotero/">
+            <div class="bigtext">
+              Bluebook Signals
+            </div>
+            <div class="smalltext">
+              version 1.0.5
+            </div>
+          </a>
+          <p>
+            A leading citation guide for legal writing in the United
+            States specifies a set of "signals," used to indicate the
+            relation of each cited source to the author's line of
+            argument.
+          </p>
+          <p>
+            This plugin enables convenient shortcut entry of citation signals.          
+          </p>
+        </div>
+        <div class="col-lg-4">
+          <a class="download-button" href="http://zotero-odf-scan.github.io/zotero-odf-scan/">
+            <div class="bigtext">
+              RTF/ODF Scan
+            </div>
+            <div class="smalltext">
+              version 1.0.22
+            </div>
+          </a>
+          <p>
+            This plugin provides robust citation support for word
+            processing platforms other than Word and LibreOffice (which
+            are supported directly by the WP Integration plugins above).
+          </p>
+          <p>
+            Using this plugin, citation placeholders can be pasted
+            into any document text. If the document is then converted to
+            Open Document Format (ODF), the placeholders can be transformed
+            into "live" citations, after which LibreOffice can apply
+            citation styles to the document in the usual way.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <h2>Citation Stylesheets</h2>
+          <p>
+            The Desktop Client is distributed with a full set of Juris-M citation styles.
+            Use the links below for reinstallation and updates if required.
+          </p>
+        </div>
+      </div>
+      <div class="row odd">
+        <div class="col-lg-4">
+          <a class="download-button" href="http://citationstylist.org/github/mlz-amlaw.csl?install=1">
+            <div class="bigtext">
+              MLZ Bluebook
+            </div>
+            <div class="smalltext">
+              (current)
+            </div>
+          </a>
+          <p>
+            Use this MLZ stylesheet for Bluebook referencing. It will
+            be replaced within the next few months by a functionally
+            equivalent Juris-M modular style to be released as "JM
+            Baby Blue," when the eponymous style guide becomes
+            available.
+          </p>
+          <p>
+            See
+            <a href="http://www.abajournal.com/magazine/article/legal_minds_differ_on_whether_the_bluebook_is_subject_to_copyright_protecti">Leslie Gordon, "Legal minds differ on whether The Bluebook
+            is subject to copyright," ABA Journal, February&nbsp;1, 2015</a> for information on the Baby Blue
+            project, and on the cause of the upcoming change in the name of the stylesheet.
+          </p>
+        </div>
+        <div class="col-lg-4">
+          <a class="download-button" href="http://citationstylist.org/github/mlz-cms-full.csl?install=1">
+            <div class="bigtext">
+              MLZ Chicago Full Note
+            </div>
+            <div class="smalltext">
+              (current)
+            </div>
+          </a>
+          <p>
+            The MLZ implementation of Chicago Manual of Style full
+            note referencing.
+          </p>
+          <p>
+            This stylesheet will be superceded in Summer 2015 with a
+            functionally equivalent version that supports modular
+            legal referencing, to be released as "JM Chicago Full
+            Note."
+          </p>
+        </div>
+        <div class="col-lg-4">
+          <a class="download-button" href="http://citationstylist.org/github/mlz-cms-full.csl?install=1">
+            <div class="bigtext">
+              MLZ OSCOLA
+            </div>
+            <div class="smalltext">
+              (current)
+            </div>
+          </a>
+          <p>
+            The MLZ implementation of the Oxford Standard for the Citation of Legal Resources.
+          </p>
+          <p>
+            This stylesheet will be superceded in Summer 2015 with a
+            functionally equivalent version that supports modular
+            legal referencing, to be released as "JM OSCOLA."
+          </p>
+        </div>
+        <div class="col-lg-4">
+          <a class="download-button" href="http://citationstylist.org/github/mlz-new-zealand-law.csl?install=1">
+            <div class="bigtext">
+              MLZ New Zealand Law
+            </div>
+            <div class="smalltext">
+              (current)
+            </div>
+          </a>
+          <p>
+            The MLZ implementation of the New Zealand Law style for legal resources.
+          </p>
+          <p>
+            An early contribution to the MLZ family of styles from
+            Wellington University, the modular upgrade of this
+            stylesheet will follow that of OSCOLA, which its cite
+            forms substantially resemble.
+          </p>
+        </div>
+        <div class="col-lg-4">
+          <a class="download-button" href="http://citationstylist.org/github/mlz-new-zealand-law.csl?install=1">
+            <div class="bigtext">
+              CSL Style Repository
+            </div>
+            <div class="smalltext">
+              from Zotero
+            </div>
+          </a>
+          <p>
+            The Juris-M citation processor is compatible with
+            mainstream CSL, and with some small exceptions, mainstream
+            CSL styles should render equally well in Juris-M.
+          </p>
+          <p>
+            Legal referencing support can be added to a mainstream CSL
+            style without exceptional effort. If you require this,
+            please post a note
+            to <a href="https://twitter.com/fbgjr" class="font-family:mono;">@fgbjr</a> on
+            Twitter.
+          </p>
+        </div>
+      </div>
+    </div>
+    <script src="../js/github-lib.js"></script>
+  </body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.11.2/URI.min.js"></script>
+    <script type="text/javascript">
+      // Force HTTPS
+      var enforce = "juris-m.github.io";
+      if ((enforce == window.location.host) && (window.location.protocol != "https:")) {
+        window.location.protocol = "https";
+      }
+      // Access token is global to this window
+      var access_token;
+      // GitHub login
+      uri = new URI();
+      if (uri.hasQuery('code')) {
+        // Get temporary code
+        var code = uri.query(true)['code'];
+        // Remove code from URL
+        history.replaceState({}, document.title, uri.search(""));
+        // Call for validation
+        var url = 'https://our.law.nagoya-u.ac.jp/juris-m/authenticate/' + code + '?case=dev'
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.setRequestHeader("Content-type","application/json");
+        xhr.onload = function(e) {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              var obj = JSON.parse(xhr.responseText);
+              console.log("GitHub login success\n");
+              // Set our access token
+              access_token = obj.token;
+            } else {
+              console.log("XXX OOPS in main(3): " + xhr.statusText + "\n");
+            }
+          }
+        }
+        xhr.onerror = function (e) {
+          console.log("XXX OOPS in main(4): " + e + "\n");
+        }
+        xhr.send(null);
+      }
+    </script>
+    <title>Juris-M: Editor</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../favicon-32x32.png">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito">
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../css/jquery-ui.1.11.3.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/fileinput.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/ladda-themeless.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/screen.css">
+    <script src="../js/jquery.1.11.3.min.js"></script>
+    <script src="../js/jquery-ui.1.11.3.min.js"></script>
+    <script src="../js/jquery.ui.touch-punch.min.js"></script>
+    <script src="../js/typeahead.bundle.js"></script>
+    <script src="../js/underscore-min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="../js/fileinput.min.js" type="text/javascript"></script>
+    <script src="../js/spin.min.js"></script>
+    <script src="../js/ladda.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+      $(function() {
+      $( "#tabs" ).tabs();
+      });
+    </script>
+  </head>
+  <body onload="CSLValidator.init();">
+    <div class="container">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <div id="juris-m-button" class="navbar-brand" onclick="window.location.href=window.location.href.replace('/editor', '')">
+              <span  style="vertical-align:middle;font-size:110%;color:black !important;border-radius:1em;background:#909090;padding:0.25em 0.35em 0.35em 0.35em;">
+                <span  style="vertical-align:middle;border-radius:1em;background:white;padding:0.25em 0.5em 0.2em 0.5em;">
+                  <span style="font-family: Nunito, sans-serif;vertical-align:middle;">Juris-</span><img style="vertical-align:middle;padding-left:0.08em;height:1.2em;vertical-align:middle;" src="../mlz-button-big.png">
+                </span>
+              </span>
+            </div>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a onclick="CSLValidator.setView(event,'editor');" href="#">Style Editor</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                  Field Maps
+                  <span class="caret"></span></a>
+                <ul id="field-map-menu-container" class="dropdown-menu" role="menu" onclick="CSLValidator.setView(event,'fields',event.originalTarget ? event.originalTarget.textContent : event.srcElement.textContent)">
+                  <li><a href="#">Placeholder</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Docs <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="http://docs.citationstyles.org/en/stable/specification.html">CSL Specification</a></li>
+                  <li><a href="http://citationstylist.org/docs/citeproc-js-csl.html">Juris-M (CSL-m) Specification Supplement</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+    </div>
+    <div class="container content">
+      <div id="editor-view" class="container action-view">
+	    <div class="row">
+	      <div class="col-lg-6">
+	        <div class="input-append input-group">
+	          <div id="source-method" value="search-source" class="input-group-btn">
+		        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Style source <span class="caret"></span></button>
+		        <ul class="dropdown-menu" role="menu">
+		          <li><a value="search-source" href="#">Jurisdiction module</a></li>
+		          <li><a value="file-source" href="#">File upload</a></li>
+		          <li><a value="url-source" href="#">URL</a></li>
+		        </ul>
+	          </div><!-- /btn-group -->
+              <div id="search-source" class="source-input">
+                <input id="search-input" autocomplete="off" class="typeahead form-control" type="text" placeholder="Enter a country or institution">
+              </div>
+              <div id="file-source" class="row source-input" style="display:none;">
+                <div class="col-xs-12">
+                  <input class="file form-control" id="file-input" type="file" data-show-preview="false" data-show-upload="false">
+                </div>
+              </div>
+              <span id="url-source" class="source-input" style="display:none;">
+                <input class="form-control" id="url-input" type="text" placeholder="Enter style URL">
+              </span>
+              <span id="search-source-remover" class="input-group-btn source-input-remover" style="display:none;">
+		        <button class="btn btn-default" title="Clear Jurisdiction" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
+              </span>
+              <span id="url-source-remover" class="input-group-btn source-input-remover" style="display:none;">
+		        <button class="btn btn-default" title="Clear URL" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
+              </span>
+	        </div>
+	      </div>
+	      <div class="col-lg-3">
+	        <div class="input-group">
+	          <div id="schema-version" value="1.1mlz1" class="input-group-btn">
+		        <button id="load-source" type="button" class="btn btn-primary ladda-button" data-style="zoom-in" disabled=""><span class="ladda-label">Load</span></button>
+                <button id="schema-version-caret" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">with <span class="caret"></span></button>
+                <ul id="schema-version-dropdown" class="dropdown-menu" role="menu">
+                  <li><a value="1.1mlz1" href="#">Juris-M</a></li>
+                  <li><a value="1.0.1" href="#">CSL 1.0.1</a></li>
+                  <li><a value="1.0" href="#">CSL 1.0</a></li>
+                  <li><a value="0.8.1" href="#">CSL 0.8.1</a></li>
+                </ul>
+              </div><!-- /btn-group -->
+              <input class="form-control" id="schema-name" readonly="true" value="Juris-M" type="text">
+            </div><!-- /input-group -->
+          </div><!-- /.col-s-6 -->
+          <div class="col-lg-3">
+	        <button id="validate" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Validate </span></button>
+	        <button id="save" type="button" class="btn btn-primary ladda-button" data-style="zoom-in"><span class="ladda-label">Download </span></button>
+	        <button id="submit" type="button" class="btn btn-success ladda-button" data-style="zoom-in"><span class="ladda-label">Submit </span></button>
+          </div>
+        </div>
+        <div class="row row-gap">
+          <div class="col-sm-12">
+            <div id="alert"></div>
+            <div id="tabs">
+	          <ul>
+		        <li><a id="source-tab" href="#source">Juris-M Style</a></li>
+		        <li><a id="errors-tab" href="#errors">Errors</a></li>
+		        <li><a id="sampler-tab" href="#sampler">Sampler</a></li>
+	          </ul>
+	          <div id="source"></div>
+	          <div id="errors">
+		        <ol id="error-list"></ol>
+	          </div>
+		      <div id="sampler">
+                <div class="row">
+                  <div id="sampler-preview" class="col-lg-6">
+                    <div class="row"><div class="col-lg-12"><b id="style-name">My Style</b></div></div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="btn-group">
+                          <button id="sampler-itemtype-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            Case <span class="caret"></span>
+                          </button>
+                          <ul id="sampler-itemtype-dropdown" class="dropdown-menu" role="menu" onclick="CSLValidator.changeSamplerItemType(event);">
+                            <!-- item types -->
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row"><div class="col-lg-12"><h3 style="margin-top:5px;">Citations</h3></div></div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <ol id="sampler-citations">
+                          <!-- citations -->
+                        </ol>
+                      </div>
+                    </div>
+                    <div class="row"><div class="col-lg-12"><h3>Bibliography</h3></div></div>
+                    <div class="row">
+                      <div id="sampler-bibliography" class="col-lg-12">
+                        <!-- bibliography entries -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="small-note">drag fields to add or remove them</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h4>Included fields</h4>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div id="selected-csl-variables" class="col-xs-12 droppable">
+                            <!-- selected bubbles -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-6">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h4>Excluded fields</h4>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div id="unselected-csl-variables" class="col-xs-12 droppable">
+                            <!-- unselected bubbles -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+	        </div>
+          </div>
+        </div>
+      </div>
+      <div id="fields-view" class="container action-view" style="display:none;">
+      </div>
+    </div>
+    <script src="../js/github-lib.js"></script>
+  </body>
+</html>

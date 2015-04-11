@@ -5,6 +5,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
 
     this.getModuleMaster = githubGetModuleMaster;
     this.submitPullRequest = githubSubmitPullRequest;
+    this.ghMsg = ghMsg;
     
     /*
      * General functions
