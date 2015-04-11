@@ -836,7 +836,7 @@ var CSLValidator = (function() {
             if (!gh) {
                 gh = new GitHub(access_token, jurisdictionWorker, validateContent, submitButton);
             }
-            gh.getModuleMaster(key, name);
+            gh.githubInit(key, name);
             break;
         }
     }

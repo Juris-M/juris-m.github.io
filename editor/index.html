@@ -22,8 +22,7 @@
           // Remove code from URL
           history.replaceState({}, document.title, uri.search(""));
           // Call for validation
-          console.log("XXX CALL FOR VALIDATION FOR code="+code);
-          var url = 'https://our.law.nagoya-u.ac.jp/juris-m/authenticate/' + code + '?case=default';
+          var url = 'https://our.law.nagoya-u.ac.jp/juris-m/authenticate/' + code + '?case=dev';
           var xhr = new XMLHttpRequest();
           xhr.open('GET', url, true);
           xhr.setRequestHeader("Content-type","application/json");
@@ -118,6 +117,7 @@
                   <li><a href="http://citationstylist.org/docs/citeproc-js-csl.html">Juris-M (CSL-m) Specification Supplement</a></li>
                 </ul>
               </li>
+              <li><a id="github-link" href="#" style="display:none;">GitHub View</a></li>
             </ul>
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
