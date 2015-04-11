@@ -36,11 +36,10 @@
         });
         $(".button1").click(function(event){
           document.location.href="downloads";
-          //document.location.href="https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=12345";
         });
         $(".button2").click(function(event){
-          document.location.href="https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=12345";
-          //document.location.href="https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=12345";
+          console.log("Hitting GitHub login API");
+          document.location.href="https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=98754321";
         });
       }
     </script>

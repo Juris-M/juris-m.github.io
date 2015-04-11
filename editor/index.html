@@ -6,38 +6,48 @@
       // Force HTTPS
       var enforce = "juris-m.github.io";
       if ((enforce == window.location.host) && (window.location.protocol != "https:")) {
+        // GitHub API OAuth login robot calls back with HTTP, even if protocol is set to HTTPS in the URL.
         window.location.protocol = "https";
-      }
-      // Access token is global to this window
-      var access_token;
-      // GitHub login
-      uri = new URI();
-      if (uri.hasQuery('code')) {
-        // Get temporary code
-        var code = uri.query(true)['code'];
-        // Remove code from URL
-        history.replaceState({}, document.title, uri.search(""));
-        // Call for validation
-        var url = 'https://our.law.nagoya-u.ac.jp/juris-m/authenticate/' + code + '?case=default';
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.setRequestHeader("Content-type","application/json");
-        xhr.onload = function(e) {
-          if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-              var obj = JSON.parse(xhr.responseText);
-              console.log("GitHub login success\n");
-              // Set our access token
-              access_token = obj.token;
-            } else {
-              console.log("XXX OOPS in main(3): " + xhr.statusText + "\n");
+      } else {
+        // Access token is global to this window
+        var access_token;
+        if (!access_token) {
+          access_token = localStorage.getItem('access_token');
+        }
+        // GitHub login
+        uri = new URI();
+        if (uri.hasQuery('code')) {
+          // Get temporary code
+          var code = uri.query(true)['code'];
+          // Remove code from URL
+          history.replaceState({}, document.title, uri.search(""));
+          // Call for validation
+          console.log("XXX CALL FOR VALIDATION FOR code="+code);
+          var url = 'https://our.law.nagoya-u.ac.jp/juris-m/authenticate/' + code + '?case=default';
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', url, true);
+          xhr.setRequestHeader("Content-type","application/json");
+          xhr.onload = function(e) {
+            if (xhr.readyState === 4) {
+              if (xhr.status === 200) {
+                console.log("XXX RESPONSE: "+xhr.responseText);
+                var obj = JSON.parse(xhr.responseText);
+                // Set our access token
+                if (obj.token) {
+                  console.log("GitHub login success\n");
+                  access_token = obj.token;
+                  window.localStorage.setItem('access_token', access_token);
+                }
+              } else {
+                console.log("XXX OOPS in main(3): " + xhr.statusText + "\n");
+              }
             }
           }
+          xhr.onerror = function (e) {
+            console.log("XXX OOPS in main(4): " + e + "\n");
+          }
+          xhr.send(null);
         }
-        xhr.onerror = function (e) {
-          console.log("XXX OOPS in main(4): " + e + "\n");
-        }
-        xhr.send(null);
       }
     </script>
     <title>Juris-M: Editor</title>
