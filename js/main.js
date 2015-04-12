@@ -950,7 +950,7 @@ var CSLValidator = (function() {
         if (m) {
             fileName = m[1] + ".csl";
         }
-        xmlStr = btoa(xmlStr);
+        xmlStr = btoa(unescape(encodeURIComponent(xmlStr)));
         var a = document.createElement('a');
         var ev = document.createEvent("MouseEvents");
         a.href = "data:application/octet-stream;charset=utf-8;base64,"+xmlStr;
