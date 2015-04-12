@@ -1087,6 +1087,7 @@ var CSLValidator = (function() {
             editor.setSession(aceDoc);
             editor.setReadOnly(false);
             editor.getSession().setUseWrapMode(true);
+            editor.getSession().setTabSize(2);
             editor.setHighlightActiveLine(true);
             editor.renderer.$cursorLayer.element.style.opacity = 1;
             editor.setTheme("ace/theme/eclipse");
