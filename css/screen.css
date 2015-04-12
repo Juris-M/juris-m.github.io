@@ -23,11 +23,11 @@
     text-decoration:none;
     border:2px solid #008000;
     border-radius:2em;
-    float:right;
+    float:left;
     width:14em;
     padding:0.5em;
     color:#333;
-    margin:0.5em;
+    margin:0.5em 0.5em 0.5em -0.5em;
     background: rgba(0, 80, 0, 0.1);
 }
 
@@ -73,7 +73,7 @@ col-lg-6.vcenter {
     border-left:3px solid #888888;
     border-right:3px solid #888888;
     border-bottom:3px solid #888888;
-    min-height:10em;
+    /* min-height:10em; */
     margin:0 20px 20px 20px;
     padding:1em;
     background:#eeeeee;

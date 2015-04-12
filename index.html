@@ -22,26 +22,28 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script>
       var initScript = function() {
-        var last = null;
-        $(".big-button-bottom").each(function(count){
-          if ((count % 2) == 1) {
-            if ($(this).outerHeight() > last.outerHeight()) {
-              last.attr('style', 'height:' + $(this).outerHeight() + 'px;');
+        if (document.documentElement.clientWidth > 992) {
+          var last = null;
+          $(".big-button-bottom").each(function(count){
+            if ((count % 2) == 1) {
+              if ($(this).outerHeight() > last.outerHeight()) {
+                last.attr('style', 'height:' + $(this).outerHeight() + 'px;');
+              } else {
+                this.attr('style', 'height:' + last.outerHeight() + 'px;');
+              }
             } else {
-              this.attr('style', 'height:' + last.outerHeight() + 'px;');
+              last = $(this);
             }
-          } else {
-            last = $(this);
-          }
-        });
-        $(".button1").click(function(event){
-          document.location.href="downloads";
-        });
-        $(".button2").click(function(event){
-          console.log("Hitting GitHub login API");
-          document.location.href="https://github.com/login/oauth/authorize?client_id=e8c0052c29d0147de5c3&scope=public_repo&status=98754321";
-          //document.location.href="https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=98754321";
-        });
+          });
+          $(".button1").click(function(event){
+            document.location.href="downloads";
+          });
+          $(".button2").click(function(event){
+            console.log("Hitting GitHub login API");
+            document.location.href="https://github.com/login/oauth/authorize?client_id=e8c0052c29d0147de5c3&scope=public_repo&status=98754321";
+            //document.location.href="https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=98754321";
+          });
+        }
       }
     </script>
   </head>

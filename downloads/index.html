@@ -26,26 +26,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.11.2/URI.min.js"></script>
     <script>
       var initScript = function() {
-        var heights = [null, null, null];
-        var nodes = [null, null, null];
-        $(".downloads .row .col-lg-4").each(function(count){
-          var pos = (count % 3);
-          heights[pos] = $(this).outerHeight();
-          nodes[pos] = this;
-          if (pos === 2) {
-            var maxheight = heights[0];
-            for (var i=1,ilen=3;i<ilen;i++) {
-              if (heights[i] > maxheight) {
-                maxheight = heights[i];
+        if (document.documentElement.clientWidth > 992) {
+          var heights = [null, null, null];
+          var nodes = [null, null, null];
+          $(".downloads .row .col-lg-4").each(function(count){
+            var pos = (count % 3);
+            heights[pos] = $(this).outerHeight();
+            nodes[pos] = this;
+            if (pos === 2) {
+              var maxheight = heights[0];
+              for (var i=1,ilen=3;i<ilen;i++) {
+                if (heights[i] > maxheight) {
+                  maxheight = heights[i];
+                }
               }
+              for (var i=0,ilen=3;i<ilen;i++) {
+                 nodes[i].setAttribute('style', 'height:' + maxheight + 'px;');
+              }
+              heights = [null, null, null];
+              nodes = [null, null, null];
             }
-            for (var i=0,ilen=3;i<ilen;i++) {
-               nodes[i].setAttribute('style', 'height:' + maxheight + 'px;');
-            }
-            heights = [null, null, null];
-            nodes = [null, null, null];
-          }
-        });
+          });
+        }
       };
     </script>
   </head>
