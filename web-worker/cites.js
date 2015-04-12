@@ -143,12 +143,13 @@ function generateSample() {
     citationFactory.addCitation('ITEM-3', 'section', '33');
     citationFactory.addCitation('ITEM-4', 'chapter', '44');
     citationFactory.addCitation('ITEM-4', 'page', '11');
-    citationFactory.addCitation('ITEM-4', 'page', '111');
+    citationFactory.addCitation('ITEM-4', 'section', '33');
     citationFactory.addCitation('ITEM-1', 'chapter', '44');
     citationFactory.addCitation('ITEM-3', 'paragraph', '22');
     citationFactory.addCitation('ITEM-4', 'section', '33');
     citationFactory.addCitation('ITEM-2');
     citationFactory.addCitation('ITEM-1', 'page', '11');
+    citationFactory.addCitation('ITEM-1', 'paragraph', '22');
     var citationResults = [];
     var citations = citationFactory.citations;
     for (var i=0,ilen=citations.length;i<ilen;i++) {
