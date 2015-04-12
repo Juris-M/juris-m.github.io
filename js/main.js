@@ -638,7 +638,7 @@ var CSLValidator = (function() {
             setBoxHeight(['error-list']);
         });
         
-        $(window).bind('resize',function(){
+        $(window).on('resize',function(){
             setBoxHeight(['source', 'errors']);
             setBoxHeight(['source-code']);
         });

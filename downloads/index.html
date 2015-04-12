@@ -25,30 +25,34 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.11.2/URI.min.js"></script>
     <script>
-      var initScript = function() {
+      function initScript() {
         if (document.documentElement.clientWidth > 992) {
           var heights = [null, null, null];
           var nodes = [null, null, null];
-          $(".downloads .row .col-lg-4").each(function(count){
-            var pos = (count % 3);
-            heights[pos] = $(this).outerHeight();
-            nodes[pos] = this;
-            if (pos === 2) {
-              var maxheight = heights[0];
-              for (var i=1,ilen=3;i<ilen;i++) {
-                if (heights[i] > maxheight) {
-                  maxheight = heights[i];
+          $(".downloads .row .col-lg-4").each(function(i){
+            heights[i] = $(this).outerHeight();
+            nodes[i] = this;
+            if ((i % 3) === 2) {
+              var maxheight = heights[i];
+              for (var j=-1;j>-3;j--) {
+                if (heights[i+j] > maxheight) {
+                  maxheight = heights[i+j];
                 }
               }
-              for (var i=0,ilen=3;i<ilen;i++) {
-                 nodes[i].setAttribute('style', 'height:' + maxheight + 'px;');
+              for (var j=0;j>-3;j--) {
+                 nodes[i+j].setAttribute('style', 'height:' + maxheight + 'px;');
               }
               heights = [null, null, null];
               nodes = [null, null, null];
             }
           });
+        } else {
+          $(".downloads .row .col-lg-4").each(function(){
+            $(this).removeAttr("style");
+          });
         }
       };
+      $(window).on('resize', initScript);
     </script>
   </head>
   <body onload="initScript();">
@@ -336,6 +340,9 @@
             to <a href="https://twitter.com/fbgjr" class="font-family:mono;">@fgbjr</a> on
             Twitter.
           </p>
+        </div>
+        <div class="col-lg-4">
+          &nbsp;
         </div>
       </div>
     </div>

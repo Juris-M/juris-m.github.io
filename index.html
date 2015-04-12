@@ -21,7 +21,7 @@
     <script src="js/jquery.ui.touch-punch.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script>
-      var initScript = function() {
+      function resizeMe() {
         if (document.documentElement.clientWidth > 992) {
           var last = null;
           $(".big-button-bottom").each(function(count){
@@ -35,16 +35,24 @@
               last = $(this);
             }
           });
-          $(".button1").click(function(event){
-            document.location.href="downloads";
+	    } else {
+          $(".big-button-bottom").each(function(){
+            $(this).removeAttr('style');
           });
-          $(".button2").click(function(event){
-            console.log("Hitting GitHub login API");
-            document.location.href="https://github.com/login/oauth/authorize?client_id=e8c0052c29d0147de5c3&scope=public_repo&status=98754321";
-            //document.location.href="https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=98754321";
-          });
-	}
+        }
       }
+      function initScript() {
+        resizeMe();
+        $(".button1").click(function(event){
+          document.location.href="downloads";
+        });
+        $(".button2").click(function(event){
+          console.log("Hitting GitHub login API");
+          document.location.href="https://github.com/login/oauth/authorize?client_id=e8c0052c29d0147de5c3&scope=public_repo&status=98754321";
+          //document.location.href="https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=98754321";
+        });
+      }
+      $(window).on('resize', initScript);
     </script>
   </head>
   <body onload="initScript();">
