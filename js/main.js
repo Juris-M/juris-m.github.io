@@ -1109,7 +1109,9 @@ var CSLValidator = (function() {
 
         if (errorCount === 0 && nonDocumentError === "") {
             initializeStyle();
-            submitButton.enable();
+            if (getSourceMethod() === "search") {
+                submitButton.enable();
+            }
         }
 
         // This gets the box - would need to resize ace also,
