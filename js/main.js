@@ -379,6 +379,18 @@ var CSLValidator = (function() {
         //Initialize URI.js
         uri = new URI();
 
+        setBoxHeight(['source']);
+        setBoxHeight(['source-code']);
+
+        $('#errors-tab').click(function(){
+            setBoxHeight(['error-list']);
+        });
+        
+        $(window).on('resize',function(){
+            setBoxHeight(['source', 'errors']);
+            setBoxHeight(['source-code']);
+        });
+
         //Crank up the field map menus
         menuWorker.postMessage({type:"GET MENU ITEMS"});
 
@@ -633,17 +645,6 @@ var CSLValidator = (function() {
                 }
             }
         });
-
-        $('#errors-tab').click(function(){
-            setBoxHeight(['error-list']);
-        });
-        
-        $(window).on('resize',function(){
-            setBoxHeight(['source', 'errors']);
-            setBoxHeight(['source-code']);
-        });
-        setBoxHeight(['source']);
-        setBoxHeight(['source-code']);
 
         console.log("XXX PING citeproc");
         citeprocWorker.postMessage({type:'PING'});
