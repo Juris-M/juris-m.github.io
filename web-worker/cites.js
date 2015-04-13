@@ -346,6 +346,8 @@ onmessage = function (event) {
             // These are constants, initialize just once
             if (!itemTypeData) {
                 itemTypeData = reverseMapping(event.data.itemTypeData);
+                dump("XXX type=legislation\n");
+                dump("XXX "+JSON.stringify(itemTypeData["legislation"], null, 2)+"\n");
                 excludeFields = event.data.excludeFields;
                 legalTypes = event.data.legalTypes;
             }
