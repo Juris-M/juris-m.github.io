@@ -47,8 +47,10 @@ function makeItems() {
     var baseTitle = '';
     if (item.title) {
         baseTitle = item.title;
-        baseShortTitle = item["title-short"];
         item.title = (baseTitle + '-A');
+    }
+    if (item["title-short"]) {
+        baseShortTitle = item["title-short"];
         item["title-short"] = (baseShortTitle + '-A');
     }
     processorElements.items['ITEM-1'] = cloneObject(item);
@@ -57,6 +59,8 @@ function makeItems() {
     item.id = 'ITEM-2';
     if (item.title) {
         item.title = (baseTitle + '-B');
+    }
+    if (item["title-short"]) {
         item["title-short"] = (baseShortTitle + '-B');
     }
     processorElements.items['ITEM-2'] = item;
@@ -70,6 +74,8 @@ function makeItems() {
     }
     if (item.title) {
         item.title = (baseTitle + '-C');
+    }
+    if (item["title-short"]) {
         item["title-short"] = (baseShortTitle + '-C');
     }
     processorElements.items['ITEM-3'] = item;
@@ -83,6 +89,8 @@ function makeItems() {
     }
     if (item.title) {
         item.title = (baseTitle + '-D');
+    }
+    if (item["title-short"]) {
         item["title-short"] = (baseShortTitle + '-D');
     }
     processorElements.items['ITEM-4'] = item;
