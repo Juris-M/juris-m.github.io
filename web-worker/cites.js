@@ -3,7 +3,7 @@ var citeproc = null;
 var lastStyleName = null;
 var nextStyleName = null;
 var itemTypeData = null;
-var excludeFields = null;
+var enableFields = null;
 var legalTypes = null;
 var selectedVars = {};
 var unselectedVars = {};
@@ -350,12 +350,9 @@ onmessage = function (event) {
         break;
     case 'INIT PAGE':
         workerExec(function() {
-            var ret = [];
             // These are constants, initialize just once
             if (!itemTypeData) {
                 itemTypeData = reverseMapping(event.data.itemTypeData);
-                dump("XXX type=legislation\n");
-                dump("XXX "+JSON.stringify(itemTypeData, null, 2)+"\n");
                 excludeFields = event.data.excludeFields;
                 legalTypes = event.data.legalTypes;
             }
@@ -383,6 +380,12 @@ onmessage = function (event) {
                 bibliography += '<div class="csl-entry">(this style has no bibliography)</div>'
             }
             outObj.bibliography = bibliography;
+            // Return enabled legal types of module has them
+            var infoNode = sys.xml.getNodesByName(processorElements.style, 'info')[0];
+            var lawModuleNode = sys.xml.getNodesByName(infoNode, 'law-module');
+            lawModuleNode = lawModuleNode.length ? lawModuleNode[0] : null;
+            // usedTypes is a space-delimited string list of CSL type names
+            outObj.usedTypes = sys.xml.getAttributeValue(lawModuleNode, 'types');
         }, 'INIT PAGE OK');
         break;
     case 'CHANGE ITEM TYPE':

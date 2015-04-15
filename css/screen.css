@@ -1,5 +1,13 @@
 /* ignore this line */
 
+a.disabled-link,
+a.disabled-link:visited ,
+a.disabled-link:active,
+a.disabled-link:hover {
+    background-color:#d9d9d9 !important;
+    color:#aaa !important;
+}
+
 .top-blurb {
     margin:0 15px 0 15px;
     padding:0.5em 0 0.5em 0;

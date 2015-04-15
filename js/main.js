@@ -6,6 +6,9 @@ var CSLValidator = (function() {
     //to access the GitHub API library object
     var gh;
 
+    //to convert item type labels to CSL variable names
+    var itemTypeData;
+
     //to access URL parameters
     var uri;
 
@@ -122,16 +125,19 @@ var CSLValidator = (function() {
             $('#fields-view').html(event.data.html);
             break;
         case 'INIT SAMPLER PAGE OK':
+            itemTypeData = event.data.itemTypeData;
             // Item types menu
             $('#sampler-itemtype-dropdown').empty();
             var menuItems = '';
             for (var i=0,ilen=event.data.itemTypes.length;i<ilen;i++) {
                 var itemTypeLabel = event.data.itemTypes[i];
                 var legalTypes = event.data.legalTypes;
+                // The id is used to disable item types not covered by a module
+                var id = event.data.itemTypeData[itemTypeLabel].cslType;
                 if (legalTypes.indexOf(itemTypeLabel) > -1) {
-                    menuItems += '<li><a class="legal-type" href="#">' + itemTypeLabel + '</a></li>';
+                    menuItems += '<li><a id="' + id + '" class="legal-type" href="#">' + itemTypeLabel + '</a></li>';
                 } else {
-                    menuItems += '<li><a class="non-legal-type" href="#">' + event.data.itemTypes[i] + '</a></li>';
+                    menuItems += '<li><a id="' + id + '" class="non-legal-type" href="#">' + event.data.itemTypes[i] + '</a></li>';
                 }
             }
             $('#sampler-itemtype-dropdown').html(menuItems);
@@ -302,6 +308,7 @@ var CSLValidator = (function() {
             $('#sampler-citations').html(event.data.citations);
             $('#sampler-bibliography').html(event.data.bibliography);
             setupDraggableNodes();
+            disableUnusedTypes(event.data.usedTypes);
 
             //setBoxHeight(['selected-csl-variables','unselected-csl-variables'], -6);
             //setBoxHeight(['sampler','sampler-preview']);
@@ -322,10 +329,33 @@ var CSLValidator = (function() {
         }
     }
 
+    function disableUnusedTypes(usedTypes) {
+        // usedTypes is received as a space-delimited string of CSL type names
+        if (usedTypes) {
+            usedTypes = usedTypes.split(/\s+/);
+            $('.legal-type').each(function(index){
+                var id = $(this).attr('id');
+                if (usedTypes.indexOf(id) > -1) {
+                    $('#' + id).removeClass('disabled-link');
+                } else {
+                    $('#' + id).addClass('disabled-link');
+                }
+            });
+        } else {
+            $('.legal-type').removeClass('disabled-link');
+        }
+    }
+
+    function disableEvent(event) {
+        event.preventDefault();
+    }
+
     function changeSamplerItemType(event) {
         // srcElement for WebKit, originalTarget for Gecko 
         event.preventDefault();
         var originalElement = event.originalTarget ? event.originalTarget : event.srcElement;
+        if ($(originalElement).hasClass('disabled-link')) return;
+
         $('#sampler-itemtype-button').html(originalElement.textContent + ' <span class="caret"></span>');
         citeprocWorker.postMessage({type:"CHANGE ITEM TYPE",itemType:originalElement.textContent});
     }

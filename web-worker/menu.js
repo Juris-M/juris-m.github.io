@@ -11,12 +11,12 @@ function getMenuData(callback) {
                 var json = xhr.responseText;
                 setupData(json, callback);
             } else {
-                dump("XXX OOPS in menu worker(1): " + xhr.statusText + "\n");
+                console.log("XXX OOPS in menu worker(1): " + xhr.statusText + "\n");
             }
         }
     }
     xhr.onerror = function (e) {
-        dump("XXX OOPS in menu worker(2): " + xhr.statusText + "\n");
+        console.log("XXX OOPS in menu worker(2): " + xhr.statusText + "\n");
     };
     xhr.send(null);
 }
