@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.8",
+    PROCESSOR_VERSION: "1.1.9",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -189,8 +189,8 @@ var CSL = {
         "bill": true,
         "hearing": true,
         "gazette": true,
-        "regulation": true,
-        "treaty": true
+        "report": true,
+        "regulation": true
     },
     NestedBraces: [
         ["(", "["],
@@ -6667,8 +6667,7 @@ CSL.NameOutput.prototype._applyLabels = function (blob, v) {
         this.state.output.append(blob, "literal", true);
         this.state.output.closeLevel("empty");
         blob = this.state.output.pop();
-    }
-    if (this.label[v].after) {
+    } else if (this.label[v].after) {
         if ("number" === typeof this.label[v].after.strings.plural) {
             plural = this.label[v].after.strings.plural;
         }
@@ -9579,6 +9578,31 @@ CSL.Attributes["@page"] = function (state, arg) {
         this.tests.push(maketest(trylabels[i]));
     }
 };
+CSL.Attributes["@number"] = function (state, arg) {
+    var trylabels = arg.replace("sub verbo", "sub-verbo");
+    trylabels = trylabels.split(/\s+/);
+    var maketest = function(trylabel) {
+        return function (Item, item) {
+            var label;
+            state.processNumber(false, Item, "number", Item.type);
+            if (!state.tmp.shadow_numbers.number.label) {
+                label = "number";
+            } else if (state.tmp.shadow_numbers.number.label === "sub verbo") {
+                label = "sub-verbo";
+            } else {
+                label = state.tmp.shadow_numbers.number.label;
+            }
+            if (trylabel === label) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    for (var i=0,ilen=trylabels.length;i<ilen;i+=1) {
+        this.tests.push(maketest(trylabels[i]));
+    }
+};
 CSL.Attributes["@jurisdiction"] = function (state, arg) {
     var tryjurisdictions = arg.split(/\s+/);
     for (var i=0,ilen=tryjurisdictions.length;i<ilen;i+=1) {
@@ -9951,34 +9975,6 @@ CSL.Attributes["@plural"] = function (state, arg) {
         this.strings.plural = 0;
     } else if ("contextual" === arg) {
         this.strings.plural = false;
-    }
-};
-CSL.Attributes["@number"] = function (state, arg) {
-    var func;
-    var trylabels = arg.replace("sub verbo", "sub-verbo");
-    trylabels = trylabels.split(/\s+/);
-    if (["if",  "else-if"].indexOf(this.name) > -1) {
-        func = function (state, Item, item) {
-            var ret = [];
-            var label;
-            state.processNumber(false, Item, "number", Item.type);
-            if (!state.tmp.shadow_numbers.number.label) {
-                label = "number";
-            } else if (state.tmp.shadow_numbers.number.label === "sub verbo") {
-                label = "sub-verbo";
-            } else {
-                label = state.tmp.shadow_numbers.number.label;
-            }
-            for (var i = 0, ilen = trylabels.length; i < ilen; i += 1) {
-                if (trylabels[i] === label) {
-                    ret.push(true);
-                } else {
-                    ret.push(false);
-                }
-            }
-            return ret;
-        };
-        this.tests.push(func);
     }
 };
 CSL.Attributes["@has-publisher-and-publisher-place"] = function (state, arg) {

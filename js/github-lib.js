@@ -27,7 +27,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
             return;
         }
         if (err && err.message) {
-            err = err.message;
+            //err = err.message;
         } else if ('string' !== typeof err) {
             err = false;
         }
@@ -137,37 +137,36 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
             // Expose username in the GitHub login object
             username = info.username;
             // Now try to acquire the master. This should always work, in theory at least.
-            ghInitGetMaster(info);
+            ghInitUserCopy(info);
         });
     }
 
 
-    function ghInitGetMaster(info) {
-        debugMsg("ghInitGetMaster()");
-        ghWaitForFileContents('juris-m', 'master', 'juris-' + info.jurisdictionKey + '.csl', function(contents) {
+    function ghInitUserCopy(info) {
+        debugMsg("ghInitUserCopy()");
+        ghWaitForFileContents(info.username, info.branchKey, 'juris-' + info.moduleKey + '.csl', function(contents) {
             if (!contents) {
-                // The file does not yet exist
-                jurisdictionWorker.postMessage({type:'REQUEST MODULE TEMPLATE',key:info.jurisdictionKey,name:info.jurisdictionName});
+                // If we didn't get a user copy, try for master
+                ghInitMasterCopy(info);
             } else {
-                // Make a note of the SHA. We'll need this later if the upcoming attempt
-                // to retrieve a user copy fails.
-                info.masterSha = contents.sha;
-                ghInitUserCopy(info);
+                // If we got a user copy, run with it.
+                // We assume there will not be conflicts ...
+                ghGetFileContent(info.username, contents.sha, function(content){
+                    validateContent(content);
+                });
             }
         }, 'fallback');
     }
 
-    function ghInitUserCopy(info) {
-        debugMsg("ghInitUserCopy()");
-        ghWaitForFileContents(info.username, info.jurisdictionKey, 'juris-' + info.jurisdictionKey + '.csl', function(contents) {
+    function ghInitMasterCopy(info) {
+        debugMsg("ghInitMasterCopy()");
+        ghWaitForFileContents(info.username, info.branchKey, 'juris-' + info.moduleKey + '.csl', function(contents) {
             if (!contents) {
-                // If we failed on the user copy, use the master
-                ghGetFileContent('juris-m', info.masterSha, function(content){
-                    validateContent(content);
-                });
+                // The file does not yet exist
+                jurisdictionWorker.postMessage({type:'REQUEST MODULE TEMPLATE',key:info.moduleKey,name:info.moduleName});
             } else {
-                // If we did get a user copy, use it
-                ghGetFileContent(info.username, contents.sha, function(content){
+                // If we got a master copy, use that
+                ghGetFileContent('juris-m', contents.sha, function(content){
                     validateContent(content);
                 });
                 // Also expose a link to the user's GitHub branch
@@ -232,7 +231,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
 
     function ghCheckForkBranch(info) {
         debugMsg("ghCheckForkBranch()");
-        ghApi('GET', '/repos/' + info.username + '/style-modules/git/refs/heads/' + info.moduleName, null, null, function(ref){
+        ghApi('GET', '/repos/' + info.username + '/style-modules/git/refs/heads/' + info.branchKey, null, null, function(ref){
             if (ref && ref.object) {
 		        info.fork_branch_commit_sha = ref.object.sha;
 		        info.fork_branch_commit_url = ref.object.url;
@@ -251,7 +250,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
             disable: true
         }
         var options = {
-            ref: 'refs/heads/' + info.moduleName,
+            ref: 'refs/heads/' + info.branchKey,
             sha: info.upstream_sha
         }
         ghApi('POST', '/repos/' + info.username + '/style-modules/git/refs', options, errorSpec, function(ref){
@@ -263,7 +262,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
 
     function ghCheckMasterFileContent(info) {
         debugMsg("ghCheckMasterFileContent()");
-        ghWaitForFileContents('juris-m', 'master', 'juris-' + info.moduleName + '.csl', function(contents) {
+        ghWaitForFileContents('juris-m', 'master', 'juris-' + info.moduleKey + '.csl', function(contents) {
             if (!contents) {
                 ghCheckForkBranchFile(info);
             } else {
@@ -286,9 +285,9 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
     function ghCheckForkBranchFile(info) {
         debugMsg("ghCheckForkBranchFile()");
         var options = {
-            ref: info.moduleName
+            ref: info.branchKey
         }
-        ghWaitForFileContents(info.username, info.moduleName, 'juris-' + info.moduleName + '.csl', function(contents) {
+        ghWaitForFileContents(info.username, info.branchKey, 'juris-' + info.moduleKey + '.csl', function(contents) {
             if (!contents) {
                 ghGetForkBranchCommit(info);
             } else {
@@ -345,7 +344,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
             "base_tree": info.fork_branch_tree_sha,
             "tree": [
                 {
-	                "path": 'juris-' + info.moduleName + '.csl',
+	                "path": 'juris-' + info.moduleKey + '.csl',
 	                "mode": "100644",
 	                "type": "blob",
 	                "sha": info.fork_blob_sha
@@ -365,7 +364,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
             desc: "Unable to create commit for the new file"
         }
         var options = {
-            message: "Juris-M module update: juris-" + info.moduleName + ".csl",
+            message: "Juris-M module update: juris-" + info.moduleKey + ".csl",
             tree: info.new_tree_sha,
             parents: [info.fork_branch_commit_sha]
         }
@@ -385,7 +384,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
             sha: info.commit_sha,
             force: true
         }
-        ghApi('PATCH', '/repos/' + info.username + '/style-modules/git/refs/heads/' + info.moduleName, options, errorSpec, function(data){
+        ghApi('PATCH', '/repos/' + info.username + '/style-modules/git/refs/heads/' + info.branchKey, options, errorSpec, function(data){
             ghCheckForPullRequest(info);
         });
     }
@@ -394,7 +393,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
         debugMsg("ghCheckForPullRequest()");
         var options = {
             state: 'open',
-            head: info.username + ':' + info.moduleName,
+            head: info.username + ':' + info.branchKey,
             base: 'master'
         }
         ghApi('GET', '/repos/juris-m/style-modules/pulls', options, null, function(pulls){
@@ -406,7 +405,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
                 }
                 ghMsg(msgSpec);
             } else {
-                ghWaitForFileContents(info.username, info.moduleName, 'juris-' + info.moduleName + '.csl', function(){
+                ghWaitForFileContents(info.username, info.branchKey, 'juris-' + info.moduleKey + '.csl', function(contents){
                     ghCreatePullRequest(info);
                 });
             }
@@ -420,12 +419,12 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
             desc: 'Your edit request did not go through for some reason.'
         }
         var pull = {
-            title: "Update to style module: juris-" + info.moduleName + '.csl',
+            title: "Update to style module: juris-" + info.moduleKey + '.csl',
             body: 'Pull request automatically generated by Juris-M',
             base: "master",
-            head: info.username + ":" + info.moduleName
+            head: info.username + ":" + info.branchKey
         };
-        ghApi('POST', '/repos/juris-m/style-modules/pulls', pull, errorSpec, function(pullRequest) {
+        ghApi('POST', '/repos/Juris-M/style-modules/pulls', pull, errorSpec, function(pullRequest) {
             msgSpec = {
                 type: 'Success',
                 desc: 'Thank you for your submission!',
@@ -449,20 +448,22 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
      * Top-level functions
      */
 
-    function githubInit(key, name) {
+    function githubInit(moduleKey, moduleName) {
         debugMsg("githubInit() **********");
         var info = {
-            jurisdictionKey: key,
-            jurisdictionName: name
+            moduleName: moduleName,
+            moduleKey: moduleKey,
+            branchKey: moduleKey.replace(/\:/g, '+')
         }
         ghInitGetUser(info);
     }
 
-    function githubSubmitPullRequest(moduleName, moduleContent) {
+    function githubSubmitPullRequest(moduleKey, moduleContent) {
         debugMsg("githubSubmitPullRequest() *****");
         var info = {
             moduleContent: moduleContent,
-            moduleName: moduleName
+            moduleKey: moduleKey,
+            branchKey: moduleKey.replace(/\:/,'+')
         }
         // Get the user and proceed.
         ghGetUser(info);

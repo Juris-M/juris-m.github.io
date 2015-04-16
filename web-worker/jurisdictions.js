@@ -115,8 +115,8 @@ function requestModuleTemplate(key, name) {
 }
 
 function sendTemplate(key, name, src) {
-    src = src.replace('@@KEY@@', key, 'g');
-    src = src.replace('@@NAME@@', name, 'g');
+    src = src.replace(/@@KEY@@/g, key);
+    src = src.replace(/@@NAME@@/g, name);
     postMessage({type:'REQUEST MODULE TEMPLATE OK',src:src});
 }
 

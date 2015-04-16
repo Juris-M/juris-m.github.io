@@ -6,47 +6,47 @@
       // Force HTTPS
       var enforce = "juris-m.github.io";
       if ((enforce == window.location.host) && (window.location.protocol != "https:")) {
-        // GitHub API OAuth login robot calls back with HTTP, even if protocol is set to HTTPS in the URL.
-        window.location.protocol = "https";
+      // GitHub API OAuth login robot calls back with HTTP, even if protocol is set to HTTPS in the URL.
+      window.location.protocol = "https";
       } else {
-        // Access token is global to this window
-        var access_token;
-        if (!access_token) {
-          access_token = localStorage.getItem('access_token');
-        }
-        // GitHub login
-        uri = new URI();
-        if (uri.hasQuery('code')) {
-          // Get temporary code
-          var code = uri.query(true)['code'];
-          // Remove code from URL
-          history.replaceState({}, document.title, uri.search(""));
-          // Call for validation
-          var url = 'https://our.law.nagoya-u.ac.jp/juris-m/authenticate/' + code + '?case=dev';
-          var xhr = new XMLHttpRequest();
-          xhr.open('GET', url, true);
-          xhr.setRequestHeader("Content-type","application/json");
-          xhr.onload = function(e) {
-            if (xhr.readyState === 4) {
-              if (xhr.status === 200) {
-                console.log("XXX RESPONSE: "+xhr.responseText);
-                var obj = JSON.parse(xhr.responseText);
-                // Set our access token
-                if (obj.token) {
-                  console.log("GitHub login success\n");
-                  access_token = obj.token;
-                  window.localStorage.setItem('access_token', access_token);
-                }
-              } else {
-                console.log("XXX OOPS in main(3): " + xhr.statusText + "\n");
-              }
-            }
-          }
-          xhr.onerror = function (e) {
-            console.log("XXX OOPS in main(4): " + e + "\n");
-          }
-          xhr.send(null);
-        }
+      // Access token is global to this window
+      var access_token;
+      if (!access_token) {
+      access_token = localStorage.getItem('access_token');
+      }
+      // GitHub login
+      uri = new URI();
+      if (uri.hasQuery('code')) {
+      // Get temporary code
+      var code = uri.query(true)['code'];
+      // Remove code from URL
+      history.replaceState({}, document.title, uri.search(""));
+      // Call for validation
+      var url = 'https://our.law.nagoya-u.ac.jp/juris-m/authenticate/' + code + '?case=dev';
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.setRequestHeader("Content-type","application/json");
+      xhr.onload = function(e) {
+      if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+      console.log("XXX RESPONSE: "+xhr.responseText);
+      var obj = JSON.parse(xhr.responseText);
+      // Set our access token
+      if (obj.token) {
+      console.log("GitHub login success\n");
+      access_token = obj.token;
+      window.localStorage.setItem('access_token', access_token);
+      }
+      } else {
+      console.log("XXX OOPS in main(3): " + xhr.statusText + "\n");
+      }
+      }
+      }
+      xhr.onerror = function (e) {
+      console.log("XXX OOPS in main(4): " + e + "\n");
+      }
+      xhr.send(null);
+      }
       }
     </script>
     <title>Juris-M: Editor</title>
@@ -58,6 +58,7 @@
     <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="../css/jquery-ui.1.11.3.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/default.min.css">
     <link rel="stylesheet" type="text/css" href="../css/fileinput.min.css">
     <link rel="stylesheet" type="text/css" href="../css/ladda-themeless.min.css">
     <link rel="stylesheet" type="text/css" href="../css/screen.css">
@@ -70,15 +71,109 @@
     <script src="../js/fileinput.min.js" type="text/javascript"></script>
     <script src="../js/spin.min.js"></script>
     <script src="../js/ladda.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js"></script>
     <script src="../js/main.js"></script>
+    <script src="../js/tutorial.js"></script>
     <script>
+
+    /* code originally for scrolling
+     * Ahnsirk Dasarp
+     * http://stackoverflow.com/questions/5007530/how-do-i-scroll-to-an-element-using-javascript
+     */
+    function setBoxHeight(lst, reduction, minHeight) {
+        if (!reduction) {
+            reduction = 0;
+        }
+        var docViewHeight = document.documentElement.clientHeight;
+        for (var i=0,ilen=lst.length;i<ilen;i++) {
+            var obj = document.getElementById(lst[i]);
+            if (!obj) return;
+            var origObj = obj;
+            origObj.style['min-height'] = (minHeight ? minHeight : 200) + 'px';
+            //if (document.documentElement.clientWidth < 992) {
+            //    continue;
+            //}
+            var offset = 0;
+            if (lst[i] === 'error-list') {
+                offset = 8;
+            }
+            var curtop = 0;
+            var curleft = 0;
+            if (obj.offsetParent) {
+                do {
+                    curtop += obj.offsetTop;
+                } while (obj = obj.offsetParent);
+                var boxHeight = (docViewHeight - curtop - 5);
+                origObj.style['height'] = ((boxHeight - offset + reduction) + 'px');
+                origObj.style['max-height'] = ((boxHeight - offset + reduction) + 'px');
+            } else {
+                // for field-map-menu-container
+                if (lst[i] === 'field-map-menu-container') {
+                    var offsetTop = $('div.container.content').get(0).offsetTop;
+                    origObj.style['height'] = ((docViewHeight - offsetTop - offset + reduction) + 'px');
+                    origObj.style['max-height'] = ((docViewHeight - offsetTop - offset + reduction) + 'px');
+                }
+            }
+        }
+    }
+    
+
       $(function() {
-      $( "#tabs" ).tabs();
+        $( "#tabs" ).tabs({active:0});
       });
+      hljs.initHighlightingOnLoad();
     </script>
   </head>
   <body onload="CSLValidator.init();">
+    <div class="modal fade" id="editCslVar" tabindex="-1" role="dialog" aria-labelledby="editCslVarLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editCslVarLabel"><span class="mono" id="cslFieldLabel"></span> <span class="mono" id="cslVarName">Boo</span></h4>
+          </div>
+          <div class="modal-body name">
+	        <div class="row wrapper name">
+              <div class="col-lg-6">
+	            <div class="input-group">
+		          <span class="input-group-addon" id="csl-last-name-label">Last:</span>
+		          <input type="text" class="form-control" placeholder="default" aria-described-by="csl-last-name-label" id="csl-family-name">
+	            </div>
+              </div>
+              <div class="col-lg-6">
+	            <div class="input-group">
+		          <span class="input-group-addon" id="csl-first-name-label">First:</span>
+		          <input type="text" class="form-control" placeholder="default" aria-described-by="csl-first-name-label" id="csl-given-name">
+	            </div>
+              </div>
+	        </div>
+	        <div class="wrapper date">
+	          <div class="input-group">
+		        <span class="input-group-addon" id="csl-date-label">Date:</span>
+		        <input type="text" class="form-control" placeholder="default" aria-described-by="csl-date-label" id="csl-date">
+	          </div>
+	        </div>
+	        <div class="wrapper number">
+	          <div class="input-group">
+		        <span class="input-group-addon" id="csl-number-label">Number:</span>
+		        <input type="text" class="form-control" placeholder="default" aria-described-by="csl-number-label" id="csl-number">
+	          </div>
+	        </div>
+	        <div class="wrapper text">
+	          <div class="input-group">
+		        <span class="input-group-addon" id="csl-text-label">Text:</span>
+		        <input type="text" class="form-control" placeholder="default" aria-described-by="csl-text-label" id="csl-text">
+	          </div>
+	        </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button id="editCslVarSave" type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -101,23 +196,25 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li><a onclick="CSLValidator.setView(event,'editor');" href="#">Style Editor</a></li>
+              <li><a id="editorViewButton" class="action-button chosen" onclick="CSLValidator.setView(event,'editor');" href="#">Style Editor</a></li>
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                <a id="field-maps" href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
                   Field Maps
                   <span class="caret"></span></a>
-                <ul id="field-map-menu-container" class="dropdown-menu" role="menu" onclick="CSLValidator.setView(event,'fields',event.originalTarget ? event.originalTarget.textContent : event.srcElement.textContent)">
+                <ul id="field-map-menu-container" class="dropdown-menu action-button" role="menu" onclick="CSLValidator.setView(event,'fields',event.originalTarget ? event.originalTarget.textContent : event.srcElement.textContent)">
                   <li><a href="#">Placeholder</a></li>
                 </ul>
               </li>
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Docs <span class="caret"></span></a>
+                <a id="documentation" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Docs <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="http://docs.citationstyles.org/en/stable/specification.html">CSL Specification</a></li>
                   <li><a href="http://citationstylist.org/docs/citeproc-js-csl.html">Juris-M (CSL-m) Specification Supplement</a></li>
                 </ul>
               </li>
               <li><a id="github-link" href="#" style="display:none;">GitHub View</a></li>
+              <li><a id="tutorial" href="#" style="padding-top:10px;padding-bottom:10px;" onclick="tutorial.build();tutorial.run();"><img style="height:30px;" src="../image/question.svg"/></a></li>
+              <li><a id="tutorial" href="#" style="padding-top:10px;padding-bottom:10px;" onclick="tutorial.build();tutorial.toggle_guidance();"><img style="height:30px;" src="../image/info.svg"/></a></li>
             </ul>
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -129,25 +226,25 @@
 	      <div class="col-lg-6">
 	        <div class="input-append input-group">
 	          <div id="source-method" value="search-source" class="input-group-btn">
-		        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Style source <span class="caret"></span></button>
+		        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Source <span class="caret"></span></button>
 		        <ul class="dropdown-menu" role="menu">
-		          <li><a value="search-source" href="#">Jurisdiction module</a></li>
-		          <li><a value="file-source" href="#">File upload</a></li>
-		          <li><a value="url-source" href="#">URL</a></li>
+		          <li><a value="search-source" href="#">Jurisdiction Module</a></li>
+		          <li><a value="file-source" href="#">File Upload</a></li>
+		          <li><a id="last-source" value="url-source" href="#">URL</a></li>
 		        </ul>
 	          </div><!-- /btn-group -->
-              <div id="search-source" class="source-input">
+	          <div id="search-source" class="source-input">
                 <input id="search-input" autocomplete="off" class="typeahead form-control" type="text" placeholder="Enter a country or institution">
-              </div>
-              <div id="file-source" class="row source-input" style="display:none;">
+	          </div>
+	          <div id="file-source" class="row source-input" style="display:none;">
                 <div class="col-xs-12">
                   <input class="file form-control" id="file-input" type="file" data-show-preview="false" data-show-upload="false">
                 </div>
-              </div>
-              <span id="url-source" class="source-input" style="display:none;">
+	          </div>
+	          <span id="url-source" class="source-input" style="display:none;">
                 <input class="form-control" id="url-input" type="text" placeholder="Enter style URL">
-              </span>
-              <span id="search-source-remover" class="input-group-btn source-input-remover" style="display:none;">
+	          </span>
+	          <span id="search-source-remover" class="input-group-btn source-input-remover" style="display:none;">
 		        <button class="btn btn-default" title="Clear Jurisdiction" type="button"><i class="glyphicon glyphicon-trash"></i> Remove</button>
               </span>
               <span id="url-source-remover" class="input-group-btn source-input-remover" style="display:none;">
@@ -181,49 +278,646 @@
             <div id="alert"></div>
             <div id="tabs">
 	          <ul>
-		        <li><a id="source-tab" href="#source">Juris-M Style</a></li>
+		        <li><a id="source-tab" href="#source">Editor</a></li>
 		        <li><a id="errors-tab" href="#errors">Errors</a></li>
 		        <li><a id="sampler-tab" href="#sampler">Sampler</a></li>
 	          </ul>
 	          <div id="source">
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="318.59375"
-   height="318.59375"
-   id="svg2"
-   version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="question.svg">
-  <defs
-     id="defs4" />
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-103.5625,-173.0625)">
-    <path
-       class="question-path"
-       id="path4132"
-       d="m 262.84375,173.0625 c -87.91185,0 -159.28125,71.40065 -159.28125,159.3125 0,87.91185 71.3694,159.28125 159.28125,159.28125 87.91185,0 159.3125,-71.3694 159.3125,-159.28125 0,-87.91185 -71.40065,-159.3125 -159.3125,-159.3125 z m 0,10 c 82.50745,0 149.3125,66.80505 149.3125,149.3125 0,82.50745 -66.80505,149.28125 -149.3125,149.28125 -82.50745,0 -149.28125,-66.7738 -149.28125,-149.28125 0,-82.50745 66.7738,-149.3125 149.28125,-149.3125 z" />
-    <text
-       xml:space="preserve"
-       class="question-character"
-       x="225"
-       y="380.21936"
-       id="text4139"
-       sodipodi:linespacing="536.99999%"><tspan
-         sodipodi:role="line"
-         id="tspan4141"
-         x="225"
-         y="380.21936">?</tspan></text>
-  </g>
-</svg>
+                <!-- img style="height:250px;" src="../image/question.svg"/ -->
+                <div id="source-guidance" class="guidance">
+                  <h2>Juris-M Style Editor</h2>
+                  <div class="multi-column">
+                    <div class="keep-together">
+                      <p>
+                        This is a how-to on authoring legal styles for
+                        the Juris-M research manager. To illustrate the
+                        process, we will walk through the creation of a
+                        module for the fictional country
+                        of <span class="small-caps">Atlantis</span>, an
+                        imaginary jurisdiction with just two citation
+                        forms:
+                      </p>
+                      <ul>
+                        <li>Int’l Shoe Co. v. Wash., 90 L. Ed. 95 (Sup. Ct. 1945)</li>
+                        <li>Sherwood Act, ch. 123, 37 Stat. 112 (1912).</li>
+                      </ul>
+                      <p>
+                        You may wish to create the style yourself as you
+                        read through this how-to.  The style editor will
+                        overlay this document, but you can toggle it again
+                        at any time using the
+                        <img src="../image/info.svg"
+                             style="height:1.2em;"/> info icon.
+                      </p>
+                    </div>
+                    <div style="padding:0.5em;border:1px solid #000000;border-radius:1em;">
+                      <div><b>Contents</b></div>
+                      <ul>
+                        <li><a href="#guidance-loading">Loading Module Code</a></li>
+                        <li><a href="#guidance-components">Components and Scaffolding</a></li>
+                        <li><a href="#guidance-jurisdiction">Jurisdiction and Item Types</a></li>
+                        <li><a href="#guidance-ordinary">Simple rendering</a></li>
+                        <li><a href="#guidance-short">Short-form rendering</a></li>
+                        <li><a href="#guidance-grouping">Grouping and Delimiters</a></li>
+                        <li><a href="#guidance-one-time-only">Locators: one time only</a></li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <hr style="border:0 none;border-top:1px solid #000000;"/>
+
+                  <h3>Module Composition</h3>
+
+                  <div class="multi-column">
+                    <h2 id="guidance-loading">Loading Module Code</h2>
+                    <p>
+                      Begin by loading the style module for
+                      <span class="small-caps">Atlantis</span>, which (as you
+                      may have anticipated) is a subjurisdiction of
+                      <span class="small-caps">Laputa</span>.
+                      Two steps are required to load the style:
+                      <ol>
+                        <li>
+                          Type <span class="mono">Laputa</span> into
+                          the <span class="buttony gray">Source</span>
+                          search box, and select Laputa from the list.
+                          It will fill the search box with a torquoise
+                          label.
+                        </li>
+                        <li>
+                          Click on the caret at the right end of the
+                          Laputa label, and
+                          select <span class="mono">Atlantis</span>
+                          to set it as the jurisdiction displayed in the
+                          label.
+                        </li>
+                        <li>
+                          Click on the <span class="buttony">Load</span>
+                          button.
+                        </li>
+                      </ol>
+                      If you have not done so already, this would be a
+                      good time to take a tour of the toolbar buttons
+                      by clicking on the
+                      <img src="../image/question.svg"
+                      style="height:1.2em;"/> question-mark icon.
+                      The tour steps through the overall workflow,
+                      and will give you an idea of where this is all headed.
+                    </p>
+
+                    <h2 id="guidance-components">Components and Scaffolding</h2>
+                    <p>
+                      After loading the style, select
+                      the <span class="tabby">Sampler</span> tab to
+                      preview the current output of the module. The
+                      first item in the list, which obviously needs
+                      some work, looks like this:
+                    </p>
+                    <div class="well well-sm">
+                      <div class="hang-indent">
+                      1. [JURIS-TITLE], [JURIS-MAIN], [JURIS-COMMA-LOCATOR] [JURIS-SPACE-LOCATOR] [JURIS-TAIL]
+                      </div>
+                    </div>
+                    <p>
+                      The initial view in
+                      the <span class="tabby">Sampler</span> shows
+                      examples of the <b>Case</b> type. If we use the dropdown
+                      selector to choose the <b>Gazette</b> type, we get the same unsightly "citations":
+                    </p>
+                    <div class="well well-sm">
+                      <div class="hang-indent">
+                      1. [JURIS-TITLE], [JURIS-MAIN], [JURIS-COMMA-LOCATOR] [JURIS-SPACE-LOCATOR] [JURIS-TAIL]
+                      </div>
+                    </div>
+                    <p>
+                      This illustrates an important point about
+                      modular CSL: citations are composed as a set of
+                      subunits, which are plugged into a template
+                      to render the final printed form.  By adding
+                      suitable logic to each of the subunits, we can
+                      produce the citation forms required for
+                      particular material, to a high degree of
+                      precision.  This how-to will refer to the
+                      template as <i>scaffolding</i>, and to the
+                      subunits as <i>components</i>.
+                    </p>
+                    <p>
+                      Scaffolding controls the punctuation between
+                      components, the typeface used for the title, and
+                      back-reference forms such as
+                      <i>id</i>, <i>ibid</i> and <i>supra</i>.
+                    </p>
+                    <p>
+                      In our module
+                      for <span class="small-caps">Atlantis</span>,
+                      the scaffolding is contained in
+                      the <code>citation</code> element, at the bottom
+                      of the file. We will not touch this
+                      code&mdash;it is, in fact, <i>not</i> part of the
+                      module. The module will be called by
+                      another, more general style (<i>Chicago Full
+                      Note</i>, <i>APA</i>, <i>OSCOLA</i>, etc.), and the calling
+                      style will supply its own scaffolding for the
+                      components.
+                    </p>
+                    <p>
+                      The <code>macro</code> elements in the module are its components.
+                      A module <i>must</i> contain a full set of 
+                      <span class="mono">juris-</span>prefixed macros.
+                      (A module with missing macros may test
+                      successfully, but calling styles will ignore it.) Here is the full
+                      list of required macro names:
+                    </p>
+                    <div class="inline-blocks">
+                      <div class="inline-block">
+                        <span class="mono">juris-title</span><br/>
+                        <span class="mono">juris-title-short</span><br/>
+                        <span class="mono">juris-main</span><br/>
+                        <span class="mono">juris-main-short</span><br/>
+                        <span class="mono">juris-locator-label</span>
+                      </div>
+                      <div class="inline-block">
+                        <span class="mono">juris-locator</span><br/>
+                        <span class="mono">juris-space-locator</span><br/>
+                        <span class="mono">juris-comma-locator</span><br/>
+                        <span class="mono">juris-tail</span><br/>
+                        <span class="mono">juris-tail-short</span>
+                      </div>
+                    </div>
+                    
+                    <p>
+                      Our two citation forms can be divided
+                      into <span class="boxy noborder mono greenish">title</span>, <span class="boxy noborder mono yellowish">main</span>, <span class="boxy noborder mono reddish">locator</span>
+                      and <span class="boxy noborder mono blueish">tail</span> parts, like
+                      this:
+                    </p>
+                    <div class="well well-sm">
+                      <span class="boxy greenish">Int’l Shoe Co. v. Wash.</span>, <span class="boxy yellowish">90 L. Ed. 95</span>, <span class="boxy reddish">96</span> <span class="boxy blueish">(Sup. Ct. 1945)</span>
+                    </div>
+                    <p>
+                      and
+                    </p>
+                    <div class="well well-sm">
+                      <span class="boxy greenish">Sherwood Act</span>, <span class="boxy yellowish">ch. 123</span>, <span class="boxy reddish">§ 3</span>, <span class="boxy blueish">37 Stat. 112, <span class="boxy reddly">113</span> (1912)</span>
+                    </div>
+                    <p>
+                      The secondary pinpoint in the second sample (to
+                      page number 113, marked by a brighter-red
+                      highlight) is small wrinkle in the design that
+                      will be discussed below, when we cast
+                      the <span class="mono">juris-main</span> macro
+                      for gazette entries.  Meanwhile, note that these
+                      blocks are a <i>visual</i> breakdown of the
+                      printed citation: the components have no special
+                      semantic significance.
+                    </p>
+                  </div>
+
+                  <hr style="border:0 none;border-top:1px solid #000000;"/>
+
+                  <h3>Module Selection</h3>
+
+                  <div class="multi-column">
+
+                    <h2 id="guidance-jurisdiction">Jurisdiction and Item Types</h2>
+                    <p>
+                      As noted above, we will require just two
+                      citation types for
+                      the <span class="small-caps">Atlantis</span>
+                      jurisdiction: cases and gazette entries. This reflects
+                      actual practice, where a subjurisdiction may
+                      have special citation requirements for only
+                      certain types of material. We can limit our
+                      module to these two types by inserting the
+                      following code as the <i>last</i> element inside
+                      the <code>info</code> element:
+                    </p>
+                    <pre class="prettyprint"><code class="xml">&lt;law-module types="legal_case gazette"/&gt;</code></pre>
+                    <p>
+                      The name for the Juris-M <b>Case</b> type in CSL code is
+                      <span class="mono">legal_case</span>, and the
+                      CSL name for the <b>Gazette</b> type
+                      is <span class="mono">legislation</span>&mdash;see
+                      below for a full list of the Juris-M legal types
+                      and their CSL equivalents.
+                    </p>
+                    <p>
+                      When the style is validated with this new code,
+                      all but these two item types will be disabled in
+                      the the dropdown menu in
+                      the <span class="tabby">Sampler</span>. Constraining
+                      the item types supported by a module has the
+                      following effect when rendering citations:
+                    </p>
+                    <ul>
+                      <li>
+                        When the processor receives an item that is
+                        stamped with
+                        the <span class="small-caps">Atlantis</span>
+                        jurisdiction, it will check to see:
+                        <ol>
+                          <li>
+                            if there is
+                            an <span class="small-caps">Atlantis</span>
+                            module; and
+                          </li>
+                          <li>
+                            if the module supports the type of the
+                            item.
+                          </li>
+                        </ol>
+                      </li>
+                      <li>
+                        If the module exists and supports the type of
+                        the input, the module code will be used to
+                        render the item.
+                      </li>
+                      <li>
+                        If either condition fails, the processor will
+                        repeat the process for the parent jurisdiction.
+                      </li>
+                      <li>
+                        If the module hierarchy is exhausted without finding
+                        a match, the code of the calling style will be used
+                        to render the item.
+                      </li>
+                    </ul>
+                    <p>
+                      If the item is of
+                      type <span class="mono">hearing</span>, the
+                      processor will attempt to use code from
+                      the <span class="small-caps">Laputa</span>
+                      module, if one
+                      exists.
+                    </p>
+                    <p>
+                      In other words,
+                      as <span class="small-caps">Atlantean</span>,
+                      lawyers, we can choose to rely on
+                      our <span class="small-caps">Laputian</span>
+                      brethren to maintain the citation styles that
+                      apply to us all: our only concern is with the
+                      special requirements of our own underwater
+                      jurisdiction.
+                    </p>
+                    <p>
+                      For reference, the Juris-M legal item types and their
+                      CSL equivalents are as follows:
+                    </p>
+                    <div  style="margin:0 2em;">
+                      <table class="table">
+                        <thead style="font-weight:bold;">
+                          <td>Juris-M label</td><td>CSL variable</td>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Bill</td><td class="mono">bill</td>
+                          </tr>
+                          <tr>
+                            <td>Case</td><td class="mono">legal_case</td>
+                          </tr>
+                          <tr>
+                            <td>Gazette</td><td class="mono">gazette</td>
+                          </tr>
+                          <tr>
+                            <td>Hearing</td><td class="mono">hearing</td>
+                          </tr>
+                          <tr>
+                            <td>Regulation</td><td class="mono">regulation</td>
+                          </tr>
+                          <tr>
+                            <td>Report</td><td class="mono">report</td>
+                          </tr>
+                          <tr>
+                            <td>Statute</td><td class="mono">legislation</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <p>
+                      We are now ready (at last!) to begin composing the citations
+                      themselves.
+                    </p>
+                  </div>
+
+                  <hr style="border:0 none;border-top:1px solid #000000;"/>
+
+                  <h3>CSL Coding: the <span class="mono">title</span> macros</h3>
+
+                  <div class="multi-column">
+                    <h2 id="guidance-ordinary">Simple rendering</h2>
+                    <p>
+                      To include the title in full-form citations,
+                      write
+                      the <span class="mono">juris-title</span> macro
+                      as follows:
+                    </p>
+                    <pre class="prettyprint"><code class="xml">&lt;macro name="juris-title"&gt;
+  &lt;text variable="title"/&gt;
+&lt;/macro&gt;</code></pre>
+                    <p>
+                      After validation,
+                      the <span class="tabby">Sampler</span> will show
+                      the following for the
+                      first-listed item when the <b>Case</b> type is selected:
+                    </p>
+                    <div class="well well-sm">
+                      <div class="hang-indent">
+                      1. Case Name-A, [JURIS-MAIN], [JURIS-COMMA-LOCATOR] [JURIS-SPACE-LOCATOR] [JURIS-TAIL]
+                      </div>
+                    </div>
+                    <p>
+                      When the <b>Gazette</b> type is selected, this is shown:
+                    </p>
+                    <div class="well well-sm">
+                      <div class="hang-indent">
+                      1. Name of Act-A, [JURIS-MAIN], [JURIS-COMMA-LOCATOR] [JURIS-SPACE-LOCATOR] [JURIS-TAIL]
+                      </div>
+                    </div>
+                    <p>
+                      So we now appear to be getting somewhere. "Case
+                      Name-A" and "Name of Act-A" are the values
+                      assigned to the <span class="mono">title</span>
+                      field in the respective citation types. You can
+                      confirm this by dragging the relevant field
+                      bubbles from the <b>Included fields</b> box to
+                      the <b>Excluded fields</b> box: when the field
+                      is excluded, the title will disappear from the
+                      sample citations.
+                    </p>
+
+                    <h2 id="guidance-short">Short-form rendering</h2>
+                    <p>
+                      Flush with the joy of our first rendered field
+                      value, we are ready to fine-tune our work to fit
+                      the specific requirements of our two citation
+                      forms.  It is the accepted practice among legal
+                      scholars
+                      in <span class="small-caps">Atlantis</span> to
+                      abbreviate numerous terms in the title of
+                      a <b>Case</b> in its full form, but to cite the
+                      title of a <b>Gazette</b> entry exactly as written in the
+                      statute books.
+                    </p>
+                    <p>
+                      To meet this requirement, we will make use of
+                      CSL condition statements; but first, we must
+                      pause for a moment over how Juris-M handles
+                      short-form versions of
+                      the <span class="mono">title</span> field.
+                    </p>
+                    <p>
+                      The "normal" way to cast a short-form title in CSL
+                      is to use the <code>form="short"</code> attribute, like this;
+                    </p>
+                    <pre><code class="xml">&lt;text variable="title" form="short"/&gt;</code></pre>
+                    <p>
+                      This construct ordinarily renders the <b>Short
+                      Title</b> field, and if that has no value,
+                      reverts to the
+                      <b>Title</b> field. In Juris-M, however, this construct
+                      serves <i>only</i> to abbreviate individual words and
+                      phrases, when applied to a <b>Case</b> item. We can therefore
+                      use <code>form="short"</code> to apply abbreviations to the
+                      titles of law cases&mdash;but we must avoid it, of course, when
+                      rendering <b>Gazette</b> citations.
+                    </p>
+                    <p>
+                      To apply our solution to
+                      the <span class="small-caps">Atlantis</span> use
+                      cases, we can apply a CSL condition statement, which
+                      looks like this:
+                    </p>
+<pre><code class="xml">&lt;macro name="juris-title"&gt;
+  &lt;choose&gt;
+    &lt;if type="legal_case"&gt;
+      &lt;text variable="title" form="short"/&gt;
+    &lt;/if&gt;
+    &lt;else&gt;
+      &lt;text variable="title"/&gt;
+    &lt;/else&gt;
+  &lt;/choose&gt;
+&lt;/macro&gt;</code></pre>
+                    <p>
+                      Once written, the logic of the code above is
+                      sufficiently obvious that it scarcely requires
+                      explanation. The code for the <span class="mono">juris-title-short</span>
+                      macro is no more complex, but more tests are required:
+                    </p>
+<pre><code class="xml">&lt;macro name="juris-title-short"&gt;
+  &lt;choose&gt;
+    &lt;if match="all" type="legal_case" variable="title-short"&gt;
+      &lt;text variable="title-short" form="short"/&gt;
+    &lt;/if&gt;
+    &lt;else-if type="legal_case"&gt;
+      &lt;text variable="title" form="short"/&gt;
+    &lt;/else-if&gt;
+    &lt;else-if variable="title-short"&gt;
+      &lt;text variable="title-short"/&gt;
+    &lt;/else-if&gt;
+    &lt;else&gt;
+      &lt;text variable="title"/&gt;
+    &lt;/else&gt;
+  &lt;/choose&gt;
+&lt;/macro&gt;</code></pre>
+                    <p>
+                      The code above uses the <b>Short Title</b> field
+                      if possible, and avoids the use
+                      of <code>form="short"</code> on <b>Gazette</b>
+                      items, since that would also trigger (undesired)
+                      abbreviation of individual words in statute
+                      names.
+                    </p>
+                  </div>
+
+                  <hr style="border:0 none;border-top:1px solid #000000;"/>
+
+                  <h3>CSL Coding: the <span class="mono">main</span> macros</h3>
+
+                  <div class="multi-column">
+                    <h2 id="guidance-grouping">Grouping and Delimiters</h2>
+                    <p>
+                      We are now ready to tackle
+                      the <span class="mono">juris-main</span>
+                      and <span class="mono">juris-main-short</span> macros.
+                      Looking again at our sample citations, we see that
+                      these macros will be composed of several fields,
+                      joined by appropriate punctuation. Let's start with the <b>Case</b> type:
+                    </p>
+                    <div class="well well-sm">
+                      Int’l Shoe Co. v. Wash., <span class="boxy yellowish">90 L. Ed. 95</span>, 96 (Sup. Ct. 1945)
+                    </div>
+                    <p>
+                      In CSL terms, the <span class="mono">main</span>
+                      component of the <b>Case</b> type is made up of
+                      the <span class="mono">volume</span>, <span class="mono">container-title</span>,
+                      and <span class="mono">page-first</span>
+                      variables, joined by spaces. From our intimate
+                      familiarity with citation conventions
+                      in <span class="small-caps">Atlantis</span>, we know that the <span class="mono">main</span>
+                      element has the same composition in long- and short-form cites, so we begin with the short form,
+                      using a <code>group</code> element to join the variables together. Our code will look like this:
+                    </p>
+                    <pre><code class="xml">&lt;macro name="juris-main-short"&gt;
+  &lt;group delimiter=" "&gt;
+    &lt;number variable="volume"/&gt;
+    &lt;text variable="container-title" form="short"/&gt;
+    &lt;number variable="page-first"/&gt;
+  &lt;/group&gt;
+&lt;/macro&gt;</code></pre>
+                    <p>
+                      Note that the <span class="mono">volume</span>
+                      and <span class="mono">page-first</span>
+                      variables are set with a <code>number</code>
+                      element. CSL variables fall into four
+                      categories.  Variables of each category are
+                      rendered by an eponymous
+                      element: <code>text</code>, <code>number</code>, <code>date</code>,
+                      and <code>names</code>. You can check the category of a CSL
+                      variable in the <b>Field Map</b> tables, linked in the
+                      top toolbar of this page.
+                    </p>
+                    <p>
+                      If you have previously worked with mainstream
+                      CSL, you might be tempted to set the spacing
+                      between the elements above using
+                      <span class="mono">prefix</span>
+                      or <span class="mono">suffix</span> attributes.
+                      In the Juris-M version of CSL, spaces are not
+                      permitted on affixes in most locations: you must
+                      use a <span class="mono">delimiter</span> on
+                      a <code>group</code> element instead.
+                    </p>
+                    <p>
+                      Our next task is to cover the <b>Gazette</b> type. This
+                      is composed in exactly the same way, but preceded
+                      by a chapter number separated by a comma.
+                    </p>
+                    <div class="well well-sm">
+                      Sherwood Act, <span class="boxy yellowish">ch. 123, 37 Stat. 112</span> § 3 (1912)
+                    </div>
+                    <p>
+                      We can add this for the <b>Gazette</b> type only
+                      by wrapping our code in a group with its own
+                      delimiter, and setting the number in a condition
+                      statement:
+                    </p>
+
+                    <pre><code class="xml">&lt;macro name="juris-main-short"&gt;
+  &lt;group delimiter=", "&gt;
+    &lt;choose&gt;
+      &lt;if type="gazette"&gt;
+        &lt;number label-form="short" variable="number"/&gt;
+      &lt;/if&gt;
+    &lt;/choose&gt;
+<div style="background:white;">    &lt;group delimiter=" "&gt;
+      &lt;number variable="volume"/&gt;
+      &lt;text variable="container-title" form="short"/&gt;
+      &lt;number variable="page-first"/&gt;
+    &lt;/group&gt;</div>
+  &lt;/group&gt;
+&lt;/macro&gt;</code></pre>
+
+                    <p>
+                      The <span class="mono">ch.</span> label must be set
+                      in the input data, using standard Juris-M abbreviations
+                      for the label name. Our entry would look like this
+                      in the Desktop Client:
+                    </p>
+                    <div class="well well-sm">
+                      <b>Public Law Number:</b> <span class="mono">ch. 123</span>
+                    </div>
+                    <p>
+                      From our deep background experience with legal referencing in
+                      <span class="small-caps">Atlantis</span>, we
+                      know that chapter numbers were used until 1978,
+                      after which the Congress
+                      of <span class="small-caps">Atlantis</span>
+                      began assigning "public law numbers" to new
+                      pieces of legislation.  We will not worry with
+                      this wrinkle today, but the legislation number
+                      for a post-1978 entry would be written as follows,
+                      to allow the processor to distinguish
+                      between the two forms:
+                    </p>
+                    <div class="well well-sm">
+                      <b>Public Law Number:</b> <span class="mono">no. 456</span>
+                    </div>
+
+                    <p>
+                      We can reuse the code we have written for <span class="mono">juris-title-short</span> in the 
+                      long form, by calling it as a macro. Macro calls are special form of the <code>text</code> element,
+                      set with a <span class="mono">macro</span> attribute:
+                    </p>
+                    <pre><code class="xml">&lt;macro name="juris-main"&gt;
+  &lt;text macro="juris-main-short"/&gt;
+&lt;/macro&gt;</code></pre>
+                    <p>
+                      A closing word of caution is in order
+                      concerning macros. The <span class="mono">juris-</span>
+                      prefixed macros that make up a Juris-M style
+                      module can <i>only</i> call other Juris-M
+                      macros. Calls from modular code to non-modular
+                      macros, whether defined inside the style module
+                      or elsewhere, is not permitted.
+                    </p>
+                  </div>
+
+                  <hr style="border:0 none;border-top:1px solid #000000;"/>
+                  
+                  <h3>CSL Coding: the <span class="mono">locator</span> macros</h3>
+                  <div class="multi-column">
+
+                    <h2 id="guidance-one-time-only">Locators: one time only</h2>
+                    <p>
+                      Pinpoint locators are the most dynamic element
+                      of a citation description. To set correct
+                      joining punctuation,
+                      the <span class="mono">locator</span> macros
+                      typically make heavy use of condition
+                      statements. To make pinpoint locators easier to control,
+                      Juris-M renders the <span class="mono">locator</span>
+                      variable <i>only once</i> in a citation: subsequent calls
+                      to the variable will produce no output.
+                    </p>
+                    <p>
+                      To understand why this is helpful, we need to
+                      explore the CSL <code>group</code> element a
+                      little more deeply. Turning to the CSL Specification,
+                      we find this description:
+                    </p>
+                    <div class="well">
+                      <code>cs:group</code> implicitly acts as a
+                      conditional: <code>cs:group</code> and its child
+                      elements are suppressed if:
+                      <ol style="list-style-type:lower-alpha;">
+                        <li>at least one
+                      rendering element in <code>cs:group</code> calls a variable
+                      (either directly or via a macro); and</li>
+                        <li>all
+                      variables that are called are empty.</li>
+                      </ol>
+                    </div>
+                    <p>
+                      In addition to variables provided by the item,
+                      CSL can render text provided by the style
+                      itself. Style-provided text is typically used to
+                      set labels (like "p." or ""zzz or "ch.") on a variable. What
+                      the text above means, in essence, is that when a
+                      label and a variable are set in the
+                      same <code>group</code>, and the variable
+                      produces no output (either because it was empty,
+                      or because it was blocked by a condition), the
+                      label will be suppressed as well.
+                    </p>
+                    <p>
+                      
+                    </p>
+                  </div>
+
+                </div>
+                <div id="source-editor" style="display:none;">
+                </div>
               </div>
 	          <div id="errors">
 		        <ol id="error-list"></ol>
@@ -235,7 +929,7 @@
                     <div class="row">
                       <div class="col-lg-12">
                         <div class="btn-group">
-                          <button id="sampler-itemtype-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                          <button id="sampler-itemtype-button" type="button" value="legal_case" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             Case <span class="caret"></span>
                           </button>
                           <ul id="sampler-itemtype-dropdown" class="dropdown-menu" role="menu" onclick="CSLValidator.changeSamplerItemType(event);">
@@ -268,9 +962,9 @@
                     <div class="row">
                       <div class="col-xs-6">
                         <div class="row">
-                          <div class="col-xs-12">
-                            <h4>Included fields</h4>
-                          </div>
+                            <div class="col-xs-12">
+                              <h4>Included fields</h4>
+                            </div>
                         </div>
                         <div class="row">
                           <div id="selected-csl-variables" class="col-xs-12 droppable">
@@ -293,8 +987,8 @@
                     </div>
                   </div>
                 </div>
-              </div>
-	        </div>
+	          </div>
+            </div>
           </div>
         </div>
       </div>

@@ -263,7 +263,7 @@ function getBubbles(event, itemTypeLabel) {
     var segments = ['creators','dateFields','numericFields','textFields'];
     for (var i=0,ilen=segments.length;i<ilen;i++) {
         var segment = segments[i];
-        unselected += '<div class="small-faint-heading">' + categoryLabels[i] + '</div><div>';
+        unselected += '<div class="bubble-wrapper"><div class="small-faint-heading">' + categoryLabels[i] + '</div>';
         for (var cslVarname in fieldBundle[segment]) {
             var fieldLabel = fieldBundle[segment][cslVarname];
             var defaultUnused = excludeFields[cslVarname] || (cslVarname === 'jurisdiction' && legalTypes.indexOf(itemTypeLabel) === -1);
@@ -277,16 +277,36 @@ function getBubbles(event, itemTypeLabel) {
         unselected += '</div>';
     }
     // Selected variables
+    var categorySchemaName = ["name", "date", "number", "text"];
     for (var i=0,ilen=segments.length;i<ilen;i++) {
         var segment = segments[i];
-        selected += '<div class="small-faint-heading">' + categoryLabels[i] + '</div><div>';
+        selected += '<div class="bubble-wrapper" value="' + categorySchemaName[i] + '"><div class="small-faint-heading">' + categoryLabels[i] + '</div>';
         for (var cslVarname in fieldBundle[segment]) {
             var fieldLabel = fieldBundle[segment][cslVarname];
             var defaultUsed = !excludeFields[cslVarname] && !(cslVarname === 'jurisdiction' && legalTypes.indexOf(itemTypeLabel) === -1);
             var useMe = initVars ? defaultUsed : selectedVars[cslVarname];
             if (useMe) {
                 fieldLabel = fieldLabel.replace(" ", "&nbsp;", "g");
-                var newHTML = '<span class="sampler-bubble draggable" value="' + cslVarname + '">' + fieldLabel + ' </span> ';
+                // XXX Actually, tooltip isn't right - would want to show the value.
+                // XXX But that's going to be cumbersome for names.
+                // XXX Maybe enough to just make content editable.
+                // XXX Names are a problem there too, though.
+                
+                // * Not sure if click will work on a draggable item ...
+                // * Okay, click triggers on mouseup outside droppable. Need to control for that.
+                // * The onclick event is lost when dragged out, then in. Needs to be reset
+                //   on drag-in.
+                // * Other than that, it looks okay.
+                // * Event should save to localStorage on the window.
+                // * Content delivered by the worker should be overwritten with
+                //   any entries that exist in localStorage immediately after
+                //   window-side listener picks up the HTML and sets it in the
+                //   DOM.
+                var newHTML = '<button type="button" value="' + cslVarname
+                    + '" class="btn btn-primary btn-sm sampler-button draggable" data-toggle="modal" data-target="#editCslVar">'
+                    + fieldLabel
+                    + ' </button>'
+
                 selected += newHTML;
                 selectedVars[cslVarname] = true;
             }

@@ -354,18 +354,47 @@ var CSLValidator = (function() {
         // srcElement for WebKit, originalTarget for Gecko 
         event.preventDefault();
         var originalElement = event.originalTarget ? event.originalTarget : event.srcElement;
+        // XXX Can do better than just giving up.
         if ($(originalElement).hasClass('disabled-link')) return;
+        
+        var itemTypeLabel = originalElement.textContent;
+        var itemTypeName = originalElement.getAttribute('id');
 
-        $('#sampler-itemtype-button').html(originalElement.textContent + ' <span class="caret"></span>');
-        citeprocWorker.postMessage({type:"CHANGE ITEM TYPE",itemType:originalElement.textContent});
+        $('#sampler-itemtype-button').attr('value', itemTypeName);
+        $('#sampler-itemtype-button').html(itemTypeLabel + ' <span class="caret"></span>');
+        citeprocWorker.postMessage({type:"CHANGE ITEM TYPE",itemType:itemTypeLabel});
     }
 
     function setupDraggableNodes() {
-        $('#selected-csl-variables span.sampler-bubble').draggable({
+        $('#selected-csl-variables .sampler-button').draggable({
             revert: 'invalid',
-            scope: 'tounselect'
+            scope: 'tounselect',
+            cancel: false,
+	        delay: 150
         });
-        $('#unselected-csl-variables span.sampler-bubble').draggable({
+
+        $('#editCslVar').on('show.bs.modal', function(event){
+            var itemType = $('#sampler-itemtype-button').attr('value');
+            var category = $(event.relatedTarget).parent().attr('value');
+            var cslVarName = $(event.relatedTarget).attr('value')
+            $('#cslVarName').html(cslVarName);
+            $('#cslFieldLabel').html($(event.relatedTarget).text().trim());
+	        $('.modal-body').removeClass('name date number text');
+	        $('.modal-body').addClass(category);
+	        $('.modal-body').attr('value', category);
+
+            // Populate field with correct content, if any (out of localStorage)
+            var key = itemType + '::' + cslVarName;
+            var val = localStorage.getItem(key);
+            if (val) {
+                val = JSON.parse(val);
+            }
+            editCslPopulate(category, val);
+            // Enable or disable save as appropriate.
+            $('#editCslVarSave').prop('disabled', false);
+        });
+
+        $('#unselected-csl-variables .sampler-bubble').draggable({
             revert: 'invalid',
             scope: 'toselect'
         });
@@ -404,20 +433,48 @@ var CSLValidator = (function() {
         validate(true);
     }
 
+    /* 
+    function editCslEnable(category) {
+        // No longer used.
+        switch (category) {
+        case 'name':
+            return function(event){
+                if ($('#csl-family-name').val() && $('#csl-given-name').val()) {
+                    $('#editCslVarSave').prop('disabled', false);
+                } else {
+                    $('#editCslVarSave').prop('disabled', true);
+                }
+            }
+            break;
+        case 'date':
+        case 'number':
+        case 'text':
+            return function(event) {
+                if ($('#csl-' + category).val()) {
+                    $('#editCslVarSave').prop('disabled', false);
+                } else {
+                    $('#editCslVarSave').prop('disabled', true);
+                }
+            }
+            break;
+        }
+    }
+    */
+
     var init = function() {
 
         //Initialize URI.js
         uri = new URI();
 
-        setBoxHeight(['source']);
+        //setBoxHeight(['source-editor']);
         setBoxHeight(['source-code']);
 
-        $('#errors-tab').click(function(){
+        $('#errors-tab').click(function(e){
             setBoxHeight(['error-list']);
         });
         
         $(window).on('resize',function(){
-            setBoxHeight(['source', 'errors']);
+            setBoxHeight(['errors']);
             setBoxHeight(['source-code']);
         });
 
@@ -625,7 +682,7 @@ var CSLValidator = (function() {
                             pageCache[old].urlQuery = false;
                         }
                     }
-                    if (pageCache[sourceMethod].aceDocument) {
+                    if (pageCache[sourceMethod] && pageCache[sourceMethod].aceDocument) {
                         var novo = sourceMethod;
                         pageCache[novo].load ? loadButton.disable() : loadButton.enable();
                         pageCache[novo].validate ? validateButton.disable() : validateButton.enable();
@@ -691,7 +748,64 @@ var CSLValidator = (function() {
             submitButton.disable();
         });
 
+        //$('#csl-family-name').on('keyup', editCslEnable('name'));
+        //$('#csl-given-name').on('keyup', editCslEnable('name'));
+        //$('#csl-date').on('keyup', editCslEnable('date'));
+        //$('#csl-number').on('keyup', editCslEnable('number'));
+        //$('#csl-text').on('keyup', editCslEnable('text'));
+
+        $('#editCslVarSave').on('click', function(event){
+            var itemType = $('#sampler-itemtype-button').attr('value');
+            var cslVarName = $('#cslVarName').text();
+            var category = $('.modal-body').attr('value');
+            var valueObj;
+            switch (category) {
+            case 'name':
+                valueObj = {
+                    family: $('#csl-family-name').val(),
+                    given: $('#csl-given-name').val()
+                }
+                break;
+            case 'date':
+                valueObj = {
+                    raw: $('#csl-date').val()
+                }
+                break;
+            default:
+                valueObj = $('#csl-' + category).val();
+                break;
+            }
+            var key = itemType+ '::' + cslVarName;
+            var str = JSON.stringify(valueObj);
+            localStorage.setItem(key, str);
+            //$('#editCslVarSave').prop('disabled', true);
+            $('#editCslVar').modal('hide');
+        });
+
     };
+
+    function editCslPopulate(category, val) {
+        switch (category) {
+        case 'name':
+            if (!val) {
+                $('#csl-family-name').val('');
+                $('#csl-given-name').val('');
+            } else {
+                val.family ? $('#csl-family-name').val(val.family) : $('#csl-family-name').val('');
+                val.given ? $('#csl-given-name').val(val.given) : $('#csl-given-name').val('');
+            }
+            break;
+        case 'date':
+            (val && val.raw) ? $('#csl-date').val(val.raw) : $('#csl-date').val('');
+            break;
+        case 'number':
+            val ? $('#csl-number').val(val) : $('#csl-number').val('');
+            break;
+        case 'text':
+            val ? $('#csl-text').val(val) : $('#csl-text').val('');
+            break;
+        }
+    }
 
     function setTypeaheadListener() {
         $('#search-input.typeahead').on('typeahead:selected typeahead:autocompleted', function(event) {
@@ -724,53 +838,14 @@ var CSLValidator = (function() {
         }
     }
 
-    /* code originally for scrolling
-     * Ahnsirk Dasarp
-     * http://stackoverflow.com/questions/5007530/how-do-i-scroll-to-an-element-using-javascript
-     */
-    function setBoxHeight(lst, reduction, minHeight) {
-        if (!reduction) {
-            reduction = 0;
-        }
-        var docViewHeight = document.documentElement.clientHeight;
-        for (var i=0,ilen=lst.length;i<ilen;i++) {
-            var obj = document.getElementById(lst[i]);
-            if (!obj) return;
-            var origObj = obj;
-            origObj.style['min-height'] = (minHeight ? minHeight : 200) + 'px';
-            //if (document.documentElement.clientWidth < 992) {
-            //    continue;
-            //}
-            var offset = 0;
-            if (lst[i] === 'error-list') {
-                offset = 8;
-            }
-            var curtop = 0;
-            var curleft = 0;
-            if (obj.offsetParent) {
-                do {
-                    curtop += obj.offsetTop;
-                } while (obj = obj.offsetParent);
-                var boxHeight = (docViewHeight - curtop - 5);
-                origObj.style['height'] = ((boxHeight - offset + reduction) + 'px');
-                origObj.style['max-height'] = ((boxHeight - offset + reduction) + 'px');
-            } else {
-                // for field-map-menu-container
-                if (lst[i] === 'field-map-menu-container') {
-                    var offsetTop = $('div.container.content').get(0).offsetTop;
-                    origObj.style['height'] = ((docViewHeight - offsetTop - offset + reduction) + 'px');
-                    origObj.style['max-height'] = ((docViewHeight - offsetTop - offset + reduction) + 'px');
-                }
-            }
-        }
-    }
-    
     function setView(event, name, section) {
         if (event) {
             event.preventDefault();
         };
+        $('.action-button').removeClass('chosen');
         $('.action-view').attr('style', 'display:none;');
         $('#' + name + '-view').attr('style', 'display:block;');
+        $(event.target).addClass('chosen')
         var titles = {
             main: 'Juris-M: Welcome',
             editor: 'Style Manager'
@@ -781,7 +856,7 @@ var CSLValidator = (function() {
         if (name === 'editor') {
             //XXX setBoxHeight(['tabs']);
             if (editor) {
-                setBoxHeight(['source']);
+                //setBoxHeight(['source']);
                 setBoxHeight(['source-code']);
                 editor.renderer.updateFull();
             }
@@ -898,7 +973,11 @@ var CSLValidator = (function() {
         $("#tabs").tabs("disable", "#errors");
         $("#tabs").tabs("disable", "#sampler");
         loadValidateButton('start');
-        $("#source-tab").click();
+        $("#source-tab").click(function(e){});
+        $('#source-guidance').addClass('noshow');
+        $('#source-editor').show();
+        setBoxHeight(['source-code']);
+
         responseStartTime = new Date();
         responseTimer = window.setTimeout(reportTimeOut, responseMaxTime);
         sourceMethodFunc();
@@ -948,8 +1027,10 @@ var CSLValidator = (function() {
         });
     }
 
-    function getEditorContent() {
-        var xmlStr = editor.getSession().getValue();
+    function getEditorContent(xmlStr) {
+        if (!xmlStr) {
+            xmlStr = editor.getSession().getValue();
+        }
         while (xmlStr.slice(0,1) === '\n') {
             xmlStr = xmlStr.slice(1);
         }
@@ -1104,14 +1185,16 @@ var CSLValidator = (function() {
         }
 
         if (data.source.code.length > 0 && !reValidate) {
-            $("#source").append('<div class="panel-heading inserted-to-source"><h4 id="source-title" class="panel-title">Source</h4></div>');
-            $("#source").append('<div id="source-code" class="panel-body inserted-to-source"></div>');
-            $("#source").attr("class", "panel panel-primary");
+            $("#source-editor").append('<div class="panel-heading inserted-to-source"><h4 id="source-title" class="panel-title">Source</h4></div>');
+            $("#source-editor").append('<div id="source-code" class="panel-body inserted-to-source"></div>');
+            $("#source-editor").attr("class", "panel panel-primary");
 
-            var aceDoc = ace.createEditSession(data.source.code)
+            // Restores the XML declaration if it's missing in the return
+            var sourceCode = getEditorContent(data.source.code);
+            var aceDoc = ace.createEditSession(sourceCode)
             pageCache[$('#source-method').attr('value')].aceDocument = aceDoc;
 
-            setBoxHeight(['source']);
+            //setBoxHeight(['source-editor']);
             setBoxHeight(['source-code']);
 
             editor = ace.edit("source-code");
@@ -1135,7 +1218,7 @@ var CSLValidator = (function() {
                 }
             });
         } else {
-            setBoxHeight(['source']);
+            //setBoxHeight(['source-editor']);
             setBoxHeight(['source-code']);
         }
 
@@ -1155,7 +1238,7 @@ var CSLValidator = (function() {
     }
 
     function moveToLine(event,firstLine, firstColumn, lastLine, lastColumn) {
-        $("#source-tab").click();
+        $("#source-tab").click(function(e){});
         $("#error-banner").remove();
         var errorNode = $('<div id="error-banner" class="inserted" style="display:inline;margin-left:1em;"><span style="font-weight:bold;">ERROR @ </span><span>').get(0);
         var infoNode = event.target.parentNode.cloneNode(true);
@@ -1164,7 +1247,7 @@ var CSLValidator = (function() {
         lineNumber.setAttribute('style', 'color:white;font-weight:bold;text-size:smaller;');
         errorNode.appendChild(infoNode.firstChild);
         errorNode.appendChild(infoNode.lastChild);
-        $("#source h4.panel-title").attr('style', 'display:inline;').after(errorNode);
+        $("#source-editor h4.panel-title").attr('style', 'display:inline;').after(errorNode);
 
         editor.scrollToLine(firstLine, true, true, function() {});
         editor.gotoLine(firstLine, 0, false);
