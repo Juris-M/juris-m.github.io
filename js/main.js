@@ -6,6 +6,21 @@ var CSLValidator = (function() {
     //to access the GitHub API library object
     var gh;
 
+    //to track current itemType set in Sampler
+    var itemTypeName = 'legal_case';
+    var itemTypeMap = {};
+
+    var citationForms = [
+        'full-plain',
+        'full-locator',
+        'ibid-plain',
+        'ibid-locator',
+        'supra-plain',
+        'supra-locator',
+        'far-plain',
+        'far-locator'
+    ];
+
     //to convert item type labels to CSL variable names
     var itemTypeData;
 
@@ -130,10 +145,12 @@ var CSLValidator = (function() {
             $('#sampler-itemtype-dropdown').empty();
             var menuItems = '';
             for (var i=0,ilen=event.data.itemTypes.length;i<ilen;i++) {
-                var itemTypeLabel = event.data.itemTypes[i];
                 var legalTypes = event.data.legalTypes;
+                var itemTypeLabel = event.data.itemTypes[i];
                 // The id is used to disable item types not covered by a module
                 var id = event.data.itemTypeData[itemTypeLabel].cslType;
+                // XXX Really should not need this.
+                itemTypeMap[id] = itemTypeLabel;
                 if (legalTypes.indexOf(itemTypeLabel) > -1) {
                     menuItems += '<li><a id="' + id + '" class="legal-type" href="#">' + itemTypeLabel + '</a></li>';
                 } else {
@@ -150,12 +167,35 @@ var CSLValidator = (function() {
                 type: 'INIT PAGE',
                 excludeFields: event.data.excludeFields,
                 legalTypes: event.data.legalTypes,
-                itemTypeData: event.data.itemTypeData
+                itemTypeData: event.data.itemTypeData,
+                customFields: getCustomFields(itemTypeName)
             });
             break;
         }
     }
-
+    
+    function getCustomFields(itemTypeName) {
+        var ret = {};
+        var segments = ['creators','textFields','numericFields','dateFields','locatorField'];
+        var itemTypeLabel = $('#sampler-itemtype-button').text().trim();
+        for (var i=0,ilen=segments.length;i<ilen;i++) {
+            // XXX THIS IS SO AWFUL!
+            // XXX Really should not need to remap to a label for use as a key!
+            for (var label in itemTypeData[itemTypeMap[itemTypeName]][segments[i]]) {
+                var key = itemTypeData[itemTypeMap[itemTypeName]][segments[i]][label];
+                var val = localStorage.getItem(itemTypeName + '::' + key);
+                if (val) {
+                    ret[key] = JSON.parse(val);
+                }
+            }
+            var locator = localStorage.getItem(itemTypeName + '::locator');
+            if (locator) {
+                ret.locator = JSON.parse(locator);
+            }
+        }
+        return ret;
+    }
+    
     var countries = null;
     var countriesMap = null;
 
@@ -305,7 +345,10 @@ var CSLValidator = (function() {
         case 'INIT PAGE OK':
             $('#unselected-csl-variables').html(event.data.bubbles[0]);
             $('#selected-csl-variables').html(event.data.bubbles[1]);
-            $('#sampler-citations').html(event.data.citations);
+            for (var i=0,ilen=citationForms.length;i<ilen;i++) {
+                var form = citationForms[i];
+                $('.sampler-citation.' + form).html(event.data.citations[form]);
+            }
             $('#sampler-bibliography').html(event.data.bibliography);
             setupDraggableNodes();
             disableUnusedTypes(event.data.usedTypes);
@@ -318,8 +361,16 @@ var CSLValidator = (function() {
         case 'CHANGE ITEM TYPE OK':
             $('#unselected-csl-variables').html(event.data.bubbles[0]);
             $('#selected-csl-variables').html(event.data.bubbles[1]);
-            $('#sampler-citations').animate({'opacity': 0.5}, 500, function(){
-                $(this).html(event.data.citations).animate({'opacity': 1}, 500);    
+            function writeCites(pos, forms, callback) {
+                if (pos === forms.length) {
+                    $('.sampler-citation').animate({'opacity': 1}, 500);
+                    return;
+                };
+                $('.sampler-citation.' + forms[pos]).html(event.data.citations[forms[pos]]);
+                writeCites(pos+1, forms);
+            }
+            $('.sampler-citation').animate({'opacity': 0.5}, 500, function(){
+                writeCites(0, citationForms);
             });
             $('#sampler-bibliography').animate({'opacity': 0.5}, 500, function(){
                 $(this).html(event.data.bibliography).animate({'opacity': 1}, 500);    
@@ -358,15 +409,23 @@ var CSLValidator = (function() {
         if ($(originalElement).hasClass('disabled-link')) return;
         
         var itemTypeLabel = originalElement.textContent;
-        var itemTypeName = originalElement.getAttribute('id');
+	    if (originalElement.getAttribute('id') === itemTypeName) {
+	        return;
+	    } else {
+            itemTypeName = originalElement.getAttribute('id');
+	    }
 
         $('#sampler-itemtype-button').attr('value', itemTypeName);
         $('#sampler-itemtype-button').html(itemTypeLabel + ' <span class="caret"></span>');
-        citeprocWorker.postMessage({type:"CHANGE ITEM TYPE",itemType:itemTypeLabel});
+        citeprocWorker.postMessage({
+            type:"CHANGE ITEM TYPE",
+            itemType:itemTypeLabel,
+            customFields: getCustomFields(itemTypeName)
+        });
     }
 
     function setupDraggableNodes() {
-        $('#selected-csl-variables .sampler-button').draggable({
+        $('#selected-csl-variables .sampler-button.draggable').draggable({
             revert: 'invalid',
             scope: 'tounselect',
             cancel: false,
@@ -379,7 +438,7 @@ var CSLValidator = (function() {
             var cslVarName = $(event.relatedTarget).attr('value')
             $('#cslVarName').html(cslVarName);
             $('#cslFieldLabel').html($(event.relatedTarget).text().trim());
-	        $('.modal-body').removeClass('name date number text');
+	        $('.modal-body').removeClass('name date number text locator');
 	        $('.modal-body').addClass(category);
 	        $('.modal-body').attr('value', category);
 
@@ -405,7 +464,11 @@ var CSLValidator = (function() {
                 var node = ui.draggable;
                 node.attr('style', 'position:relative;').detach().appendTo('#selected-csl-variables');
                 node.draggable("option","scope", "tounselect");
-                citeprocWorker.postMessage({type:'SELECT VARIABLE',selectedVarname:node.attr('value')});
+                citeprocWorker.postMessage({
+                    type:'SELECT VARIABLE',
+                    selectedVarname:node.attr('value'),
+                    customFields: getCustomFields(itemTypeName)
+                });
             }
         });
         $('#unselected-csl-variables').droppable({
@@ -413,7 +476,11 @@ var CSLValidator = (function() {
                 var node = ui.draggable;
                 node.attr('style', 'position:relative;').detach().appendTo('#unselected-csl-variables');
                 node.draggable("option","scope", "toselect");
-                citeprocWorker.postMessage({type:'UNSELECT VARIABLE',unselectedVarname:node.attr('value')});
+                citeprocWorker.postMessage({
+                    type:'UNSELECT VARIABLE',
+                    unselectedVarname:node.attr('value'),
+                    customFields: getCustomFields(itemTypeName)
+                });
             },
             scope: "tounselect",
             hoverClass: 'csl-drag-hover'
@@ -761,10 +828,20 @@ var CSLValidator = (function() {
             var valueObj;
             switch (category) {
             case 'name':
-                valueObj = {
-                    family: $('#csl-family-name').val(),
-                    given: $('#csl-given-name').val()
-                }
+                valueObj = [];
+		        for (var i=1,ilen=11;i<ilen;i++) {
+		            var family = $('#csl-family-name-' + i).val();
+		            var given = $('#csl-given-name-' + i).val();
+		            var checked = $('#csl-name-checkbox-' + i).prop('checked') ? 1 : 0;
+		            if (!family && !given) {
+			            checked = 0;
+		            }
+		            valueObj.push({
+			            checked: checked,
+			            family: $('#csl-family-name-' + i).val(),
+			            given: $('#csl-given-name-' + i).val()
+		            });
+		        }
                 break;
             case 'date':
                 valueObj = {
@@ -780,29 +857,42 @@ var CSLValidator = (function() {
             localStorage.setItem(key, str);
             //$('#editCslVarSave').prop('disabled', true);
             $('#editCslVar').modal('hide');
+            citeprocWorker.postMessage({
+                type:'SELECT VARIABLE',
+                selectedVarname:null,
+                customFields: getCustomFields(itemTypeName)
+            });
         });
-
     };
 
     function editCslPopulate(category, val) {
+        // Names need extending to 10 of them, with checkboxes for inclusion. Ugh.
         switch (category) {
         case 'name':
-            if (!val) {
-                $('#csl-family-name').val('');
-                $('#csl-given-name').val('');
-            } else {
-                val.family ? $('#csl-family-name').val(val.family) : $('#csl-family-name').val('');
-                val.given ? $('#csl-given-name').val(val.given) : $('#csl-given-name').val('');
+            if ("object" !== typeof val || val.length !== 10) {
+                val = null;
             }
+            if (!val) {
+		        for (var i=1,ilen=11;i<ilen;i++) {
+                    $('#csl-name-checkbox-' + i).prop('checked', false);
+                    $('#csl-family-name-' + i).val('');
+                    $('#csl-given-name-' + i).val('');
+		        }
+            } else {
+		        for (var i=1,ilen=11;i<ilen;i++) {
+		            $('#csl-name-checkbox-' + i).prop('checked', (val[i-1].checked ? 1 : 0));
+                    $('#csl-family-name-' + i).val(val[i-1].family);
+                    $('#csl-given-name-' + i).val(val[i-1].given);
+		        }
+	        }
             break;
         case 'date':
             (val && val.raw) ? $('#csl-date').val(val.raw) : $('#csl-date').val('');
             break;
-        case 'number':
-            val ? $('#csl-number').val(val) : $('#csl-number').val('');
-            break;
         case 'text':
-            val ? $('#csl-text').val(val) : $('#csl-text').val('');
+        case 'number':
+        case 'locator':
+            val ? $('#csl-' + category).val(val) : $('#csl-' + category).val('');
             break;
         }
     }
@@ -857,8 +947,10 @@ var CSLValidator = (function() {
             //XXX setBoxHeight(['tabs']);
             if (editor) {
                 //setBoxHeight(['source']);
-                setBoxHeight(['source-code']);
-                editor.renderer.updateFull();
+                setTimeout(function(){
+                    setBoxHeight(['source-code']);
+                    editor.renderer.updateFull();
+                }, 100);
             }
         } else if (name === 'fields') {
             menuWorker.postMessage({type:'GET PAGE',pageName:section});
@@ -1196,7 +1288,7 @@ var CSLValidator = (function() {
 
             //setBoxHeight(['source-editor']);
             setBoxHeight(['source-code']);
-
+            
             editor = ace.edit("source-code");
             editor.setSession(aceDoc);
             editor.setReadOnly(false);
@@ -1238,7 +1330,7 @@ var CSLValidator = (function() {
     }
 
     function moveToLine(event,firstLine, firstColumn, lastLine, lastColumn) {
-        $("#source-tab").click(function(e){});
+        $("#source-tab").click();
         $("#error-banner").remove();
         var errorNode = $('<div id="error-banner" class="inserted" style="display:inline;margin-left:1em;"><span style="font-weight:bold;">ERROR @ </span><span>').get(0);
         var infoNode = event.target.parentNode.cloneNode(true);

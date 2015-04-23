@@ -31,69 +31,35 @@ function cloneObject(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
 
-function makeItems() {
+function makeItems(customFields) {
     var fieldBundle = itemTypeData[currentItemType]
     var item = {
-        id: 'ITEM-1',
+        id: 'ITEM',
         type: fieldBundle.cslType
     }
     for (var key in selectedVars) {
-        if (itemTypeData[currentItemType].creators[key]) {
-            item[key] = sampleData[key](1);
+        if (key === 'locator') continue;
+        // No special treatment of creators needed anymore.
+        if (customFields[key]) {
+            item[key] = customFields[key];
         } else {
             item[key] = sampleData[key];
         }
     }
-    var baseTitle = '';
-    if (item.title) {
-        baseTitle = item.title;
-        item.title = (baseTitle + '-A');
+    processorElements.items['ITEM'] = item;
+
+    var item = {
+        id: 'DUMMY',
+        type: 'book',
+        title: 'Dummy Title'
     }
-    if (item["title-short"]) {
-        baseShortTitle = item["title-short"];
-        item["title-short"] = (baseShortTitle + '-A');
-    }
-    processorElements.items['ITEM-1'] = cloneObject(item);
+    processorElements.items['DUMMY'] = item;
     
-    item = cloneObject(item);
-    item.id = 'ITEM-2';
-    if (item.title) {
-        item.title = (baseTitle + '-B');
+    var locator = sampleData.locator;
+    if (customFields.locator) {
+        locator = customFields.locator;
     }
-    if (item["title-short"]) {
-        item["title-short"] = (baseShortTitle + '-B');
-    }
-    processorElements.items['ITEM-2'] = item;
-    
-    item = cloneObject(item);
-    item.id = 'ITEM-3';
-    for (var key in selectedVars) {
-        if (itemTypeData[currentItemType].creators[key]) {
-            item[key] = sampleData[key](2);
-        }
-    }
-    if (item.title) {
-        item.title = (baseTitle + '-C');
-    }
-    if (item["title-short"]) {
-        item["title-short"] = (baseShortTitle + '-C');
-    }
-    processorElements.items['ITEM-3'] = item;
-    
-    item = cloneObject(item);
-    item.id = 'ITEM-4';
-    for (var key in selectedVars) {
-        if (itemTypeData[currentItemType].creators[key]) {
-            item[key] = sampleData[key](10);
-        }
-    }
-    if (item.title) {
-        item.title = (baseTitle + '-D');
-    }
-    if (item["title-short"]) {
-        item["title-short"] = (baseShortTitle + '-D');
-    }
-    processorElements.items['ITEM-4'] = item;
+    return locator;
 }
 
 var CitationFactory = function(){
@@ -108,7 +74,7 @@ CitationFactory.prototype.getBreadCrumbs = function () {
     return ret;
 }
 
-CitationFactory.prototype.addCitation = function(itemID, label, locator) {
+CitationFactory.prototype.addCitation = function(itemID, locator) {
     var citation = [
         {
             "citationID": "CITATION-" + (this.citations.length + 1), 
@@ -124,50 +90,81 @@ CitationFactory.prototype.addCitation = function(itemID, label, locator) {
         this.getBreadCrumbs(), 
         []
     ]
-    if (label) {
-        citation[0].citationItems[0].label = label;
-    }
     if (locator) {
         citation[0].citationItems[0].locator = locator;
     }
     this.citations.push(citation);
 }
 
-
-function generateSample() {
-    // Samples
-    // * One author, plain title
-    // * Same author, differing title, with locator
-    // * id to previous with locator
-    // * id to previous with same locator (and so id)
-    // * backref to first (supra w/in 5)
-    // * Third ref with two authors
-    // * Fourth ref with ten authors
-    // * id without locator (and so supra beyond 5)
-    makeItems();
-    var citationFactory = new CitationFactory();
-    citationFactory.addCitation('ITEM-1', 'page', '11');
-    citationFactory.addCitation('ITEM-2', 'paragraph', '22');
-    citationFactory.addCitation('ITEM-3', 'section', '33');
-    citationFactory.addCitation('ITEM-4', 'chapter', '44');
-    citationFactory.addCitation('ITEM-4', 'page', '11');
-    citationFactory.addCitation('ITEM-4', 'section', '33');
-    citationFactory.addCitation('ITEM-1', 'chapter', '44');
-    citationFactory.addCitation('ITEM-3', 'paragraph', '22');
-    citationFactory.addCitation('ITEM-4', 'section', '33');
-    citationFactory.addCitation('ITEM-2');
-    citationFactory.addCitation('ITEM-1', 'page', '11');
-    citationFactory.addCitation('ITEM-1', 'paragraph', '22');
-    var citationResults = [];
-    var citations = citationFactory.citations;
-    for (var i=0,ilen=citations.length;i<ilen;i++) {
-        res = citeproc.processCitationCluster(citations[i][0], citations[i][1], citations[i][2]);
+CitationFactory.prototype.getCitations = function() {
+    var cres = [];
+    for (var i=0,ilen=this.citations.length;i<ilen;i++) {
+        var res = citeproc.processCitationCluster(this.citations[i][0], this.citations[i][1], this.citations[i][2]);
         for (var j=0,jlen=res[1].length;j<jlen;j++) {
-            citationResults[res[1][j][0]] = '<li>' + res[1][j][1] + '</li>';
+            cres[res[1][j][0]] = res[1][j][1];
         }
     }
+    return cres;
+}
+
+
+CitationFactory.prototype.reset = function() {
+    this.citations = [];
+}
+
+function generateSample(customFields) {
+
+    // Samples
+    // * plain Full
+    // * Full w/locator
+    // * plain Ibid
+    // * Ibid w/locator
+    // * plain Supra
+    // * Supra w/locator
+    // * plain Far-note
+    // * Far-note with locator
+
+    var citations = {};
+    var locator = makeItems(customFields);
+
+    var citationFactory = new CitationFactory();
+    citationFactory.addCitation('ITEM', null);
+    citationFactory.addCitation('ITEM', locator);
+    citationFactory.addCitation('DUMMY', null);
+    citationFactory.addCitation('DUMMY', null);
+    citationFactory.addCitation('DUMMY', null);
+    citationFactory.addCitation('DUMMY', null);
+    citationFactory.addCitation('DUMMY', null);
+    citationFactory.addCitation('ITEM', null);
+    var res = citationFactory.getCitations();
+    citations['full-plain'] = res[0];
+    citations['ibid-locator'] = res[1];
+    citations['far-plain'] = res[7];
+
+    citationFactory.reset();
+    citationFactory.addCitation('ITEM', locator);
+    citationFactory.addCitation('ITEM', locator);
+    citationFactory.addCitation('DUMMY', null);
+    citationFactory.addCitation('ITEM', null);
+    citationFactory.addCitation('DUMMY', null);
+    citationFactory.addCitation('ITEM', locator);
+    citationFactory.addCitation('DUMMY', null);
+    citationFactory.addCitation('DUMMY', null);
+    citationFactory.addCitation('DUMMY', null);
+    citationFactory.addCitation('DUMMY', null);
+    citationFactory.addCitation('DUMMY', null);
+    citationFactory.addCitation('ITEM', locator);
+    var res = citationFactory.getCitations();
+    citations['full-locator'] = res[0];
+    citations['ibid-plain'] = res[1];
+    citations['supra-plain'] = res[3];
+    citations['supra-locator'] = res[5];
+    citations['far-locator'] = res[11];
+
+    citationFactory.reset();
+    citationFactory.addCitation('ITEM', null);
     var bibliographyResults = citeproc.makeBibliography();
-    return {citations:citationResults,bibliography:bibliographyResults[1]};
+    return {citations:citations,bibliography:bibliographyResults[1]};
 };
 
 function workerExec(func, msg) {
@@ -210,21 +207,14 @@ function getBubbles(event, itemTypeLabel) {
     if (!sampleData) {
         sampleData = {};
         var fieldBundle = itemTypeData[currentItemType];
+        fieldBundle.locatorField = {};
+        fieldBundle.locatorField.locator = 'Locator';
         for (var cslVarname in fieldBundle.creators) {
             var fieldLabel = fieldBundle.creators[cslVarname];
-            sampleData[cslVarname] = function(fieldLabel) {
-                var ext = ['ay','bee','cee','dee','ee','ef','gee','aich','aie','jay','kay'];
-                return function(num) {
-                    var ret = [];
-                    for (var i=0,ilen=num;i<ilen;i++) {
-                        ret.push({
-                            family: fieldLabel + ext[i],
-                            given: fieldLabel.slice(0,3) + 'bert'
-                        });
-                    }
-                    return ret;
-                }
-            }(fieldLabel);
+            sampleData[cslVarname] = {
+                family: fieldLabel.replace(/\s+/g, '') + 'smith',
+                given: fieldLabel.slice(0,3) + 'bert'
+            }
         }
         var year = 1950;
         var month = 1;
@@ -254,14 +244,18 @@ function getBubbles(event, itemTypeLabel) {
             fieldLabel = fieldBundle.textFields[cslVarname];
             sampleData[cslVarname] = fieldLabel;
         }
+        for (var cslVarname in fieldBundle.locatorField) {
+            fieldLabel = fieldBundle.locatorField[cslVarname];
+            sampleData[cslVarname] = fieldLabel;
+        }
     }
 
-    var categoryLabels = ['Creators', 'Dates', 'Numbers', 'Ordinary Text'];
+    var categoryLabels = ['Creator', 'Text', 'Number', 'Date', 'Locator'];
 
     // Unselected variables
     var fieldBundle = itemTypeData[currentItemType];
-    var segments = ['creators','dateFields','numericFields','textFields'];
-    for (var i=0,ilen=segments.length;i<ilen;i++) {
+    var segments = ['creators','textFields','numericFields','dateFields','locatorField'];
+    for (var i=0,ilen=segments.length-1;i<ilen;i++) {
         var segment = segments[i];
         unselected += '<div class="bubble-wrapper"><div class="small-faint-heading">' + categoryLabels[i] + '</div>';
         for (var cslVarname in fieldBundle[segment]) {
@@ -277,7 +271,7 @@ function getBubbles(event, itemTypeLabel) {
         unselected += '</div>';
     }
     // Selected variables
-    var categorySchemaName = ["name", "date", "number", "text"];
+    var categorySchemaName = ["name", "text", "number", "date", "locator"];
     for (var i=0,ilen=segments.length;i<ilen;i++) {
         var segment = segments[i];
         selected += '<div class="bubble-wrapper" value="' + categorySchemaName[i] + '"><div class="small-faint-heading">' + categoryLabels[i] + '</div>';
@@ -287,23 +281,12 @@ function getBubbles(event, itemTypeLabel) {
             var useMe = initVars ? defaultUsed : selectedVars[cslVarname];
             if (useMe) {
                 fieldLabel = fieldLabel.replace(" ", "&nbsp;", "g");
-                // XXX Actually, tooltip isn't right - would want to show the value.
-                // XXX But that's going to be cumbersome for names.
-                // XXX Maybe enough to just make content editable.
-                // XXX Names are a problem there too, though.
-                
-                // * Not sure if click will work on a draggable item ...
-                // * Okay, click triggers on mouseup outside droppable. Need to control for that.
-                // * The onclick event is lost when dragged out, then in. Needs to be reset
-                //   on drag-in.
-                // * Other than that, it looks okay.
-                // * Event should save to localStorage on the window.
-                // * Content delivered by the worker should be overwritten with
-                //   any entries that exist in localStorage immediately after
-                //   window-side listener picks up the HTML and sets it in the
-                //   DOM.
+                var draggable = ' draggable';
+                if (segment === 'locatorField') {
+                    draggable = '';
+                }
                 var newHTML = '<button type="button" value="' + cslVarname
-                    + '" class="btn btn-primary btn-sm sampler-button draggable" data-toggle="modal" data-target="#editCslVar">'
+                    + '" class="btn btn-primary btn-sm sampler-button' + draggable + '" data-toggle="modal" data-target="#editCslVar">'
                     + fieldLabel
                     + ' </button>'
 
@@ -383,13 +366,9 @@ onmessage = function (event) {
                 lastStyleName = nextStyleName;
             }
             outObj.bubbles = getBubbles(event);
-            var result = generateSample();
-            var citations = '';
-            for (var i=0,ilen=result.citations.length;i<ilen;i++) {
-                var citation = result.citations[i];
-                citations += citation;
-            }
-            outObj.citations = citations;
+            var customFields = event.data.customFields;
+            var result = generateSample(customFields);
+            outObj.citations = result.citations;
             var bibliography = '';
             if (result.bibliography) {
                 for (var i=0,ilen=result.bibliography.length;i<ilen;i++) {
@@ -400,7 +379,8 @@ onmessage = function (event) {
                 bibliography += '<div class="csl-entry">(this style has no bibliography)</div>'
             }
             outObj.bibliography = bibliography;
-            // Return enabled legal types of module has them
+
+            // Return enabled legal types if module has them
             var infoNode = sys.xml.getNodesByName(processorElements.style, 'info')[0];
             var lawModuleNode = sys.xml.getNodesByName(infoNode, 'law-module');
             lawModuleNode = lawModuleNode.length ? lawModuleNode[0] : null;
@@ -414,18 +394,31 @@ onmessage = function (event) {
             unselectedVars = {};
             selectedVars = {};
             outObj.bubbles = getBubbles(event, event.data.itemType, true);
-            var result = generateSample();
+            var customFields = event.data.customFields;
+            var result = generateSample(customFields);
             outObj.citations = result.citations;
-            outObj.bibliography = result.bibliography;
+            var bibliography = '';
+            if (result.bibliography) {
+                for (var i=0,ilen=result.bibliography.length;i<ilen;i++) {
+                    var entry = result.bibliography[i];
+                    bibliography += entry;
+                }
+            } else {
+                bibliography += '<div class="csl-entry">(this style has no bibliography)</div>'
+            }
+            outObj.bibliography = bibliography;
         }, 'CHANGE ITEM TYPE OK');
         break;
     case 'SELECT VARIABLE':
         workerExec(function() {
             var varName = event.data.selectedVarname;
-            delete unselectedVars[varName];
-            selectedVars[varName] = true;
+            if (varName) {
+                delete unselectedVars[varName];
+                selectedVars[varName] = true;
+            }
             outObj.bubbles = getBubbles(event);
-            var result = generateSample();
+            var customFields = event.data.customFields;
+            var result = generateSample(customFields);
             outObj.citations = result.citations;
             outObj.bibliography = result.bibliography;
         }, 'SELECT VARIABLE OK');
@@ -436,7 +429,8 @@ onmessage = function (event) {
             delete selectedVars[varName];
             unselectedVars[varName] = true;
             outObj.bubbles = getBubbles(event);
-            var result = generateSample();
+            var customFields = event.data.customFields;
+            var result = generateSample(customFields);
             outObj.citations = result.citations;
             outObj.bibliography = result.bibliography;
         }, 'UNSELECT VARIABLE OK');

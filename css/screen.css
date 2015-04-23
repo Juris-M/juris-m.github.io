@@ -1,5 +1,39 @@
 /* ignore this line */
 
+/*
+.modal-body .wrapper.name .col-lg-1,
+.modal-body .wrapper.name .col-lg-5,
+.modal-body .wrapper.name .col-lg-6 {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+}
+*/
+
+.table.monos tbody tr td:nth-child(even) {
+    font-family: "Lucida Console", Monaco, monospace;
+    background: #eeeeee;
+}
+
+.table.short-codes thead td {
+    font-weight: bold;
+}
+
+.table.short-codes tbody tr td {
+    font-family: "Lucida Console", Monaco, monospace;
+}
+
+.table.short-codes tr td:nth-child(odd) {
+    text-align: right;
+}
+
+.table.short-codes tr td:nth-child(odd):after {
+    content: '➜';
+}
+
+.table.short-codes tbody tr td:nth-child(even) {
+    background: #eeeeee;
+}
+
 #cslFieldLabel {
     font-weight: bold;
 }
@@ -16,15 +50,21 @@ div.modal-body div.wrapper {
 div.modal-body.name div.wrapper.name,
 div.modal-body.date div.wrapper.date,
 div.modal-body.number div.wrapper.number,
-div.modal-body.text div.wrapper.text {
+div.modal-body.text div.wrapper.text,
+div.modal-body.locator div.wrapper.locator {
     display: block;
 }
 
-
+div.well,
+pre,
 div.keep-together {
     display: inline-block;
     width: 100%;
- }
+}
+
+.multi-column div.keep-together.toc li {
+    margin-bottom: 0px;
+}
 
 .boxy {
     padding: 0.02em;
@@ -35,10 +75,12 @@ div.keep-together {
     background: #dddddd;
 }
 
+.well.greenish,
 .boxy.greenish {
-    background: #a8ffee;
+    background: #c0ffc0;
 }
 
+.well.yellowish,
 .boxy.yellowish {
     background: #fffeb2;
 }
@@ -51,17 +93,13 @@ div.keep-together {
     background: #ff9194;
 }
 
+.well.blueish,
 .boxy.blueish {
     background: #d1d2ff;
 }
 
 .boxy.noborder {
     border: none !important;
-}
-
-.hang-indent {
-    text-indent: -1em;
-    margin-left: 1em;
 }
 
 .inline-blocks { 
@@ -79,6 +117,7 @@ div.keep-together {
 
 .mono {
     font-family: "Lucida Console", Monaco, monospace;
+    background: #eeeeee;
 }
 
 .small-caps {
@@ -98,6 +137,10 @@ div.keep-together {
 }
 
 .multi-column {}
+
+.multi-column li {
+    margin-bottom: 0.5em;
+}
 
 @media (min-width: 992px) {
     .multi-column {
@@ -235,9 +278,17 @@ col-lg-6.vcenter {
     display: block;
 }
 
-.hanging {
-    text-indent: -1em;
+.indent {
     padding-left: 1em;
+}
+
+.indent.big {
+    padding-left: 2em;
+}
+
+.indent.hanging,
+.indent .hanging {
+    text-indent: -1em;
 }
 
 .buttony {
@@ -245,12 +296,23 @@ col-lg-6.vcenter {
     background: #428bca;
     border: 1px solid #cccccc;
     border-radius: 5px;
-    padding: 0.2em 0.25em 0.2em 0.25em;
+    padding: 0.12em 0.25em 0.12em 0.25em;
+}
+
+.buttony.bubble {
+    padding: 0.15em 0.25em;
+    border-radius: 1em;
+    border: 1px solid #eeeeee;
 }
 
 .grey.buttony {
     color: #000000;
     background: #e6e6e6;
+}
+
+.turquoise.buttony {
+    color: #000000;
+    background: #aaddff;
 }
 
 .green.buttony {

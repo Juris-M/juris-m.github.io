@@ -18,52 +18,63 @@
   
   <macro name="juris-title">
     <!-- The title form for full citations (of all types) -->
-    <text value="[JURIS-TITLE]"/>
-  </macro>
-
-  <macro name="juris-title-short">
-    <!-- The title form for subsequent citations (of all types) -->
-    <text value="[JURIS-TITLE-SHORT]"/>
+    <text value="[TITLE]"/>
   </macro>
 
   <macro name="juris-main">
     <!-- The body of full citations (of all types) -->
-    <text value="[JURIS-MAIN]"/>
+    <text value="[MAIN]"/>
   </macro>
 
-  <macro name="juris-main-short">
-    <!-- The body of subsequent citations (of all types) -->
-    <text value="[JURIS-MAIN-SHORT]"/>
+  <macro name="juris-default-spotter">
+    <!-- Pinpoint forms (with label) that are preceded by a space in a full-form cite -->
+    <text value="[SPACE-LOCATOR]"/>
   </macro>
 
-  <macro name="juris-locator-label">
-    <!-- The label applied to pinpoint locators -->
-    <text value="[JURIS-LOCATOR-LABEL]"/>
-  </macro>
-
-  <macro name="juris-locator">
-    <!-- The pinpoint label (including affixes, if required) -->
-    <text value="[JURIS-LOCATOR]"/>
-  </macro>
-
-  <macro name="juris-space-locator">
-    <!-- Complete pinpoint locator forms (with label) that are preceded by a space -->
-    <text value="[JURIS-SPACE-LOCATOR]"/>
-  </macro>
-
-  <macro name="juris-comma-locator">
-    <!-- Complete pinpoint locator forms (with label) that are preceded by a comma -->
-    <text value="[JURIS-COMMA-LOCATOR]"/>
+  <macro name="juris-comma-spotter">
+    <!-- Pinpoint forms (with label) that are preceded by a comma in a full-form cite -->
+    <text value="[COMMA-LOCATOR]"/>
   </macro>
 
   <macro name="juris-tail">
     <!-- Full form of the portion of the citation that follows a pinpoint locator, if any (for all types) -->
-    <text value="[JURIS-TAIL]"/>
+    <text value="[TAIL]"/>
+  </macro>
+
+  <macro name="juris-title-short">
+    <!-- The title form for subsequent citations (of all types) -->
+    <text value="[TITLE-SHORT]"/>
+  </macro>
+
+  <macro name="juris-main-short">
+    <!-- The body of subsequent citations (of all types) -->
+
+    <text value="[MAIN-SHORT]"/>
+  </macro>
+
+  <macro name="juris-default-spotter-short">
+    <!-- Pinpoint forms (with label) that are preceded by a space in a short-form cite -->
+    <text value="[SPACE-LOCATOR]"/>
+  </macro>
+
+  <macro name="juris-comma-spotter-short">
+    <!-- Pinpoint forms (with label) that are preceded by a comma in a short-form cite -->
+    <text value="[COMMA-LOCATOR]"/>
   </macro>
 
   <macro name="juris-tail-short">
     <!-- Short form of the portion of the citation that follows a pinpoint locator, if any (for all types) -->
-    <text value="[JURIS-TAIL-SHORT]"/>
+    <text value="[TAIL-SHORT]"/>
+  </macro>
+
+  <macro name="juris-locator-label">
+    <!-- The label applied to pinpoint locators -->
+    <text value="[LOCATOR-LABEL]"/>
+  </macro>
+
+  <macro name="juris-locator">
+    <!-- The bare locator without label (but including affixes, if required) -->
+    <text value="[LOCATOR]"/>
   </macro>
 
   <!-- 
@@ -100,9 +111,9 @@
             <group delimiter=" ">
               <group delimiter=", ">
                 <text macro="juris-main"/>
-                <text macro="juris-comma-locator" label-form="symbol"/>
+                <text macro="juris-comma-spotter" label-form="symbol"/>
               </group>
-              <text macro="juris-space-locator" label-form="symbol"/>
+              <text macro="juris-default-spotter" label-form="symbol"/>
               <text macro="juris-tail"/>
             </group>
           </group>
@@ -110,13 +121,30 @@
         <else>
           <!-- short form -->
           <group delimiter=", ">
-            <text macro="juris-title-short" font-style="italic"/>
+            <choose>
+              <if type="legal_case">
+                <text macro="juris-title-short" font-style="italic"/>
+              </if>
+              <else>
+                <text macro="juris-title-short"/>
+              </else>
+            </choose>
             <group delimiter=" ">
               <group delimiter=", ">
                 <text macro="juris-main-short"/>
-                <text macro="juris-comma-locator" label-form="symbol"/>
+                <text macro="juris-comma-spotter-short" label-form="symbol"/>
               </group>
-              <text macro="juris-space-locator" label-form="symbol"/>
+              <choose>
+                <if variable="locator">
+                  <group delimiter=" ">
+                    <text macro="juris-locator-label" alternative-macro="at-locator-label"/>
+                    <text macro="juris-locator"/>
+                  </group>
+                </if>
+                <else>
+                  <text macro="juris-default-spotter-short" label-form="symbol"/>
+                </else>
+              </choose>
               <text macro="juris-tail-short"/>
             </group>
           </group>
