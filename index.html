@@ -48,8 +48,11 @@
         });
         $(".button2").click(function(event){
           console.log("Hitting GitHub login API");
-          document.location.href="https://github.com/login/oauth/authorize?client_id=e8c0052c29d0147de5c3&scope=public_repo&status=98754321";
-          //document.location.href="https://github.com/login/oauth/authorize?client_id=dafdd5113c19e21d5fa6&scope=public_repo&status=98754321";
+          var client_id = "e8c0052c29d0147de5c3";
+          if (document.location.host === "fbennett.github.io") {
+            client_id = "dafdd5113c19e21d5fa6";
+          }
+          document.location.href="https://github.com/login/oauth/authorize?client_id=" + client_id + "&scope=public_repo&status=98754321";
         });
       }
       $(window).on('resize', initScript);
