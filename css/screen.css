@@ -15,6 +15,12 @@ html,body
     overflow-x: hidden; 
 }
 
+a.return-link:hover {
+    text-decoration: none;
+    color: #000000;
+    cursor: pointer;
+}
+
 .table.monos tbody tr td:nth-child(even) {
     font-family: "Lucida Console", Monaco, monospace;
     background: #eeeeee;
