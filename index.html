@@ -48,9 +48,9 @@
         });
         $(".button2").click(function(event){
           console.log("Hitting GitHub login API");
-          var client_id = "e8c0052c29d0147de5c3";
+          var client_id = "dafdd5113c19e21d5fa6";
           if (document.location.host === "fbennett.github.io") {
-            client_id = "dafdd5113c19e21d5fa6";
+            client_id = "e8c0052c29d0147de5c3";
           }
           document.location.href="https://github.com/login/oauth/authorize?client_id=" + client_id + "&scope=public_repo&status=98754321";
         });
