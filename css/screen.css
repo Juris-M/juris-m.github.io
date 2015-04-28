@@ -15,6 +15,7 @@ html,body
     overflow-x: hidden; 
 }
 
+a.return-link:active,
 a.return-link:hover {
     text-decoration: none;
     color: #000000;
