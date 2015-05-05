@@ -8,6 +8,7 @@ var CSLValidator = (function() {
 
     //to track current itemType set in Sampler
     var itemTypeName = 'legal_case';
+    var itemTypeLabel = 'Case';
     var itemTypeMap = {};
 
     var citationForms = [
@@ -168,27 +169,37 @@ var CSLValidator = (function() {
                 excludeFields: event.data.excludeFields,
                 legalTypes: event.data.legalTypes,
                 itemTypeData: event.data.itemTypeData,
-                customFields: getCustomFields(itemTypeName)
+                customFields: getCustomFields()
             });
             break;
         }
     }
     
-    function getCustomFields(itemTypeName) {
+    function getCustomFields() {
         var ret = {};
         var segments = ['creators','textFields','numericFields','dateFields','locatorField'];
         var itemTypeLabel = $('#sampler-itemtype-button').text().trim();
         for (var i=0,ilen=segments.length;i<ilen;i++) {
-            // XXX THIS IS SO AWFUL!
-            // XXX Really should not need to remap to a label for use as a key!
-            for (var label in itemTypeData[itemTypeMap[itemTypeName]][segments[i]]) {
-                var key = itemTypeData[itemTypeMap[itemTypeName]][segments[i]][label];
-                var val = localStorage.getItem(itemTypeName + '::' + key);
+            var segment = segments[i];
+            for (var label in itemTypeData[itemTypeLabel][segment]) {
+                var key = itemTypeData[itemTypeLabel][segment][label];
+                var val = localStorage.getItem(itemTypeLabel + '::' + key);
                 if (val) {
                     ret[key] = JSON.parse(val);
                 }
+                if (segment === "creators" && ret[key]) {
+                    // drop unused names
+                    var oldarr = ret[key];
+                    var newarr = [];
+                    for (var j=0,jlen=oldarr.length;j<jlen;j++) {
+                        if (oldarr[j] && oldarr[j].checked) {
+                            newarr.push(oldarr[j]);
+                        }
+                    }
+                    ret[key] = newarr;
+                }
             }
-            var locator = localStorage.getItem(itemTypeName + '::locator');
+            var locator = localStorage.getItem(itemTypeLabel + '::locator');
             if (locator) {
                 ret.locator = JSON.parse(locator);
             }
@@ -408,10 +419,10 @@ var CSLValidator = (function() {
         // XXX Can do better than just giving up.
         if ($(originalElement).hasClass('disabled-link')) return;
         
-        var itemTypeLabel = originalElement.textContent;
 	    if (originalElement.getAttribute('id') === itemTypeName) {
 	        return;
 	    } else {
+            itemTypeLabel = originalElement.textContent;
             itemTypeName = originalElement.getAttribute('id');
 	    }
 
@@ -420,7 +431,7 @@ var CSLValidator = (function() {
         citeprocWorker.postMessage({
             type:"CHANGE ITEM TYPE",
             itemType:itemTypeLabel,
-            customFields: getCustomFields(itemTypeName)
+            customFields: getCustomFields()
         });
     }
 
@@ -433,7 +444,7 @@ var CSLValidator = (function() {
         });
 
         $('#editCslVar').on('show.bs.modal', function(event){
-            var itemType = $('#sampler-itemtype-button').attr('value');
+            var itemTypeLabel = $('#sampler-itemtype-button').text().trim();
             var category = $(event.relatedTarget).parent().attr('value');
             var cslVarName = $(event.relatedTarget).attr('value')
             $('#cslVarName').html(cslVarName);
@@ -443,7 +454,7 @@ var CSLValidator = (function() {
 	        $('.modal-body').attr('value', category);
 
             // Populate field with correct content, if any (out of localStorage)
-            var key = itemType + '::' + cslVarName;
+            var key = itemTypeLabel + '::' + cslVarName;
             var val = localStorage.getItem(key);
             if (val) {
                 val = JSON.parse(val);
@@ -467,7 +478,7 @@ var CSLValidator = (function() {
                 citeprocWorker.postMessage({
                     type:'SELECT VARIABLE',
                     selectedVarname:node.attr('value'),
-                    customFields: getCustomFields(itemTypeName)
+                    customFields: getCustomFields()
                 });
             }
         });
@@ -479,7 +490,7 @@ var CSLValidator = (function() {
                 citeprocWorker.postMessage({
                     type:'UNSELECT VARIABLE',
                     unselectedVarname:node.attr('value'),
-                    customFields: getCustomFields(itemTypeName)
+                    customFields: getCustomFields()
                 });
             },
             scope: "tounselect",
@@ -685,6 +696,9 @@ var CSLValidator = (function() {
             } else {
                 $('#' + id + '-input').val('');
             }
+            if (id === 'url') {
+                history.replaceState({}, document.title, uri.search(""));
+            }
             $('#' + id + '-source-remover').hide();
         });
 
@@ -822,7 +836,7 @@ var CSLValidator = (function() {
         //$('#csl-text').on('keyup', editCslEnable('text'));
 
         $('#editCslVarSave').on('click', function(event){
-            var itemType = $('#sampler-itemtype-button').attr('value');
+            var itemType = $('#sampler-itemtype-button').text().trim();
             var cslVarName = $('#cslVarName').text();
             var category = $('.modal-body').attr('value');
             var valueObj;
@@ -832,15 +846,21 @@ var CSLValidator = (function() {
 		        for (var i=1,ilen=11;i<ilen;i++) {
 		            var family = $('#csl-family-name-' + i).val();
 		            var given = $('#csl-given-name-' + i).val();
-		            var checked = $('#csl-name-checkbox-' + i).prop('checked') ? 1 : 0;
+                    var checked;
+                    if (i === 1) {
+                        checked = 1;
+                    } else {
+		                checked = $('#csl-name-checkbox-' + i).prop('checked') ? 1 : 0;
+                    }
 		            if (!family && !given) {
 			            checked = 0;
 		            }
-		            valueObj.push({
+                    var name = {
 			            checked: checked,
-			            family: $('#csl-family-name-' + i).val(),
-			            given: $('#csl-given-name-' + i).val()
-		            });
+			            family: family,
+			            given: given
+		            }
+		            valueObj.push(name);
 		        }
                 break;
             case 'date':
@@ -860,7 +880,7 @@ var CSLValidator = (function() {
             citeprocWorker.postMessage({
                 type:'SELECT VARIABLE',
                 selectedVarname:null,
-                customFields: getCustomFields(itemTypeName)
+                customFields: getCustomFields()
             });
         });
     };
@@ -869,7 +889,7 @@ var CSLValidator = (function() {
         // Names need extending to 10 of them, with checkboxes for inclusion. Ugh.
         switch (category) {
         case 'name':
-            if ("object" !== typeof val || val.length !== 10) {
+            if (!val || "object" !== typeof val || val.length !== 10) {
                 val = null;
             }
             if (!val) {
@@ -935,7 +955,16 @@ var CSLValidator = (function() {
         $('.action-button').removeClass('chosen');
         $('.action-view').attr('style', 'display:none;');
         $('#' + name + '-view').attr('style', 'display:block;');
-        $(event.target).addClass('chosen')
+        // ZZZ Yuck.
+        if (!event) {
+            // This will always be so. For now. Ugh.
+            if (name === 'editor') {
+                tutorial.toggle_guidance(true);
+            }
+        } else {
+            $(event.target).addClass('chosen');
+        }
+
         var titles = {
             main: 'Juris-M: Welcome',
             editor: 'Style Manager'
@@ -996,7 +1025,8 @@ var CSLValidator = (function() {
             var documentURL = $('#url-input').val();
             uri.setSearch("url", documentURL);
             uri.setSearch("version", $('#schema-version').attr('value'));
-            history.replaceState({}, document.title, uri.search(""));
+            //history.replaceState({}, document.title, uri.search(""));
+            history.pushState({}, document.title, uri);
 
             //don't try validation on empty string
             sourceMethodFunc = function(schemaURL, documentURL) {

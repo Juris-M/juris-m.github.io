@@ -211,10 +211,10 @@ function getBubbles(event, itemTypeLabel) {
         fieldBundle.locatorField.locator = 'Locator';
         for (var cslVarname in fieldBundle.creators) {
             var fieldLabel = fieldBundle.creators[cslVarname];
-            sampleData[cslVarname] = {
+            sampleData[cslVarname] = [{
                 family: fieldLabel.replace(/\s+/g, '') + 'smith',
                 given: fieldLabel.slice(0,3) + 'bert'
-            }
+            }]
         }
         var year = 1950;
         var month = 1;

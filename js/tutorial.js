@@ -257,11 +257,11 @@ tutorial = new function() {
         popovers['#source-method']();
     }
 
-    function toggle_guidance () {
-        if (setView()) {
+    function toggle_guidance (forceEditor) {
+        if (setView() && !forceEditor) {
             $('#source-guidance').removeClass('noshow');
             $('#source-editor').hide();
-        } else if ($('#source-guidance').is('.noshow')) {
+        } else if ($('#source-guidance').is('.noshow') && !forceEditor) {
             $('#source-guidance').removeClass('noshow');
             $('#source-editor').hide();
         } else {
