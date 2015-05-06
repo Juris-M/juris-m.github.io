@@ -229,6 +229,11 @@ a.disabled-link:hover {
     text-align: center;
 }
 
+.download-button:hover .bigtext span.mono {
+    background: inherit;
+    color: inherit;
+}
+
 .download-button .smalltext {
     font-size:90%;
     text-align: center;

@@ -152,12 +152,12 @@
           </p>
         </div>
         <div class="col-lg-4">
-          <a class="download-button" href="http://gsl-nagoya-u.net/http/pub/abbreviations-for-zotero.xpi">
+          <a class="download-button" href="https://github.com/Juris-M/abbrevs-filter/releases/latest">
             <div class="bigtext">
               Abbreviation Filter
             </div>
             <div class="smalltext">
-              click to install in Firefox
+              click for latest release
             </div>
           </a>
           <p>
@@ -186,7 +186,7 @@
       </div>
       <div class="row">
         <div class="col-lg-12">
-          <h2>Supporting Plugins</h2>
+          <h2>Juris-M Companions</h2>
         </div>
       </div>
       <div class="row even">
@@ -200,16 +200,10 @@
             </div>
           </a>
           <p>
-            
-
-            Most users will choose to install one of the word
-            processor integration plugins offered by the Zotero team,
-            which provide the same functionality enjoyed by users of
-            mainstream Zotero.
-          </p>
-          <p>
-            No special configuration is required to use the Zotero
-            word processor plugins with Juris-M.
+            Juris-M is compatible with the Zotero word processor
+            plugins for Word, Word for Mac, and LibreOffice.  No
+            special configuration is required to use the Zotero word
+            processor plugins with Juris-M: they should just work.
           </p>
         </div>
         <div class="col-lg-4">
@@ -218,20 +212,18 @@
               RTF/ODF Scan
             </div>
             <div class="smalltext">
-              version 1.0.22
+              visit project website
             </div>
           </a>
           <p>
-            This plugin provides robust citation support for word
-            processing platforms other than Word and LibreOffice (which
-            are supported directly by the WP Integration plugins above).
-          </p>
-          <p>
-            Using this plugin, citation placeholders can be pasted
-            into any document text. If the document is then converted to
-            Open Document Format (ODF), the placeholders can be transformed
-            into "live" citations, after which LibreOffice can apply
-            citation styles to the document in the usual way.
+            For writing platforms not directly supported by a word
+            processor plugin (Scrivener is a common case), Juris-M can
+            be used with the RTF/ODF Scan plugin.  The plugin enables
+            scannable citation placeholders that can be pasted into
+            any document text. The placeholders can be converted to
+            &ldquo;live&rdquo; Zotero/Juris-M citations when the
+            document is exported in the ODF format used by
+            LibreOffice.
           </p>
         </div>
         <div class="col-lg-4">
@@ -240,17 +232,96 @@
               Bluebook Signals
             </div>
             <div class="smalltext">
-              version 1.0.5
+              visit project site
             </div>
           </a>
           <p>
-            A leading citation guide for legal writing in the United
-            States specifies a set of "signals," used to indicate the
-            relation of each cited source to the author's line of
-            argument.
+            Law review editors in the United States generally require
+            the use of a conventional set of
+            &ldquo;signals&rdquo; to indicate the manner of support
+            that individual citations lend to the author&rdquo;s
+            argument (to
+            wit: <i>e.g.</i>, <i>accord</i>, <i>see</i>, <i>see
+            also</i>, <i>cf.</i>, <i>contra</i>, <i>but
+            see</i>, <i>but cf.</i>, and <i>see generally</i>).
           </p>
           <p>
-            This plugin enables convenient shortcut entry of citation signals.          
+            This plugin enables convenient shortcut entry of such
+            signals.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <h2>CSL Processor and Zotero Gadgets</h2>
+        </div>
+        <p>
+          (For the curious, <span class="mono">propachi</span> is a
+          Japanese slang term for a
+          professional <a href="http://commons.wikimedia.org/wiki/File:Pachinko_Oct_2009.jpg">pachinko</a>
+          player.)
+        </p>
+      </div>
+      <div class="row odd">
+        <div class="col-lg-4">
+          <a class="download-button" href="https://bitbucket.org/fbennett/citeproc-js/wiki/Home">
+            <div class="bigtext">
+              <span class="mono">citeproc-js</span>
+            </div>
+            <div class="smalltext">
+              visit project site
+            </div>
+          </a>
+          <p>
+            The <b><span class="mono">citeproc-js</span></b> CSL
+            processor is the magic behind citation formatting in
+            Zotero, Juris-M, Mendeley, and many other modern websites
+            and research platforms. Like Juris-M, it is maintained by
+            <a href="https://twitter.com/fgbjr">@fgbjr</a>.
+          </p>
+          <p>
+            The processor code itself is primarily of interest to
+            software developers.
+          </p>
+        </div>
+        <div class="col-lg-4">
+          <a class="download-button" href="https://github.com/Juris-M/propachi-vanilla/releases/latest">
+            <div class="bigtext">
+              Processor Patch
+            </div>
+            <div class="smalltext">
+              click for latest release
+            </div>
+          </a>
+          <p>
+            On rare occasions, issues arise that require a change in
+            the core code of the citation processor. Zotero users who
+            wish to take advantage of a fix immediately can do so by
+            installing this <span class="mono">propachi-vanilla</span>
+            plugin. Its only effect is to swap in the latest processor
+            version, and it can be removed when a Zotero version
+            incorporating the fix is released.
+          </p>
+        </div>
+        <div class="col-lg-4">
+          <a class="download-button" href="https://github.com/Juris-M/propachi-upper/releases/latest">
+            <div class="bigtext">
+              Uppercase Subtitles
+            </div>
+            <div class="smalltext">
+              click for latest release
+            </div>
+          </a>
+          <p>
+            Some citation styles require that the first character of a
+            subtitle in &ldquo;sentence case&rdquo; be capitalized,
+            and others do not. Official CSL does not currently have a
+            mechanism for representing this difference,
+            and <span class="mono">citeproc-js</span> will render
+            subtitles as written. Zotero users who require uppercasing
+            of the first character in subtitles can install
+            this <span class="mono">propachi-upper</span> plugin to
+            achieve the desired effect.
           </p>
         </div>
       </div>
