@@ -11,6 +11,10 @@ var currentItemType = null;
 
 var sampleData = null;
 
+CSL.getSuppressJurisdictions = function () {
+    return {"US":"US"}
+}
+
 var processorElements = {
     style: null,
     locales: {},
