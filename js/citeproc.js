@@ -1,3 +1,74 @@
+/*
+ * Copyright (c) 2009-2014 Frank G. Bennett
+ * 
+ * Unless otherwise indicated, the files in this repository are subject
+ * to the Common Public Attribution License Version 1.0 (the “License”);
+ * you may not use this file except in compliance with the License. You
+ * may obtain a copy of the License at:
+ * 
+ * http://bitbucket.org/fbennett/citeproc-js/src/tip/LICENSE.
+ * 
+ * (See also the note on attribution information below)
+ * 
+ * The License is based on the Mozilla Public License Version 1.1 but
+ * Sections 1.13, 14 and 15 have been added to cover use of software over a
+ * computer network and provide for limited attribution for the
+ * Original Developer. In addition, Exhibit A has been modified to be
+ * consistent with Exhibit B.
+ * 
+ * Software distributed under the License is distributed on an “AS IS”
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+ * the License for the specific language governing rights and limitations
+ * under the License.
+ * 
+ * The Original Code is the citation formatting software known as
+ * "citeproc-js" (an implementation of the Citation Style Language
+ * [CSL]), including the original test fixtures and software located
+ * under the ./tests subdirectory of the distribution archive.
+ * 
+ * The Original Developer is not the Initial Developer and is
+ * __________. If left blank, the Original Developer is the Initial
+ * Developer.
+ * 
+ * The Initial Developer of the Original Code is Frank Bennett. All
+ * portions of the code written by Frank Bennett are Copyright (c)
+ * 2009-2014 Frank Bennett.
+ * 
+ * ***
+ * 
+ * Alternatively, the files in this repository may be used under the
+ * terms of the GNU Affero General Public License (the [AGPLv3] License),
+ * in which case the provisions of [AGPLv3] License are applicable
+ * instead of those above. If you wish to allow use of your version of
+ * this file only under the terms of the [AGPLv3] License and not to
+ * allow others to use your version of this file under the CPAL, indicate
+ * your decision by deleting the provisions above and replace them with
+ * the notice and other provisions required by the [AGPLv3] License. If
+ * you do not delete the provisions above, a recipient may use your
+ * version of this file under either the CPAL or the [AGPLv3] License.
+ * 
+ * ***
+ * 
+ * Attribution Information (CPAL)
+ * 
+ * Attribution Copyright Notice: [no separate attribution copyright notice is required]
+ * 
+ * Attribution Phrase: "Citations by CSL (citeproc-js)"
+ * 
+ * Attribution URL: http://citationstyles.org/
+ * 
+ * Graphic Image: [there is no requirement to display a Graphic Image]
+ * 
+ * Display of Attribution Information is REQUIRED in Larger Works which
+ * are defined in the CPAL as a work which combines Covered Code or
+ * portions thereof with code not governed by the terms of the CPAL.
+ * 
+ * Display of Attribution Information is also REQUIRED on Associated
+ * Websites.
+ * 
+ * [ citeproc-js license :: version 1.1 :: 2012.06.30 ]
+ */
+
 if (!Array.indexOf) {
     Array.prototype.indexOf = function (obj) {
         var i, len;
@@ -10,7 +81,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.13",
+    PROCESSOR_VERSION: "1.1.14",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -1281,8 +1352,14 @@ CSL.Engine = function (sys, style, lang, forceLang) {
     if ("undefined" === typeof CSL_JSON && "string" !== typeof style) {
         style = "";
     }
+    if (CSL.retrieveStyleModule) {
+        this.sys.retrieveStyleModule = CSL.retrieveStyleModule;
+    }
     if (CSL.getAbbreviation) {
         this.sys.getAbbreviation = CSL.getAbbreviation;
+    }
+    if (CSL.suppressJurisdictions) {
+        this.sys.suppressJurisdictions = CSL.suppressJurisdictions;
     }
     if (this.sys.stringCompare) {
         CSL.stringCompare = this.sys.stringCompare;
@@ -1334,10 +1411,10 @@ CSL.Engine = function (sys, style, lang, forceLang) {
     this.opt.xclass = sys.xml.getAttributeValue(this.cslXml, "class");
     this.opt.class = this.opt.xclass;
     this.opt.styleID = this.sys.xml.getStyleId(this.cslXml);
-    this.opt.styleName = this.sys.xml.getStyleId(this.cslXml, true);
-    if (CSL.getSuppressJurisdictions) {
-        this.opt.suppressJurisdictions = CSL.getSuppressJurisdictions(this.opt.styleID);
+    if (CSL.setSuppressJurisdictions) {
+        CSL.setSuppressJurisdictions(this.opt.styleID);
     }
+    this.opt.styleName = this.sys.xml.getStyleId(this.cslXml, true);
     if (this.opt.version.slice(0,4) === "1.1m") {
         this.opt.development_extensions.static_statute_locator = true;
         this.opt.development_extensions.handle_parallel_articles = true;
@@ -5659,20 +5736,20 @@ CSL.Node.group = {
                 var if_start = new CSL.Token("if", CSL.START);
                 func = function (macroName) {
                     return function (Item) {
-                        if (!CSL.MODULE_MACROS[macroName] || !Item.jurisdiction) return false;
-                        var jurisdiction = Item.jurisdiction;
-                        if (!state.opt.jurisdictions_seen[jurisdiction]) {
-                            var res = state.retrieveStyleModule(jurisdiction);
-                            var myCount = 0;
-                            if (res) {
+                        if (!state.sys.retrieveStyleModule || !CSL.MODULE_MACROS[macroName] || !Item.jurisdiction) return false;
+                        var jurisdictionList = state.getJurisdictionList(Item.jurisdiction);
+                        if (!state.opt.jurisdictions_seen[jurisdictionList[0]]) {
+                            var res = state.retrieveAllStyleModules(jurisdictionList);
+                            for (var jurisdiction in res) {
+                                var macroCount = 0;
                                 state.juris[jurisdiction] = {};
-                                var myXml = state.sys.xml.makeXml(res);
+                                var myXml = state.sys.xml.makeXml(res[jurisdiction]);
                                 var myNodes = state.sys.xml.getNodesByName(myXml, "law-module");
                                 for (var i=0,ilen=myNodes.length;i<ilen;i++) {
                                     var myTypes = state.sys.xml.getAttributeValue(myNodes[i],"types");
                                     if (myTypes) {
                                         state.juris[jurisdiction].types = {};
-                                        myTypes =  myTypes.split(" ");
+                                        myTypes =  myTypes.split(/\s+/);
                                         for (var j=0,jlen=myTypes.length;j<jlen;j++) {
                                             state.juris[jurisdiction].types[myTypes[j]] = true;
                                         }
@@ -5688,19 +5765,22 @@ CSL.Node.group = {
                                         CSL.debug("CSL: skipping non-modular macro name \"" + myName + "\" in module context");
                                         continue;
                                     };
-                                    myCount++;
+                                    macroCount++;
                                     state.juris[jurisdiction][myName] = [];
                                     state.buildTokenLists(myNodes[i], state.juris[jurisdiction][myName]);
                                     state.configureTokenList(state.juris[jurisdiction][myName]);
                                 }
-                                if (myCount < Object.keys(state.juris[jurisdiction].types).length) {
+                                if (macroCount < Object.keys(state.juris[jurisdiction].types).length) {
                                     throw "CSL ERROR: Incomplete jurisdiction style module for: " + jurisdiction;
                                 }
                             }
-                            state.opt.jurisdictions_seen[jurisdiction] = true;
                         }
-                        if (state.juris[Item.jurisdiction] && state.juris[Item.jurisdiction].types[Item.type]) {
-                            return true;
+                        for (var i=0,ilen=jurisdictionList.length;i<ilen;i++) {
+                            var jurisdiction = jurisdictionList[i];
+                            if(state.juris[jurisdiction] && state.juris[jurisdiction].types[Item.type]) {
+                                Item["best-jurisdiction"] = jurisdiction;
+                                return true;
+                            }
                         }
                         return false;
                     };
@@ -5711,9 +5791,9 @@ CSL.Node.group = {
                 var text_node = new CSL.Token("text", CSL.SINGLETON);
                 func = function (state, Item, item) {
                     var next = 0;
-                    if (state.juris[Item.jurisdiction][this.juris]) {
-                        while (next < state.juris[Item.jurisdiction][this.juris].length) {
-                            next = CSL.tokenExec.call(state, state.juris[Item.jurisdiction][this.juris][next], Item, item);
+                    if (state.juris[Item["best-jurisdiction"]][this.juris]) {
+                        while (next < state.juris[Item["best-jurisdiction"]][this.juris].length) {
+                            next = CSL.tokenExec.call(state, state.juris[Item["best-jurisdiction"]][this.juris][next], Item, item);
                         }
                     }
                 }
@@ -10747,8 +10827,12 @@ CSL.Transform = function (state) {
         if (["archive"].indexOf(myabbrev_family) > -1) {
             myabbrev_family = "collection-title";
         }
-        if (variable === "jurisdiction" && state.sys.getHumanForm && basevalue) {
+        if (variable === "jurisdiction" && basevalue && state.sys.getHumanForm) {
+            var jcode = basevalue;
             basevalue = state.sys.getHumanForm(basevalue);
+            if (state.sys.suppressJurisdictions) {
+                basevalue = state.sys.suppressJurisdictions(jcode,basevalue);
+            }
         }
         value = "";
         if (state.sys.getAbbreviation) {
@@ -10907,12 +10991,6 @@ CSL.Transform = function (state) {
         return function (state, Item, item, usedOrig) {
             var primary, primary_locale, secondary, secondary_locale, tertiary, tertiary_locale, primary_tok, group_tok, key;
             if (!variables[0] || (!Item[variables[0]] && !Item[alternative_varname])) {
-                return null;
-            }
-            if (state.opt.suppressJurisdictions
-                && variables[0] === "jurisdiction" 
-                && state.opt.suppressJurisdictions[Item.jurisdiction]
-                && ["legal_case","gazette","regulation","legislation","hearing"].indexOf(Item.type) > -1) {
                 return null;
             }
             var slot = {primary:false, secondary:false, tertiary:false};
@@ -14194,22 +14272,31 @@ CSL.Disambiguation.prototype.captureStepToBase = function() {
     }
     this.betterbase.names[this.gnameset] = this.base.names[this.gnameset];
 };
-CSL.Engine.prototype.retrieveStyleModule = function (jurisdiction) {
-    var ret = null;
-    var jurisdictions = jurisdiction.split(":");
+CSL.Engine.prototype.getJurisdictionList = function (jurisdiction) {
+    var jurisdictionList = [];
+    var jurisdictionElems = jurisdiction.split(":");
+    for (var j=jurisdictionElems.length;j>0;j--) {
+        jurisdictionList.push(jurisdictionElems.slice(0,j).join(":"));
+    }
+    return jurisdictionList;
+}
+CSL.Engine.prototype.retrieveAllStyleModules = function (jurisdictionList) {
+    var ret = {};
     var preferences = this.locale[this.opt.lang].opts["jurisdiction-preference"];
     preferences = preferences ? preferences : [];
-    preferences.push(null);
-    outer:
-    for (var i=0,ilen=preferences.length;i<ilen;i++) {
+    preferences = [null].concat(preferences);
+    for (var i=preferences.length-1;i>-1;i--) {
         var preference = preferences[i];
-        for (var j=jurisdictions.length;j>0;j--) {
-            var jurisdiction = jurisdictions.slice(0,j).join(":");
-            ret = this.sys.retrieveStyleModule(jurisdiction, preference);
-            if (ret) break outer;
+        for (var j=0,jlen=jurisdictionList.length;j<jlen;j++) {
+            var jurisdiction = jurisdictionList[j];
+            if (this.opt.jurisdictions_seen[jurisdiction]) continue;
+            var res = this.sys.retrieveStyleModule(jurisdiction, preference);
+            this.opt.jurisdictions_seen[jurisdiction] = true;
+            if (!res) continue;
+            ret[jurisdiction] = res;
         }
     }
-    return ret ? ret : false;
+    return ret;
 }
 CSL.parseParticles = function(){
     var PARTICLES = [
