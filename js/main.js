@@ -182,26 +182,33 @@ var CSLValidator = (function() {
         for (var i=0,ilen=segments.length;i<ilen;i++) {
             var segment = segments[i];
             for (var label in itemTypeData[itemTypeLabel][segment]) {
-                var key = itemTypeData[itemTypeLabel][segment][label];
-                var val = localStorage.getItem(itemTypeLabel + '::' + key);
+                var cslVarname = itemTypeData[itemTypeLabel][segment][label];
+                var key = itemTypeLabel + "::" + cslVarname;
+                var val = localStorage.getItem(key);
                 if (val) {
-                    ret[key] = JSON.parse(val);
+                    try {
+                        ret[cslVarname] = JSON.parse(val);
+                    } catch (e) {}
                 }
-                if (segment === "creators" && ret[key]) {
+                if (segment === "creators" && ret[cslVarname]) {
                     // drop unused names
-                    var oldarr = ret[key];
+                    var oldarr = ret[cslVarname];
                     var newarr = [];
                     for (var j=0,jlen=oldarr.length;j<jlen;j++) {
                         if (oldarr[j] && oldarr[j].checked) {
                             newarr.push(oldarr[j]);
                         }
                     }
-                    ret[key] = newarr;
+                    ret[cslVarname] = newarr;
                 }
             }
             var locator = localStorage.getItem(itemTypeLabel + '::locator');
             if (locator) {
-                ret.locator = JSON.parse(locator);
+                try {
+                    ret.locator = JSON.parse(locator);
+                } catch (e) {
+                    ret.locator = null;
+                }
             }
         }
         return ret;
@@ -441,27 +448,6 @@ var CSLValidator = (function() {
             scope: 'tounselect',
             cancel: false,
 	        delay: 150
-        });
-
-        $('#editCslVar').on('show.bs.modal', function(event){
-            var itemTypeLabel = $('#sampler-itemtype-button').text().trim();
-            var category = $(event.relatedTarget).parent().attr('value');
-            var cslVarName = $(event.relatedTarget).attr('value')
-            $('#cslVarName').html(cslVarName);
-            $('#cslFieldLabel').html($(event.relatedTarget).text().trim());
-	        $('.modal-body').removeClass('name date number text locator');
-	        $('.modal-body').addClass(category);
-	        $('.modal-body').attr('value', category);
-
-            // Populate field with correct content, if any (out of localStorage)
-            var key = itemTypeLabel + '::' + cslVarName;
-            var val = localStorage.getItem(key);
-            if (val) {
-                val = JSON.parse(val);
-            }
-            editCslPopulate(category, val);
-            // Enable or disable save as appropriate.
-            $('#editCslVarSave').prop('disabled', false);
         });
 
         $('#unselected-csl-variables .sampler-bubble').draggable({
@@ -873,8 +859,12 @@ var CSLValidator = (function() {
                 break;
             }
             var key = itemType+ '::' + cslVarName;
-            var str = JSON.stringify(valueObj);
-            localStorage.setItem(key, str);
+            var str = valueObj ? JSON.stringify(valueObj) : null;
+            if (str) {
+                localStorage.setItem(key, str);
+            } else {
+                localStorage.removeItem(key);
+            }
             //$('#editCslVarSave').prop('disabled', true);
             $('#editCslVar').modal('hide');
             citeprocWorker.postMessage({
@@ -883,6 +873,47 @@ var CSLValidator = (function() {
                 customFields: getCustomFields()
             });
         });
+
+        $('#editCslVar').on('show.bs.modal', function(event){
+            var itemTypeLabel = $('#sampler-itemtype-button').text().trim();
+            var category = $(event.relatedTarget).parent().attr('value');
+            var cslVarName = $(event.relatedTarget).attr('value')
+            $('#cslVarName').html(cslVarName);
+            $('#cslFieldLabel').html($(event.relatedTarget).text().trim());
+	        $('.modal-body').removeClass('name date number text locator');
+	        $('.modal-body').addClass(category);
+	        $('.modal-body').attr('value', category);
+
+            // Populate field with correct content, if any (out of localStorage)
+            var key = itemTypeLabel + '::' + cslVarName;
+            var val = localStorage.getItem(key);
+            if (val) {
+                try {
+                    val = JSON.parse(val);
+                } catch (e) {}
+            }
+            editCslPopulate(category, val);
+            // Enable or disable save as appropriate.
+            $('#editCslVarSave').prop('disabled', false);
+        });
+        $('#editCslVar').on('shown.bs.modal', function(event){
+            var category = $(event.relatedTarget).parent().attr('value');
+            if (category === 'name') {
+                category = 'family-name-1';
+            }
+            setTimeout(function(){
+                $('#csl-' + category).focus();
+                var val = $('#csl-' + category).val();
+                $('#csl-' + category).val('');
+                $('#csl-' + category).val(val);
+            }, 100);
+        });
+        $('.modal-body input').on('keyup', function(event){
+            if (event.keyCode == 13) {
+                event.preventDefault;
+                $('#editCslVarSave').click();
+            }
+        })
     };
 
     function editCslPopulate(category, val) {
