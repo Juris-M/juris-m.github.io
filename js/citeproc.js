@@ -68,7 +68,6 @@
  * 
  * [ citeproc-js license :: version 1.1 :: 2012.06.30 ]
  */
-
 if (!Array.indexOf) {
     Array.prototype.indexOf = function (obj) {
         var i, len;
@@ -81,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.14",
+    PROCESSOR_VERSION: "1.1.15",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -856,6 +855,11 @@ CSL.expandMacro = function (macro_key_token, target) {
                     var next = 0;
                     while (next < state.macros[alt_macro].length) {
                         next = CSL.tokenExec.call(state, state.macros[alt_macro][next], Item, item);
+                    }
+                }
+                if (macro_name === 'juris-locator-label') {
+                    if (flag[0]) {
+                        flag[1] = true;
                     }
                 }
             }
