@@ -858,8 +858,8 @@ CSL.expandMacro = function (macro_key_token, target) {
                     }
                 }
                 if (macro_name === 'juris-locator-label') {
-                    if (flag[0]) {
-                        flag[0] = false;
+                    if (((flag[1] && !flag[2]) || (!flag[0] && !flag[1]))) {
+                        flag[1] = false;
                     }
                 }
             }
