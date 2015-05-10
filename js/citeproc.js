@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.15",
+    PROCESSOR_VERSION: "1.1.16",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -1807,7 +1807,7 @@ CSL.Engine.prototype.retrieveItem = function (id) {
         }
     }
     if (this.opt.development_extensions.static_statute_locator) {
-        if (Item.type && ["bill","gazette","legislation","treaty"].indexOf(Item.type) > -1) {
+        if (Item.type && ["bill","gazette","legislation","regulation","treaty"].indexOf(Item.type) > -1) {
             var varname;
             var elements = ["type", "title", "jurisdiction", "genre", "volume", "container-title"];
             var legislation_id = [];
@@ -1855,7 +1855,7 @@ CSL.Engine.prototype.retrieveItem = function (id) {
             }
         }
     }
-    var isLegalType = ["legal_case","legislation","gazette","regulation"].indexOf(Item.type) > -1;
+    var isLegalType = ["bill","legal_case","legislation","gazette","regulation"].indexOf(Item.type) > -1;
     if (!isLegalType && Item.title && this.sys.getAbbreviation) {
         var noHints = false;
         if (!Item.jurisdiction) {
@@ -1907,7 +1907,7 @@ CSL.Engine.prototype.remapSectionVariable = function (inputList) {
         var section_label_count = 0;
         var later_label = false;
         var value = false;
-        if (["bill","gazette","legislation","treaty"].indexOf(Item.type) > -1) {
+        if (["bill","gazette","legislation","regulation","treaty"].indexOf(Item.type) > -1) {
             item.force_pluralism = 0;
             if (!item.label) {
                 item.label = "page"
@@ -1987,7 +1987,7 @@ CSL.Engine.prototype.remapSectionVariable = function (inputList) {
 }
 CSL.Engine.prototype.setNumberLabels = function (Item) {
     if (Item.number
-        && ["bill", "gazette", "legislation", "treaty"].indexOf(Item.type) > -1
+        && ["bill", "gazette", "legislation","regulation","treaty"].indexOf(Item.type) > -1
         && this.opt.development_extensions.static_statute_locator
         && !this.tmp.shadow_numbers["number"]) {
         this.tmp.shadow_numbers["number"] = {};
@@ -3636,7 +3636,7 @@ CSL.Engine.prototype.processCitationCluster = function (citation, citationsPre, 
         }
         this.remapSectionVariable([[Item,item]]);
         if (this.opt.development_extensions.locator_label_parse) {
-            if (item.locator && ["bill","gazette","legislation","treaty"].indexOf(Item.type) === -1 && (!item.label || item.label === 'page')) {
+            if (item.locator && ["bill","gazette","legislation","regulation","treaty"].indexOf(Item.type) === -1 && (!item.label || item.label === 'page')) {
                 m = CSL.LOCATOR_LABELS_REGEXP.exec(item.locator);
                 if (m) {
                     item.label = CSL.LOCATOR_LABELS_MAP[m[2]];
@@ -4042,7 +4042,7 @@ CSL.Engine.prototype.makeCitationCluster = function (rawList) {
         }
         Item = this.retrieveItem("" + item.id);
         if (this.opt.development_extensions.locator_label_parse) {
-            if (item.locator && ["bill","gazette","legislation","treaty"].indexOf(Item.type) === -1 && (!item.label || item.label === 'page')) {
+            if (item.locator && ["bill","gazette","legislation","regulation","treaty"].indexOf(Item.type) === -1 && (!item.label || item.label === 'page')) {
                 var m = CSL.LOCATOR_LABELS_REGEXP.exec(item.locator);
                 if (m) {
                     item.label = CSL.LOCATOR_LABELS_MAP[m[2]];
@@ -8810,12 +8810,12 @@ CSL.Node.number = {
                 var blob;
                 var newstr = "";
                 var rangeType = "page";
-                if (["bill","gazette","legislation","legal_case","treaty"].indexOf(Item.type) > -1
+                if (["bill","gazette","legal_case","legislation","regulation","treaty"].indexOf(Item.type) > -1
                     && varname === "collection-number") {
                     rangeType = "year";
                 }
                 if (((varname === "number" 
-                      && ["bill","gazette","legislation","treaty"].indexOf(Item.type) > -1)
+                      && ["bill","gazette","legislation","regulation","treaty"].indexOf(Item.type) > -1)
                      || state.opt[rangeType + "-range-format"]) 
                     && !this.strings.prefix && !this.strings.suffix
                     && !this.strings.form) {
@@ -8825,7 +8825,7 @@ CSL.Node.number = {
                 }
                 if (newstr && !newstr.match(/^[\-.\u20130-9]+$/)) {
                     if (varname === "number" 
-                        && ["bill","gazette","legislation","treaty"].indexOf(Item.type) > -1) {
+                        && ["bill","gazette","legislation","regulation","treaty"].indexOf(Item.type) > -1) {
                         var firstword = newstr.split(/\s/)[0];
                         if (firstword) {
                             newlst = [];
@@ -12284,11 +12284,11 @@ CSL.Engine.prototype.processNumber = function (node, ItemObject, variable, type)
             }
         }
         if ("locator" === variable
-            && ["bill","gazette","legislation","treaty"].indexOf(type) > -1) {
+            && ["bill","gazette","legislation","regulation","treaty"].indexOf(type) > -1) {
             num = num.split(CSL.STATUTE_SUBDIV_PLAIN_REGEX)[0];
         }
         var rangeType = "page";
-        if (["bill","gazette","legislation","legal_case","treaty"].indexOf(type) > -1
+        if (["bill","gazette","legislation","legal_case","regulation","treaty"].indexOf(type) > -1
             && variable === "collection-number") {
             rangeType = "year";
         }
