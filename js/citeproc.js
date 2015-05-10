@@ -859,7 +859,7 @@ CSL.expandMacro = function (macro_key_token, target) {
                 }
                 if (macro_name === 'juris-locator-label') {
                     if (flag[0]) {
-                        flag[1] = true;
+                        flag[0] = false;
                     }
                 }
             }
