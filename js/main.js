@@ -1344,6 +1344,18 @@ var CSLValidator = (function() {
 
             // Restores the XML declaration if it's missing in the return
             var sourceCode = getEditorContent(data.source.code);
+            var sourceLst = sourceCode.split("\n");
+            var rangeLst = [];
+            var range = null;
+            for (var i=0,ilen=sourceLst.length;i<ilen;i++) {
+                var line = sourceLst[i];
+                if (line.match(/\s*<macro/)) {
+                    range = [i+1];
+                    rangeLst.push(range);
+                } else if (line.match(/\s*<\/macro/)) {
+                    range.push(i+1);
+                }
+            }
             var aceDoc = ace.createEditSession(sourceCode)
             pageCache[$('#source-method').attr('value')].aceDocument = aceDoc;
 
@@ -1355,6 +1367,13 @@ var CSLValidator = (function() {
             editor.setReadOnly(false);
             editor.getSession().setUseWrapMode(true);
             editor.getSession().setTabSize(2);
+            setTimeout(function(){
+                for (var i=0,ilen=rangeLst.length;i<ilen;i++) {
+                    var start = rangeLst[i][0];
+                    var end = rangeLst[i][1];
+                    editor.getSession().foldAll(start, end, 0);
+                }
+            }, 100);
             editor.setHighlightActiveLine(true);
             editor.renderer.$cursorLayer.element.style.opacity = 1;
             editor.setTheme("ace/theme/eclipse");
