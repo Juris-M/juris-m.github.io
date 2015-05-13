@@ -1367,13 +1367,6 @@ var CSLValidator = (function() {
             editor.setReadOnly(false);
             editor.getSession().setUseWrapMode(true);
             editor.getSession().setTabSize(2);
-            setTimeout(function(){
-                for (var i=0,ilen=rangeLst.length;i<ilen;i++) {
-                    var start = rangeLst[i][0];
-                    var end = rangeLst[i][1];
-                    editor.getSession().foldAll(start, end, 0);
-                }
-            }, 100);
             editor.setHighlightActiveLine(true);
             editor.renderer.$cursorLayer.element.style.opacity = 1;
             editor.setTheme("ace/theme/eclipse");
@@ -1389,6 +1382,13 @@ var CSLValidator = (function() {
                     saveFile();
                 }
             });
+            setTimeout(function(){
+                for (var i=0,ilen=rangeLst.length;i<ilen;i++) {
+                    var start = rangeLst[i][0];
+                    var end = rangeLst[i][1];
+                    editor.getSession().foldAll(start, end, 0);
+                }
+            }, 300);
         } else {
             //setBoxHeight(['source-editor']);
             setBoxHeight(['source-code']);
