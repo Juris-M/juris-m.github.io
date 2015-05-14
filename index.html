@@ -29,7 +29,7 @@
               if ($(this).outerHeight() > last.outerHeight()) {
                 last.attr('style', 'height:' + $(this).outerHeight() + 'px;');
               } else {
-                this.attr('style', 'height:' + last.outerHeight() + 'px;');
+                $(this).attr('style', 'height:' + last.outerHeight() + 'px;');
               }
             } else {
               last = $(this);
