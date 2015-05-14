@@ -1383,12 +1383,13 @@ var CSLValidator = (function() {
                 }
             });
             setTimeout(function(){
+		console.log("Juris-M: collapsing editor nodes at init");
                 for (var i=0,ilen=rangeLst.length;i<ilen;i++) {
                     var start = rangeLst[i][0];
                     var end = rangeLst[i][1];
                     editor.getSession().foldAll(start, end, 0);
                 }
-            }, 300);
+            }, 500);
         } else {
             //setBoxHeight(['source-editor']);
             setBoxHeight(['source-code']);
