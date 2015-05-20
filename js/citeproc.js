@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.16",
+    PROCESSOR_VERSION: "1.1.18",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -495,6 +495,7 @@ var CSL = {
         fi: "fi_FI",
         fr: "fr_FR",
         he: "he_IL",
+        hr: "hr-HR",
         hu: "hu_HU",
         is: "is_IS",
         it: "it_IT",
@@ -502,6 +503,7 @@ var CSL = {
         km: "km_KH",
         ko: "ko_KR",
         lt: "lt_LT",
+        lv: "lv-LV",
         mn: "mn_MN",
         nb: "nb_NO",
         nl: "nl_NL",
@@ -1765,7 +1767,7 @@ CSL.Engine.prototype.retrieveItem = function (id) {
     if (Item.page) {
         Item["page-first"] = Item.page;
         var num = "" + Item.page;
-        m = num.split(/\s*(?:&|, |-|\u2013)\s*/);
+        m = num.split(/\s*(?:&|,|-|\u2013)\s*/);
         if (m[0].slice(-1) !== "\\") {
             Item["page-first"] = m[0];
         }
@@ -9434,7 +9436,7 @@ CSL.Attributes["@variable"] = function (state, arg) {
             var mydate;
             output = false;
             len = this.variables.length;
-            for (pos = 0; pos < len; pos += 1) {
+            for (var pos = 0; pos < len; pos += 1) {
                 variable = this.variables[pos];
                 if (variable === "authority"
                     && "string" === typeof Item[variable]
@@ -9532,7 +9534,6 @@ CSL.Attributes["@variable"] = function (state, arg) {
                     state.tmp.cite_renders_content = true;
                 }
                 flag[2] = true;
-                state.tmp.group_context.replace(flag);
                 if (state.tmp.can_substitute.value() 
                     && state.tmp.area === "bibliography"
                     && "string" === typeof Item[variable]) {
@@ -9542,6 +9543,7 @@ CSL.Attributes["@variable"] = function (state, arg) {
             } else {
                 flag[1] = true;
             }
+            state.tmp.group_context.replace(flag);
         };
         this.execs.push(func);
     } else if (["if",  "else-if", "condition"].indexOf(this.name) > -1) {
