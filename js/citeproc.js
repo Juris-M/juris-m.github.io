@@ -10,7 +10,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.19",
+    PROCESSOR_VERSION: "1.1.20",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -787,12 +787,6 @@ CSL.expandMacro = function (macro_key_token, target) {
                     var next = 0;
                     while (next < state.macros[alt_macro].length) {
                         next = CSL.tokenExec.call(state, state.macros[alt_macro][next], Item, item);
-                    }
-                }
-                if (macro_name === 'juris-locator-label') {
-                    if (!item.locator || state.tmp.done_vars.indexOf("locator") > -1) {
-                        flag[1] = true;
-                        flag[2] = false;
                     }
                 }
             }
@@ -5764,7 +5758,9 @@ CSL.Node.group = {
                     state.tmp.group_context.value()[1] = true;
                 }
                 if (flag[2] || (flag[0] && !flag[1])) {
-                    state.tmp.group_context.value()[2] = true;
+                    if (!this.isJurisLocatorLabel) {
+                        state.tmp.group_context.value()[2] = true;
+                    }
                     var blobs = state.output.current.value().blobs;
                     var pos = state.output.current.value().blobs.length - 1;
                     if (!state.tmp.just_looking && "undefined" !== typeof flag[6]) {
@@ -8878,6 +8874,9 @@ CSL.Node.text = {
             var group_end = CSL.Util.cloneToken(this);
             group_end.name = "group";
             group_end.tokentype = CSL.END;
+            if (this.postponed_macro === 'juris-locator-label') {
+                group_end.isJurisLocatorLabel = true;
+            }
             CSL.Node.group.build.call(group_end, state, target);
         } else {
             CSL.Util.substituteStart.call(this, state, target);
