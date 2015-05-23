@@ -15,6 +15,22 @@ html,body
     overflow-x: hidden; 
 }
 
+div#cheat-sheet-arrow {
+    float:right;
+    margin-right: 2em;
+    color: red;
+}
+
+a#cheat-sheet {
+    color: red;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a#cheat-sheet:hover {
+    color: green;
+}
+
 a.return-link:active,
 a.return-link:hover {
     text-decoration: none;

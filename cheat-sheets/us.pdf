@@ -1,0 +1,1221 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+% 'BasicFonts': class PDFDictionary 
+1 0 obj
+% The standard fonts dictionary
+<< /F1 2 0 R
+ /F2 3 0 R
+ /F3 4 0 R
+ /F4 5 0 R >>
+endobj
+% 'F1': class PDFType1Font 
+2 0 obj
+% Font Helvetica
+<< /BaseFont /Helvetica
+ /Encoding /WinAnsiEncoding
+ /Name /F1
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F2': class PDFType1Font 
+3 0 obj
+% Font Helvetica-Bold
+<< /BaseFont /Helvetica-Bold
+ /Encoding /WinAnsiEncoding
+ /Name /F2
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F3': class PDFType1Font 
+4 0 obj
+% Font Courier
+<< /BaseFont /Courier
+ /Encoding /WinAnsiEncoding
+ /Name /F3
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F4': class PDFType1Font 
+5 0 obj
+% Font Helvetica-Oblique
+<< /BaseFont /Helvetica-Oblique
+ /Encoding /WinAnsiEncoding
+ /Name /F4
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Page1': class PDFPage 
+6 0 obj
+% Page dictionary
+<< /Contents 21 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 20 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page2': class PDFPage 
+7 0 obj
+% Page dictionary
+<< /Contents 22 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 20 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page3': class PDFPage 
+8 0 obj
+% Page dictionary
+<< /Contents 23 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 20 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page4': class PDFPage 
+9 0 obj
+% Page dictionary
+<< /Contents 24 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 20 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'R10': class PDFCatalog 
+10 0 obj
+% Document Root
+<< /Outlines 12 0 R
+ /PageLabels 25 0 R
+ /PageMode /UseNone
+ /Pages 20 0 R
+ /Type /Catalog >>
+endobj
+% 'R11': class PDFInfo 
+11 0 obj
+<< /Author ()
+ /CreationDate (D:20150524180338-09'00')
+ /Creator (\(unspecified\))
+ /Keywords ()
+ /Producer (ReportLab PDF Library - www.reportlab.com)
+ /Subject (\(unspecified\))
+ /Title (Juris-M: United States) >>
+endobj
+% 'R12': class PDFOutlines 
+12 0 obj
+<< /Count 8
+ /First 13 0 R
+ /Last 13 0 R
+ /Type /Outlines >>
+endobj
+% 'Outline.0': class OutlineEntryObject 
+13 0 obj
+<< /Count 6
+ /Dest [ 6 0 R
+ /XYZ
+ 62.69291
+ 587.8236
+ 0 ]
+ /First 14 0 R
+ /Last 19 0 R
+ /Parent 12 0 R
+ /Title (Citation Forms) >>
+endobj
+% 'Outline.8.0': class OutlineEntryObject 
+14 0 obj
+<< /Dest [ 6 0 R
+ /XYZ
+ 62.69291
+ 524.8236
+ 0 ]
+ /Next 15 0 R
+ /Parent 13 0 R
+ /Title (Case) >>
+endobj
+% 'Outline.8.1': class OutlineEntryObject 
+15 0 obj
+<< /Dest [ 7 0 R
+ /XYZ
+ 62.69291
+ 684.0236
+ 0 ]
+ /Next 16 0 R
+ /Parent 13 0 R
+ /Prev 14 0 R
+ /Title (Statute) >>
+endobj
+% 'Outline.8.2': class OutlineEntryObject 
+16 0 obj
+<< /Dest [ 7 0 R
+ /XYZ
+ 62.69291
+ 188.0236
+ 0 ]
+ /Next 17 0 R
+ /Parent 13 0 R
+ /Prev 15 0 R
+ /Title (Bill) >>
+endobj
+% 'Outline.8.3': class OutlineEntryObject 
+17 0 obj
+<< /Dest [ 8 0 R
+ /XYZ
+ 62.69291
+ 461.0236
+ 0 ]
+ /Next 18 0 R
+ /Parent 13 0 R
+ /Prev 16 0 R
+ /Title (Regulation) >>
+endobj
+% 'Outline.8.4': class OutlineEntryObject 
+18 0 obj
+<< /Dest [ 8 0 R
+ /XYZ
+ 62.69291
+ 139.0236
+ 0 ]
+ /Next 19 0 R
+ /Parent 13 0 R
+ /Prev 17 0 R
+ /Title (Hearing) >>
+endobj
+% 'Outline.8.5': class OutlineEntryObject 
+19 0 obj
+<< /Dest [ 9 0 R
+ /XYZ
+ 62.69291
+ 575.0236
+ 0 ]
+ /Parent 13 0 R
+ /Prev 18 0 R
+ /Title (Report) >>
+endobj
+% 'R20': class PDFPages 
+20 0 obj
+% page tree
+<< /Count 4
+ /Kids [ 6 0 R
+ 7 0 R
+ 8 0 R
+ 9 0 R ]
+ /Type /Pages >>
+endobj
+% 'R21': class PDFStream 
+21 0 obj
+% page stream
+<< /Length 6472 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 741.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 4 Tm /F2 20 Tf 24 TL 129.3749 0 Td (Juris-M: United States) Tj T* -129.3749 0 Td ET
+Q
+Q
+q
+1 0 0 1 62.69291 707.0236 cm
+q
+BT 1 0 0 1 0 14 Tm .97686 Tw 12 TL /F1 10 Tf 0 0 0 rg (This guide applies to Juris-M items set to the ) Tj /F3 10 Tf (US ) Tj /F1 10 Tf (jurisdiction. It covers federal resources; citation forms) Tj T* 0 Tw (specific to sub-jurisdictions may require a separate module.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 665.0236 cm
+q
+BT 1 0 0 1 0 26 Tm .732339 Tw 12 TL /F1 10 Tf 0 0 0 rg (Citation forms vary depending on the item type of the input fields supplied. Custom preview data can be) Tj T* 0 Tw .359986 Tw (set in the ) Tj /F3 10 Tf (Sampler ) Tj /F1 10 Tf (by clicking on the bubbles and entering a value. Undesired fields can be suppressed) Tj T* 0 Tw (from output by entering this value in the field:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 631.8236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F3 10 Tf 0 0 0 rg (!here) Tj (>) Tj (>) Tj (>) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 599.8236 cm
+q
+BT 1 0 0 1 0 14 Tm 2.109213 Tw 12 TL /F1 10 Tf 0 0 0 rg (In production, Juris-M should be used with the ) Tj /F3 10 Tf (Abbreviation Filter) Tj /F1 10 Tf (, which also recognizes this) Tj T* 0 Tw (field-suppression hack.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 566.8236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (Citation Forms) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 536.8236 cm
+q
+BT 1 0 0 1 0 14 Tm .05784 Tw 12 TL /F1 10 Tf 0 0 0 rg (The following input conventions apply to this style module. ) Tj /F2 10 Tf (Boldface ) Tj /F1 10 Tf (entries are required. ) Tj /F4 10 Tf (Italicized ) Tj /F1 10 Tf (entries) Tj T* 0 Tw (are optional.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 506.8236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Case) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 488.8236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Reported cases]) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 281.8236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 194 Tm  T* ET
+q
+1 0 0 1 20 180 cm
+q
+BT 1 0 0 1 0 14 Tm 1.796342 Tw 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Case Name) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Reporter Volume) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Reporter) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (First Page) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Court) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (, and) Tj T* 0 Tw /F2 10 Tf (Date Decided) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 162 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 132 cm
+q
+BT 1 0 0 1 0 14 Tm .185542 Tw 12 TL /F2 10 Tf 0 0 0 rg (Case Name: ) Tj /F1 10 Tf (The full name of the case to be shown in citations. Enter both parties, connected by ) Tj /F3 10 Tf (v.) Tj T* 0 Tw /F1 10 Tf (as appropriate \(with a period\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 102 cm
+q
+BT 1 0 0 1 0 14 Tm .663059 Tw 12 TL /F2 10 Tf 0 0 0 rg (Reporter: ) Tj /F1 10 Tf (The reporter. Reporters entered in full form \(recommended\) can be shortened in citations) Tj T* 0 Tw (using the ) Tj /F3 10 Tf (Abbreviation Filter) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 84 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (First Page: ) Tj /F1 10 Tf (A range of pages may be entered here: only the first page will be used in citations.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+BT 1 0 0 1 0 38 Tm 1.095542 Tw 12 TL /F2 10 Tf 0 0 0 rg (Court: ) Tj /F1 10 Tf (The name of the court. This is set to appear in all citations, because some courts \(such as) Tj T* 0 Tw 1.608443 Tw /F3 10 Tf (Bankr.) Tj /F1 10 Tf (\) should be shown. To suppress unwanted court names, use the abbreviation hack noted) Tj T* 0 Tw .721318 Tw (above. In Juris-M, court names are entered from a controlled list to assure consistency. Contact the) Tj T* 0 Tw (project to request that courts be added to the listings.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm 3.724651 Tw 12 TL /F2 10 Tf 0 0 0 rg (Jurisdiction: ) Tj /F1 10 Tf (The name of the jurisdiction. In Juris-M this is set from a controlled list, and) Tj T* 0 Tw (transformed or suppressed using the ) Tj /F3 10 Tf (Abbreviation Filter) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 265.8236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Unreported cases]) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 124.8236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 128 Tm  T* ET
+q
+1 0 0 1 20 126 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Case Name) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Court) Tj /F1 10 Tf (, and ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (. In addition, the following are required:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 108 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 90 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Juris-M generates an unreported-case citation when the ) Tj /F3 10 Tf (Reporter ) Tj /F1 10 Tf (field is omitted.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 14 Tm .646651 Tw 12 TL /F2 10 Tf 0 0 0 rg (Docket Number: ) Tj /F1 10 Tf (The docket number of the dispute, as written in the judgment, without any generic) Tj T* 0 Tw (prefix such as ) Tj /F3 10 Tf (No.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+BT 1 0 0 1 0 14 Tm .886136 Tw 12 TL /F2 10 Tf 0 0 0 rg (Date Decided: ) Tj /F1 10 Tf (The specific date is important for unreported judgments. Enter this in ) Tj /F3 10 Tf (YYYY-MM-DD) Tj T* 0 Tw /F1 10 Tf (format.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm .939987 Tw 12 TL /F4 10 Tf 0 0 0 rg (First Page: ) Tj /F1 10 Tf (If a value is provided in this field, the pinpoint format will adjust to conform to Bluebook) Tj T* 0 Tw (rule 10.8.1\(b\) \(at p. 105\).) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 108.8236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Court documents] Required fields: Same as for the judgment \(see) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 93.82362 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg ([Reported cases] ) Tj /F1 10 Tf (and ) Tj /F2 10 Tf ([Unreported cases] ) Tj /F1 10 Tf (above\), plus ) Tj /F2 10 Tf (Document Name) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+% 'R22': class PDFStream 
+22 0 obj
+% page stream
+<< /Length 7933 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 696.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 56 Tm  T* ET
+q
+1 0 0 1 20 54 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (When present, the ) Tj /F2 10 Tf (Document Name ) Tj /F1 10 Tf (field changes the citation logic in two respects:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+Q
+q
+1 0 0 1 20 30 cm
+Q
+q
+1 0 0 1 20 18 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The citation pinpoint will apply to the document, rather than to the cited judgment.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 12 cm
+Q
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F2 10 Tf (Short Title ) Tj /F1 10 Tf (field will be used as the short title of the cited document, rather than the case.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 666.0236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Statute) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 648.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Statutes at Large]) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 363.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 272 Tm  T* ET
+q
+1 0 0 1 20 258 cm
+q
+BT 1 0 0 1 0 14 Tm 1.606905 Tw 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Name of Act) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Gazette Ref) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Public Law Number) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Code Number) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Code) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Pages) Tj /F1 10 Tf (,) Tj T* 0 Tw /F2 10 Tf (Date Enacted) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 240 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (One or both of ) Tj /F2 10 Tf (Section ) Tj /F1 10 Tf (and ) Tj /F2 10 Tf (Locator ) Tj /F1 10 Tf (are also required.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 198 cm
+q
+BT 1 0 0 1 0 26 Tm 1.089985 Tw 12 TL /F1 10 Tf 0 0 0 rg (A cite to Statutes at Large requires two pinpoints. To enter the second pinpoint \(the page number\)) Tj T* 0 Tw .523876 Tw (when citing a statute, append it to the pinpoint section in the ) Tj /F3 10 Tf (Locator ) Tj /F1 10 Tf (field with a ) Tj /F2 10 Tf (| ) Tj /F1 10 Tf (character, thus:) Tj T* 0 Tw /F3 10 Tf (sec. 123|456) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 180 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 150 cm
+q
+BT 1 0 0 1 0 14 Tm .160574 Tw 12 TL /F2 10 Tf 0 0 0 rg (Public Law Number: ) Tj /F1 10 Tf (By default, the module applies the label ) Tj /F3 10 Tf (Pub. L. No. ) Tj /F1 10 Tf (to a simple field value.) Tj T* 0 Tw (Where the label should be changed to ) Tj /F3 10 Tf (ch.) Tj /F1 10 Tf (, enter the prefix in the field directly, thus: ) Tj /F3 10 Tf (ch. 50) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 120 cm
+q
+BT 1 0 0 1 0 14 Tm 2.022209 Tw 12 TL /F2 10 Tf 0 0 0 rg (Gazette Ref: ) Tj /F1 10 Tf (This is a toggle in the Juris-M user interface. It must be set to render citations to) Tj T* 0 Tw (Statutes at Large.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 102 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (Code Number: ) Tj /F1 10 Tf (For cites to Statutes at Large, this will be the volume containing the cited statute.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 72 cm
+q
+BT 1 0 0 1 0 14 Tm .809461 Tw 12 TL /F2 10 Tf 0 0 0 rg (Code: ) Tj /F1 10 Tf (For cites to Statutes at Large, this will be ) Tj /F3 10 Tf (Stat. ) Tj /F1 10 Tf (\(you may enter the full name, and use the) Tj T* 0 Tw /F3 10 Tf (Abbreviation Filter ) Tj /F1 10 Tf (to shorten the name in citations\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+BT 1 0 0 1 0 26 Tm 1.608651 Tw 12 TL /F4 10 Tf 0 0 0 rg (Section: ) Tj /F1 10 Tf (To create an entry for an individual provision of the cited statute \(useful for note-taking\),) Tj T* 0 Tw .404431 Tw (enter the section number in the ) Tj /F3 10 Tf (Section ) Tj /F1 10 Tf (field. This will be merged in citations with the value set \(in) Tj T* 0 Tw (the word-processor plugin\) in the ) Tj /F3 10 Tf (Locator ) Tj /F1 10 Tf (field.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm .444988 Tw 12 TL /F4 10 Tf 0 0 0 rg (Locator: ) Tj /F1 10 Tf (To set a locator as a section number, add a prefix, thus: ) Tj /F3 10 Tf (sec. 123) Tj /F1 10 Tf (. To add a section to an) Tj T* 0 Tw (existing ) Tj /F3 10 Tf (Section ) Tj /F1 10 Tf (value set in the item data, you can use a form like this: ) Tj /F3 10 Tf (& sec. 456) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 347.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([U.S. Code]) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 200.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 134 Tm  T* ET
+q
+1 0 0 1 20 132 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Name of Act) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Code Number) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Code) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date Enacted) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 114 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (Gazette Ref ) Tj /F1 10 Tf (toggle must ) Tj /F4 10 Tf (not ) Tj /F1 10 Tf (be set on ) Tj /F3 10 Tf (Code ) Tj /F1 10 Tf (items.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 96 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (One or both of ) Tj /F2 10 Tf (Section ) Tj /F1 10 Tf (or ) Tj /F2 10 Tf (Locator ) Tj /F1 10 Tf (are also required.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 78 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (Code Number: ) Tj /F1 10 Tf (For U.S. Code cites, this field holds the title where the cited provision is located.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+BT 1 0 0 1 0 14 Tm 2.468651 Tw 12 TL /F2 10 Tf 0 0 0 rg (Code: ) Tj /F1 10 Tf (This will be ) Tj /F3 10 Tf (U.S.C. ) Tj /F1 10 Tf (\(or ) Tj /F3 10 Tf (United States Code) Tj /F1 10 Tf (, transformed to the short form by the) Tj T* 0 Tw /F3 10 Tf (Abbreviation Filter) Tj /F1 10 Tf (\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm 2.399985 Tw 12 TL /F4 10 Tf 0 0 0 rg (Locator: ) Tj /F1 10 Tf (To set a section number in the ) Tj /F3 10 Tf (Locator ) Tj /F1 10 Tf (field, prefix it with ) Tj /F3 10 Tf (sec. ) Tj /F1 10 Tf (\(see above under) Tj T* 0 Tw /F2 10 Tf ([Statutes at Large] ) Tj /F1 10 Tf (for details\).) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 170.0236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Bill) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 152.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Bills in Congress]) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 83.02362 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 56 Tm  T* ET
+q
+1 0 0 1 20 54 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Legislative Body) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Bill Number) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Assy. No.) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (One or both of ) Tj /F2 10 Tf (Section ) Tj /F1 10 Tf (or ) Tj /F2 10 Tf (Locator ) Tj /F1 10 Tf (are also required.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 18 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F4 10 Tf 0 0 0 rg (Title: ) Tj /F1 10 Tf (Bills will ordinarily have a title, but Juris-M will generate a useful citation without one.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+% 'R23': class PDFStream 
+23 0 obj
+% page stream
+<< /Length 7450 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 600.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 152 Tm  T* ET
+q
+1 0 0 1 20 102 cm
+q
+BT 1 0 0 1 0 50 Tm .639985 Tw 12 TL /F2 10 Tf 0 0 0 rg (Legislative Body: ) Tj /F1 10 Tf (This field should provide both the name of the body \(Congress\) and the name of) Tj T* 0 Tw 1.038443 Tw (the chamber, separated by a ) Tj /F2 10 Tf (| ) Tj /F1 10 Tf (character, thus: ) Tj /F3 10 Tf (Cong.|H.R. ) Tj /F1 10 Tf (or ) Tj /F3 10 Tf (Cong.|S.) Tj /F1 10 Tf (. Alternatively, you may) Tj T* 0 Tw .88561 Tw (wish to enter the full names, and use the ) Tj /F3 10 Tf (Abbreviation Filter ) Tj /F1 10 Tf (to shorten them in citations. In) Tj T* 0 Tw 7.750976 Tw (full form, entries would like like this: ) Tj /F3 10 Tf (Congress|House of Representatives ) Tj /F1 10 Tf (or) Tj T* 0 Tw /F3 10 Tf (Congress|Senate) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 84 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (Bill Number: ) Tj /F1 10 Tf (Enter the number of the bill within the session here.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+q
+BT 1 0 0 1 0 14 Tm .734692 Tw 12 TL /F2 10 Tf 0 0 0 rg (Assy. No.: ) Tj /F1 10 Tf (This is the number of the sitting Congress. For example, the 105th Congress sat from 3) Tj T* 0 Tw (January 1997 to 3 January 1999.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 38 Tm .201984 Tw 12 TL /F4 10 Tf 0 0 0 rg (Session: ) Tj /F1 10 Tf (A sitting Congress is divided into two \(and possibly three\) sessions. The Bluebook states an) Tj T* 0 Tw .71311 Tw (odd rule \(rule 13\) for when this information should be included or omitted from citations. Juris-M will) Tj T* 0 Tw .187882 Tw (include the session number if the data is recorded in the item; it can be removed manually at the final) Tj T* 0 Tw (stage of production if desired.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 584.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Resolutions]) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 473.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 98 Tm  T* ET
+q
+1 0 0 1 20 96 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Resol. Label) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Bill Number) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Assy. No.) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 78 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (One or both of ) Tj /F2 10 Tf (Session ) Tj /F1 10 Tf (or ) Tj /F2 10 Tf (Locator ) Tj /F1 10 Tf (are also required.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 60 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 18 cm
+q
+BT 1 0 0 1 0 26 Tm .486457 Tw 12 TL /F2 10 Tf 0 0 0 rg (Resol. Label: ) Tj /F1 10 Tf (Enter the label of the resolution here, such as: ) Tj /F3 10 Tf (H.R.J. Res. ) Tj /F1 10 Tf (\(you may also use the) Tj T* 0 Tw 1.22686 Tw (full form, and shorten the label with the ) Tj /F3 10 Tf (Abbreviation Filter) Tj /F1 10 Tf (. When a value is present in this) Tj T* 0 Tw (field, Juris-M will render resolution-form citation.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (See above under ) Tj /F2 10 Tf ([Bills in Congress] ) Tj /F1 10 Tf (for details on the other fields.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 443.0236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Regulation) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 425.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Federal Register]) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 254.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 158 Tm  T* ET
+q
+1 0 0 1 20 156 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Name of Act) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Gazette Ref) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Volume) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Reporter) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Pages) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date Enacted) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 126 cm
+q
+BT 1 0 0 1 0 14 Tm 2.463984 Tw 12 TL /F1 10 Tf 0 0 0 rg (With the ) Tj /F2 10 Tf (Gazette Ref) Tj /F1 10 Tf (, Juris-M will generate a reference in the form appropriate to the Federal) Tj T* 0 Tw (Register.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 108 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Do ) Tj /F4 10 Tf (not ) Tj /F1 10 Tf (enter a value in the ) Tj /F3 10 Tf (Section ) Tj /F1 10 Tf (field for references of this type: use ) Tj /F3 10 Tf (Pages ) Tj /F1 10 Tf (instead.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 90 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 14 Tm .275227 Tw 12 TL /F2 10 Tf 0 0 0 rg (Name of Act: ) Tj /F1 10 Tf (The name of this field is not a perfect fit for the content, but the name of the regulation) Tj T* 0 Tw (goes here.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 42 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (Date Enacted: ) Tj /F1 10 Tf (Give the full date for gazetted regulations, in the form ) Tj /F3 10 Tf (YYYY-MM-DD) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 26 Tm .519269 Tw 12 TL /F2 10 Tf 0 0 0 rg (Jurisdiction: ) Tj /F1 10 Tf (To suppress the ) Tj /F3 10 Tf (Jurisdiction ) Tj /F1 10 Tf (field in output, use the hack syntax described at the) Tj T* 0 Tw 2.725868 Tw (top of this Cheat Sheet. \(It is included in references by default because it may be needed in) Tj T* 0 Tw (comparative law discourse.\)) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 238.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Code of Federal Regulations]) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 151.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 74 Tm  T* ET
+q
+1 0 0 1 20 72 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Name of Act) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Volume) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Reporter) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date Enacted) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (One or both of ) Tj /F2 10 Tf (Section ) Tj /F1 10 Tf (or ) Tj /F2 10 Tf (Locator ) Tj /F1 10 Tf (are also required.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (Gazette Ref ) Tj /F1 10 Tf (field must ) Tj /F4 10 Tf (not ) Tj /F1 10 Tf (be included in items referring to the C.F.R.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 18 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (See above under ) Tj /F2 10 Tf ([U.S. Code] ) Tj /F1 10 Tf (for guidance notes on individual fields for this type.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 121.0236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Hearing) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 103.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Committee Hearings]) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 88.02362 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Title) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Committee) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Assy. No.) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Legislative Body) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+% 'R24': class PDFStream 
+24 0 obj
+% page stream
+<< /Length 6898 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 702.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 50 Tm  T* ET
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 14 Tm 1.96311 Tw 12 TL /F1 10 Tf 0 0 0 rg (When a value is present in the ) Tj /F2 10 Tf (Committee ) Tj /F1 10 Tf (field, Juris-M will generate a citation to a committee) Tj T* 0 Tw (hearing.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 18 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (See above under ) Tj /F2 10 Tf ([Bills in Congress] ) Tj /F1 10 Tf (for details on the individual fields.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 686.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Congressional Debates]) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 587.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 86 Tm  T* ET
+q
+1 0 0 1 20 84 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Volume) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Reporter) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Pages) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 66 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (Committee ) Tj /F1 10 Tf (field must be ) Tj /F4 10 Tf (empty ) Tj /F1 10 Tf (for an item referring to congressional debates.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 48 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (Date: ) Tj /F1 10 Tf (The full date should be entered, in the form ) Tj /F3 10 Tf (YYYY-MM-DD) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm .237209 Tw 12 TL /F4 10 Tf 0 0 0 rg (Title: ) Tj /F1 10 Tf (If a value is present in the ) Tj /F3 10 Tf (Title ) Tj /F1 10 Tf (field, it will be included in citations; however, a congressional) Tj T* 0 Tw (debate normally has no title.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 557.0236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Report) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 527.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.168555 Tw (Report come in many flavours, and the metadata describing them must generally be entered manually.) Tj T* 0 Tw (After entering the required fields an item, stir in additional information to produce the desired citation form.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 511.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Committee Reports]) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 238.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 260 Tm  T* ET
+q
+1 0 0 1 20 258 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Committee) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Title) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Assy No.) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Institution) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 228 cm
+q
+BT 1 0 0 1 0 14 Tm 2.019984 Tw 12 TL /F1 10 Tf 0 0 0 rg (With a value in the ) Tj /F2 10 Tf (Committee ) Tj /F1 10 Tf (field, Juris-M will generate a citation appropriate to a committee) Tj T* 0 Tw (report.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 210 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 168 cm
+q
+BT 1 0 0 1 0 26 Tm .520542 Tw 12 TL /F4 10 Tf 0 0 0 rg (Author: ) Tj /F1 10 Tf (When a value is present in the ) Tj /F3 10 Tf (Author ) Tj /F1 10 Tf (field, it will be used instead of the committee name.) Tj T* 0 Tw .053318 Tw (This accomodates the weird example given Bluebook rule 13.1, where the author of a committee print) Tj T* 0 Tw (is given as "Staff of H. Comm. on the Judiciary.") Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 126 cm
+q
+BT 1 0 0 1 0 26 Tm 1.761163 Tw 12 TL /F2 10 Tf 0 0 0 rg (Assy. No.: ) Tj /F1 10 Tf (If the number of the sitting Congress is provided, and no value is given for ) Tj /F3 10 Tf (Report) Tj T* 0 Tw .197126 Tw (Number) Tj /F1 10 Tf (, this information will be included in citations. This conforms to the "Committee print" example) Tj T* 0 Tw (given in Bluebook rule 13.1.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 84 cm
+q
+BT 1 0 0 1 0 26 Tm 1.32784 Tw 12 TL /F2 10 Tf 0 0 0 rg (Institution: ) Tj /F1 10 Tf (Both the name of the legislative body \(Congress\) and the chamber should be entered) Tj T* 0 Tw .732339 Tw (here, separated with a ) Tj /F2 10 Tf (| ) Tj /F1 10 Tf (character, thus: ) Tj /F3 10 Tf (Cong.|H.R.) Tj /F1 10 Tf (. If the names are spelled out in full, they can) Tj T* 0 Tw (be shortened in citations with the ) Tj /F3 10 Tf (Abbreviation Filter) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 42 cm
+q
+BT 1 0 0 1 0 26 Tm 1.921647 Tw 12 TL /F4 10 Tf 0 0 0 rg (Report Number: ) Tj /F1 10 Tf (While Bluebook examples do not show document numbers on committee prints,) Tj T* 0 Tw .076654 Tw (other citations guides do so. If the information is entered in this field, Juris-M will include it in citations,) Tj T* 0 Tw (in preference to the ) Tj /F3 10 Tf (Assy. No.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 26 Tm .983735 Tw 12 TL /F4 10 Tf 0 0 0 rg (Report Type: ) Tj /F1 10 Tf (By default, Juris-M composes a label for the ) Tj /F3 10 Tf (Report Number ) Tj /F1 10 Tf (from the name of the) Tj T* 0 Tw .163735 Tw (legislative chamber \(in short form\) and the suffix ) Tj /F3 10 Tf (Rep. ) Tj /F1 10 Tf (\(for "Report"\). To change the suffix to another) Tj T* 0 Tw (value \(such as ) Tj /F3 10 Tf (Doc.) Tj /F1 10 Tf (, or ) Tj /F3 10 Tf (Prt.) Tj /F1 10 Tf (\), enter the alternative suffix in this field.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 220.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL ([Congressional Reports and Documents]) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 214.0236 cm
+Q
+q
+1 0 0 1 62.69291 136.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 66 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Institution) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Report Number) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 14 Tm 1.991318 Tw 12 TL /F1 10 Tf 0 0 0 rg (If the ) Tj /F3 10 Tf (Committee ) Tj /F1 10 Tf (and ) Tj /F3 10 Tf (Title ) Tj /F1 10 Tf (fields are ) Tj /F4 10 Tf (both ) Tj /F1 10 Tf (empty, Juris-M will generate citations in the form) Tj T* 0 Tw (shown in Bluebook rule 13.1 for federal reports and documents.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 18 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F4 10 Tf 0 0 0 rg (Report Type: ) Tj /F1 10 Tf (See above under ) Tj /F2 10 Tf ([Committee Reports] ) Tj /F1 10 Tf (for details on the use of this field.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 136.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R25': class PDFPageLabels 
+25 0 obj
+% Document Root
+<< /Nums [ 0
+ 26 0 R
+ 1
+ 27 0 R
+ 2
+ 28 0 R
+ 3
+ 29 0 R ] >>
+endobj
+% 'R26': class PDFPageLabel 
+26 0 obj
+% None
+<< /S /D
+ /St 1 >>
+endobj
+% 'R27': class PDFPageLabel 
+27 0 obj
+% None
+<< /S /D
+ /St 2 >>
+endobj
+% 'R28': class PDFPageLabel 
+28 0 obj
+% None
+<< /S /D
+ /St 3 >>
+endobj
+% 'R29': class PDFPageLabel 
+29 0 obj
+% None
+<< /S /D
+ /St 4 >>
+endobj
+xref
+0 30
+0000000000 65535 f
+0000000113 00000 n
+0000000245 00000 n
+0000000410 00000 n
+0000000585 00000 n
+0000000746 00000 n
+0000000925 00000 n
+0000001204 00000 n
+0000001483 00000 n
+0000001762 00000 n
+0000002042 00000 n
+0000002201 00000 n
+0000002471 00000 n
+0000002596 00000 n
+0000002799 00000 n
+0000002965 00000 n
+0000003149 00000 n
+0000003330 00000 n
+0000003517 00000 n
+0000003701 00000 n
+0000003851 00000 n
+0000003982 00000 n
+0000010553 00000 n
+0000018585 00000 n
+0000026134 00000 n
+0000033135 00000 n
+0000033267 00000 n
+0000033344 00000 n
+0000033421 00000 n
+0000033498 00000 n
+trailer
+<< /ID 
+ % ReportLab generated PDF document -- digest (http://www.reportlab.com) 
+ [(\211\270:\210\245j1\025?\3447^T\237\205\335) (\211\270:\210\245j1\025?\3447^T\237\205\335)] 
+
+ /Info 11 0 R
+ /Root 10 0 R
+ /Size 30 >>
+startxref
+33545
+%%EOF

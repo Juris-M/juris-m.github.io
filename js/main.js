@@ -497,34 +497,6 @@ var CSLValidator = (function() {
         validate(true);
     }
 
-    /* 
-    function editCslEnable(category) {
-        // No longer used.
-        switch (category) {
-        case 'name':
-            return function(event){
-                if ($('#csl-family-name').val() && $('#csl-given-name').val()) {
-                    $('#editCslVarSave').prop('disabled', false);
-                } else {
-                    $('#editCslVarSave').prop('disabled', true);
-                }
-            }
-            break;
-        case 'date':
-        case 'number':
-        case 'text':
-            return function(event) {
-                if ($('#csl-' + category).val()) {
-                    $('#editCslVarSave').prop('disabled', false);
-                } else {
-                    $('#editCslVarSave').prop('disabled', true);
-                }
-            }
-            break;
-        }
-    }
-    */
-
     var init = function() {
 
         //Initialize URI.js
@@ -1053,6 +1025,7 @@ var CSLValidator = (function() {
         // Set function for submitting document for validation
         switch (sourceMethod) {
         case "url":
+            $('div#cheat-sheet-arrow').hide();
             var documentURL = $('#url-input').val();
             uri.setSearch("url", documentURL);
             uri.setSearch("version", $('#schema-version').attr('value'));
@@ -1074,6 +1047,7 @@ var CSLValidator = (function() {
             validate(true);
             break;
         case "file":
+            $('div#cheat-sheet-arrow').hide();
             uri.search("");
             history.pushState({}, document.title, uri);
             
@@ -1087,6 +1061,7 @@ var CSLValidator = (function() {
             validate(true);
             break;
         case "search":
+            $('div#cheat-sheet-arrow').hide();
             var key = $('#search-input').attr('value');
             var name = $('#search-input-button').text();
             if (!name) {
@@ -1096,6 +1071,11 @@ var CSLValidator = (function() {
                 gh = new GitHub(access_token, jurisdictionWorker, validateContent, submitButton);
             }
             gh.githubInit(key, name);
+            // Maybe reveal cheat-sheet link
+            if (key === "us") {
+                $('div#cheat-sheet-arrow').show();
+                $('a#cheat-sheet').attr('href', '/cheat-sheets/' + key + '.pdf')
+            }
             break;
         }
     }
