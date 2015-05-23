@@ -103,6 +103,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
                 var options = {
                     ref: branch
                 }
+                dump("XXX TRYIN WI'H: ("+branch+") ("+owner+") ("+fileName+")\n");
                 ghApi('GET', '/repos/' + owner + '/style-modules/contents/' + fileName, options, null, function(contents){
                     if (contents) {
                         callback(contents);
@@ -160,7 +161,7 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
 
     function ghInitMasterCopy(info) {
         debugMsg("ghInitMasterCopy()");
-        ghWaitForFileContents(info.username, info.branchKey, 'juris-' + info.moduleKey + '.csl', function(contents) {
+        ghWaitForFileContents('juris-m', 'master', 'juris-' + info.moduleKey + '.csl', function(contents) {
             if (!contents) {
                 // The file does not yet exist
                 jurisdictionWorker.postMessage({type:'REQUEST MODULE TEMPLATE',key:info.moduleKey,name:info.moduleName});
