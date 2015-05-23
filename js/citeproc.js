@@ -10,7 +10,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.20",
+    PROCESSOR_VERSION: "1.1.21",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -9312,6 +9312,13 @@ CSL.Attributes["@position"] = function (state, arg) {
         if ("near-note" === tryposition) {
             this.tests.push(function (Item, item) {
                 if (item && item.position >= CSL.POSITION_SUBSEQUENT && item["near-note"]) {
+                    return true;
+                }
+                return false;
+            });
+        } else if ("far-note" === tryposition) {
+            this.tests.push(function (Item, item) {
+                if (item && item.position == CSL.POSITION_SUBSEQUENT && !item["near-note"]) {
                     return true;
                 }
                 return false;
