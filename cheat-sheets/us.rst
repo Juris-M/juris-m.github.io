@@ -311,7 +311,6 @@ form.
     enter the alternative suffix in this field.
 
 [Congressional Reports and Documents]
-    
     Required fields: **Institution**, **Report Number**, **Date**,
     **Jurisdiction**.
     
