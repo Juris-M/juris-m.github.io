@@ -132,7 +132,7 @@ endobj
 % 'R11': class PDFInfo 
 11 0 obj
 << /Author ()
- /CreationDate (D:20150524180906-09'00')
+ /CreationDate (D:20150524181347-09'00')
  /Creator (\(unspecified\))
  /Keywords ()
  /Producer (ReportLab PDF Library - www.reportlab.com)
@@ -242,7 +242,7 @@ endobj
 % 'R21': class PDFStream 
 21 0 obj
 % page stream
-<< /Length 6472 >>
+<< /Length 6473 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
 q
@@ -323,7 +323,7 @@ BT 1 0 0 1 0 194 Tm  T* ET
 q
 1 0 0 1 20 180 cm
 q
-BT 1 0 0 1 0 14 Tm 1.796342 Tw 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Case Name) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Reporter Volume) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Reporter) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (First Page) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Court) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (, and) Tj T* 0 Tw /F2 10 Tf (Date Decided) Tj /F1 10 Tf (.) Tj T* ET
+BT 1 0 0 1 0 14 Tm 1.090814 Tw 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Case Name) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Reporter Volume) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Reporter) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (First Page) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Court) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date Decided) Tj /F1 10 Tf (, and) Tj T* 0 Tw /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (.) Tj T* ET
 Q
 Q
 q
@@ -381,7 +381,7 @@ BT 1 0 0 1 0 128 Tm  T* ET
 q
 1 0 0 1 20 126 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Case Name) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Court) Tj /F1 10 Tf (, and ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (. In addition, the following are required:) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Case Name) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Court) Tj /F1 10 Tf (, and ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (.) Tj T* ET
 Q
 Q
 q
@@ -422,18 +422,18 @@ q
 1 0 0 1 62.69291 108.8236 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Court documents] Required fields: Same as for the judgment \(see) Tj T* ET
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Court documents]) Tj T* ET
 Q
 Q
 q
-1 0 0 1 62.69291 93.82362 cm
+1 0 0 1 62.69291 81.82362 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
+BT 1 0 0 1 0 14 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg ([Reported cases] ) Tj /F1 10 Tf (and ) Tj /F2 10 Tf ([Unreported cases] ) Tj /F1 10 Tf (above\), plus ) Tj /F2 10 Tf (Document Name) Tj /F1 10 Tf (.) Tj T* ET
+BT 1 0 0 1 0 14 Tm .576905 Tw 12 TL /F1 10 Tf 0 0 0 rg (Required fields: Same as for the judgment \(see ) Tj /F2 10 Tf ([Reported cases] ) Tj /F1 10 Tf (and ) Tj /F2 10 Tf ([Unreported cases] ) Tj /F1 10 Tf (above\),) Tj T* 0 Tw (plus ) Tj /F2 10 Tf (Document Name) Tj /F1 10 Tf (.) Tj T* ET
 Q
 Q
 q
@@ -445,7 +445,7 @@ endobj
 % 'R22': class PDFStream 
 22 0 obj
 % page stream
-<< /Length 7933 >>
+<< /Length 7979 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
 q
@@ -683,7 +683,7 @@ BT 1 0 0 1 0 56 Tm  T* ET
 q
 1 0 0 1 20 54 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Legislative Body) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Bill Number) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Assy. No.) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date) Tj /F1 10 Tf (.) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Legislative Body) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Bill Number) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Assy. No.) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (.) Tj T* ET
 Q
 Q
 q
@@ -714,7 +714,7 @@ endobj
 % 'R23': class PDFStream 
 23 0 obj
 % page stream
-<< /Length 7450 >>
+<< /Length 7496 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
 q
@@ -764,7 +764,7 @@ BT 1 0 0 1 0 98 Tm  T* ET
 q
 1 0 0 1 20 96 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Resol. Label) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Bill Number) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Assy. No.) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date) Tj /F1 10 Tf (.) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Resol. Label) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Bill Number) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Assy. No.) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (.) Tj T* ET
 Q
 Q
 q
@@ -938,7 +938,7 @@ endobj
 % 'R24': class PDFStream 
 24 0 obj
 % page stream
-<< /Length 6827 >>
+<< /Length 6873 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
 q
@@ -983,7 +983,7 @@ BT 1 0 0 1 0 86 Tm  T* ET
 q
 1 0 0 1 20 84 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Volume) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Reporter) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Pages) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date) Tj /F1 10 Tf (.) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Volume) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Reporter) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Pages) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (.) Tj T* ET
 Q
 Q
 q
@@ -1194,22 +1194,22 @@ xref
 0000003701 00000 n
 0000003851 00000 n
 0000003982 00000 n
-0000010553 00000 n
-0000018585 00000 n
-0000026134 00000 n
-0000033064 00000 n
-0000033196 00000 n
-0000033273 00000 n
-0000033350 00000 n
-0000033427 00000 n
+0000010554 00000 n
+0000018632 00000 n
+0000026227 00000 n
+0000033203 00000 n
+0000033335 00000 n
+0000033412 00000 n
+0000033489 00000 n
+0000033566 00000 n
 trailer
 << /ID 
  % ReportLab generated PDF document -- digest (http://www.reportlab.com) 
- [(P-`\020"~\226\2778\007J\253\372\263$\275) (P-`\020"~\226\2778\007J\253\372\263$\275)] 
+ [(^I>\215t'\277]\033\031G\333\253\373\242J) (^I>\215t'\277]\033\031G\333\253\373\242J)] 
 
  /Info 11 0 R
  /Root 10 0 R
  /Size 30 >>
 startxref
-33474
+33613
 %%EOF

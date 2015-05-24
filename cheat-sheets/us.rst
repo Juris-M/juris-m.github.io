@@ -29,7 +29,7 @@ Case
     
 [Reported cases]
     Required fields: **Case Name**, **Reporter Volume**, **Reporter**,
-    **First Page**, **Court**, **Jurisdiction**, and **Date Decided**.
+    **First Page**, **Court**, **Date Decided**, and **Jurisdiction**.
 
     Notes:
 
@@ -55,7 +55,7 @@ Case
 
 [Unreported cases]
     Required fields: **Case Name**, **Court**, and
-    **Jurisdiction**. In addition, the following are required:
+    **Jurisdiction**.
 
     Notes:
 
@@ -71,9 +71,10 @@ Case
     *First Page:* If a value is provided in this field, the pinpoint
     format will adjust to conform to Bluebook rule 10.8.1(b) (at p. 105).
 
-[Court documents] Required fields: Same as for the judgment (see
-    **[Reported cases]** and **[Unreported cases]** above), plus
-    **Document Name**.
+[Court documents]
+    Required fields: Same as for the judgment (see **[Reported
+    cases]** and **[Unreported cases]** above), plus **Document
+    Name**.
 
     Notes:
 
@@ -151,7 +152,7 @@ Bill
 ^^^^
 
 [Bills in Congress]
-    Required fields: **Legislative Body**, **Bill Number**, **Assy. No.**, **Date**.
+    Required fields: **Legislative Body**, **Bill Number**, **Assy. No.**, **Date**, **Jurisdiction**.
 
     One or both of **Section** or **Locator** are also required.
 
@@ -183,7 +184,7 @@ Bill
 
 [Resolutions]
     Required fields: **Resol. Label**, **Bill Number**, **Assy. No.**, 
-    **Date**.
+    **Date**, **Jurisdiction**.
 
     One or both of **Session** or **Locator** are also required.
 
@@ -254,7 +255,7 @@ Hearing
      individual fields.
 
 [Congressional Debates]
-    Required fields: **Volume**, **Reporter**, **Pages**, **Date**.
+    Required fields: **Volume**, **Reporter**, **Pages**, **Date**, **Jurisdiction**.
 
     The ``Committee`` field must be *empty* for an item referring
     to congressional debates.
