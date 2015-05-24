@@ -516,7 +516,7 @@
                         judgments (the <b>Case</b> type, in Juris-M
                         terms). The second is to the official record
                         of original legislation (corresponding to
-                        the <b>Gazette</b> type).
+                        the <b>Statute</b> type with the <span class="buttony bubble">Gazette Ref</span> flag enabled).
                       </p>
                       <p>
                         You may wish to create the module yourself as
@@ -664,7 +664,7 @@
                     </div>
                     <p>
                       You can use the dropdown selector to choose
-                      the <b>Gazette</b> type, which displays the same
+                      the <b>Statute</b> type, which displays the same
                       unsightly "citations":
                     </p>
                     <div class="well">
@@ -779,7 +779,7 @@
                       As noted above, we will require just two
                       citation types for
                       the <span class="small-caps">Atlantis</span>
-                      jurisdiction: <b>Case</b> and <b>Gazette</b>. This
+                      jurisdiction: <b>Case</b> and <b>Statute</b>. This
                       reflects actual practice, where a
                       sub-jurisdiction may have special citation
                       requirements for only certain types of
@@ -788,12 +788,12 @@
                       the <i>last</i> element inside
                       the <code>cs:info</code> element:
                     </p>
-                    <pre><code class="xml">&lt;law-module types="legal_case gazette"/&gt;</code></pre>
+                    <pre><code class="xml">&lt;law-module types="legal_case statute"/&gt;</code></pre>
                     <p>
                       Note that the name used for the
                       Juris-M <b>Case</b> type in CSL code is
                       <span class="mono">legal_case</span>, and that
-                      for the <b>Gazette</b> type
+                      for the <b>Statute</b> type
                       is <span class="mono">legislation</span>&mdash;see
                       below for a full list of the Juris-M legal types
                       and their CSL equivalents.
@@ -877,9 +877,6 @@
                           </tr>
                           <tr>
                             <td>Case</td><td class="mono">legal_case</td>
-                          </tr>
-                          <tr>
-                            <td>Gazette</td><td class="mono">gazette</td>
                           </tr>
                           <tr>
                             <td>Hearing</td><td class="mono">hearing</td>
@@ -1014,7 +1011,7 @@
                       set the literal abbreviated values in these fields.
                     </p>
                     <p>
-                      Here are the values to set in the <b>Gazette</b> view:
+                      Here are the values to set in the <b>Statute</b> view:
                     </p>
                     <div style="margin:0 2em;">
                       <table class="table monos">
@@ -1043,6 +1040,14 @@
                           </tr>
                           <tr>
                             <td>
+                              <span class="buttony bubble">Gazette Ref</span>
+                            </td>
+                            <td>
+                              (any value&mdash;this is a toggle)
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
                               <span class="buttony bubble">Public Law Number</span>
                             </td>
                             <td>
@@ -1051,7 +1056,7 @@
                           </tr>
                           <tr>
                             <td>
-                              <span class="buttony bubble">Volume</span>
+                              <span class="buttony bubble">Code Number</span>
                             </td>
                             <td>
                               37
@@ -1059,7 +1064,7 @@
                           </tr>
                           <tr>
                             <td>
-                              <span class="buttony bubble">Reporter</span>
+                              <span class="buttony bubble">Code</span>
                             </td>
                             <td>
                               Stat.
@@ -1190,7 +1195,7 @@
                     </div>
 
                     <p>
-                      When the <b>Gazette</b> type is selected, it should show this:
+                      When the <b>Statute</b> type is selected, it should show this:
                     </p>
 
                     <div>
@@ -1247,7 +1252,7 @@
                       a <code>cs:text</code> element.  Turning to
                       the <span class="mono">juris-main</span>
                       component, we note that the <b>Case</b>
-                      and <b>Gazette</b> types will again require
+                      and <b>Statute</b> types will again require
                       (very) different treatment:
                     </p>
                     <div class="well well-sm">
@@ -1292,7 +1297,7 @@
                       will apply an abbreviation to the reporter name
                       if one is available.)
                     </p>
-                    <h3>The <span class="mono">gazette</span> block</h3>
+                    <h3>The <span class="mono">legislation</span> block</h3>
                     <p>
                       In the <span class="small-caps">Atlantis</span>
                       jurisdiction, laws passed in 1978 and after are
@@ -1746,7 +1751,7 @@
                       Int’l Shoe Co. v. Wash., 90 L. Ed. 95, <span class="boxy reddish">96</span> (Sup. Ct. 1945) 
                     </div>
                     <p>
-                      In the <b>Gazette</b> type, section pinpoints should look like this:
+                      In the <b>Statute</b> type, section pinpoints should look like this:
                     </p>
                     <div class="well well-sm">
                       Sherwood Act, ch. 123, <span class="boxy reddish">§ 3</span>, 37 Stat. 112, 113 (1912)
@@ -1825,7 +1830,7 @@
                       Sherwood Act, ch. 123, <span class="boxy reddish">§ 3,</span> 37 Stat. 112, 113 (1912)
                     </div>
                     <p>
-                      A second point to note is that the section pinpoint on the <b>Gazette</b>
+                      A second point to note is that the section pinpoint on the <b>Statute</b>
                       item is followed by a comma. Standard scaffolding separates a pinpoint
                       from the <span class="mono">juris-tail</span> component with a space,
                       so we will resort to a minor dirty trick to insert the comma.
@@ -1834,14 +1839,14 @@
                       In the code below, we call
                       the <span class="mono">default</span> macro to
                       render the pinpoint unit, but on
-                      the <b>Gazette</b> type, when there is
+                      the <b>Statute</b> type, when there is
                       a <span class="mono">container-title</span>
                       variable (corresponding to
                       the <span class="buttony bubble">Reporter</span>
                       field), we append a comma with
                       a <code>suffix=","</code> attribute. (Requiring
                       the variable is a bit gratuitous, since a
-                      <b>Gazette</b> cite in our jurisdiction that
+                      <b>Statute</b> cite in our jurisdiction that
                       lacks a <span class="buttony bubble">Reporter</span>
                       value will be broken anyway, but it at least
                       serves as an illustration of multiple
@@ -1849,7 +1854,7 @@
                     </p>
                     <pre><code class="xml">&lt;macro name="juris-comma-spotter"&gt;
   &lt;choose&gt;
-    &lt;if match="all" type="gazette" 
+    &lt;if match="all" type="legislation" 
         variable="container-title"&gt;
       &lt;text macro="juris-default-spotter" suffix=","/&gt;
     &lt;/if&gt;
@@ -1874,7 +1879,7 @@
                     <p>
                       The <span class="mono">tail</span> portion of
                       our citations differs considerably. For
-                      the <b>Gazette</b> type, it also contains a
+                      the <b>Statute</b> type, it also contains a
                       wrinkle that we adverted to earlier: we will now
                       need to deal with it.
                     </p>
@@ -1896,7 +1901,7 @@
                       field corresponds to the Juris-M
                       CSL <span class="mono">authority</span>
                       variable, which has no mapping from
-                      the <b>Gazette</b> type, so there is no overlap
+                      the <b>Statute</b> type, so there is no overlap
                       in the current Juris-M schema. We can therefore
                       use the same code to render the parenthetical
                       for both types.
@@ -1914,9 +1919,9 @@
                       in the <b>Docs</b> menu at the top of this page.
                     </p>
                     <p>
-                      In the <code>type="gazette"</code> condition
+                      In the <code>type="legislation"</code> condition
                       block, we render the elements of the reporter
-                      citation needed for <b>Gazette</b> items. The
+                      citation needed for <b>Statute</b> items. The
                       &ldquo;wrinkle&rdquo; posed by the additional pinpoint
                       locator (<span class="boxy reddly">113</span>) is covered
                       to the <span class="mono">locator-extra</span> variable,
@@ -1929,7 +1934,7 @@
                     <pre><code class="xml">&lt;macro name="juris-tail"&gt;
   &lt;group delimiter=" "&gt;
     &lt;choose&gt;
-      &lt;if type="gazette"&gt;
+      &lt;if type="legislation"&gt;
         &lt;number variable="volume"/&gt;
         &lt;text variable="container-title" form="short"/&gt;
         &lt;group delimiter=", "&gt;
@@ -1973,7 +1978,7 @@
                       </div>
                     </div>
                     <p>
-                      The <b>Gazette</b> type is showing roughly the
+                      The <b>Statute</b> type is showing roughly the
                       same thing&mdash;the only difference is that the
                       title placeholder is set in a roman rather than
                       italic type:
@@ -2056,7 +2061,7 @@
                     <p>
                       Well, how about
                       that&mdash;the <span class="mono">juris-main-short</span>
-                      component is completely empty in <b>Gazette</b>
+                      component is completely empty in <b>Statute</b>
                       citations. Accordingly, we set an empty
                       condition for that type of input, and
                       use <code>cs:group</code> to join the two
@@ -2065,7 +2070,7 @@
                     </p>
                     <pre><code class="xml">&lt;macro name="juris-main-short"&gt;
   &lt;choose&gt;
-    &lt;if type="gazette"/&gt;
+    &lt;if type="legislation"/&gt;
     &lt;else&gt;
       &lt;group delimiter=" "&gt;
         &lt;number variable="volume"/&gt;
@@ -2331,7 +2336,7 @@
                     </div>
 
                     <p>
-                      <b>Gazette</b> type:
+                      <b>Statute</b> type:
                     </p>
 
                     <div class="well">
