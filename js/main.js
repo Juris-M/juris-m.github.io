@@ -169,12 +169,32 @@ var CSLValidator = (function() {
                 excludeFields: event.data.excludeFields,
                 legalTypes: event.data.legalTypes,
                 itemTypeData: event.data.itemTypeData,
-                customFields: getCustomFields()
+                customFields: getCustomFields(),
+                customAbbrevs: getCustomAbbrevs()
             });
             break;
         }
     }
-    
+
+    // XXX Needs getCustomAbbrevs()
+    function getCustomAbbrevs() {
+        var abbrevs = {};
+        var itemTypeLabel = $('#sampler-itemtype-button').text().trim();
+        $('#csl-abbrevs button').each(function(index){
+            var segment = $(this).val();
+            var key = itemTypeLabel + '::' + segment + '::abbrev';
+            var abbrev = localStorage.getItem(key);
+            if (abbrev) {
+                try {
+                    var obj = JSON.parse(abbrev);
+                    abbrevs[segment] = {}
+                    abbrevs[segment][obj.val] = obj.abbr;
+                } catch (e) {}
+            }
+        });
+        return abbrevs;
+    }
+
     function getCustomFields() {
         var ret = {};
         var segments = ['creators','textFields','numericFields','dateFields','locatorField'];
@@ -438,7 +458,8 @@ var CSLValidator = (function() {
         citeprocWorker.postMessage({
             type:"CHANGE ITEM TYPE",
             itemType:itemTypeLabel,
-            customFields: getCustomFields()
+            customFields: getCustomFields(),
+            customAbbrevs: getCustomAbbrevs()
         });
     }
 
@@ -464,7 +485,8 @@ var CSLValidator = (function() {
                 citeprocWorker.postMessage({
                     type:'SELECT VARIABLE',
                     selectedVarname:node.attr('value'),
-                    customFields: getCustomFields()
+                    customFields: getCustomFields(),
+                    customAbbrevs: getCustomAbbrevs()
                 });
             }
         });
@@ -476,7 +498,8 @@ var CSLValidator = (function() {
                 citeprocWorker.postMessage({
                     type:'UNSELECT VARIABLE',
                     unselectedVarname:node.attr('value'),
-                    customFields: getCustomFields()
+                    customFields: getCustomFields(),
+                    customAbbrevs: getCustomAbbrevs()
                 });
             },
             scope: "tounselect",
@@ -786,17 +809,41 @@ var CSLValidator = (function() {
         $('#source').on('click', function(event){
             submitButton.disable();
         });
-
-        //$('#csl-family-name').on('keyup', editCslEnable('name'));
-        //$('#csl-given-name').on('keyup', editCslEnable('name'));
-        //$('#csl-date').on('keyup', editCslEnable('date'));
-        //$('#csl-number').on('keyup', editCslEnable('number'));
-        //$('#csl-text').on('keyup', editCslEnable('text'));
-
+        
+        $('#editAbbrevSave').on('click', function(event){
+            var itemType = $('#sampler-itemtype-button').text().trim();
+            var abbrevName = $('#editAbbrev .modal-body').attr('value');
+            var val = $('#abbrev-' + abbrevName + '-value').val();
+            var abbr = $('#abbrev-' + abbrevName + '-short').val();
+            var valueObj = null;
+            if (val && abbr) {
+                valueObj = {
+                    val: val,
+                    abbr: abbr
+                }
+            }
+            
+            var key = itemType+ '::' + abbrevName + '::abbrev';
+            var str = valueObj ? JSON.stringify(valueObj) : null;
+            if (str) {
+                localStorage.setItem(key, str);
+            } else {
+                localStorage.removeItem(key);
+            }
+            //$('#editCslVarSave').prop('disabled', true);
+            $('#editAbbrev').modal('hide');
+            citeprocWorker.postMessage({
+                type:'SELECT VARIABLE',
+                selectedVarname:null,
+                customFields: getCustomFields(),
+                customAbbrevs: getCustomAbbrevs()
+            });
+        });
+        
         $('#editCslVarSave').on('click', function(event){
             var itemType = $('#sampler-itemtype-button').text().trim();
             var cslVarName = $('#cslVarName').text();
-            var category = $('.modal-body').attr('value');
+            var category = $('#editCslVar .modal-body').attr('value');
             var valueObj;
             switch (category) {
             case 'name':
@@ -842,8 +889,48 @@ var CSLValidator = (function() {
             citeprocWorker.postMessage({
                 type:'SELECT VARIABLE',
                 selectedVarname:null,
-                customFields: getCustomFields()
+                customFields: getCustomFields(),
+                customAbbrevs: getCustomAbbrevs()
             });
+        });
+
+        $('#editAbbrev').on('show.bs.modal', function(event){
+            var itemTypeLabel = $('#sampler-itemtype-button').text().trim();
+            var abbrevName = $(event.relatedTarget).attr('value')
+            $('#abbrevCategoryName').html(abbrevName);
+            $('#abbrevCategoryLabel').html($(event.relatedTarget).text().trim());
+	        $('.modal-body').removeClass('container-title collection-title institution-entire institution-part number title place');
+	        $('.modal-body').addClass(abbrevName);
+	        $('.modal-body').attr('value', abbrevName);
+
+            // Populate field with correct content, if any (out of localStorage)
+            var key = itemTypeLabel + '::' + abbrevName + '::abbrev';
+            var obj = localStorage.getItem(key);
+            if (obj) {
+                try {
+                    obj = JSON.parse(obj);
+                } catch (e) {}
+            } else {
+                obj = {val:'', abbr:''};
+            }
+            editAbbrevPopulate(abbrevName, obj.val, obj.abbr);
+            // Enable or disable save as appropriate.
+            $('#editAbbrevSave').prop('disabled', false);
+        });
+        $('#editAbbrev').on('shown.bs.modal', function(event){
+            var abbrevName = $(event.relatedTarget).attr('value');
+            setTimeout(function(){
+                $('#abbrev-' + abbrevName + '-value').focus();
+                var val = $('#abbrev-' + abbrevName + '-value').val();
+                $('#abbrev-' + abbrevName + '-value').val('');
+                $('#abbrev-' + abbrevName + '-value').val(val);
+            }, 100);
+        });
+        $('#editAbbrev input').on('keyup', function(event){
+            if (event.keyCode == 13) {
+                event.preventDefault;
+                $('#editAbbrevSave').click();
+            }
         });
 
         $('#editCslVar').on('show.bs.modal', function(event){
@@ -880,13 +967,18 @@ var CSLValidator = (function() {
                 $('#csl-' + category).val(val);
             }, 100);
         });
-        $('.modal-body input').on('keyup', function(event){
+        $('#editCslVar input').on('keyup', function(event){
             if (event.keyCode == 13) {
                 event.preventDefault;
                 $('#editCslVarSave').click();
             }
         })
     };
+    
+    function editAbbrevPopulate(category, val, abbr) {
+        val ? $('#abbrev-' + category + "-value").val(val) : $('#abbrev-' + category + "-value").val('');
+        abbr ? $('#abbrev-' + category + "-short").val(abbr) : $('#abbrev-' + category + "-short").val('');
+    }
 
     function editCslPopulate(category, val) {
         // Names need extending to 10 of them, with checkboxes for inclusion. Ugh.

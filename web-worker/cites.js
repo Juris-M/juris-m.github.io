@@ -11,9 +11,27 @@ var currentItemType = null;
 
 var sampleData = null;
 
-CSL.getSuppressJurisdictions = function () {
-    return {"US":"US"}
+var abbreviations = {};
+
+CSL.getAbbreviation = function (listname, obj, jurisdiction, category, key, itemType, noHints) {
+    if (!obj || !key || !category) return;
+    if (!obj.default) {
+        obj["default"] = new CSL.AbbreviationSegments();
+    }
+    if (abbreviations[category]) {
+        if (abbreviations[category][key]) {
+            obj["default"][category][key] = abbreviations[category][key];
+        } else {
+            // Well, it doesn't work, but we tried. Setting to a non-match should revert abbrev.
+            delete obj["default"][category][key];
+        }
+    }
 }
+
+
+//CSL.getSuppressJurisdictions = function () {
+//    return {"US":"US"}
+//}
 
 var processorElements = {
     style: null,
@@ -357,6 +375,7 @@ onmessage = function (event) {
         break;
     case 'INIT PAGE':
         workerExec(function() {
+            abbreviations = event.data.customAbbrevs;
             // These are constants, initialize just once
             if (!itemTypeData) {
                 itemTypeData = reverseMapping(event.data.itemTypeData);
@@ -369,6 +388,9 @@ onmessage = function (event) {
                 //selectedVars = {};
                 lastStyleName = nextStyleName;
             }
+
+            
+
             outObj.bubbles = getBubbles(event);
             var customFields = event.data.customFields;
             var result = generateSample(customFields);
@@ -394,6 +416,7 @@ onmessage = function (event) {
         break;
     case 'CHANGE ITEM TYPE':
         workerExec(function() {
+            abbreviations = event.data.customAbbrevs;
             sampleData = null;
             unselectedVars = {};
             selectedVars = {};
@@ -415,6 +438,7 @@ onmessage = function (event) {
         break;
     case 'SELECT VARIABLE':
         workerExec(function() {
+            abbreviations = event.data.customAbbrevs;
             var varName = event.data.selectedVarname;
             if (varName) {
                 delete unselectedVars[varName];
@@ -429,6 +453,7 @@ onmessage = function (event) {
         break;
     case 'UNSELECT VARIABLE':
         workerExec(function() {
+            abbreviations = event.data.customAbbrevs;
             var varName = event.data.unselectedVarname;
             delete selectedVars[varName];
             unselectedVars[varName] = true;

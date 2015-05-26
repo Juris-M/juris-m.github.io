@@ -351,6 +351,101 @@
         </div>
       </div>
     </div>
+    <div class="modal fade" id="editAbbrev" tabindex="-1" role="dialog" aria-labelledby="editAbbrevLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editAbbrevLabel"><span id="abbrevCategoryLabel"></span> <span class="mono" id="abbrevCategoryName">Boo</span></h4>
+          </div>
+          <div class="modal-body container-title">
+          <!-- XXX there will be a full set of these blocks, with a JS function to reveal only the active one -->
+
+	      <div class="wrapper container-title">
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-container-title-value-label">Value:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-container-title-value-label" id="abbrev-container-title-value">
+	        </div>
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-container-title-short-label">Abbrev:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-container-title-short-label" id="abbrev-container-title-short">
+	        </div>
+	      </div>
+
+	      <div class="wrapper collection-title">
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-collection-title-value-label">Value:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-collection-title-value-label" id="abbrev-collection-title-value">
+	        </div>
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-collection-title-short-label">Abbrev:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-collection-title-short-label" id="abbrev-collection-title-short">
+	        </div>
+	      </div>
+
+	      <div class="wrapper institution-entire">
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-institution-entire-value-label">Value:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-institution-entire-value-label" id="abbrev-institution-entire-value">
+	        </div>
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-institution-entire-short-label">Abbrev:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-institution-entire-short-label" id="abbrev-institution-entire-short">
+	        </div>
+	      </div>
+
+	      <div class="wrapper institution-part">
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-institution-part-value-label">Value:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-institution-part-value-label" id="abbrev-institution-part-value">
+	        </div>
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-institution-part-short-label">Abbrev:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-institution-part-short-label" id="abbrev-institution-part-short">
+	        </div>
+	      </div>
+
+	      <div class="wrapper number">
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-number-value-label">Value:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-number-value-label" id="abbrev-number-value">
+	        </div>
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-number-short-label">Abbrev:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-number-short-label" id="abbrev-number-short">
+	        </div>
+	      </div>
+
+	      <div class="wrapper title">
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-title-value-label">Value:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-title-value-label" id="abbrev-title-value">
+	        </div>
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-title-short-label">Abbrev:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-title-short-label" id="abbrev-title-short">
+	        </div>
+	      </div>
+
+	      <div class="wrapper place">
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-place-value-label">Value:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-place-value-label" id="abbrev-place-value">
+	        </div>
+	        <div class="input-group">
+		      <span class="input-group-addon" id="abbrev-place-short-label">Abbrev:</span>
+		      <input type="text" class="form-control" placeholder="empty" aria-described-by="abbrev-place-short-label" id="abbrev-place-short">
+	        </div>
+	      </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button id="editAbbrevSave" type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div id="banner" class="container">
       <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -2400,7 +2495,7 @@
 	          </div>
 		      <div id="sampler">
                 <div class="row">
-                  <div id="sampler-preview" class="col-lg-6">
+                  <div id="sampler-preview" class="col-lg-5">
                     <div class="row"><div class="col-lg-12"><b id="style-name">My Style</b></div></div>
                     <div class="row">
                       <div class="col-lg-12">
@@ -2442,14 +2537,14 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-6">
+                  <div class="col-lg-7">
                     <div class="row">
                       <div class="col-xs-12">
                         <div class="small-note">drag fields to add or remove them</div>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xs-6">
+                      <div class="col-xs-7">
                         <div class="row">
                           <div class="col-xs-12">
                             <h4>Included fields</h4>
@@ -2460,8 +2555,22 @@
                             <!-- selected bubbles -->
                           </div>
                         </div>
+                        <div class="row">
+                          <div id="csl-abbrevs" class="col-xs-12 droppable">
+                            <!-- abbreviation bubbles -->
+                            <div class="bubble-wrapper" value="abbrevs"><div class="small-faint-heading">Abbrevs.</div>
+                              <button type="button" value="institution-entire" class="btn btn-primary btn-sm sampler-button" data-toggle="modal" data-target="#editAbbrev">Entire Institution</button>
+                              <button type="button" value="institution-part" class="btn btn-primary btn-sm sampler-button" data-toggle="modal" data-target="#editAbbrev">Institution Part</button>
+                              <button type="button" value="container-title" class="btn btn-primary btn-sm sampler-button" data-toggle="modal" data-target="#editAbbrev">Journal, Reporter</button>
+                              <button type="button" value="number" class="btn btn-primary btn-sm sampler-button" data-toggle="modal" data-target="#editAbbrev">Number field (string)</button>
+                              <button type="button" value="place" class="btn btn-primary btn-sm sampler-button" data-toggle="modal" data-target="#editAbbrev">Place</button>
+                              <button type="button" value="collection-title" class="btn btn-primary btn-sm sampler-button" data-toggle="modal" data-target="#editAbbrev">Series Title, Archive</button>
+                              <button type="button" value="title" class="btn btn-primary btn-sm sampler-button" data-toggle="modal" data-target="#editAbbrev">Title</button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div class="col-xs-6">
+                      <div class="col-xs-5">
                         <div class="row">
                           <div class="col-xs-12">
                             <h4>Excluded fields</h4>

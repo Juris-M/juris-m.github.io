@@ -103,7 +103,6 @@ var GitHub = function(access_token, jurisdictionWorker, validateContent, submitB
                 var options = {
                     ref: branch
                 }
-                dump("XXX TRYIN WI'H: ("+branch+") ("+owner+") ("+fileName+")\n");
                 ghApi('GET', '/repos/' + owner + '/style-modules/contents/' + fileName, options, null, function(contents){
                     if (contents) {
                         callback(contents);
