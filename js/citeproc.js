@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.24",
+    PROCESSOR_VERSION: "1.1.25",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -1762,7 +1762,7 @@ CSL.Engine.prototype.retrieveItem = function (id) {
     if (Item.page) {
         Item["page-first"] = Item.page;
         var num = "" + Item.page;
-        m = num.split(/\s*(?:&|,|-|\u2013)\s*/);
+        m = num.split(/\s*(?:&|, |-|\u2013)\s*/);
         if (m[0].slice(-1) !== "\\") {
             Item["page-first"] = m[0];
         }
@@ -3464,6 +3464,7 @@ CSL.Engine.Tmp = function () {
     };
     this.strip_periods = 0;
     this.shadow_numbers = {};
+    this.authority_stop_last = 0;
 };
 CSL.Engine.Fun = function (state) {
     this.match = new CSL.Util.Match;
@@ -4450,6 +4451,7 @@ CSL.citeStart = function (Item, item) {
     this.tmp.shadow_numbers = {};
     this.setNumberLabels(Item);
     this.tmp.first_name_string = false;
+    this.tmp.authority_stop_last = 0;
     if (this.opt.development_extensions.flip_parentheses_to_braces && item && item.prefix) {
         var openBrace = CSL.checkNestedBraceOpen.exec(item.prefix);
         var closeBrace = CSL.checkNestedBraceClose.exec(item.prefix);
@@ -8245,6 +8247,7 @@ CSL.NameOutput.prototype._splitInstitution = function (value, v, i) {
                 }
                 splitLst = splitLst.replace(/\s*\|\s*/g, "|");
                 splitInstitution = [splitLst];
+                break;
             }
         }
     }
@@ -8255,18 +8258,31 @@ CSL.NameOutput.prototype._splitInstitution = function (value, v, i) {
 CSL.NameOutput.prototype._trimInstitution = function (subunits, v, i) {
     var use_first = false;
     var append_last = false;
-    var stop_last = false;
     var s = subunits.slice();
+    var stop_last = false;
     if (this.institution) {
         if ("undefined" !== typeof this.institution.strings["use-first"]) {
             use_first = this.institution.strings["use-first"];
         }
         if ("undefined" !== typeof this.institution.strings["stop-last"]) {
-            s = s.slice(0, this.institution.strings["stop-last"]);
-            subunits = subunits.slice(0, this.institution.strings["stop-last"]);
+            stop_last = this.institution.strings["stop-last"];
+        } else if ("authority" === v && this.state.tmp.authority_stop_last) {
+            stop_last = this.state.tmp.authority_stop_last;
+        }
+        if (stop_last) {
+            s = s.slice(0, stop_last);
+            subunits = subunits.slice(0, stop_last);
         }
         if ("undefined" !== typeof this.institution.strings["use-last"]) {
             append_last = this.institution.strings["use-last"];
+        }
+        if ("authority" === v) {
+            if (stop_last) {
+                this.state.tmp.authority_stop_last = stop_last;
+            }
+            if (append_last)  {
+                this.state.tmp.authority_stop_last += (append_last * -1);
+            }
         }
     }
     if (false === use_first) {
@@ -8286,9 +8302,6 @@ CSL.NameOutput.prototype._trimInstitution = function (subunits, v, i) {
     }
     if (use_first > subunits.length - append_last) {
         use_first = subunits.length - append_last;
-    }
-    if (stop_last) {
-        append_last = 0;
     }
     subunits = subunits.slice(0, use_first);
     s = s.slice(use_first);
@@ -9834,6 +9847,22 @@ CSL.Attributes["@locale"] = function (state, arg) {
         this.tests.push(maketest(locale_list,locale_default,locale_bares));
     }
 };
+CSL.Attributes["@authority-residue"] = function (state, arg) {
+    var maketest = function () {
+        var succeed = (arg === "true") ? true : false;
+        return function(Item, item) {
+            if (!Item.authority || !Item.authority[0] || !Item.authority[0].family) return !succeed;
+            var varLen = Item.authority[0].family.split("|").length;
+            var stopLast = state.tmp.authority_stop_last;
+            if ((varLen + stopLast) > 0) {
+                return succeed;
+            } else {
+                return !succeed;
+            }
+        }
+    }
+    this.tests.push(maketest());
+}
 CSL.Attributes["@locale-internal"] = function (state, arg) {
     var func, ret, len, pos, variable, myitem, langspec, lang, lst, i, ilen, fallback;
         lst = arg.split(/\s+/);
