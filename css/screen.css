@@ -226,7 +226,7 @@ a.disabled-link:hover {
 
 .downloads .row.even .col-lg-4:nth-child(odd), .downloads .row.odd .col-lg-4:nth-child(even) {
     padding-top: 3px;
-    background: #eeeeee;
+    background: #eeeeee !important;
 }
 
 .downloads .row.even .col-lg-4:nth-child(odd), .downloads .row.odd .col-lg-4:nth-child(even) span.mono {
