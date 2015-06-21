@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.28",
+    PROCESSOR_VERSION: "1.1.29",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -9488,7 +9488,7 @@ CSL.Attributes["@variable"] = function (state, arg) {
             output = false;
             for (var i=0,ilen=this.variables.length;i<ilen;i++) {
                 var variable = this.variables[i];
-                if (variable === "authority"
+                if (["authority", "committee"].indexOf(variable) > -1
                     && "string" === typeof Item[variable]
                     && "names" === this.name) {
                     var creatorParent = {
