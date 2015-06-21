@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.26",
+    PROCESSOR_VERSION: "1.1.28",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -194,15 +194,22 @@ var CSL = {
     ],
     checkNestedBraceOpen: new RegExp(".*\\("),
     checkNestedBraceClose: new RegExp(".*\\)"),
+    MULTI_FIELDS: ["event", "publisher", "publisher-place", "event-place", "title", "container-title", "collection-title", "authority","edition","genre","title-short","medium","jurisdiction","archive","archive-place"],
     LangPrefsMap: {
         "title":"titles",
         "title-short":"titles",
+        "event":"titles",
+        "genre":"titles",
+        "medium":"titles",
         "container-title":"journals",
         "collection-title":"journals",
+        "archive":"journals",
         "publisher":"publishers",
         "authority":"publishers",
         "publisher-place": "places",
         "event-place": "places",
+        "archive-place": "places",
+        "jurisdiction": "places",
         "number": "number",
         "edition":"number",
         "issue":"number",
@@ -251,7 +258,6 @@ var CSL = {
     MARK_TRAILING_NAMES: true,
     POSITION_TEST_VARS: ["position", "first-reference-note-number", "near-note"],
     AREAS: ["citation", "citation_sort", "bibliography", "bibliography_sort"],
-    MULTI_FIELDS: ["event", "publisher", "publisher-place", "event-place", "title", "container-title", "collection-title", "authority","edition","genre","title-short","medium","jurisdiction","archive","archive-place"],
     CITE_FIELDS: ["first-reference-note-number", "locator", "locator-extra"],
     MINIMAL_NAME_FIELDS: ["literal", "family"],
     SWAPPING_PUNCTUATION: [".", "!", "?", ":", ","],
@@ -8208,17 +8214,23 @@ CSL.NameOutput.prototype.fixupInstitution = function (name, varname, listpos) {
         name["long"].reverse();
     }
     var long_form = name["long"];
-    var short_form = long_form.slice();
+    var short_form = name["long"].slice();
+    var use_short_form = false;
     if (this.state.sys.getAbbreviation) {
         var jurisdiction = this.Item.jurisdiction;
         for (var j = 0, jlen = long_form.length; j < jlen; j += 1) {
             jurisdiction = this.state.transform.loadAbbreviation(jurisdiction, "institution-part", long_form[j]);
             if (this.state.transform.abbrevs[jurisdiction]["institution-part"][long_form[j]]) {
                 short_form[j] = this.state.transform.abbrevs[jurisdiction]["institution-part"][long_form[j]];
+                use_short_form = true;
             }
         }
     }
-    name["short"] = short_form;
+    if (use_short_form) {
+        name["short"] = short_form;
+    } else {
+        name["short"] = [];
+    }
     return name;
 }
 CSL.NameOutput.prototype.getStaticOrder = function (name, refresh) {
