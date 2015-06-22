@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.29",
+    PROCESSOR_VERSION: "1.1.31",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -833,6 +833,7 @@ CSL.expandMacro = function (macro_key_token, target) {
     macro_key_token.cslid = macroid;
     if (CSL.MODULE_MACROS[mkey]) {
         macro_key_token.juris = mkey;
+        macro_key_token.alt_macro = alt_macro;
         this.opt.update_mode = CSL.POSITION;
     }
     CSL.Node.group.build.call(macro_key_token, this, target);
@@ -851,20 +852,7 @@ CSL.expandMacro = function (macro_key_token, target) {
                 while (next < state.macros[macro_name].length) {
                     next = CSL.tokenExec.call(state, state.macros[macro_name][next], Item, item);
                 }
-                var flag = state.tmp.group_context.value();
-                if (((flag[1] && !flag[2]) || (!flag[0] && !flag[1])) && alt_macro) {
-                    flag[1] = false;
-                    var mytarget = CSL.getMacroTarget.call(state, alt_macro);
-                    if (mytarget) {
-                        var macro_nodes = state.sys.xml.getNodesByName(state.cslXml, 'macro', alt_macro);
-                        CSL.buildMacro.call(state, mytarget, macro_nodes);
-                        CSL.configureMacro.call(state, mytarget);
-                    }
-                    var next = 0;
-                    while (next < state.macros[alt_macro].length) {
-                        next = CSL.tokenExec.call(state, state.macros[alt_macro][next], Item, item);
-                    }
-                }
+                CSL.runAltMacro(state, alt_macro, Item, item);
             }
         }(mkey, alt_macro);
         var text_node = new CSL.Token("text", CSL.SINGLETON);
@@ -890,18 +878,30 @@ CSL.expandMacro = function (macro_key_token, target) {
     this.build.macro_stack.pop();
 };
 CSL.getMacroTarget = function (mkey) {
-    var mytarget;
+    var mytarget = false;
     if (this.build.extension) {
         mytarget = this[this.build.root + this.build.extension].tokens;
-    } else {
-        if (!this.macros[mkey]) {
-            mytarget = [];
-            this.macros[mkey] = mytarget;
-        } else {
-            mytarget = false;
-        }
+    } else if (!this.macros[mkey]) {
+        mytarget = [];
+        this.macros[mkey] = mytarget;
     }
     return mytarget;
+}
+CSL.runAltMacro = function (state, alt_macro, Item, item) {
+    var flag = state.tmp.group_context.value();
+    if (((flag[1] && !flag[2]) || (!flag[0] && !flag[1])) && alt_macro) {
+        flag[1] = false;
+        var mytarget = CSL.getMacroTarget.call(state, alt_macro);
+        if (mytarget) {
+            var macro_nodes = state.sys.xml.getNodesByName(state.cslXml, 'macro', alt_macro);
+            CSL.buildMacro.call(state, mytarget, macro_nodes);
+            CSL.configureMacro.call(state, mytarget);
+        }
+        var next = 0;
+        while (next < state.macros[alt_macro].length) {
+            next = CSL.tokenExec.call(state, state.macros[alt_macro][next], Item, item);
+        }
+    }
 }
 CSL.buildMacro = function (mytarget, macro_nodes) {
     var builder = CSL.makeBuilder(this, mytarget);
@@ -5822,9 +5822,11 @@ CSL.Node.group = {
                         while (next < state.juris[Item["best-jurisdiction"]][this.juris].length) {
                             next = CSL.tokenExec.call(state, state.juris[Item["best-jurisdiction"]][this.juris][next], Item, item);
                         }
+                        CSL.runAltMacro(state, this.alt_macro, Item, item);
                     }
                 }
                 text_node.juris = this.juris;
+                text_node.alt_macro = this.alt_macro;
                 text_node.execs.push(func);
                 target.push(text_node);
                 var if_end = new CSL.Token("if", CSL.END);
