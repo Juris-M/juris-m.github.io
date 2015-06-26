@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.31",
+    PROCESSOR_VERSION: "1.1.32",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -7552,7 +7552,8 @@ CSL.NameOutput.prototype._renderInstitutionName = function (v, name, slot, j) {
             institution = [this._renderOneInstitutionPart(primary["short"], short_style)];
         } else {
             long_style = this._getLongStyle(primary, v, j);
-            institution = [this._renderOneInstitutionPart(primary["long"], long_style)];
+            institution_long = this._composeOneInstitutionPart([primary, secondary, tertiary], slot, long_style);
+            institution = [institution_long];
         }
         break;
     case "short-long":
