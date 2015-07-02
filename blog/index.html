@@ -15,48 +15,11 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito">
     <link rel="stylesheet" type="text/css" href="css/jquery-ui.1.11.3.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/screen.css">
+    <link rel="stylesheet" type="text/css" href="../css/screen.css">
     <script src="js/jquery.1.11.3.min.js"></script>
     <script src="js/jquery-ui.1.11.3.min.js"></script>
     <script src="js/jquery.ui.touch-punch.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script>
-      function resizeMe() {
-        if (document.documentElement.clientWidth > 992) {
-          var last = null;
-          $(".big-button-bottom").each(function(count){
-            if ((count % 2) == 1) {
-              if ($(this).outerHeight() > last.outerHeight()) {
-                last.attr('style', 'height:' + $(this).outerHeight() + 'px;');
-              } else {
-                $(this).attr('style', 'height:' + last.outerHeight() + 'px;');
-              }
-            } else {
-              last = $(this);
-            }
-          });
-	    } else {
-          $(".big-button-bottom").each(function(){
-            $(this).removeAttr('style');
-          });
-        }
-      }
-      function initScript() {
-        resizeMe();
-        $(".button1").click(function(event){
-          document.location.href="downloads";
-        });
-        $(".button2").click(function(event){
-          console.log("Hitting GitHub login API");
-          var client_id = "dafdd5113c19e21d5fa6";
-          if (document.location.host === "fbennett.github.io") {
-            client_id = "e8c0052c29d0147de5c3";
-          }
-          document.location.href="https://github.com/login/oauth/authorize?client_id=" + client_id + "&scope=public_repo&status=98754321";
-        });
-      }
-      $(window).on('resize', initScript);
-    </script>
   </head>
   <body onload="initScript();">
     <div class="container">
@@ -64,7 +27,7 @@
         <div class="container-fluid">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" onclick="window.location.hash='#';return false;">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" onclick="window.location.hash='..';return false;">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -77,7 +40,7 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li><a href="blog">News & Views</a></li>
+              <li><a href="../blog">News & Views</a></li>
             </ul>
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
