@@ -1,1 +1,97 @@
-Forthcoming
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script type="text/javascript">
+      var enforce = "juris-m.github.io";
+      if ((enforce == window.location.host) && (window.location.protocol != "https:")) {
+        window.location.protocol = "https";
+      }
+    </script>
+    <title>Juris-M: Welcome</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon-32x32.png">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.1.11.3.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/screen.css">
+    <script src="js/jquery.1.11.3.min.js"></script>
+    <script src="js/jquery-ui.1.11.3.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script>
+      function resizeMe() {
+        if (document.documentElement.clientWidth > 992) {
+          var last = null;
+          $(".big-button-bottom").each(function(count){
+            if ((count % 2) == 1) {
+              if ($(this).outerHeight() > last.outerHeight()) {
+                last.attr('style', 'height:' + $(this).outerHeight() + 'px;');
+              } else {
+                $(this).attr('style', 'height:' + last.outerHeight() + 'px;');
+              }
+            } else {
+              last = $(this);
+            }
+          });
+	    } else {
+          $(".big-button-bottom").each(function(){
+            $(this).removeAttr('style');
+          });
+        }
+      }
+      function initScript() {
+        resizeMe();
+        $(".button1").click(function(event){
+          document.location.href="downloads";
+        });
+        $(".button2").click(function(event){
+          console.log("Hitting GitHub login API");
+          var client_id = "dafdd5113c19e21d5fa6";
+          if (document.location.host === "fbennett.github.io") {
+            client_id = "e8c0052c29d0147de5c3";
+          }
+          document.location.href="https://github.com/login/oauth/authorize?client_id=" + client_id + "&scope=public_repo&status=98754321";
+        });
+      }
+      $(window).on('resize', initScript);
+    </script>
+  </head>
+  <body onload="initScript();">
+    <div class="container">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" onclick="window.location.hash='#';return false;">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <div id="juris-m-button" class="navbar-brand" style="padding-top:5px;" onclick="CSLValidator.setView(event,'main');">
+              <img src="image/juris-m-logo.svg" style="height:40px;"/>
+            </div>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><a href="blog">News & Views</a></li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+    </div>
+    <div class="container content">
+      <div class="row">
+        <div class="col-lg-12" style="font-size:140%;">
+          <h2>Juris-M: the successor to MLZ</h2>
+          <p>
+            Hello.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
