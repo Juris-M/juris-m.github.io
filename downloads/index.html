@@ -27,6 +27,10 @@
     <script>
       function initScript() {
 
+        $(".downloads .row .col-md-4").each(function(){
+          $(this).removeAttr("style");
+        });
+
         if (document.documentElement.clientWidth >= 992) {
       	  var heights = [null, null, null];
           var nodes = [null, null, null];
@@ -47,14 +51,10 @@
               nodes = [null, null, null];
             }
           });
-        } else {
-          $(".downloads .row .col-md-4").each(function(){
-            $(this).removeAttr("style");
-          });
         }
       };
       $(window).on('resize', function() {
-        alert("resizing to: "+document.documentElement.clientWidth);
+        alert("now resizing to: "+document.documentElement.clientWidth);
         window.setTimeout(function() {
           initScript();
         }, 100);
