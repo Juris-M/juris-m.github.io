@@ -27,12 +27,10 @@
     <script>
       function initScript() {
 
-      alert("width="+document.documentElement.clientWidth);
-
-      if (document.documentElement.clientWidth >= 1200) {
+      if (document.documentElement.clientWidth >= 992) {
       	  var heights = [null, null, null];
           var nodes = [null, null, null];
-          $(".downloads .row .col-lg-4").each(function(i){
+          $(".downloads .row .col-md-4").each(function(i){
             heights[i] = $(this).outerHeight();
             nodes[i] = this;
             if ((i % 3) === 2) {
@@ -50,7 +48,7 @@
             }
           });
         } else {
-          $(".downloads .row .col-lg-4").each(function(){
+          $(".downloads .row .col-md-4").each(function(){
             $(this).removeAttr("style");
           });
         }
@@ -86,12 +84,12 @@
     </div>
     <div class="container content downloads">
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-12">
           <h2>Juris-M Essentials</h2>
         </div>
       </div>
       <div class="row odd">
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="https://github.com/Juris-M/zotero/releases/latest">
             <div class="bigtext">
               Library Client
@@ -124,7 +122,7 @@
             when Standalone is active.)
           </p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a href="https://github.com/Juris-M/myles/releases/latest" class="download-button">
             <div class="bigtext">
               Jurisdiction Support
@@ -155,7 +153,7 @@
             to ping me on Twitter (<a href="https://twitter.com/fgbjr">@fgbjr</a>).
           </p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="https://github.com/Juris-M/abbrevs-filter/releases/latest">
             <div class="bigtext">
               Abbreviation Filter
@@ -189,12 +187,12 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-12">
           <h2 id="juris-m-companions">Juris-M Companions</h2>
         </div>
       </div>
       <div class="row even">
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="https://github.com/Juris-M/jurism-libreoffice-integration/releases/latest">
             <div class="bigtext">
               LibreOffice Writer
@@ -212,7 +210,7 @@
               subject line.
           </p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="https://github.com/Juris-M/jurism-word-for-windows-integration/releases/latest">
             <div class="bigtext">
               Word for Windows
@@ -230,7 +228,7 @@
               subject line.
           </p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="https://github.com/Juris-M/jurism-word-for-mac-integration/releases/latest">
             <div class="bigtext">
               Word for Mac
@@ -250,7 +248,7 @@
         </div>
       </div>
       <div class="row odd">
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="http://zotero-odf-scan.github.io/zotero-odf-scan/">
             <div class="bigtext">
               RTF/ODF Scan
@@ -270,7 +268,7 @@
             LibreOffice.
           </p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="http://fbennett.github.io/bluebook-signals-for-zotero/">
             <div class="bigtext">
               Bluebook Signals
@@ -294,10 +292,10 @@
             signals.
           </p>
         </div>
-        <div class="col-lg-4"></div>
+        <div class="col-md-4"></div>
       </div>
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-12">
           <h2 id="csl-stuff">CSL Processor and Zotero Gadgets</h2>
         </div>
         <p>
@@ -308,7 +306,7 @@
         </p>
       </div>
       <div class="row odd">
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="https://bitbucket.org/fbennett/citeproc-js/wiki/Home">
             <div class="bigtext">
               <span class="mono">citeproc-js</span>
@@ -329,7 +327,7 @@
             software developers.
           </p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="https://github.com/Juris-M/propachi-vanilla/releases/latest">
             <div class="bigtext">
               Processor Patch
@@ -348,7 +346,7 @@
             incorporating the fix is released.
           </p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="https://github.com/Juris-M/propachi-upper/releases/latest">
             <div class="bigtext">
               Uppercase Subtitles
@@ -371,7 +369,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-12">
           <h2>Citation Stylesheets</h2>
           <p>
             The Desktop Client is distributed with a full set of Juris-M citation styles.
@@ -380,7 +378,7 @@
         </div>
       </div>
       <div class="row even">
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="http://citationstylist.org/github/jm-chicago-fullnote-bibliography.csl?install=1">
             <div class="bigtext">
               JM Chicago Full Note
@@ -400,7 +398,7 @@
             School of Law, the current institutional home of Juris-M.
           </p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="http://citationstylist.org/github/jm-babyblue.csl?install=1">
             <div class="bigtext">
               JM Baby Blue
@@ -423,7 +421,7 @@
             modules for references to primary legal materials.
           </p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="http://citationstylist.org/github/mlz-amlaw.csl?install=1">
             <div class="bigtext">
               MLZ Bluebook
@@ -448,7 +446,7 @@
         </div>
       </div>
       <div class="row odd">
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="http://citationstylist.org/github/mlz-cms-full.csl?install=1">
             <div class="bigtext">
               MLZ Chicago Full Note
@@ -468,7 +466,7 @@
             Note."
           </p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="http://citationstylist.org/github/mlz-oscola.csl?install=1">
             <div class="bigtext">
               MLZ OSCOLA
@@ -486,7 +484,7 @@
             legal referencing, to be released as "JM OSCOLA."
           </p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="http://citationstylist.org/github/mlz-new-zealand-law.csl?install=1">
             <div class="bigtext">
               MLZ New Zealand Law
@@ -507,7 +505,7 @@
         </div>
       </div>
       <div class="row even">
-        <div class="col-lg-4">
+        <div class="col-md-4">
           <a class="download-button" href="https://zotero.org/styles">
             <div class="bigtext">
               CSL Style Repository
@@ -529,7 +527,7 @@
             Twitter.
           </p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-4">
           &nbsp;
         </div>
       </div>
