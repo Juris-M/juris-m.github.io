@@ -16,8 +16,7 @@ html,body
 }
 
 a.selected {
-    color: black;
-    
+    color: black !important;
 }
 
 div#cheat-sheet-arrow {
