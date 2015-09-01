@@ -15,8 +15,12 @@ html,body
     overflow-x: hidden; 
 }
 
-a.selected {
+li.selected a {
     color: black !important;
+}
+
+li.selected {
+    background: #dddddd;
 }
 
 div#cheat-sheet-arrow {
