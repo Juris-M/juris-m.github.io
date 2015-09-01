@@ -27,7 +27,7 @@
     <script>
       function initScript() {
 
-      if (document.documentElement.clientWidth >= 992) {
+        if (document.documentElement.clientWidth >= 992) {
       	  var heights = [null, null, null];
           var nodes = [null, null, null];
           $(".downloads .row .col-md-4").each(function(i){
@@ -53,8 +53,8 @@
           });
         }
       };
-      //$(window).on('resize', initScript);
-      $(document).on('resize', initScript);
+      $(window).on('resize', function() {alert("resize to: "+document.documentElement.clientWidth);initScript();});
+      //$(document).on('resize', initScript);
     </script>
   </head>
   <body onload="initScript();">
