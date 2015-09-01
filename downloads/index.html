@@ -26,7 +26,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.11.2/URI.min.js"></script>
     <script>
       function initScript() {
-        if (document.documentElement.clientWidth > 992) {
+        if (window.innerWidth >= 992) {
           var heights = [null, null, null];
           var nodes = [null, null, null];
           $(".downloads .row .col-lg-4").each(function(i){
