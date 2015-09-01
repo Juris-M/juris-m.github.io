@@ -53,13 +53,7 @@
           });
         }
       };
-      $(window).on('resize', function() {
-        alert("now resizing to: "+document.documentElement.clientWidth);
-        window.setTimeout(function() {
-          initScript();
-        }, 100);
-      });
-      //$(document).on('resize', initScript);
+      $(window).on('resize', initScript);
     </script>
   </head>
   <body onload="initScript();">
