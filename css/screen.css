@@ -220,16 +220,16 @@ a.disabled-link:hover {
     border-radius:2em;
 }
 
-.downloads .row.odd .col-lg-4:nth-child(odd), .downloads .row.even .col-lg-4:nth-child(even) {
+.downloads .row.odd .col-md-4:nth-child(odd), .downloads .row.even .col-md-4:nth-child(even) {
     padding-top: 3px;
 }
 
-.downloads .row.even .col-lg-4:nth-child(odd), .downloads .row.odd .col-lg-4:nth-child(even) {
+.downloads .row.even .col-md-4:nth-child(odd), .downloads .row.odd .col-md-4:nth-child(even) {
     padding-top: 3px;
     background: #eeeeee !important;
 }
 
-.downloads .row.even .col-lg-4:nth-child(odd), .downloads .row.odd .col-lg-4:nth-child(even) span.mono {
+.downloads .row.even .col-md-4:nth-child(odd), .downloads .row.odd .col-md-4:nth-child(even) span.mono {
     background: white;
 }
 
@@ -270,7 +270,7 @@ a.disabled-link:hover {
     text-align: center;
 }
 
-col-lg-6.vcenter {
+col-md-6.vcenter {
     vertical-align:middle;
     float:none;
     display:inline-block;
