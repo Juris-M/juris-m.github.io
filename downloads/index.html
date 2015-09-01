@@ -29,8 +29,9 @@
 
       alert("width="+document.documentElement.clientWidth);
 
-        if (document.documentElement.clientWidth >= 992) {
-          var heights = [null, null, null];
+      if (parseInt($('#container').css('width')) >= 992) {
+      //if (document.documentElement.clientWidth >= 992) {
+      	  var heights = [null, null, null];
           var nodes = [null, null, null];
           $(".downloads .row .col-lg-4").each(function(i){
             heights[i] = $(this).outerHeight();
