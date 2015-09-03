@@ -71,10 +71,11 @@
           <div style="background:#dddddd;border-radius:1.5em;padding:0.5em 1em 0.5em 1em;margin:0 0.5em 1em 0.5em;">
             <p>
               Juris-M began life in 2010 as the &ldquo;Multilingual
-              Zotero&rdquo; plugin for the Firefox browser
-              (MLZ). When changes to Firefox in 2015 made plugin
-              distribution more difficult, the project was rebranded as &ldquo;Juris-M,&rdquo; and is now
-              distributed as a standalone program <i>only</i>.
+              Zotero&rdquo; plugin for the Firefox browser (MLZ). When
+              changes to Firefox in 2015 made plugin distribution more
+              difficult, the project was rebranded as
+              &ldquo;Juris-M,&rdquo; and is now distributed as a
+              standalone program <i>only</i>.
             </p>
             <p>
               See below for further details on the MLZ&#x2192;Juris-M watershed.
@@ -82,109 +83,117 @@
           </div>
         </div>
       </div>
-      <h3 id="features">Spiffy Features</h3>
+      <h3 id="features">What&rsquo;s New</h3>
       <div class="multi-column">
         <dl>
-            <dt>A new moniker!</dt>
+            <dt>Website consolidation</dt>
+            <dd>
+              Materials related to Multilingual Zotero (MLZ) have been
+              scattered across several websites. This site
+              (<span style="font-family:ariel,mono;">juris-m.github.io</span>)
+              is the new project home. The old site at
+              (<span style="font-family:ariel,mono;">citationstylist.org</span>)
+              will be decommissioned early in 2016.
+            </dd>
+            <dt>The name</dt>
             <dd>
               <p>
-                &ldquo;Zotero&rdquo; is a trademark of the Zotero
-                project proper. The purpose of trademark is to prevent
-                confusion, and both the Zotero team and I have been a
-                little concerned that the &ldquo;Multilingual
-                Zotero&rdquo; name suggests a tighter connection
-                between the two projects than actually exists. The
-                only thing shared between this project and official
-                Zotero is code; no money changes hands, and the Zotero
-                developers have no control over what happens at this
-                end. The name change will help to make that clear.
+                The name &ldquo;Multilingual Zotero&rdquo; suggested a
+                tighter connection with the Zotero project than
+                actually exists. The only thing shared by the two is
+                code, and removing &ldquo;Zotero&rdquo; from the name
+                helps to make that clear. The new name also reflects
+                the fact that legal referencing support is a flagship
+                feature of the tools hosted here.
               </p>
               <p>
-                The new name is meant to reflect (a little) that the
-                tool supports legal as well as multilingual
-                referencing.  You can pronounce it any way that you
-                like, but the obvious choices seem to be either
-                <i>juris-em</i> or <i>jurism</i> (as in
-                &ldquo;formalism&rdquo;). The &ldquo;j&rdquo; might be
-                hard or soft, depending on your own linguistic habits.
-                I favour the soft version (<i>yurism</i>), because we
-                could then form a project ensemble and call it <i>The
-                Juris-M-ics</i>. But I digress.
+                You can pronounce &ldquo;Juris-M&rdquo; any way that
+                you like, but the obvious choices seem to be either
+                <i>Juris-em</i> (as in &ldquo;Aunti Em&rdquo;)
+                or <i>Jurism</i> (as in &ldquo;formalism&rdquo;). The
+                &ldquo;j&rdquo; might be hard or soft, depending on
+                your own linguistic habits. If Lennox &amp; Stewart
+                hadn&rsquo;t gotten there first, we could form a band
+                and call it <i>The Jurism-ics</i>. But I digress.
               </p>
             </dd>
-            <dt>Modular legal style support</dt>
+            <dt>Standalone distribution</dt>
             <dd>
-              Second only to the excitement of the new name is the
-              introduction of modular legal style support. You can explore
-              this through the &ldquo;Style Development&rdquo; area of
-              this site, which provides a module-aware previewing
-              editor for Juris-M and CSL styles. Legal style modules
-              can be maintained independently, and called into action
-              by simple template code that can be added to any CSL
-              style adapted for use with Juris-M. It is an approach
-              that will scale, because it cleanly separates legal
-              referencing conventions from the vagaries of
-              general-purpose style manuals like the <i>Bluebook</i>.
+              <p>
+                Firefox will soon require that all browser plugins be
+                approved and signed (as a hedge against serious
+                security flaws and malware). Zotero has completed the
+                approval process. Unfortunately, I don&rsquo;t have
+                the resources to follow suit. The end is near: from
+                version 42, Firefox will completely block the
+                installation of Juris-M and its companion plugins.
+              </p>
+              <p>
+                Like Zotero, Juris-M can be built as a Standalone
+                client, separate from the browser. This avoids the
+                code signing requirement. It also means that Juris-M
+                can be shipped with its supporting plugins in a single
+                bundle. There are still some details to work
+                out&mdash;the Mac and Windows Standalone clients
+                should be properly signed, and I need to work out how
+                to process automatic updates&mdash;but at the end of
+                the day, Standalone distribution may turn out to be a
+                very good thing for the project.
+              </p>
             </dd>
-          </dl>
-        </div>
-        <h3>Further developments</h3>
-        <div class="multi-column">
-          <p>
-            There are some challenges in the offing.
-          </p>
-          <h3>Code review</h3>
-          <p>
-            The first challenge is related to the code signing
-            requirement mentioned above. This will be accompanied by a
-            (reputedly relatively loose) form of code review,
-            conducted by Firefox contributors or staff. Loose it may
-            be, but as I am an amateur coder, and as the volume of
-            code that I have written for this Zotero fork is quite
-            large, we cannot expect that approval will be easy or
-            automatic.  It would be better to have more than one
-            person involved in Juris-M coding, but unless and until
-            the project has significant funding, I don&rsquo;t expect
-            that to happen.
-          </p>
-          <h3>Sync service</h3>
-          <p>
-            A second issue involves sync service. Juris-M (like MLZ)
-            is currently sync-compatible with official
-            Zotero. However, the existing Zotero sync servers will be
-            shut down a few months after the release of Zotero 5.0
-            (itself due out in a few months&rsquo; time). The main
-            project will then move to a new API-based sync
-            architecture that is supported by the new Zotero release.
-            To retain sync support, Juris-M will need to be adapted to
-            the new Zotero 5.0 code base. It is a fairly massive task,
-            since the patches applied by Juris-M are numerous, and the
-            changes in Zotero are broad and deep. It is proving
-            necessary to rewrite significant portions of Juris-M from
-            scratch, and it is possible that the API-sync-compatible
-            client will not be ready by the time of the shutdown. User
-            data will not be at risk, but life could become less
-            convenient for a time.
-          </p>
-          <p style="background:#eeeeee;border-radius:1.5em;padding:0.5em 1em 0.5em 1em;">
-            It bears emphasis that neither of the issues above is a
-            threat to project survival. Juris-M is in active use among
-            students in the faculty where I hold my academic post, and
-            that provides ample justification for continuing this
-            work&mdash;it is in fact essential to us. Over the longer
-            term, we will want to place the project on a firmer
-            foundation. The coding requirements of the coming months
-            are a wake-up call, and an experience that I would prefer
-            not to repeat. The first step in that direction is likely to
-            be a &ldquo;donate&rdquo; button, followed by efforts to
-            interest funding bodies and major NGOs to support this
-            work, so that we can support the world&hellip;
-          </p>
-          <p>
-            For the present, though, welcome again to Juris-M!
-          </p>
-        </div>
+            <dt>Modular legal styles</dt>
+            <dd>
+              <p>
+                Modular support for legal referencing is a core
+                feature of Juris-M. Ordinarily, citation forms depend
+                on the chosen style (Chicago, APA, Harvard, etc.). In
+                legal writing, references to primary legal materials
+                do not work that way: each jurisdiction has its own
+                citation conventions, and these do not change greatly
+                with a change in the selected citation style.  Modular
+                style support allows us define legal citation forms
+                separately from the &ldquo;parent&rdquo; style.  The
+                new approach enables correct citation to multiple
+                jurisdictions, and style maintenance will be much less
+                burdensome.
+              </p>
+              <p>
+                In ordinary use, modular styles &ldquo;just
+                work:&rdquo; no special setup is required. Those
+                interested in improving or extending legal style
+                coverage should visit the &ldquo;Style
+                Development&rdquo; area of this site, which provides a
+                full-service previewing editor, an extensive tutorial,
+                and an automated submission system (login requires a
+                GitHub account).
+            </dd>
+            <dt>Zotero 5.0 and sync support</dt>
+            <dd>
+              <p>
+                As I mentioned in a recent post, Zotero 5.0 is coming,
+                and it will be a doosie: the method of accessing the
+                local database will change dramatically; and the
+                online sync service will be replaced with an entirely
+                new system. The two changes are a package: to maintain
+                sync for Juris-M users, the database code for Juris-M
+                must also be rewritten. These are both positive
+                developments, but the impact on Juris-M code will be
+                significant.
+              </p>
+              <p>
+                It has been a busy summer, but I am happy to report
+                that the hardest part of the code rewrite&mdash;the
+                database layer and the user interface&mdash;is now
+                complete and appears to be working. I am now well
+                positioned to follow upstream developments as the
+                Zotero team push their project toward a 5.0 release.
+                If all goes well, there will be no gap in Juris-M sync
+                support.
+              </p>
+            </dd>
+        </dl>
       </div>
     </div>
+</div>
   </body>
 </html>
