@@ -232,8 +232,7 @@
           }
 
 var processorLevel;
-if (navigator.userAgent.indexOf("WOW64") != -1 || 
-    navigator.userAgent.indexOf("Win64") != -1 ){
+if (navigator.userAgent.indexOf("x86_64") != -1){
    processorLevel="64bit";
 } else {
    processorLevel="32bit";
@@ -263,7 +262,7 @@ if (navigator.userAgent.indexOf("WOW64") != -1 ||
       }
   </script>
   </head>
-  <body onload="initScript();alert(navigator.userAgent)">
+  <body onload="initScript();">
     <div class="container">
       <nav class="navbar navbar-default">
         <div class="container-fluid">
