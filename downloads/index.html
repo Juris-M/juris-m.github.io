@@ -230,7 +230,15 @@
       
               }
           }
-      
+
+var processorLevel;
+if (navigator.userAgent.indexOf("WOW64") != -1 || 
+    navigator.userAgent.indexOf("Win64") != -1 ){
+   processorLevel="64bit";
+} else {
+   processorLevel="32bit";
+}
+
           window.browserInfo = {
               screen: screenSize,
               browser: browser,
@@ -238,11 +246,15 @@
               mobile: mobile,
               os: os,
               osVersion: osVersion,
-              cookies: cookieEnabled
+              cookies: cookieEnabled,
+              processor: processorLevel
           };
       }(this));
       if (browserInfo.os && browserInfo.browser) {
         var osNick = browserInfo.os.slice(0, 3).toLowerCase();
+        if (osNick == "linux") {
+           osNick += browserInfo.processor
+        }
         var browserNick = browserInfo.browser.toLowerCase();
         $(window).on('load', function(){
            $('.os-is-'+osNick).addClass('installable');
@@ -251,7 +263,7 @@
       }
   </script>
   </head>
-  <body onload="initScript();alert(browserInfo.osVersion)">
+  <body onload="initScript();">
     <div class="container">
       <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -313,7 +325,7 @@
             </p>
           </div>
           <div class="col-md-6">
-            <a class="download-button os-installer os-is-lin" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-linux-64bit-v4.0.28.2m43.tar.bz2">
+            <a class="download-button os-installer os-is-lin64bit" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-linux-64bit-v4.0.28.2m43.tar.bz2">
               <div class="bigtext">
                 Juris-M for Linux
               </div>
@@ -326,7 +338,7 @@
             </p>
           </div>
           <div class="col-md-6">
-            <a class="download-button os-installer os-is-lin" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-linux-32bit-v4.0.28.2m43.tar.bz2">
+            <a class="download-button os-installer os-is-lin32bit" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-linux-32bit-v4.0.28.2m43.tar.bz2">
               <div class="bigtext">
                 Juris-M for Linux
               </div>
