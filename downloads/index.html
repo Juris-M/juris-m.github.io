@@ -256,9 +256,8 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
         }
         var browserNick = browserInfo.browser.toLowerCase();
         $(window).on('load', function(){
-           $('os-installer').each(function(index){
+           $('.os-installer').each(function(index){
                if (this.hasClass('os-is-'+osNick)) {
-alert('Spiff: '+this);
                  this.classList.add('installable');
                } else {
                  this.hidden=true;
