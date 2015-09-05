@@ -241,20 +241,14 @@
               cookies: cookieEnabled
           };
       }(this));
-      if (browserInfo.os) {
+      if (browserInfo.os && browserInfo.browser) {
         var osNick = browserInfo.os.slice(0, 3).toLowerCase();
+        var browserNick = browserInfo.browser.toLowerCase();
         $(window).on('load', function(){
            $('.os-is-'+osNick).addClass('installable');
+           $('.browser-is-'+browserNick).addClass('installable');
         });
       }
-/*
-      if (browserInfo.browser) {
-        var osNick = browserInfo.browser.toLowerCase();
-        $(window).on('load', function(){
-           $('.browser-is-'+osNick).addClass('installable');
-        });
-      }
-*/
   </script>
   </head>
   <body onload="initScript();">
