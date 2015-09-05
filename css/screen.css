@@ -279,6 +279,27 @@ a.disabled-link:hover {
     text-align: center;
 }
 
+download-button.os-is-win, 
+download-button.os-is-win:visited, 
+download-button.os-is-win:active, 
+download-button.os-is-win:focus, 
+download-button.os-is-mac, 
+download-button.os-is-mac:visited, 
+download-button.os-is-mac:active, 
+download-button.os-is-mac:focus, 
+download-button.os-is-lin, 
+download-button.os-is-lin:visited,
+download-button.os-is-lin:active,
+download-button.os-is-lin:focus {
+    background: #dddddd;
+}
+
+download-button.os-is-win:hover, 
+download-button.os-is-mac:hover, 
+download-button.os-is-lin:hover {
+    background: red;
+}
+
 col-md-6.vcenter {
     vertical-align:middle;
     float:none;
