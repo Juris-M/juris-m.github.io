@@ -27,7 +27,7 @@
     <script>
       function initScript() {
 
-        $(".downloads .row .col-md-4").each(function(){
+        $(".downloads .row.even .col-md-4, .download .row.odd .col-md-4").each(function(){
           $(this).removeAttr("style");
         });
 
@@ -297,7 +297,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
       </nav>
     </div>
     <div class="container content downloads">
-      <!-- div -->
+      <div class="row">
         <div class="col-md-4">
           <h2>Juris-M Standalone</h2>
           <div class="info-box">
@@ -401,7 +401,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
             </p>
           </div>
         </div>
-      <!-- /div -->
+      </div>
       <div class="row">
         <h2>Hello</h2>
       </div>
