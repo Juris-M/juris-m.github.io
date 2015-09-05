@@ -280,11 +280,15 @@ a.disabled-link:hover {
 }
 
 .download-button.os-installer {
-    background: blue;
+    background: #dddddd;
+}
+
+.download-button.os-installer.installable {
+    background: rgba(0, 80, 0, 0.1);
 }
 
 .download-button.os-installer:hover {
-    background: red;
+    background: #dddddd;
 }
 
 .download-button.os-installer.installable:hover {
