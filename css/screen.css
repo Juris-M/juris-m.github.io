@@ -280,13 +280,15 @@ a.disabled-link:hover {
 }
 
 .download-button.os-installer {
-    background: #blue;
+    background: blue;
 }
 
-.download-button.os-is-win:hover, 
-.download-button.os-is-mac:hover, 
-.download-button.os-is-lin:hover {
+.download-button.os-installer:hover {
     background: red;
+}
+
+.download-button.os-installer.installable:hover {
+    background: green;
 }
 
 col-md-6.vcenter {
