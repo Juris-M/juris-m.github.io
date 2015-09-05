@@ -286,22 +286,22 @@ a.disabled-link:hover {
     text-align: center;
 }
 
-.download-button.os-installer {
+.download-button.browser-installer {
     border:2px solid #444444;
     background: #cccccc;
 }
 
-.download-button.os-installer.installable {
+.download-button.browser-installer.installable {
     border:2px solid #008000;
     background: rgba(0, 80, 0, 0.1);
 }
 
-.download-button.os-installer:hover {
+.download-button.browser-installer:hover {
     color:#333;
     background: #cccccc;
 }
 
-.download-button.os-installer.installable:hover {
+.download-button.browser-installer.installable:hover {
     color: white;
     background: green;
 }
