@@ -252,8 +252,8 @@ if (navigator.userAgent.indexOf("WOW64") != -1 ||
       }(this));
       if (browserInfo.os && browserInfo.browser) {
         var osNick = browserInfo.os.slice(0, 3).toLowerCase();
-        if (osNick == "linux") {
-           osNick += browserInfo.processor
+        if (osNick == "lin") {
+           osNick += browserInfo.processor;
         }
         var browserNick = browserInfo.browser.toLowerCase();
         $(window).on('load', function(){
