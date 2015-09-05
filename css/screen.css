@@ -264,6 +264,11 @@ a.disabled-link:hover {
     background: rgba(0, 80, 0, 0.1);
 }
 
+a.download-button.os-installer, a.download-button.browser-installer {
+    float: none;
+    display: block;
+}
+
 .download-button:hover {
     background:green;
     color:white;
