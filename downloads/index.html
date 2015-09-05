@@ -260,7 +260,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
                if (this.classList.contains('os-is-'+osNick)) {
                  this.classList.add('installable');
                } else {
-                 this.hidden=true;
+                 this.parentNode.hidden=true;
                }
            });
            $('.browser-is-'+browserNick).addClass('installable');
