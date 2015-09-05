@@ -256,7 +256,13 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
         }
         var browserNick = browserInfo.browser.toLowerCase();
         $(window).on('load', function(){
-           $('.os-is-'+osNick).addClass('installable');
+           $('os-installer').each(function(index){
+               if (this.hasClass('os-is-'+osNick) {
+                 this.classList.add('installable');
+               } else {
+                 this.hidden=true;
+               }
+           });
            $('.browser-is-'+browserNick).addClass('installable');
         });
       }
