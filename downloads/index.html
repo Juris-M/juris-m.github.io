@@ -247,6 +247,12 @@
            $('.os-is-'+osNick).addClass('installable');
         });
       }
+      if (browserInfo.browser) {
+        var osNick = browserInfo.browser.toLowerCase();
+        $(window).on('load', function(){
+           $('.browser-is-'+osNick).addClass('installable');
+        });
+      }
   </script>
   </head>
   <body onload="initScript();alert(browserInfo.browser)">
@@ -279,7 +285,7 @@
     </div>
     <div class="container content downloads">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
           <h2>Juris-M Standalone</h2>
           <div class="info-box">
             Choose the installer appropriate to your operating system.
@@ -337,12 +343,12 @@
             </p>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <h2>Browser Plugins</h2>
           <div class="info-box">
             Install a browser plugin to add online resources to your Juris-M library.
           </div>
-          <div class="col-md-12">
+          <div class="col-md-6">
             <a class="download-button os-installer browser-is-chromium" href="">
               <div class="bigtext">
                 Google Chrome
@@ -355,7 +361,7 @@
               Description.
             </p>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-6">
             <a class="download-button os-installer browser-is-safari" href="">
               <div class="bigtext">
                 Safari
@@ -368,7 +374,7 @@
               Description.
             </p>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-6">
             <a class="download-button os-installer browser-is-mozilla" href="">
               <div class="bigtext">
                 Firefox
