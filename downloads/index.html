@@ -33,14 +33,14 @@
                 $(".downloads div.row").each(function(i){
                     var maxheight = 0;
                     var blocks = document.evaluate("//div[contains(@class, 'balance')]", this, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-                    for (var j=0,jlen=blocks.length;j<jlen;j++) {
-                        var height = $(blocks[j]).outerHeight();
+                    for (var j=0,jlen=blocks.snapshotLength;j<jlen;j++) {
+                        var height = $(blocks.snapshotItem(j)).outerHeight();
                         if (height > maxheight) {
                             maxheight = height;
                         }
                     }
-                    for (var j=blocks.length-1;j>-1;j--) {
-                        blocks[j].setAttribute('style', 'height:' + maxheight + 'px;');
+                    for (var j=blocks.snapshotLength-1;j>-1;j--) {
+                        blocks.snapshotItem(j).setAttribute('style', 'height:' + maxheight + 'px;');
         alert("I AM TRYING: "+i+" "+j);
                     }
                 });
