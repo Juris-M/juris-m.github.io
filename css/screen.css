@@ -23,7 +23,7 @@ div.info-box {
 }
 
 div.rightsep {
-    border-right: 15px solid #dddddd;
+    background: #dddddd;
 }
 
 li.selected a {
