@@ -25,35 +25,27 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.11.2/URI.min.js"></script>
     <script>
-      function initScript() {
-
-      $(".downloads .row.even .col-md-4, .downloads .row.odd .col-md-4").each(function(){
-      $(this).removeAttr("style");
-      });
-
-      if (document.documentElement.clientWidth >= 992) {
-      var heights = [null, null, null];
-      var nodes = [null, null, null];
-      $(".downloads .row.even .col-md-4, .downloads .row.odd .col-md-4").each(function(i){
-      heights[i] = $(this).outerHeight();
-      nodes[i] = this;
-      if ((i % 3) === 2) {
-      var maxheight = heights[i];
-      for (var j=-1;j>-3;j--) {
-      if (heights[i+j] > maxheight) {
-      maxheight = heights[i+j];
-      }
-      }
-      for (var j=0;j>-3;j--) {
-      nodes[i+j].setAttribute('style', 'height:' + maxheight + 'px;');
-      }
-      heights = [null, null, null];
-      nodes = [null, null, null];
-      }
-      });
-      }
-      };
-      $(window).on('resize', initScript);
+        function initScript() {
+            $(".downloads div.row div.balance").each(function(){
+                $(this).removeAttr("style");
+            });
+            if (document.documentElement.clientWidth >= 992) {
+                $(".downloads div.row").each(function(i){
+                    var maxheight = 0;
+                    var blocks = document.evaluate("div[contains(@class, 'balance')]", null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
+                    for (var j=0,jlen=blocks.length;j<jlen;j++) {
+                        var height = $(blocks[j]).outerHeight();
+                        if (height > maxheight) {
+                            maxheight = height;
+                        }
+                    }
+                    for (var j=0,jlen=blocks[j].length;j<jlen;j++) {
+                        blocks[j].setAttribute('style', 'height:' + maxheight + 'px;');
+                    }
+                });
+            }
+        };
+        $(window).on('resize', initScript);
     </script>
     <script>
       (function (window) {
@@ -304,7 +296,7 @@
             Juris-M is a variant of Zotero
             with legal and multilingual support.
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12 balance">
             <a class="download-button nofloat os-installer os-is-win" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-windows-all-v4.0.28.2m43.exe">
               <div class="bigtext">
                 Juris-M for Windows
@@ -318,7 +310,7 @@
               systems (not Windows XP).
             </p>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12 balance">
             <a class="download-button nofloat os-installer os-is-mac" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-mac-all-v4.0.28.2m43.dmg">
               <div class="bigtext">
                 Juris-M for Mac
@@ -332,7 +324,7 @@
               Mac OS X systems.
             </p>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12 balance">
             <a class="download-button nofloat os-installer os-is-lin64bit" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-linux-64bit-v4.0.28.2m43.tar.bz2">
               <div class="bigtext">
                 Juris-M for Linux
@@ -345,7 +337,7 @@
               For modern Linux machines.
             </p>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12 balance">
             <a class="download-button nofloat os-installer os-is-lin32bit" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-linux-32bit-v4.0.28.2m43.tar.bz2">
               <div class="bigtext">
                 Juris-M for Linux
@@ -368,7 +360,7 @@
             Juris-M as well. Supported sites include Google Scholar,
             JSTOR, Cornell LII, Hein Online, and many more.
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 balance">
             <a class="download-button nofloat browser-installer browser-is-chrome" href="https://chrome.google.com/webstore/detail/ekhagklcjbdpajgpjgmbionohlpdbjgc">
               <div class="bigtext">
                 Google Chrome
@@ -381,7 +373,7 @@
               A small plugin for Google&rsquo;s &ldquo;Chromium&rdquo; browser, on all personal computers.
             </p>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 balance">
             <a class="download-button nofloat browser-installer browser-is-safari" href="https://download.zotero.org/connector/safari/Zotero_Connector-4.0.21-1.safariextz">
               <div class="bigtext">
                 Safari
@@ -394,7 +386,7 @@
               A small plugin for the Safari browser on Mac OSX systems.
             </p>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 balance">
             <a class="download-button nofloat browser-installer browser-is-firefox" href="https://download.zotero.org/extension/zotero-4.0.28.3.xpi">
               <div class="bigtext">
                 Firefox
@@ -435,7 +427,7 @@
       </div>
       <div class="row odd">
         <div class="col-md-3">
-          <div class="col-md-12">
+          <div class="col-md-12 balance rightsep">
             <a class="download-button nofloat" href="https://bitbucket.org/fbennett/citeproc-js/wiki/Home">
               <div class="bigtext">
                 <span class="mono">citeproc-js</span>
@@ -451,7 +443,7 @@
           </div>
         </div>
         <div class="col-md-9">
-          <div class="col-md-6">
+          <div class="col-md-6 balance">
             <a class="download-button" href="https://github.com/Juris-M/propachi-vanilla/releases/latest">
               <div class="bigtext">
                 Propachi Vanilla
@@ -471,7 +463,7 @@
               incorporating the fix is released.
             </p>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 balance">
             <a class="download-button" href="https://github.com/Juris-M/propachi-upper/releases/latest">
               <div class="bigtext">
                 Propachi Upper
