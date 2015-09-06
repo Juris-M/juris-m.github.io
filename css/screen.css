@@ -22,6 +22,10 @@ div.info-box {
     margin:0 0.5em 1em 0.5em;
 }
 
+div.rightsep {
+    border-right: 1px solid black;
+}
+
 li.selected a {
     color: black !important;
 }
