@@ -32,7 +32,7 @@
             if (document.documentElement.clientWidth >= 992) {
                 $(".downloads div.row").each(function(i){
                     var maxheight = 0;
-                    var blocks = document.evaluate(".//div[contains(@class, 'balance')]", this, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+                    var blocks = document.evaluate("//div[contains(@class, 'balance')]", this, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
                     for (var j=0,jlen=blocks.length;j<jlen;j++) {
                         var height = $(blocks[j]).outerHeight();
                         if (height > maxheight) {
