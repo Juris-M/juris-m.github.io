@@ -22,7 +22,7 @@ div.info-box {
     margin:0 0.5em 1em 0.5em;
 }
 
-div.rightsep {
+div.shaded-box {
     background: #dddddd;
 }
 
@@ -283,6 +283,11 @@ a.nofloat {
 .download-button .bigtext {
     font-size:115%;
     text-align: center;
+}
+
+.download-button .bigtext span.mono {
+    background: inherit;
+    color: inherit;
 }
 
 .download-button:hover .bigtext span.mono {
