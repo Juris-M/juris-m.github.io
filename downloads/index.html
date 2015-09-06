@@ -27,246 +27,246 @@
     <script>
       function initScript() {
 
-        $(".downloads .row.even .col-md-4, .downloads .row.odd .col-md-4").each(function(){
-          $(this).removeAttr("style");
-        });
+      $(".downloads .row.even .col-md-4, .downloads .row.odd .col-md-4").each(function(){
+      $(this).removeAttr("style");
+      });
 
-        if (document.documentElement.clientWidth >= 992) {
-      	  var heights = [null, null, null];
-          var nodes = [null, null, null];
-          $(".downloads .row.even .col-md-4, .downloads .row.odd .col-md-4").each(function(i){
-            heights[i] = $(this).outerHeight();
-            nodes[i] = this;
-            if ((i % 3) === 2) {
-              var maxheight = heights[i];
-              for (var j=-1;j>-3;j--) {
-                if (heights[i+j] > maxheight) {
-                  maxheight = heights[i+j];
-                }
-              }
-              for (var j=0;j>-3;j--) {
-                 nodes[i+j].setAttribute('style', 'height:' + maxheight + 'px;');
-              }
-              heights = [null, null, null];
-              nodes = [null, null, null];
-            }
-          });
-        }
+      if (document.documentElement.clientWidth >= 992) {
+      var heights = [null, null, null];
+      var nodes = [null, null, null];
+      $(".downloads .row.even .col-md-4, .downloads .row.odd .col-md-4").each(function(i){
+      heights[i] = $(this).outerHeight();
+      nodes[i] = this;
+      if ((i % 3) === 2) {
+      var maxheight = heights[i];
+      for (var j=-1;j>-3;j--) {
+      if (heights[i+j] > maxheight) {
+      maxheight = heights[i+j];
+      }
+      }
+      for (var j=0;j>-3;j--) {
+      nodes[i+j].setAttribute('style', 'height:' + maxheight + 'px;');
+      }
+      heights = [null, null, null];
+      nodes = [null, null, null];
+      }
+      });
+      }
       };
       $(window).on('resize', initScript);
     </script>
     <script>
       (function (window) {
-          {
-          /* test cases
-              alert(
-                  'browserInfo result: OS: ' + browserInfo.os +' '+ browserInfo.osVersion + '\n'+
-                      'Browser: ' + browserInfo.browser +' '+ browserInfo.browserVersion + '\n' +
-                      'Mobile: ' + browserInfo.mobile + '\n' +
-                      'Cookies: ' + browserInfo.cookies + '\n' +
-                      'Screen Size: ' + browserInfo.screen
-              );
-          */
-              var unknown = 'Unknown';
+      {
+      /* test cases
+      alert(
+      'browserInfo result: OS: ' + browserInfo.os +' '+ browserInfo.osVersion + '\n'+
+      'Browser: ' + browserInfo.browser +' '+ browserInfo.browserVersion + '\n' +
+      'Mobile: ' + browserInfo.mobile + '\n' +
+      'Cookies: ' + browserInfo.cookies + '\n' +
+      'Screen Size: ' + browserInfo.screen
+      );
+      */
+      var unknown = 'Unknown';
       
-              // screen
-              var screenSize = '';
-              if (screen.width) {
-                  width = (screen.width) ? screen.width : '';
-                  height = (screen.height) ? screen.height : '';
-                  screenSize += '' + width + " x " + height;
-              }
-      
-              //browser
-              var nVer = navigator.appVersion;
-              var nAgt = navigator.userAgent;
-              var browser = navigator.appName;
-              var version = '' + parseFloat(navigator.appVersion);
-              var majorVersion = parseInt(navigator.appVersion, 10);
-              var nameOffset, verOffset, ix;
-      
-              // Opera
-              if ((verOffset = nAgt.indexOf('Opera')) != -1) {
-                  browser = 'Opera';
-                  version = nAgt.substring(verOffset + 6);
-                  if ((verOffset = nAgt.indexOf('Version')) != -1) {
-                      version = nAgt.substring(verOffset + 8);
-                  }
-              }
-              // MSIE
-              else if ((verOffset = nAgt.indexOf('MSIE')) != -1) {
-                  browser = 'Microsoft Internet Explorer';
-                  version = nAgt.substring(verOffset + 5);
-              }
-      
-              //IE 11 no longer identifies itself as MS IE, so trap it
-              //http://stackoverflow.com/questions/17907445/how-to-detect-ie11
-              else if ((browser == 'Netscape') && (nAgt.indexOf('Trident/') != -1)) {
-      
-                  browser = 'Microsoft Internet Explorer';
-                  version = nAgt.substring(verOffset + 5);
-                  if ((verOffset = nAgt.indexOf('rv:')) != -1) {
-                      version = nAgt.substring(verOffset + 3);
-                  }
-      
-              }
-      
-              // Chrome
-              else if ((verOffset = nAgt.indexOf('Chrome')) != -1) {
-                  browser = 'Chrome';
-                  version = nAgt.substring(verOffset + 7);
-              }
-              // Safari
-              else if ((verOffset = nAgt.indexOf('Safari')) != -1) {
-                  browser = 'Safari';
-                  version = nAgt.substring(verOffset + 7);
-                  if ((verOffset = nAgt.indexOf('Version')) != -1) {
-                      version = nAgt.substring(verOffset + 8);
-                  }
-      
-                  // Chrome on iPad identifies itself as Safari. Actual results do not match what Google claims
-                  //  at: https://developers.google.com/chrome/mobile/docs/user-agent?hl=ja
-                  //  No mention of chrome in the user agent string. However it does mention CriOS, which presumably
-                  //  can be keyed on to detect it.
-                  if (nAgt.indexOf('CriOS') != -1) {
-                      //Chrome on iPad spoofing Safari...correct it.
-                      browser = 'Chrome';
-                      //Don't believe there is a way to grab the accurate version number, so leaving that for now.
-                  }
-              }
-              // Firefox
-              else if ((verOffset = nAgt.indexOf('Firefox')) != -1) {
-                  browser = 'Firefox';
-                  version = nAgt.substring(verOffset + 8);
-              }
-              // Other browsers
-              else if ((nameOffset = nAgt.lastIndexOf(' ') + 1) < (verOffset = nAgt.lastIndexOf('/'))) {
-                  browser = nAgt.substring(nameOffset, verOffset);
-                  version = nAgt.substring(verOffset + 1);
-                  if (browser.toLowerCase() == browser.toUpperCase()) {
-                      browser = navigator.appName;
-                  }
-              }
-              // trim the version string
-              if ((ix = version.indexOf(';')) != -1) version = version.substring(0, ix);
-              if ((ix = version.indexOf(' ')) != -1) version = version.substring(0, ix);
-              if ((ix = version.indexOf(')')) != -1) version = version.substring(0, ix);
-      
-              majorVersion = parseInt('' + version, 10);
-              if (isNaN(majorVersion)) {
-                  version = '' + parseFloat(navigator.appVersion);
-                  majorVersion = parseInt(navigator.appVersion, 10);
-              }
-      
-              // mobile version
-              var mobile = /Mobile|mini|Fennec|Android|iP(ad|od|hone)/.test(nVer);
-      
-              // cookie
-              var cookieEnabled = (navigator.cookieEnabled) ? true : false;
-      
-              if (typeof navigator.cookieEnabled == 'undefined' && !cookieEnabled) {
-                  document.cookie = 'testcookie';
-                  cookieEnabled = (document.cookie.indexOf('testcookie') != -1) ? true : false;
-              }
-      
-              // system
-              var os = unknown;
-              var clientStrings = [
-                  {s:'Windows 3.11', r:/Win16/},
-                  {s:'Windows 95', r:/(Windows 95|Win95|Windows_95)/},
-                  {s:'Windows ME', r:/(Win 9x 4.90|Windows ME)/},
-                  {s:'Windows 98', r:/(Windows 98|Win98)/},
-                  {s:'Windows CE', r:/Windows CE/},
-                  {s:'Windows 2000', r:/(Windows NT 5.0|Windows 2000)/},
-                  {s:'Windows XP', r:/(Windows NT 5.1|Windows XP)/},
-                  {s:'Windows Server 2003', r:/Windows NT 5.2/},
-                  {s:'Windows Vista', r:/Windows NT 6.0/},
-                  {s:'Windows 7', r:/(Windows 7|Windows NT 6.1)/},
-                  {s:'Windows 8.1', r:/(Windows 8.1|Windows NT 6.3)/},
-                  {s:'Windows 8', r:/(Windows 8|Windows NT 6.2)/},
-                  {s:'Windows NT 4.0', r:/(Windows NT 4.0|WinNT4.0|WinNT|Windows NT)/},
-                  {s:'Windows ME', r:/Windows ME/},
-                  {s:'Android', r:/Android/},
-                  {s:'Open BSD', r:/OpenBSD/},
-                  {s:'Sun OS', r:/SunOS/},
-                  {s:'Linux', r:/(Linux|X11)/},
-                  {s:'iOS', r:/(iPhone|iPad|iPod)/},
-                  {s:'Mac OS X', r:/Mac OS X/},
-                  {s:'Mac OS', r:/(MacPPC|MacIntel|Mac_PowerPC|Macintosh)/},
-                  {s:'QNX', r:/QNX/},
-                  {s:'UNIX', r:/UNIX/},
-                  {s:'BeOS', r:/BeOS/},
-                  {s:'OS/2', r:/OS\/2/},
-                  {s:'Search Bot', r:/(nuhk|Googlebot|Yammybot|Openbot|Slurp|MSNBot|Ask Jeeves\/Teoma|ia_archiver)/}
-              ];
-              for (var id in clientStrings) {
-                  var cs = clientStrings[id];
-                  if (cs.r.test(nAgt)) {
-                      os = cs.s;
-                      break;
-                  }
-              }
-      
-              var osVersion = unknown;
-      
-              if (/Windows/.test(os)) {
-                  osVersion = /Windows (.*)/.exec(os)[1];
-                  os = 'Windows';
-              }
-      
-              switch (os) {
-                  case 'Mac OS X':
-                      osVersion = /Mac OS X (10[\.\_\d]+)/.exec(nAgt)[1];
-                      break;
-      
-                  case 'Android':
-                      osVersion = /Android ([\.\_\d]+)/.exec(nAgt)[1];
-                      break;
-      
-                  case 'iOS':
-                      osVersion = /OS (\d+)_(\d+)_?(\d+)?/.exec(nVer);
-                      osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] | 0);
-                      break;
-      
-              }
-          }
-
-var processorLevel;
-if (navigator.userAgent.indexOf("x86_64") != -1){
-   processorLevel="64bit";
-} else {
-   processorLevel="32bit";
-}
-
-          window.browserInfo = {
-              screen: screenSize,
-              browser: browser,
-              browserVersion: version,
-              mobile: mobile,
-              os: os,
-              osVersion: osVersion,
-              cookies: cookieEnabled,
-              processor: processorLevel
-          };
-      }(this));
-      if (browserInfo.os && browserInfo.browser) {
-        var osNick = browserInfo.os.slice(0, 3).toLowerCase();
-        if (osNick == "lin") {
-           osNick += browserInfo.processor;
-        }
-        var browserNick = browserInfo.browser.toLowerCase();
-        $(window).on('load', function(){
-           $('.os-installer').each(function(index){
-               if (this.classList.contains('os-is-'+osNick)) {
-                 this.classList.add('installable');
-               } else {
-                 this.parentNode.hidden=true;
-               }
-           });
-           $('.browser-is-'+browserNick).addClass('installable');
-        });
+      // screen
+      var screenSize = '';
+      if (screen.width) {
+      width = (screen.width) ? screen.width : '';
+      height = (screen.height) ? screen.height : '';
+      screenSize += '' + width + " x " + height;
       }
-  </script>
+      
+      //browser
+      var nVer = navigator.appVersion;
+      var nAgt = navigator.userAgent;
+      var browser = navigator.appName;
+      var version = '' + parseFloat(navigator.appVersion);
+      var majorVersion = parseInt(navigator.appVersion, 10);
+      var nameOffset, verOffset, ix;
+      
+      // Opera
+      if ((verOffset = nAgt.indexOf('Opera')) != -1) {
+      browser = 'Opera';
+      version = nAgt.substring(verOffset + 6);
+      if ((verOffset = nAgt.indexOf('Version')) != -1) {
+      version = nAgt.substring(verOffset + 8);
+      }
+      }
+      // MSIE
+      else if ((verOffset = nAgt.indexOf('MSIE')) != -1) {
+      browser = 'Microsoft Internet Explorer';
+      version = nAgt.substring(verOffset + 5);
+      }
+      
+      //IE 11 no longer identifies itself as MS IE, so trap it
+      //http://stackoverflow.com/questions/17907445/how-to-detect-ie11
+      else if ((browser == 'Netscape') && (nAgt.indexOf('Trident/') != -1)) {
+      
+      browser = 'Microsoft Internet Explorer';
+      version = nAgt.substring(verOffset + 5);
+      if ((verOffset = nAgt.indexOf('rv:')) != -1) {
+      version = nAgt.substring(verOffset + 3);
+      }
+      
+      }
+      
+      // Chrome
+      else if ((verOffset = nAgt.indexOf('Chrome')) != -1) {
+      browser = 'Chrome';
+      version = nAgt.substring(verOffset + 7);
+      }
+      // Safari
+      else if ((verOffset = nAgt.indexOf('Safari')) != -1) {
+      browser = 'Safari';
+      version = nAgt.substring(verOffset + 7);
+      if ((verOffset = nAgt.indexOf('Version')) != -1) {
+      version = nAgt.substring(verOffset + 8);
+      }
+      
+      // Chrome on iPad identifies itself as Safari. Actual results do not match what Google claims
+      //  at: https://developers.google.com/chrome/mobile/docs/user-agent?hl=ja
+      //  No mention of chrome in the user agent string. However it does mention CriOS, which presumably
+      //  can be keyed on to detect it.
+      if (nAgt.indexOf('CriOS') != -1) {
+      //Chrome on iPad spoofing Safari...correct it.
+      browser = 'Chrome';
+      //Don't believe there is a way to grab the accurate version number, so leaving that for now.
+      }
+      }
+      // Firefox
+      else if ((verOffset = nAgt.indexOf('Firefox')) != -1) {
+      browser = 'Firefox';
+      version = nAgt.substring(verOffset + 8);
+      }
+      // Other browsers
+      else if ((nameOffset = nAgt.lastIndexOf(' ') + 1) < (verOffset = nAgt.lastIndexOf('/'))) {
+                                                          browser = nAgt.substring(nameOffset, verOffset);
+                                                          version = nAgt.substring(verOffset + 1);
+                                                          if (browser.toLowerCase() == browser.toUpperCase()) {
+                                                          browser = navigator.appName;
+                                                          }
+                                                          }
+                                                          // trim the version string
+                                                          if ((ix = version.indexOf(';')) != -1) version = version.substring(0, ix);
+                                                          if ((ix = version.indexOf(' ')) != -1) version = version.substring(0, ix);
+                                                          if ((ix = version.indexOf(')')) != -1) version = version.substring(0, ix);
+                                                          
+                                                          majorVersion = parseInt('' + version, 10);
+                                                          if (isNaN(majorVersion)) {
+                                                          version = '' + parseFloat(navigator.appVersion);
+                                                          majorVersion = parseInt(navigator.appVersion, 10);
+                                                          }
+                                                          
+                                                          // mobile version
+                                                          var mobile = /Mobile|mini|Fennec|Android|iP(ad|od|hone)/.test(nVer);
+                                                          
+                                                          // cookie
+                                                          var cookieEnabled = (navigator.cookieEnabled) ? true : false;
+                                                          
+                                                          if (typeof navigator.cookieEnabled == 'undefined' && !cookieEnabled) {
+                                                          document.cookie = 'testcookie';
+                                                          cookieEnabled = (document.cookie.indexOf('testcookie') != -1) ? true : false;
+                                                          }
+                                                          
+                                                          // system
+                                                          var os = unknown;
+                                                          var clientStrings = [
+                                                          {s:'Windows 3.11', r:/Win16/},
+                                                          {s:'Windows 95', r:/(Windows 95|Win95|Windows_95)/},
+                                                          {s:'Windows ME', r:/(Win 9x 4.90|Windows ME)/},
+                                                          {s:'Windows 98', r:/(Windows 98|Win98)/},
+                                                          {s:'Windows CE', r:/Windows CE/},
+                                                          {s:'Windows 2000', r:/(Windows NT 5.0|Windows 2000)/},
+                                                          {s:'Windows XP', r:/(Windows NT 5.1|Windows XP)/},
+                                                          {s:'Windows Server 2003', r:/Windows NT 5.2/},
+                                                          {s:'Windows Vista', r:/Windows NT 6.0/},
+                                                          {s:'Windows 7', r:/(Windows 7|Windows NT 6.1)/},
+                                                          {s:'Windows 8.1', r:/(Windows 8.1|Windows NT 6.3)/},
+                                                          {s:'Windows 8', r:/(Windows 8|Windows NT 6.2)/},
+                                                          {s:'Windows NT 4.0', r:/(Windows NT 4.0|WinNT4.0|WinNT|Windows NT)/},
+                                                          {s:'Windows ME', r:/Windows ME/},
+                                                          {s:'Android', r:/Android/},
+                                                          {s:'Open BSD', r:/OpenBSD/},
+                                                          {s:'Sun OS', r:/SunOS/},
+                                                          {s:'Linux', r:/(Linux|X11)/},
+                                                          {s:'iOS', r:/(iPhone|iPad|iPod)/},
+                                                          {s:'Mac OS X', r:/Mac OS X/},
+                                                          {s:'Mac OS', r:/(MacPPC|MacIntel|Mac_PowerPC|Macintosh)/},
+                                                          {s:'QNX', r:/QNX/},
+                                                          {s:'UNIX', r:/UNIX/},
+                                                          {s:'BeOS', r:/BeOS/},
+                                                          {s:'OS/2', r:/OS\/2/},
+                                                          {s:'Search Bot', r:/(nuhk|Googlebot|Yammybot|Openbot|Slurp|MSNBot|Ask Jeeves\/Teoma|ia_archiver)/}
+                                                          ];
+                                                          for (var id in clientStrings) {
+                                                          var cs = clientStrings[id];
+                                                          if (cs.r.test(nAgt)) {
+                                                          os = cs.s;
+                                                          break;
+                                                          }
+                                                          }
+                                                          
+                                                          var osVersion = unknown;
+                                                          
+                                                          if (/Windows/.test(os)) {
+                                                          osVersion = /Windows (.*)/.exec(os)[1];
+                                                          os = 'Windows';
+                                                          }
+                                                          
+                                                          switch (os) {
+                                                          case 'Mac OS X':
+                                                          osVersion = /Mac OS X (10[\.\_\d]+)/.exec(nAgt)[1];
+                                                          break;
+                                                          
+                                                          case 'Android':
+                                                          osVersion = /Android ([\.\_\d]+)/.exec(nAgt)[1];
+                                                          break;
+                                                          
+                                                          case 'iOS':
+                                                          osVersion = /OS (\d+)_(\d+)_?(\d+)?/.exec(nVer);
+                                                          osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] | 0);
+                                                          break;
+                                                          
+                                                          }
+                                                          }
+
+                                                          var processorLevel;
+                                                          if (navigator.userAgent.indexOf("x86_64") != -1){
+                                                          processorLevel="64bit";
+                                                          } else {
+                                                          processorLevel="32bit";
+                                                          }
+
+                                                          window.browserInfo = {
+                                                          screen: screenSize,
+                                                          browser: browser,
+                                                          browserVersion: version,
+                                                          mobile: mobile,
+                                                          os: os,
+                                                          osVersion: osVersion,
+                                                          cookies: cookieEnabled,
+                                                          processor: processorLevel
+                                                          };
+                                                          }(this));
+                                                          if (browserInfo.os && browserInfo.browser) {
+                                                          var osNick = browserInfo.os.slice(0, 3).toLowerCase();
+                                                          if (osNick == "lin") {
+                                                          osNick += browserInfo.processor;
+                                                          }
+                                                          var browserNick = browserInfo.browser.toLowerCase();
+                                                          $(window).on('load', function(){
+                                                          $('.os-installer').each(function(index){
+                                                          if (this.classList.contains('os-is-'+osNick)) {
+                                                          this.classList.add('installable');
+                                                          } else {
+                                                          this.parentNode.hidden=true;
+                                                          }
+                                                          });
+                                                          $('.browser-is-'+browserNick).addClass('installable');
+                                                          });
+                                                          }
+                                                          </script>
   </head>
   <body onload="initScript();">
     <div class="container">
@@ -305,7 +305,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
             with legal and multilingual support.
           </div>
           <div class="col-md-12">
-            <a class="download-button os-installer os-is-win" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-windows-all-v4.0.28.2m43.exe">
+            <a class="download-button nofloat os-installer os-is-win" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-windows-all-v4.0.28.2m43.exe">
               <div class="bigtext">
                 Juris-M for Windows
               </div>
@@ -319,7 +319,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
             </p>
           </div>
           <div class="col-md-12">
-            <a class="download-button os-installer os-is-mac" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-mac-all-v4.0.28.2m43.dmg">
+            <a class="download-button nofloat os-installer os-is-mac" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-mac-all-v4.0.28.2m43.dmg">
               <div class="bigtext">
                 Juris-M for Mac
               </div>
@@ -333,7 +333,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
             </p>
           </div>
           <div class="col-md-12">
-            <a class="download-button os-installer os-is-lin64bit" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-linux-64bit-v4.0.28.2m43.tar.bz2">
+            <a class="download-button nofloat os-installer os-is-lin64bit" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-linux-64bit-v4.0.28.2m43.tar.bz2">
               <div class="bigtext">
                 Juris-M for Linux
               </div>
@@ -346,7 +346,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
             </p>
           </div>
           <div class="col-md-12">
-            <a class="download-button os-installer os-is-lin32bit" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-linux-32bit-v4.0.28.2m43.tar.bz2">
+            <a class="download-button nofloat os-installer os-is-lin32bit" href="https://github.com/Juris-M/zotero-standalone-build/releases/download/4.0.28.2m43/jurism-for-linux-32bit-v4.0.28.2m43.tar.bz2">
               <div class="bigtext">
                 Juris-M for Linux
               </div>
@@ -364,7 +364,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
           <div class="info-box">
             Use a browser plugin to add items to your Juris-M Client
             library. The <a href="https://www.zotero.org/download/">official
-            Zotero plugins</a>, linked below, are compatible with
+              Zotero plugins</a>, linked below, are compatible with
             Juris-M as well. Supported sites include Google Scholar,
             JSTOR, Cornell LII, Hein Online, and many more.
           </div>
@@ -434,60 +434,64 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
         </div>
       </div>
       <div class="row odd">
-        <div class="col-md-2">
-          <a class="download-button" href="https://bitbucket.org/fbennett/citeproc-js/wiki/Home">
-            <div class="bigtext">
-              <span class="mono">citeproc-js</span>
-            </div>
-            <div class="smalltext">
-              visit project site
-            </div>
-          </a>
-          <p>
-            The processor code itself is primarily of interest to
-            site maintainers and software developers.
-          </p>
+        <div class="col-md-3">
+          <div class="col-md-12">
+            <a class="download-button nofloat" href="https://bitbucket.org/fbennett/citeproc-js/wiki/Home">
+              <div class="bigtext">
+                <span class="mono">citeproc-js</span>
+              </div>
+              <div class="smalltext">
+                visit project site
+              </div>
+            </a>
+            <p>
+              The processor code itself is primarily of interest to
+              site maintainers and software developers.
+            </p>
+          </div>
         </div>
-        <div class="col-md-5">
-          <a class="download-button" href="https://github.com/Juris-M/propachi-vanilla/releases/latest">
-            <div class="bigtext">
-              Propachi Vanilla
-            </div>
-            <div class="smalltext">
-              latest processor version
-            </div>
-          </a>
-          <p>
-            On rare occasions, issues arise that require a change in
-            the core code of the citation processor. Zotero and
-            Juris-M users who wish to take advantage of a fix
-            immediately can do so by installing
-            this <span class="mono">propachi-vanilla</span>
-            plugin. Its only effect is to swap in the latest processor
-            version, and it can be removed when a Zotero version
-            incorporating the fix is released.
-          </p>
-        </div>
-        <div class="col-md-5">
-          <a class="download-button" href="https://github.com/Juris-M/propachi-upper/releases/latest">
-            <div class="bigtext">
-              Propachi Upper
-            </div>
-            <div class="smalltext">
-              uppercase subtitles
-            </div>
-          </a>
-          <p>
-            Some citation styles require that the first character of a
-            subtitle in &ldquo;sentence case&rdquo; be capitalized,
-            and others do not. CSL does not currently have a
-            mechanism for representing this difference,
-            and <span class="mono">citeproc-js</span> will render
-            subtitles as written. Zotero and Juris-M users who require uppercasing
-            of the first character in subtitles can install
-            this <span class="mono">propachi-upper</span> plugin to
-            achieve the desired effect.
-          </p>
+        <div class="col-md-9">
+          <div class="col-md-6">
+            <a class="download-button" href="https://github.com/Juris-M/propachi-vanilla/releases/latest">
+              <div class="bigtext">
+                Propachi Vanilla
+              </div>
+              <div class="smalltext">
+                latest processor version
+              </div>
+            </a>
+            <p>
+              On rare occasions, issues arise that require a change in
+              the core code of the citation processor. Zotero and
+              Juris-M users who wish to take advantage of a fix
+              immediately can do so by installing
+              this <span class="mono">propachi-vanilla</span>
+              plugin. Its only effect is to swap in the latest processor
+              version, and it can be removed when a Zotero version
+              incorporating the fix is released.
+            </p>
+          </div>
+          <div class="col-md-6">
+            <a class="download-button" href="https://github.com/Juris-M/propachi-upper/releases/latest">
+              <div class="bigtext">
+                Propachi Upper
+              </div>
+              <div class="smalltext">
+                uppercase subtitles
+              </div>
+            </a>
+            <p>
+              Some citation styles require that the first character of a
+              subtitle in &ldquo;sentence case&rdquo; be capitalized,
+              and others do not. CSL does not currently have a
+              mechanism for representing this difference,
+              and <span class="mono">citeproc-js</span> will render
+              subtitles as written. Zotero and Juris-M users who require uppercasing
+              of the first character in subtitles can install
+              this <span class="mono">propachi-upper</span> plugin to
+              achieve the desired effect.
+            </p>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -573,7 +577,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
             The <b>Abbreviation Filter</b> provides style-specific
             abbreviation lists for use with the Juris-M Client,
             including those set forth in <span class="small-caps">The
-            Bluebook: A Uniform System of Citation</span>.
+              Bluebook: A Uniform System of Citation</span>.
           </p>
           <p>
             The Filter provides an interface for adding, editing and
@@ -581,7 +585,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
             an <span class="buttony grey">Abbrevs.</span> button that
             appears in the word processor citation popups of Juris-M
             and Zotero, and via the <span class="buttony grey">Open
-            Style Editor</span> pane of Juris-M. (The Filter will
+              Style Editor</span> pane of Juris-M. (The Filter will
             function in official Zotero, although it is not currently
             accessible in the Style Editor.)
           </p>
@@ -614,7 +618,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
             If you experience problems with this plugin, please
             report them to the <a href="https://forums.zotero.org/discussions/">Zotero 
               forums</a> with a distinguishing marker like "[Juris-M]" in the
-              subject line.
+            subject line.
           </p>
         </div>
         <div class="col-md-4">
@@ -632,7 +636,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
             If you experience problems with this plugin, please
             report them to the <a href="https://forums.zotero.org/discussions/">Zotero 
               forums</a> with a distinguishing marker like "[Juris-M]" in the
-              subject line.
+            subject line.
           </p>
         </div>
         <div class="col-md-4">
@@ -650,7 +654,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
             If you experience problems with this plugin, please
             report them to the <a href="https://forums.zotero.org/discussions/">Zotero 
               forums</a> with a distinguishing marker like "[Juris-M]" in the
-              subject line.
+            subject line.
           </p>
         </div>
       </div>
@@ -691,8 +695,8 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
             that individual citations lend to the author&rdquo;s
             argument (to
             wit: <i>e.g.</i>, <i>accord</i>, <i>see</i>, <i>see
-            also</i>, <i>cf.</i>, <i>contra</i>, <i>but
-            see</i>, <i>but cf.</i>, and <i>see generally</i>).
+              also</i>, <i>cf.</i>, <i>contra</i>, <i>but
+              see</i>, <i>but cf.</i>, and <i>see generally</i>).
           </p>
           <p>
             This plugin enables convenient shortcut entry of such
@@ -745,7 +749,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
             incorporate Juris-M modular legal style support. The code
             of this style will be finished out when the text of
             the <a href="http://www.abajournal.com/magazine/article/legal_minds_differ_on_whether_the_bluebook_is_subject_to_copyright_protecti">Baby
-            Blue</a> style guide is release later this year.
+              Blue</a> style guide is release later this year.
           </p>
           <p>
             With the deployment of the Juris-M client, the MLZ family
@@ -773,7 +777,7 @@ if (navigator.userAgent.indexOf("x86_64") != -1){
           <p>
             See
             <a href="http://www.abajournal.com/magazine/article/legal_minds_differ_on_whether_the_bluebook_is_subject_to_copyright_protecti">Leslie Gordon, "Legal minds differ on whether The Bluebook
-            is subject to copyright," ABA Journal, February&nbsp;1, 2015</a> for information on the Baby Blue
+              is subject to copyright," ABA Journal, February&nbsp;1, 2015</a> for information on the Baby Blue
             project, and on the cause of the upcoming change in the name of the stylesheet.
           </p>
         </div>
