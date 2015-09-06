@@ -39,7 +39,7 @@
                             maxheight = height;
                         }
                     }
-                    for (var j=0,jlen=blocks.length;j<jlen;j++) {
+                    for (var j=blocks.length-1;j>-1;j--) {
                         blocks[j].setAttribute('style', 'height:' + maxheight + 'px;');
                     }
                 });
