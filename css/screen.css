@@ -15,6 +15,10 @@ html,body
     overflow-x: hidden; 
 }
 
+a.nogo {
+    border-color: red;
+}
+
 div.info-box {
     background:#dddddd;
     border-radius:1.5em;
