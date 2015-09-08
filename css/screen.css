@@ -273,8 +273,8 @@ a.disabled-link:hover {
 }
 
 a.nofloat {
-    float: none;
-    display: block;
+    float: none !important;
+    display: block !important;
 }
 
 .download-button:hover {
