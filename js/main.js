@@ -336,6 +336,7 @@ var CSLValidator = (function() {
                 }
                 var locale = localesToLoad[pos];
                 var xhr = new XMLHttpRequest();
+                locale = locale.replace("_", "-");
                 dump('../src/locales/locales-' + locale + '.xml\n');
                 xhr.open('GET', '../src/locales/locales-' + locale + '.xml', true);
                 xhr.setRequestHeader("Content-type","text/xml");
