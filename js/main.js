@@ -351,7 +351,8 @@ var CSLValidator = (function() {
                                 desc: xhr.statusText,
                                 disable: true
                             }
-                            gh.ghMsg(errorSpec);
+                            //gh.ghMsg(errorSpec);
+                            dump("XXX " + JSON.stringify(errorSpec) + "\n");
                         }
                     }
                 }
@@ -361,7 +362,8 @@ var CSLValidator = (function() {
                         desc: "Failure attempting to load locales",
                         disable: true
                     }
-                    gh.ghMsg(errorSpec);
+                    //gh.ghMsg(errorSpec);
+                    dump("XXX " + JSON.stringify(errorSpec) + "\n");
                 };
                 xhr.send(null);
             }
