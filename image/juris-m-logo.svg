@@ -16,9 +16,9 @@
    version="1.1"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="juris-m-logo.svg"
-   inkscape:export-filename="/home/bennett/src-local/zotero/branding/gree-button-16px-active.png"
-   inkscape:export-xdpi="8.0325432"
-   inkscape:export-ydpi="8.0325432">
+   inkscape:export-filename="/home/bennett/Pictures/jurism-logo-big.png"
+   inkscape:export-xdpi="230.46536"
+   inkscape:export-ydpi="230.46536">
   <defs
      id="defs4">
     <linearGradient
@@ -69,7 +69,7 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1375"
+     inkscape:window-width="1535"
      inkscape:window-height="876"
      inkscape:window-x="65"
      inkscape:window-y="24"
@@ -97,7 +97,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -177,7 +177,7 @@
        sodipodi:cy="327.36218"
        sodipodi:rx="125.71429"
        sodipodi:ry="125.71429"
-       d="m 477.03944,322.26436 a 125.71429,125.71429 0 1 1 -3.4e-4,-0.009 l -125.61054,5.10632 z"
+       d="m 477.03944,322.26436 c 2.81545,69.37297 -51.14008,127.89325 -120.51306,130.70871 -69.37297,2.81545 -127.89325,-51.14009 -130.70871,-120.51306 -2.81545,-69.37298 51.14009,-127.89326 120.51306,-130.70871 69.36966,-2.81532 127.88836,51.1351 130.70837,120.50456 l -125.61054,5.10632 z"
        sodipodi:start="6.2426233"
        sodipodi:end="12.525741"
        transform="matrix(0.4790542,0,0,0.47996294,327.13723,288.17721)"
@@ -192,7 +192,7 @@
        sodipodi:cy="285.57648"
        sodipodi:rx="48.57143"
        sodipodi:ry="31.071428"
-       d="m 213.53148,284.3165 a 48.57143,31.071428 0 1 1 -1.3e-4,-0.002 L 165,285.57648 z"
+       d="m 213.53148,284.3165 c 1.08779,17.14616 -19.75867,31.60998 -46.56187,32.30585 -26.80319,0.69586 -49.4133,-12.63974 -50.50109,-29.7859 -1.08779,-17.14616 19.75867,-31.60998 46.56187,-32.30584 26.80191,-0.69584 49.41141,12.6385 50.50096,29.78379 L 165,285.57648 z"
        sodipodi:start="6.2426233"
        sodipodi:end="12.525741"
        transform="matrix(0.94691129,0,0,0.98169807,338.43651,137.97941)"
