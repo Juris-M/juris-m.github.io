@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.68",
+    PROCESSOR_VERSION: "1.1.70",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -9312,7 +9312,7 @@ CSL.Attributes["@locator"] = function (state, arg) {
     var maketest = function (trylabel) {
         return function(Item, item) {
             var label;
-            state.processNumber(node, item, "locator");
+            state.processNumber(false, item, "locator");
             label = state.tmp.shadow_numbers.locator.label;
             if (trylabel === label) {
                 return true;
@@ -12712,7 +12712,7 @@ CSL.Util.outputNumericField = function(state, varname, itemID) {
         }
         lastLabelName === labelName;
     }
-    state.output.closeLevel("empty");
+    state.output.closeLevel();
 }
 CSL.Util.PageRangeMangler = {};
 CSL.Util.PageRangeMangler.getFunction = function (state, rangeType) {
