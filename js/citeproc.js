@@ -10,7 +10,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.76",
+    PROCESSOR_VERSION: "1.1.77",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -9356,7 +9356,7 @@ CSL.evaluateLabel = function (node, state, Item, item) {
 };
 CSL.castLabel = function (state, node, term, plural, mode) {
     var label_form = node.strings.form;
-    if (state.tmp.group_context.value()[5]) {
+    if (state.tmp.group_context.value()[5] && label_form !== "static") {
         label_form = state.tmp.group_context.value()[5];
     }
     var ret = state.getTerm(term, label_form, plural, false, mode);
