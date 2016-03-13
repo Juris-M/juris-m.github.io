@@ -6647,7 +6647,10 @@ CSL.Node.group = {
                 }
                 var condition = false;
                 var force_suppress = false;
-                if (this.strings.reject) {
+                if (state.tmp.group_context.tip.condition) {
+                    condition = state.tmp.group_context.tip.condition;
+                    force_suppress = state.tmp.group_context.tip.force_suppress;
+                } else if (this.strings.reject) {
                     condition = {
                         test: this.strings.reject,
                         not: true
@@ -6792,6 +6795,9 @@ CSL.Node.group = {
                 state.output.endTag();
                 if (flags.variable_attempt) {
                     state.tmp.group_context.tip.variable_attempt = true;
+                }
+                if (state.tmp.group_context.tip.condition) {
+                    state.tmp.group_context.tip.force_suppress = flags.force_suppress;
                 }
                 if (!flags.force_suppress && (flags.variable_success || (flags.term_intended && !flags.variable_attempt))) {
                     if (!this.isJurisLocatorLabel) {
@@ -7149,7 +7155,7 @@ CSL.Node.key = {
             if (state.sys.normalizeUnicode) {
                 keystring = state.sys.normalizeUnicode(keystring);
             }
-            keystring = keystring.split(" ").join("");
+            keystring = keystring.split(" ").join("A");
             if ("" === keystring) {
                 keystring = undefined;
             }
