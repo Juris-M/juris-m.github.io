@@ -10,7 +10,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.77",
+    PROCESSOR_VERSION: "1.1.79",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -1786,9 +1786,9 @@ CSL.getMacroTarget = function (mkey) {
     return mytarget;
 }
 CSL.runAltMacro = function (state, alt_macro, Item, item) {
-    var flag = state.tmp.group_context.value();
-    if (((flag[1] && !flag[2]) || (!flag[0] && !flag[1])) && alt_macro) {
-        flag[1] = false;
+    var flags = state.tmp.group_context.tip;
+    if (((flags.variable_attempt && !flags.variable_success) || (!flags.term_intended && !flags.variable_attempt)) && alt_macro) {
+        flags.variable_attempt = false;
         var mytarget = CSL.getMacroTarget.call(state, alt_macro);
         if (mytarget) {
             var macro_nodes = state.cslXml.getNodesByName(state.cslXml.dataObj, 'macro', alt_macro);
@@ -4348,7 +4348,17 @@ CSL.Engine.Tmp = function () {
     this.element_rendered_ok = false;
     this.element_trace = new CSL.Stack("style");
     this.nameset_counter = 0;
-    this.group_context = new CSL.Stack([false, false, false], CSL.LITERAL);
+    this.group_context = new CSL.Stack({
+        term_intended: false,
+        variable_attempt: false,
+        variable_success: false,
+        output_tip: undefined,
+        label_form:  undefined,
+        parallel_conditions: undefined,
+        condition: false,
+        force_suppress: false,
+        done_vars: []
+    });
     this.term_predecessor = false;
     this.jump = new CSL.Stack(0, CSL.LITERAL);
     this.decorations = new CSL.Stack();
@@ -4989,7 +4999,18 @@ CSL.Engine.prototype.makeCitationCluster = function (rawList) {
 };
 CSL.getAmbiguousCite = function (Item, disambig, visualForm, item) {
     var use_parallels, ret;
-    var oldTermSiblingLayer = this.tmp.group_context.value().slice();
+    var flags = this.tmp.group_context.tip;
+    var oldTermSiblingLayer = {
+        term_intended: flags.term_intended,
+        variable_attempt: flags.variable_attempt,
+        variable_success: flags.variable_success,
+        output_tip: flags.output_tip,
+        label_form: flags.label_form,
+        parallel_conditions: flags.parallel_conditions,
+        condition: flags.condition,
+        force_suppress: flags.force_suppress,
+        done_vars: flags.done_vars.slice()
+    }
     if (disambig) {
         this.tmp.disambig_request = disambig;
     } else {
@@ -5032,7 +5053,7 @@ CSL.getAmbiguousCite = function (Item, disambig, visualForm, item) {
     this.tmp.just_looking = false;
     this.tmp.suppress_decorations = false;
     this.parallel.use_parallels = this.parallel.use_parallels === null ? true : false;
-    this.tmp.group_context.replace(oldTermSiblingLayer, "literal");
+    this.tmp.group_context.replace(oldTermSiblingLayer);
     return ret;
 };
 CSL.getSpliceDelimiter = function (last_collapsed, pos) {
@@ -6535,7 +6556,7 @@ CSL.Node["date-part"] = {
                 if (state.tmp.date_object.season) {
                     value = "" + state.tmp.date_object.season;
                     if (value && value.match(/^[1-4]$/)) {
-                        state.tmp.group_context.replace([false, false, true]);
+                        state.tmp.group_context.tip.variable_success = true;
                         state.output.append(state.getTerm(("season-0" + value)), this);
                     } else if (value) {
                         state.output.append(value, this);
@@ -6618,16 +6639,39 @@ CSL.Node.group = {
             func = function (state, Item) {
                 state.output.startTag("group", this);
                 if (state.tmp.group_context.mystack.length) {
-                    state.output.current.value().parent = state.tmp.group_context.value()[4];
+                    state.output.current.value().parent = state.tmp.group_context.tip.output_tip;
                 }
-                var label_form = state.tmp.group_context.value()[5];
+                var label_form = state.tmp.group_context.tip.label_form;
                 if (!label_form && this.strings.label_form_override) {
                     label_form = this.strings.label_form_override;
                 }
-                state.tmp.group_context.push([false, false, false, false, state.output.current.value(), label_form, this.strings.set_parallel_condition], CSL.LITERAL);
-                if (this.strings.oops) {
-                    state.tmp.group_context.value()[3] = this.strings.oops;
+                var condition = false;
+                var force_suppress = false;
+                if (this.strings.reject) {
+                    condition = {
+                        test: this.strings.reject,
+                        not: true
+                    }
+                    force_suppress = true;
+                    done_vars = [];
+                } else if (this.strings.require) {
+                    condition = {
+                        test: this.strings.require,
+                        not: false
+                    }
+                    done_vars = [];
                 }
+                state.tmp.group_context.push({
+                    term_intended: false,
+                    variable_attempt: false,
+                    variable_success: false,
+                    output_tip: state.output.current.tip,
+                    label_form: label_form,
+                    parallel_conditions: this.strings.set_parallel_condition,
+                    condition: condition,
+                    force_suppress: force_suppress,
+                    done_vars: state.tmp.group_context.tip.done_vars.slice()
+                });
             };
             execs = [];
             execs.push(func);
@@ -6744,33 +6788,36 @@ CSL.Node.group = {
                 }
             }
             func = function (state, Item) {
-                var flag = state.tmp.group_context.pop();
+                var flags = state.tmp.group_context.pop();
                 state.output.endTag();
-                var upperflag = state.tmp.group_context.value();
-                if (flag[1]) {
-                    state.tmp.group_context.value()[1] = true;
+                if (flags.variable_attempt) {
+                    state.tmp.group_context.tip.variable_attempt = true;
                 }
-                if (flag[2] || (flag[0] && !flag[1])) {
+                if (!flags.force_suppress && (flags.variable_success || (flags.term_intended && !flags.variable_attempt))) {
                     if (!this.isJurisLocatorLabel) {
-                        state.tmp.group_context.value()[2] = true;
+                        state.tmp.group_context.tip.variable_success = true;
                     }
                     var blobs = state.output.current.value().blobs;
                     var pos = state.output.current.value().blobs.length - 1;
-                    if (!state.tmp.just_looking && "undefined" !== typeof flag[6]) {
+                    if (!state.tmp.just_looking && "undefined" !== typeof flags.parallel_conditions) {
                         var parallel_condition_object = {
                             blobs: blobs,
-                            conditions: flag[6],
+                            conditions: flags.parallel_conditions,
                             id: Item.id,
                             pos: pos
                         };
                         state.parallel.parallel_conditional_blobs_list.push(parallel_condition_object);
                     }
                 } else {
+                    if (flags.force_suppress) {
+                        for (var i=0,ilen=flags.done_vars.length;i<ilen;i++) {
+                            if (state.tmp.done_vars.indexOf(flags.done_vars[i]) > -1) {
+                                state.tmp.done_vars = state.tmp.done_vars.slice(0, i).concat(state.tmp.done_vars.slice(i+1));
+                            }
+                        }
+                    }
                     if (state.output.current.value().blobs) {
                         state.output.current.value().blobs.pop();
-                    }
-                    if (state.tmp.group_context.value()[3]) {
-                        state.output.current.mystack[state.output.current.mystack.length - 2].strings.delimiter = state.tmp.group_context.value()[3];
                     }
                 }
             };
@@ -7154,9 +7201,19 @@ CSL.Node.label = {
                     item.section_form_override = this.strings.form;
                 }
                 if (termtxt) {
-                    flag = state.tmp.group_context.value();
-                    flag[0] = true;
-                    state.tmp.group_context.replace(flag);
+                    state.tmp.group_context.tip.term_intended = true;
+                }
+                if (state.tmp.group_context.tip.condition) {
+                    if (state.tmp.group_context.tip.condition.test === "label-empty-or-alpha") {
+                        if (!termtxt || termtxt.match(/^[a-zA-Z]/)) {
+                            state.tmp.group_context.tip.force_suppress = false;
+                        } else {
+                            state.tmp.group_context.tip.force_suppress = true;
+                        }
+                        if (state.tmp.group_context.tip.condition.not) {
+                            state.tmp.group_context.tip.force_suppress = !state.tmp.group_context.tip.force_suppress;
+                        }
+                    }
                 }
                 if (termtxt.indexOf("%s") === -1) {
                     state.output.append(termtxt, this);
@@ -7455,7 +7512,7 @@ CSL.NameOutput.prototype.init = function (names) {
     this["with"] = undefined;
     this.name = undefined;
     this.institutionpart = {};
-    this.state.tmp.group_context.value()[1] = true;
+    this.state.tmp.group_context.tip.variable_attempt = true;
     if (!this.state.tmp.value.length) {
         return;
     }
@@ -7517,7 +7574,7 @@ CSL.NameOutput.prototype.outputNames = function () {
     if (this.name.strings.form === "count") {
         if (this.state.tmp.extension || this.names_count != 0) {
             this.state.output.append(this.names_count, "empty");
-            this.state.tmp.group_context.value()[2] = true;
+            this.state.tmp.group_context.tip.variable_success = true;
         }
         return;
     }
@@ -8559,7 +8616,7 @@ CSL.NameOutput.prototype._renderOneInstitutionPart = function (blobs, style) {
                     }
                 }
             }
-            this.state.tmp.group_context.value()[2] = true;
+            this.state.tmp.group_context.tip.variable_success = true;
             this.state.tmp.can_substitute.replace(false, CSL.LITERAL);
             if (str === "!here>>>") {
                 blobs[i] = false;
@@ -8791,7 +8848,7 @@ CSL.NameOutput.prototype._renderOnePersonalName = function (value, pos, i, j) {
         }
         blob = this._join([given, second], (name["comma-dropping-particle"] + " "));
     }
-    this.state.tmp.group_context.value()[2] = true;
+    this.state.tmp.group_context.tip.variable_success = true;
     this.state.tmp.can_substitute.replace(false, CSL.LITERAL);
     this.state.tmp.term_predecessor = true;
     this.state.tmp.name_node.children.push(blob);
@@ -9356,8 +9413,8 @@ CSL.evaluateLabel = function (node, state, Item, item) {
 };
 CSL.castLabel = function (state, node, term, plural, mode) {
     var label_form = node.strings.form;
-    if (state.tmp.group_context.value()[5] && label_form !== "static") {
-        label_form = state.tmp.group_context.value()[5];
+    if (state.tmp.group_context.tip.label_form && label_form !== "static") {
+        label_form = state.tmp.group_context.tip.label_form;
     }
     var ret = state.getTerm(term, label_form, plural, false, mode);
     if (state.tmp.strip_periods) {
@@ -9689,6 +9746,7 @@ CSL.Node.number = {
             if (["locator", "locator-extra"].indexOf(this.variables_real[0]) > -1
                && !state.tmp.just_looking) {
                 state.tmp.done_vars.push(this.variables_real[0]);
+                state.tmp.group_context.tip.done_vars.push(this.variables_real[0]);
             }
         };
         this.execs.push(func);
@@ -9852,10 +9910,9 @@ CSL.Node.text = {
                             number.setFormatter(formatter);
                             state.output.append(number, "literal");
                             firstoutput = false;
-                            len = state.tmp.group_context.mystack.length;
-                            for (pos = 0; pos < len; pos += 1) {
-                                flag = state.tmp.group_context.mystack[pos];
-                                if (!flag[2] && (flag[1] || (!flag[1] && !flag[0]))) {
+                            for (var i=0,ilen=state.tmp.group_context.mystack.length; i<ilen; i++) {
+                                flags = state.tmp.group_context.mystack[i];
+                                if (!flags.variable_success && (flags.variable_attempt || (!flags.variable_attempt && !flags.term_intended))) {
                                     firstoutput = true;
                                     break;
                                 }
@@ -9894,9 +9951,19 @@ CSL.Node.text = {
                         term = state.getTerm(term, form, plural, gender, false, ("accessed" === term));
                         var myterm;
                         if (term !== "") {
-                            flag = state.tmp.group_context.value();
-                            flag[0] = true;
-                            state.tmp.group_context.replace(flag);
+                            state.tmp.group_context.tip.term_intended = true;
+                        }
+                        if (state.tmp.group_context.tip.condition) {
+                            if (state.tmp.group_context.tip.condition.test === "label-empty-or-alpha") {
+                                if (!term || term.match(/^[a-zA-Z]/)) {
+                                    state.tmp.group_context.tip.force_suppress = false;
+                                } else {
+                                    state.tmp.group_context.tip.force_suppress = true;
+                                }
+                                if (state.tmp.group_context.tip.condition.not) {
+                                    state.tmp.group_context.tip.force_suppress = !state.tmp.group_context.tip.force_suppress;
+                                }
+                            }
                         }
                         if (!state.tmp.term_predecessor && !(state.opt["class"] === "in-text" && state.tmp.area === "citation")) {
                             myterm = CSL.Output.Formatters["capitalize-first"](state, term);
@@ -10002,7 +10069,7 @@ CSL.Node.text = {
                                 var value = state.transform.abbrevs["default"]["hereinafter"][Item.id];
                                 if (value) {
                                     state.output.append(value, this);
-                                    state.tmp.group_context.value()[2] = true;
+                                    state.tmp.group_context.tip.variable_success = true;
                                 }
                             }
                         } else {
@@ -10026,10 +10093,19 @@ CSL.Node.text = {
                     this.execs.push(func);
                 } else if (this.strings.value) {
                     func = function (state, Item) {
-                        var flag;
-                        flag = state.tmp.group_context.value();
-                        flag[0] = true;
-                        state.tmp.group_context.replace(flag);
+                        state.tmp.group_context.tip.term_intended = true;
+                        if (state.tmp.group_context.tip.condition) {
+                            if (state.tmp.group_context.tip.condition.test === "label-empty-or-alpha") {
+                                if (!this.strings.value || this.strings.value.match(/^[a-zA-Z0-9]/)) {
+                                    state.tmp.group_context.tip.force_suppress = false;
+                                } else {
+                                    state.tmp.group_context.tip.force_suppress = true;
+                                }
+                                if (state.tmp.group_context.tip.condition.not) {
+                                    state.tmp.group_context.tip.force_suppress = !state.tmp.group_context.tip.force_suppress;
+                                }
+                            }
+                        }
                         state.output.append(this.strings.value, this);
                     };
                     this.execs.push(func);
@@ -10330,14 +10406,13 @@ CSL.Attributes["@variable"] = function (state, arg) {
                     break;
                 }
             }
-            flag = state.tmp.group_context.value();
             if (output) {
                 for (var i=0,ilen=this.variables_real.length;i<ilen;i++) {
                     var variable = this.variables_real[i];
                     if (variable !== "citation-number" || state.tmp.area !== "bibliography") {
                         state.tmp.cite_renders_content = true;
                     }
-                    flag[2] = true;
+                    state.tmp.group_context.tip.variable_success = true;
                     if (state.tmp.can_substitute.value() 
                         && state.tmp.area === "bibliography"
                         && "string" === typeof Item[variable]) {
@@ -10346,9 +10421,8 @@ CSL.Attributes["@variable"] = function (state, arg) {
                 }
                 state.tmp.can_substitute.replace(false,  CSL.LITERAL);
             } else {
-                flag[1] = true;
+                state.tmp.group_context.tip.variable_attempt = true;
             }
-            state.tmp.group_context.replace(flag);
         };
         this.execs.push(func);
     } else if (["if",  "else-if", "condition"].indexOf(this.name) > -1) {
@@ -10711,6 +10785,12 @@ CSL.Attributes["@is-parallel"] = function (state, arg) {
     }
     this.strings.set_parallel_condition = values;
 };
+CSL.Attributes["@require"] = function (state, arg) {
+    this.strings.require = arg;
+}
+CSL.Attributes["@reject"] = function (state, arg) {
+    this.strings.reject = arg;
+}
 CSL.Attributes["@gender"] = function (state, arg) {
     this.gender = arg;
 }
@@ -11055,9 +11135,6 @@ CSL.Attributes["@use-first"] = function (state, arg) {
 CSL.Attributes["@stop-last"] = function (state, arg) {
     this.strings["stop-last"] = parseInt(arg, 10) * -1;
 };
-CSL.Attributes["@oops"] = function (state, arg) {
-    this.strings.oops = arg;
-};
 CSL.Attributes["@use-last"] = function (state, arg) {
     this.strings["use-last"] = parseInt(arg, 10);
 };
@@ -11074,6 +11151,7 @@ CSL.Stack = function (val, literal) {
     if (literal || val) {
         this.mystack.push(val);
     }
+    this.tip = this.mystack[0];
 };
 CSL.Stack.prototype.push = function (val, literal) {
     if (literal || val) {
@@ -11081,9 +11159,11 @@ CSL.Stack.prototype.push = function (val, literal) {
     } else {
         this.mystack.push("");
     }
+    this.tip = this.mystack[this.mystack.length - 1];
 };
 CSL.Stack.prototype.clear = function () {
     this.mystack = [];
+    this.tip = {};
 };
 CSL.Stack.prototype.replace = function (val, literal) {
     if (this.mystack.length === 0) {
@@ -11094,9 +11174,16 @@ CSL.Stack.prototype.replace = function (val, literal) {
     } else {
         this.mystack[(this.mystack.length - 1)] = "";
     }
+    this.tip = this.mystack[this.mystack.length - 1];
 };
 CSL.Stack.prototype.pop = function () {
-    return this.mystack.pop();
+    var ret = this.mystack.pop();
+    if (this.mystack.length) {
+        this.tip = this.mystack[this.mystack.length - 1];
+    } else {
+        this.tip = {};
+    }
+    return ret;
 };
 CSL.Stack.prototype.value = function () {
     return this.mystack.slice(-1)[0];
