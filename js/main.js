@@ -321,9 +321,11 @@ var CSLValidator = (function() {
             console.log("CSL Processor error: "+event.data.error+"\n");
             break;
         case 'STYLE OK LOCALES REQUESTED':
+            console.log("CSL Processor: recd STYLE OK LOCALES REQUESTED");
             outObj = {};
             outObj.locales = {};
             outObj.pageInit = event.data.pageInit;
+            console.log("CSL Processor: send LOAD STYLE LOCALES");
             outObj.type = 'LOAD STYLE LOCALES';
             
 
@@ -372,8 +374,10 @@ var CSLValidator = (function() {
             sendLocales(0, localesToLoad);
             break;
         case 'STYLE LOCALES LOAD OK':
+            console.log("CSL Processor: recd STYLE LOCALES LOAD OK");
             outObj = {};
             outObj.pageInit = event.data.pageInit;
+            console.log("CSL Processor: send SETUP PROCESSOR");
             outObj.type = 'SETUP PROCESSOR';
             this.postMessage(outObj);
             break;
@@ -385,6 +389,7 @@ var CSLValidator = (function() {
             }
             break;
         case 'INIT PAGE OK':
+            console.log("CSL Processor: recd INIT PAGE OK");
             $('#unselected-csl-variables').html(event.data.bubbles[0]);
             $('#selected-csl-variables').html(event.data.bubbles[1]);
             for (var i=0,ilen=citationForms.length;i<ilen;i++) {
