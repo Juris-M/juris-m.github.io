@@ -740,9 +740,8 @@
                       After loading the style, select
                       the <span class="tabby">Sampler</span> tab to
                       preview the current output of the module for the
-                      default <b>Case</b> type. The first item listed,
-                      which obviously needs some work, looks like
-                      this:
+                      default <b>Case</b> type. The items look
+                      something like this:
                     </p>
                     <div class="well">
                       <div class="indent">
@@ -753,7 +752,7 @@
                       </div>
                     </div>
                     <p>
-                      You can use the dropdown selector to choose
+                      Use the dropdown selector to choose
                       the <b>Statute</b> type, which displays the same
                       unsightly "citations":
                     </p>
@@ -766,41 +765,33 @@
                       </div>
                     </div>
                     <p>
-                      This illustrates an important point about
-                      modular CSL: citations are composed of subunits
-                      plugged into a fixed template. In this tutorial,
-                      we will refer to the template
-                      as <i>scaffolding</i>, and to the subunits
-                      as <i>components</i>.
-                    </p>
-                    <p>
-                      Scaffolding controls the punctuation between
-                      components, the typeface used for the title, and
-                      back-reference forms such as
-                      <i>ibid</i> and <i>supra</i>.
+                      Each bracketed term represents a separate CSL
+                      macro supplied by the legal style module, joined
+                      together by punctuation to be supplied by the
+                      style that calls the module. We will refer to
+                      the subunits as
+                      <i>components</i>, and to the parent style code
+                      supplying the punctuation <i>scaffolding</i>.
                     </p>
                     <p>
                       In our module
                       for <span class="small-caps">Atlantis</span>,
                       the scaffolding is contained in
-                      the <code>cs:citation</code> element, at the
-                      bottom of the file. We will not touch this
-                      code&mdash;it is, in fact, <i>not</i> part of
-                      the module code. In production, our module will
-                      be called by another, more general style
-                      (<i>Chicago Full
+                      the <code>cs:citation</code> element at the
+                      bottom of the file. We will not touch this block
+                      in this tutorial&mdash;it is, in
+                      fact, <i>not</i> part of the module code. In
+                      production, our module will be called by
+                      another, more general style (<i>Chicago Full
                       Note</i>, <i>APA</i>, <i>OSCOLA</i>, etc.), and
                       the calling style will supply its own
                       scaffolding for the module components.
                     </p>
                     <p>
-                      The components of the module are its
-                      <code>cs:macro</code> elements.  A
-                      module <i>must</i> contain a full set of
+                      The module components consist of a set of
                       <span class="mono">juris-</span>prefixed macros.
-                      (A module with missing macros may test
-                      successfully, but calling styles will ignore it.) Here is the full
-                      list of required macro names:
+                      Here is the full list of them, all of which must
+                      be defined:
                     </p>
                     <div class="inline-blocks">
                       <div class="inline-block">
