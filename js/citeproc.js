@@ -34,7 +34,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.85",
+    PROCESSOR_VERSION: "1.1.86",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -6845,7 +6845,6 @@ CSL.Node.group = {
                 state.output.endTag();
                 if (this.realGroup) {
                     var flags = state.tmp.group_context.pop();
-                    var params = ["variable_success", "force_suppress","term_intended", "variable_attempt"]
                     if (state.tmp.group_context.tip.condition) {
                         state.tmp.group_context.tip.force_suppress = flags.force_suppress;
                     }
@@ -6867,6 +6866,7 @@ CSL.Node.group = {
                     } else {
                         state.tmp.group_context.tip.variable_attempt = flags.variable_attempt;
                         if (flags.force_suppress && !state.tmp.group_context.tip.condition) {
+                            state.tmp.group_context.tip.variable_attempt = true;
                             state.tmp.group_context.tip.variable_success = flags.variable_success_parent;
                             for (var i=0,ilen=flags.done_vars.length;i<ilen;i++) {
                                 if (state.tmp.done_vars.indexOf(flags.done_vars[i]) > -1) {
