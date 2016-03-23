@@ -1927,7 +1927,7 @@
                       of <span class="small-caps">The Atlantis
                       Guide</span>, and confirm the short form of our
                       two sample citations.  When a pinpoint locator
-                      is used, they should be written as follows
+                      is used, it should be written as follows
                       (highlighting added to mark the portion to be
                       rendered by
                       the <span class="mono">juris-main-short</span>
@@ -1984,58 +1984,72 @@
                   <div class="multi-column">
                     <h2 id="guidance-locator"><a class="return-link" href="#banner"><span class="mono">juris-locator</span></a></h2>
                     <p>
-                      The <span class="mono">locator</span> component
-                      sets a pinpoint locator in the native format of
-                      the module.
+                      Locators consist of just two elements&mdash;a
+                      label and a pinpoint locator&mdash;yet they have
+                      surprisingly complex formatting requirements.
+                      The form of labels varies across citation styles
+                      <i>and</i> across jurisdictions. At the same
+                      time, the joining punctuation used depends
+                      on <i>both</i> the surrounding
+                      context <i>and</i> the form of the label. In
+                      Juris-M modules, we need only worry about the
+                      label to be used in cites within our specific
+                      jurisdiction. As we will see, the scaffolding of
+                      the parent style will supply appropriate joining
+                      punctuation.
                     </p>
                     <p>
-                      Once-only rendering of the <code>locator</code>
-                      variable is a feature of Juris-M CSL. As stated
-                      in the Specification Supplement (linked in
-                      the <b>Docs</b> menu at the top of this page):
+                      The locators for
+                      our <span class="small-caps">Atlantis</span>
+                      style can be coded like this:
                     </p>
-                    <div class="well">
-                      The locator variable will render exactly once in
-                      a citation; subsequent attempts will render
-                      nothing. As with variables suppressed
-                      via <b>cs:substitute</b>, the test
-                      for <span class="mono">variable="locator"</span>
-                      will continue to return true after the variable
-                      is suppressed from further output.
-                    </div>
+                    <pre><code class="xml">&lt;group delimiter=" "&gt;
+  &lt;choose&gt;
+    &lt;if locator="page"/&gt;
+    &lt;else&gt;
+      &lt;label variable="locator"/&gt;
+    &lt;/else&gt;
+  &lt;/choose&gt;
+  &lt;number variable="locator"/&gt;
+&lt;/group&gt;</code></pre>
                     <p>
-		              Suppression of output extends to labels or terms
-		              grouped together with a
-		              suppressed <code>locator</code> variable, as
-		              indicated in the CSL Specification.
+                      The empty <code>cs:if</code> statement will
+                      render nothing (no label) when the locator is a
+                      page; otherwise, it will print the appropriate
+                      label, separated from the locator itself by a
+                      single space. The form of the label (as long,
+                      short or symbolic) will be set by the parent
+                      style and its locale, so we omit
+                      the <code>form</code> attribute.
                     </p>
-                    <div class="well">
-                      <b>cs:group</b> implicitly acts as a
-                      conditional: <b>cs:group</b> and its child
-                      elements are suppressed if:
-                      <ul>
-                        <li>
-                          at least one rendering element in <b>cs:group</b> calls a variable
-                          (either directory or via a macro), and
-                        </li>
-                        <li>all variables that are called are empty.</li>
-                      </ul>
-                      This accommodates descriptive <b>cs:text</b> [and <b>cs:label</b>] elements.
-                      <div><i>(brace-enclosed text added)</i></div>
-                    </div>
-		            <ul>
-		              <li>
-			            Locator labels must be grouped together with
-			            a locator element, at the same nesting level (N.B.
-			            macros open a new nesting level); and
-		              </li>
-		              <li>
-			            The condition <code>variable="locator"</code> must
-			            be used only to test for the complete absence of
-			            the variable in the item input.
-		              </li>
-		            </ul>
                     <p>
+                      We're now done with the module code. To explain
+                      why, we'll look a little further at some magical
+                      features of the <code>cs:group</code> element.
+                    </p>
+                    <p>
+                      The first neat thing is that the labels that are
+                      immediate children of a group will render only
+                      if: (a) no variables are rendered at the same
+                      level or below; or (b) at least one variable at
+                      the same level or below renders successfully.
+                      (For these rules, condition nesting is ignored.)
+                      Following those rules in the code above, if the
+                      <b>locator</b> variable is not provided, the label
+                      will be suppressed.
+                    </p>
+                    <p>
+                      The second neat thing concerns a CSL-M extension
+                      of the <code>cs:group</code> element that comes into
+                      play when our locator macro is rendered by a parent
+                      style. One example of such code might look like this:
+                    <p>
+<group delimiter=" ">
+  <text value="supra" form="italics"/>
+  <text term="note"/>
+  <number variable="first-reference-note-number"/>
+  
+  
                       At this point, we need to confirm the format of pinpoint
                       locators in the native style of our jurisdiction. Rummaging about for our
                       dog-eared copy of
