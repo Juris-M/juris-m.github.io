@@ -866,8 +866,8 @@
                     </p>
                     <pre><code class="xml">&lt;law-module types="legal_case statute"/&gt;</code></pre>
                     <p>
-                      Note that the name used for the
-                      Juris-M <b>Case</b> type in CSL code is
+                      The name used for the Juris-M <b>Case</b> type
+                      in CSL code is
                       <span class="mono">legal_case</span>, and that
                       for the <b>Statute</b> type
                       is <span class="mono">legislation</span>&mdash;see
@@ -1748,11 +1748,7 @@
                     <h2 id="guidance-tail"><a class="return-link" href="#banner"><span class="mono">juris-tail</span></a></h2>
                     <!-- zzz -->
                     <p>
-                      The <span class="mono">tail</span> portion of
-                      our citations differs considerably. For
-                      the <b>Statute</b> type, it also contains a
-                      wrinkle that we adverted to earlier: we will now
-                      need to deal with it.
+                      Our target citation forms differ considerably in their <span class="mono">tail</span> portion.
                     </p>
                     <div class="well well-sm">
                       Int’l Shoe Co. v. Wash., 90 L. Ed. 95, 96 <span class="boxy blueish">(Sup. Ct. 1945)</span> 
@@ -1760,6 +1756,11 @@
                     <div class="well well-sm">
                       Sherwood Act, ch. 123, § 3, <span class="boxy blueish">37 Stat. 112, <span class="boxy reddly">113</span> (1912)</span>
                     </div>
+                    <p>
+                      The <b>Statute</b> type also has the wrinkle
+                      that we adverted to earlier, highlighted in
+                      red. We will now need to deal with that as well.
+                    </p>
                     <p>
                       The common feature of the two citations is the
                       trailing parenthetical.  The year fields
@@ -1771,36 +1772,45 @@
                       the <span class="buttony bubble">Court</span>
                       field corresponds to the Juris-M
                       CSL <span class="mono">authority</span>
-                      variable, which has no mapping from
-                      the <b>Statute</b> type, so there is no overlap
-                      in the current Juris-M schema. We can therefore
-                      use the same code to render the parenthetical
-                      for both types.
+                      variable. That variable is not present on
+                      the <b>Statute</b> type (since legislation is a
+                      product of the whole state), so we won't need to
+                      exclude it with a condition.
                     </p>
                     <p>
-                      While <span class="buttony bubble">Court</span>
-                      is an ordinary text field in the Juris-M Desktop Client,
-                      the processor treats it as an institutional name.
-                      As noted earlier, its value will be a court identifier
-                      code in actual production, converted by the Abbreviation
-                      Filter. To enable conversion, it is set to the short
-                      form on the <code>cs:institution</code> element. For
-                      the full details on the <code>cs:institution</code> element,
-                      see the Juris-M CSL Specification Supplement, linked
-                      in the <b>Docs</b> menu at the top of this page.
+                      The <span class="buttony bubble">Court</span>
+                      field is special in a couple of respects. First,
+                      although it is an ordinary text field in the
+                      Juris-M Desktop Client, the processor treats it
+                      as an institutional name. Second, in actual
+                      production it is normally populated with
+                      a <i>machine-readable code</i> representing the
+                      court name, which is converted to human-readable
+                      form when the citation is rendered. To trigger
+                      the conversion, we must set
+                      the <code>form="short"</code> attribute on
+                      the <code>cs;institution</code> element.  For
+                      full details on the <code>cs:institution</code>
+                      element, see the Juris-M CSL Specification
+                      Supplement, linked in the <b>Docs</b> menu at
+                      the top of this page.
                     </p>
                     <p>
                       In the <code>type="legislation"</code> condition
                       block, we render the elements of the reporter
-                      citation needed for <b>Statute</b> items. The
-                      &ldquo;wrinkle&rdquo; posed by the additional pinpoint
-                      locator (<span class="boxy reddly">113</span>) is covered
-                      to the <span class="mono">locator-extra</span> variable,
-                      which can be set in the <span class="buttony bubble">Locator</span>
-                      field by appending it with a <span class="mono">|</span> vertical bar
-                      character&mdash;see the Juris-M CSL Specification Supplement, linked
-                      from the <b>Docs</b> menu at the top of this page, for details and
-                      an example.
+                      citation needed for <b>Statute</b> items. To
+                      cover the &ldquo;wrinkle&rdquo; posed by the
+                      additional pinpoint (<span class="boxy
+                      reddly">113</span>) we use
+                      the <span class="mono">locator-extra</span>
+                      variable. (This is set in word-processor, in the ordinary
+                      <span class="buttony bubble">Locator</span>
+                      field by setting it off with a
+                      <span class="mono">|</span> vertical bar
+                      character&mdash;see the Juris-M CSL
+                      Specification Supplement, linked from
+                      the <b>Docs</b> menu at the top of this page,
+                      for details and an example.)
                     </p>
                     <pre><code class="xml">&lt;macro name="juris-tail"&gt;
   &lt;group delimiter=" "&gt;
