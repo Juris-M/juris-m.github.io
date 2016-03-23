@@ -20,18 +20,8 @@
     <date-part name="year"/>
   </date>
   <terms>
-    <term name="radio-broadcast">radio broadcast</term>
-    <term name="television-broadcast">television broadcast</term>
-    <term name="podcast">podcast</term>
-    <term name="instant-message">instant message</term>
-    <term name="email">email</term>
-    <term name="number-of-volumes">
-      <single>volume</single>
-      <multiple>volumes</multiple>
-    </term>
-    <term name="accessed">bezocht</term>
+    <term name="accessed">geraadpleegd</term>
     <term name="and">en</term>
-    <term name="and" form="symbol">&amp;</term>
     <term name="and others">en anderen</term>
     <term name="anonymous">anoniem</term>
     <term name="anonymous" form="short">anon.</term>
@@ -156,6 +146,10 @@
       <single>pagina</single>
       <multiple>pagina's</multiple>
     </term>
+    <term name="number-of-pages">
+      <single>pagina</single>
+      <multiple>pagina's</multiple>
+    </term>
     <term name="paragraph">
       <single>paragraaf</single>
       <multiple>paragrafen</multiple>
@@ -192,6 +186,10 @@
     <term name="note" form="short">n.</term>
     <term name="opus" form="short">op.</term>
     <term name="page" form="short">
+      <single>p.</single>
+      <multiple>pp.</multiple>
+    </term>
+    <term name="number-of-pages" form="short">
       <single>p.</single>
       <multiple>pp.</multiple>
     </term>
@@ -274,6 +272,7 @@
     </term>
 
     <!-- VERB ROLE FORMS -->
+    <term name="container-author" form="verb">door</term>
     <term name="director" form="verb">geregisseerd door</term>
     <term name="editor" form="verb">bewerkt door</term>
     <term name="editorial-director" form="verb">bewerkt door</term>
@@ -285,7 +284,6 @@
     <term name="editortranslator" form="verb">bewerkt &amp; vertaald door</term>
 
     <!-- SHORT VERB ROLE FORMS -->
-    <term name="container-author" form="verb-short">door</term>
     <term name="director" form="verb-short">geregisseerd door</term>
     <term name="editor" form="verb-short">bewerkt door</term>
     <term name="editorial-director" form="verb-short">bewerkt door</term>

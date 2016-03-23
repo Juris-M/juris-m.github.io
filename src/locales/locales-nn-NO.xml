@@ -6,7 +6,7 @@
   </info>
   <style-options punctuation-in-quote="false"/>
   <date form="text">
-    <date-part name="day" suffix=". "/>
+    <date-part name="day" form="ordinal" suffix=" "/>
     <date-part name="month" suffix=" "/>
     <date-part name="year"/>
   </date>
@@ -16,18 +16,8 @@
     <date-part name="day" form="numeric-leading-zeros" prefix="-" range-delimiter="/"/>
   </date>
   <terms>
-    <term name="radio-broadcast">radio broadcast</term>
-    <term name="television-broadcast">television broadcast</term>
-    <term name="podcast">podcast</term>
-    <term name="instant-message">instant message</term>
-    <term name="email">email</term>
-    <term name="number-of-volumes">
-      <single>volume</single>
-      <multiple>volumes</multiple>
-    </term>
     <term name="accessed">vitja</term>
     <term name="and">og</term>
-    <term name="and" form="symbol">&amp;</term>
     <term name="and others">med fleire</term>
     <term name="anonymous">anonym</term>
     <term name="anonymous" form="short">anon.</term>
@@ -134,6 +124,10 @@
       <single>side</single>
       <multiple>sider</multiple>
     </term>
+    <term name="number-of-pages">
+      <single>side</single>
+      <multiple>sider</multiple>
+    </term>
     <term name="paragraph">
       <single>avsnitt</single>
       <multiple>avsnitt</multiple>
@@ -170,6 +164,10 @@
     <term name="note" form="short">n.</term>
     <term name="opus" form="short">op.</term>
     <term name="page" form="short">
+      <single>s.</single>
+      <multiple>s.</multiple>
+    </term>
+    <term name="number-of-pages" form="short">
       <single>s.</single>
       <multiple>s.</multiple>
     </term>
@@ -252,6 +250,7 @@
     </term>
 
     <!-- VERB ROLE FORMS -->
+    <term name="container-author" form="verb">av</term>
     <term name="director" form="verb">regissert av</term>
     <term name="editor" form="verb">redigert av</term>
     <term name="editorial-director" form="verb">redigert av</term>
@@ -263,7 +262,6 @@
     <term name="editortranslator" form="verb">redigert &amp; omsett av</term>
 
     <!-- SHORT VERB ROLE FORMS -->
-    <term name="container-author" form="verb-short">av</term>
     <term name="director" form="verb-short">regi</term>
     <term name="editor" form="verb-short">red.</term>
     <term name="editorial-director" form="verb-short">red.</term>

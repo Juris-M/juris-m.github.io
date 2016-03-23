@@ -6,7 +6,7 @@
   </info>
   <style-options punctuation-in-quote="false"/>
   <date form="text">
-    <date-part name="day" suffix=". "/>
+    <date-part name="day" form="ordinal" suffix=" "/>
     <date-part name="month" suffix=" "/>
     <date-part name="year"/>
   </date>
@@ -16,19 +16,9 @@
     <date-part name="year" range-delimiter="-"/>
   </date>
   <terms>
-    <term name="radio-broadcast">radio broadcast</term>
-    <term name="television-broadcast">television broadcast</term>
-    <term name="podcast">podcast</term>
-    <term name="instant-message">instant message</term>
-    <term name="email">email</term>
-    <term name="number-of-volumes">
-      <single>volume</single>
-      <multiple>volumes</multiple>
-    </term>
     <term name="accessed">viděno</term>
     <term name="accessed" form="short">vid.</term>
     <term name="and">a</term>
-    <term name="and" form="symbol">&amp;</term>
     <term name="and others">a další</term>
     <term name="anonymous">anonym</term>
     <term name="anonymous" form="short">anon.</term>
@@ -64,7 +54,7 @@
       <single>ref.</single>
       <multiple>ref.</multiple>
     </term>
-    <term name="retrieved">dostupné</term>
+    <term name="retrieved">získáno</term>
     <term name="scale">měřítko</term>
     <term name="version">verze</term>
 
@@ -135,6 +125,10 @@
       <single>strana</single>
       <multiple>strany</multiple>
     </term>
+    <term name="number-of-pages">
+      <single>strana</single>
+      <multiple>strany</multiple>
+    </term>
     <term name="paragraph">
       <single>odstavec</single>
       <multiple>odstavce</multiple>
@@ -171,6 +165,10 @@
     <term name="note" form="short">pozn.</term>
     <term name="opus" form="short">op.</term>
     <term name="page" form="short">
+      <single>s.</single>
+      <multiple>s.</multiple>
+    </term>
+    <term name="number-of-pages" form="short">
       <single>s.</single>
       <multiple>s.</multiple>
     </term>
@@ -253,6 +251,7 @@
     </term>
 
     <!-- VERB ROLE FORMS -->
+    <term name="container-author" form="verb"></term>
     <term name="director" form="verb">řídil</term>
     <term name="editor" form="verb">editoval</term>
     <term name="editorial-director" form="verb">editoval</term>
@@ -264,7 +263,6 @@
     <term name="editortranslator" form="verb">editoval a přeložil</term>
 
     <!-- SHORT VERB ROLE FORMS -->
-    <term name="container-author" form="verb-short"></term>
     <term name="director" form="verb-short">řed.</term>
     <term name="editor" form="verb-short">ed.</term>
     <term name="editorial-director" form="verb-short">ed.</term>

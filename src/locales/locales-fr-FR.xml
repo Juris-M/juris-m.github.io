@@ -19,18 +19,8 @@
     <date-part name="year"/>
   </date>
   <terms>
-    <term name="radio-broadcast">radio broadcast</term>
-    <term name="television-broadcast">television broadcast</term>
-    <term name="podcast">podcast</term>
-    <term name="instant-message">instant message</term>
-    <term name="email">email</term>
-    <term name="number-of-volumes">
-      <single>volume</single>
-      <multiple>volumes</multiple>
-    </term>
     <term name="accessed">consulté le</term>
     <term name="and">et</term>
-    <term name="and" form="symbol">&amp;</term>
     <term name="and others">et autres</term>
     <term name="anonymous">anonyme</term>
     <term name="anonymous" form="short">anon.</term>
@@ -139,6 +129,10 @@
       <single>page</single>
       <multiple>pages</multiple>
     </term>
+    <term name="number-of-pages">
+      <single>page</single>
+      <multiple>pages</multiple>
+    </term>
     <term name="paragraph">
       <single>paragraphe</single>
       <multiple>paragraphes</multiple>
@@ -181,6 +175,10 @@
     <term name="note" form="short">n.</term>
     <term name="opus" form="short">op.</term>
     <term name="page" form="short">
+      <single>p.</single>
+      <multiple>p.</multiple>
+    </term>
+    <term name="number-of-pages" form="short">
       <single>p.</single>
       <multiple>p.</multiple>
     </term>
@@ -263,6 +261,7 @@
     </term>
 
     <!-- VERB ROLE FORMS -->
+    <term name="container-author" form="verb">par</term>
     <term name="director" form="verb">réalisé par</term>
     <term name="editor" form="verb">édité par</term>
     <term name="editorial-director" form="verb">sous la direction de</term>
@@ -274,7 +273,6 @@
     <term name="editortranslator" form="verb">édité et traduit par</term>
 
     <!-- SHORT VERB ROLE FORMS -->
-    <term name="container-author" form="verb-short">par</term>
     <term name="director" form="verb-short">réal. par</term>
     <term name="editor" form="verb-short">éd. par</term>
     <term name="editorial-director" form="verb-short">ss la dir. de</term>
