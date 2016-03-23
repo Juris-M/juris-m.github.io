@@ -388,9 +388,6 @@ onmessage = function (event) {
                 //selectedVars = {};
                 lastStyleName = nextStyleName;
             }
-
-            
-
             outObj.bubbles = getBubbles(event);
             var customFields = event.data.customFields;
             var result = generateSample(customFields);
@@ -407,11 +404,12 @@ onmessage = function (event) {
             outObj.bibliography = bibliography;
 
             // Return enabled legal types if module has them
-            var infoNode = sys.xml.getNodesByName(processorElements.style, 'info')[0];
-            var lawModuleNode = sys.xml.getNodesByName(infoNode, 'law-module');
+            var xmlParser = new CSL.XmlJSON();
+            var infoNode = xmlParser.getNodesByName(processorElements.style, 'info')[0];
+            var lawModuleNode = xmlParser.getNodesByName(infoNode, 'law-module');
             lawModuleNode = lawModuleNode.length ? lawModuleNode[0] : null;
             // usedTypes is a space-delimited string list of CSL type names
-            outObj.usedTypes = sys.xml.getAttributeValue(lawModuleNode, 'types');
+            outObj.usedTypes = xmlParser.getAttributeValue(lawModuleNode, 'types');
         }, 'INIT PAGE OK');
         break;
     case 'CHANGE ITEM TYPE':
