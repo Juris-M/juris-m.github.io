@@ -112,8 +112,11 @@
                     <text term="note"/>
                     <text variable="first-reference-note-number"/>
                   </group>
-                  <group delimiter=" ">
-                    <text macro="juris-locator-label" alternative-macro="at-locator-label" label-form="symbol"/>
+                  <group delimiter=" " require="empty-label">
+                    <text value="at"/>
+                    <text macro="juris-locator" label-form="symbol"/>
+                  </group>
+                  <group delimiter=" " reject="empty-label">
                     <text macro="juris-locator" label-form="symbol"/>
                   </group>
                 </group>
