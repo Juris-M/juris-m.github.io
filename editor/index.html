@@ -569,8 +569,6 @@
                             <ul>
                               <li><a href="#guidance-title"><span class="mono">juris-title</span></a></li>
                               <li><a href="#guidance-main"><span class="mono">juris-main</span></a></li>
-                              <li><a href="#guidance-default-spotter"><span class="mono">juris-default-spotter</span></a></li>
-                              <li><a href="#guidance-comma-spotter"><span class="mono">juris-comma-spotter</span></a></li>
                               <li><a href="#guidance-tail"><span class="mono">juris-tail</span></a></li>
                             </ul>
                           </li>
@@ -578,14 +576,11 @@
                             <ul>
                               <li><a href="#guidance-title-short"><span class="mono">juris-title-short</span></a></li>
                               <li><a href="#guidance-main-short"><span class="mono">juris-main-short</span></a></li>
-                              <li><a href="#guidance-default-spotter-short"><span class="mono">juris-default-spotter-short</span></a></li>
-                              <li><a href="#guidance-comma-spotter-short"><span class="mono">juris-comma-spotter-short</span></a></li>
                               <li><a href="#guidance-tail-short"><span class="mono">juris-tail-short</span></a></li>
                             </ul>
                           </li>
-                          <li>Components: fragments
+                          <li>Components: locator
                             <ul>
-                              <li><a href="#guidance-locator-label"><span class="mono">juris-locator-label</span></a></li>
                               <li><a href="#guidance-locator"><span class="mono">juris-locator</span></a></li>
                             </ul>
                           </li>
@@ -811,18 +806,13 @@
                       <div class="inline-block">
                         <span class="mono">juris-title</span><br/>
                         <span class="mono">juris-main</span><br/>
-                        <span class="mono">juris-default-spotter</span><br/>
-                        <span class="mono">juris-comma-spotter</span><br/>
                         <span class="mono">juris-tail</span><br/>
-                        <span class="mono">juris-locator-label</span>
+                        <span class="mono">juris-locator</span>
                       </div>
                       <div class="inline-block">
                         <span class="mono">juris-title-short</span><br/>
                         <span class="mono">juris-main-short</span><br/>
-                        <span class="mono">juris-default-spotter-short</span><br/>
-                        <span class="mono">juris-comma-spotter-short</span><br/>
                         <span class="mono">juris-tail-short</span><br/>
-                        <span class="mono">juris-locator</span>
                       </div>
                     </div>
                     
@@ -1764,211 +1754,6 @@
                   <hr style="border:0 none;border-top:1px solid #000000;"/>
                   <h3>Full-form components</h3>
                   <div class="multi-column">
-                    <h2 id="guidance-default-spotter"><a class="return-link" href="#banner"><span class="mono">juris-default-spotter</span></a></h2>
-                    <p>
-                      The <span class="mono">spotter</span> components
-                      set a pinpoint locator in the native format of
-                      the module. Scaffolding should call
-                      the <span class="mono">comma</span> variant
-                      first, followed by
-                      the <span class="mono">default</span> variant
-                      discussed here. If the components are properly
-                      composed, only one of them will render: to
-                      understand why, we need to take a closer look at
-                      the CSL <code>cs:group</code> element, and at the
-                      behaviour of the <code>locator</code> variable
-                      in Juris-M CSL.
-                    </p>
-                    <p>
-                      Once-only rendering of the <code>locator</code>
-                      variable is a feature of Juris-M CSL. As stated
-                      in the Specification Supplement (linked in
-                      the <b>Docs</b> menu at the top of this page):
-                    </p>
-                    <div class="well">
-                      The locator variable will render exactly once in
-                      a citation; subsequent attempts will render
-                      nothing. As with variables suppressed
-                      via <b>cs:substitute</b>, the test
-                      for <span class="mono">variable="locator"</span>
-                      will continue to return true after the variable
-                      is suppressed from further output.
-                    </div>
-                    <p>
-		              Suppression of output extends to labels or terms
-		              grouped together with a
-		              suppressed <code>locator</code> variable, as
-		              indicated in the CSL Specification.
-                    </p>
-                    <div class="well">
-                      <b>cs:group</b> implicitly acts as a
-                      conditional: <b>cs:group</b> and its child
-                      elements are suppressed if:
-                      <ul>
-                        <li>
-                          at least one rendering element in <b>cs:group</b> calls a variable
-                          (either directory or via a macro), and
-                        </li>
-                        <li>all variables that are called are empty.</li>
-                      </ul>
-                      This accommodates descriptive <b>cs:text</b> [and <b>cs:label</b>] elements.
-                      <div><i>(brace-enclosed text added)</i></div>
-                    </div>
-		            <p>
-		              Reading these two rules together, we can
-		              efficiently achieve one-time-only rendering of
-		              locators and labels in
-		              the <span class="mono">spotter</span> components
-		              by following these guidelines:
-		            </p>
-		            <ul>
-		              <li>
-			            Locator labels must be grouped together with
-			            a locator element, at the same nesting level (N.B.
-			            macros open a new nesting level); and
-		              </li>
-		              <li>
-			            The condition <code>variable="locator"</code> must
-			            be used only to test for the complete absence of
-			            the variable in the item input.
-		              </li>
-		            </ul>
-                    <p>
-                      At this point, we need to confirm the format of pinpoint
-                      locators in the native style of our jurisdiction. Rummaging about for our
-                      dog-eared copy of
-                      <span class="small-caps">The Atlantis Guide: A
-                      Very Old System of Citation</span>, we find that
-                      they should look like this for a long-form
-                      reference of the <b>Case</b> type:
-                    </p>
-                    <div class="well well-sm">
-                      Int’l Shoe Co. v. Wash., 90 L. Ed. 95, <span class="boxy reddish">96</span> (Sup. Ct. 1945) 
-                    </div>
-                    <p>
-                      In the <b>Statute</b> type, section pinpoints should look like this:
-                    </p>
-                    <div class="well well-sm">
-                      Sherwood Act, ch. 123, <span class="boxy reddish">§ 3</span>, 37 Stat. 112, 113 (1912)
-                    </div>
-                    <p>
-                      The first point to note is that the pinpoint
-                      locator is preceded by a comma in both
-                      instances. The locators will therefore not be
-                      rendered by this component, but by
-                      its <span class="mono">comma</span> companion.
-                      It does not follow, however, that we have nothing
-                      to define here.
-                    </p>
-		            <p>
-		              Because scaffolding will attempt to
-		              render <span class="mono">juris-comma-spotter</span>
-		              before reaching
-		              the <span class="mono">juris-default-spotter</span>
-		              component, the latter (our component of the
-		              moment) will not contain any explicit conditions
-		              to suppress output: it is sufficient to render
-		              the <code>locator</code> variable and its
-		              (optional) label inside a <code>cs:group</code>
-		              element, laid out as appropriate for the native style.
-		            </p>
-		            <p>
-                      If
-		              the <span class="mono">juris-default-spotter</span>
-		              component renders without explicit conditions,
-		              it can be invoked by other macros in our module,
-		              and will produce output without fail (after
-		              which the <code>locator</code> variable will be
-		              suppressed, of course). Since locators are
-		              composed in a uniform way
-		              across <span class="mono">Atlantis</span>
-		              references (i.e. applying a label to all locator
-		              types except <span class="mono">page</span>), we
-		              can invoke it as shorthand for the label/locator
-		              combination elsewhere in the module. (There is
-		              no guarantee that this must be so, but it will
-		              likely be the case in many other style
-		              modules&mdash;hence
-		              the <span class="mono">default</span> moniker on
-		              this component.)
-		            </p>
-                    <p>
-                      Here is our Juris-M CSL code to produce the standard
-                      pinpoint unit for <span class="small-caps">Atlantis</span>
-                      references:
-                    </p>
-                    <pre><code class="xml">&lt;macro name="juris-default-spotter"&gt;
-  &lt;group delimiter=" "&gt;
-    &lt;choose&gt;
-      &lt;if match="none" locator="page"&gt;
-        &lt;label variable="locator"/&gt;
-      &lt;/if&gt;
-    &lt;/choose&gt;
-    &lt;text macro="juris-locator"/&gt;
-  &lt;/group&gt;
-&lt;/macro&gt;</code></pre>
-                  </div>
-
-                  <hr style="border:0 none;border-top:1px solid #000000;"/>
-                  <h3>Full-form components</h3>
-                  <div class="multi-column">
-                    <h2 id="guidance-comma-spotter"><a class="return-link" href="#banner"><span class="mono">juris-comma-spotter</span></a></h2>
-                    <p>
-                      Now that we have our <span class="mono">default</span> pinpoint
-                      component in hand, let&rsquo;s take another look at the
-                      comma-separated pinpoints in context:
-                    </p>
-                    <div class="well well-sm">
-                      Int’l Shoe Co. v. Wash., 90 L. Ed. 95, <span class="boxy reddish">96</span> (Sup. Ct. 1945) 
-                    </div>
-                    <div class="well well-sm">
-                      Sherwood Act, ch. 123, <span class="boxy reddish">§ 3,</span> 37 Stat. 112, 113 (1912)
-                    </div>
-                    <p>
-                      A second point to note is that the section pinpoint on the <b>Statute</b>
-                      item is followed by a comma. Standard scaffolding separates a pinpoint
-                      from the <span class="mono">juris-tail</span> component with a space,
-                      so we will resort to a minor dirty trick to insert the comma.
-                    </p>
-                    <p>
-                      In the code below, we call
-                      the <span class="mono">default</span> macro to
-                      render the pinpoint unit, but on
-                      the <b>Statute</b> type, when there is
-                      a <span class="mono">container-title</span>
-                      variable (corresponding to
-                      the <span class="buttony bubble">Reporter</span>
-                      field), we append a comma with
-                      a <code>suffix=","</code> attribute. (Requiring
-                      the variable is a bit gratuitous, since a
-                      <b>Statute</b> cite in our jurisdiction that
-                      lacks a <span class="buttony bubble">Reporter</span>
-                      value will be broken anyway, but it at least
-                      serves as an illustration of multiple
-                      conditions.)
-                    </p>
-                    <pre><code class="xml">&lt;macro name="juris-comma-spotter"&gt;
-  &lt;choose&gt;
-    &lt;if match="all" type="legislation" 
-        variable="container-title"&gt;
-      &lt;text macro="juris-default-spotter" suffix=","/&gt;
-    &lt;/if&gt;
-    &lt;else&gt;
-      &lt;text macro="juris-default-spotter"/&gt;
-    &lt;/else&gt;
-  &lt;/choose&gt;
-&lt;/macro&gt;</code></pre>
-                    <p>
-                      We are now ready to complete the code for
-                      full-form references by turning to
-                      the <span class="mono">juris-tail</span>
-                      component.
-                    </p>
-                  </div>
-
-                  <hr style="border:0 none;border-top:1px solid #000000;"/>
-                  <h3>Full-form components</h3>
-                  <div class="multi-column">
                     <h2 id="guidance-tail"><a class="return-link" href="#banner"><span class="mono">juris-tail</span></a></h2>
                     <!-- zzz -->
                     <p>
@@ -2179,64 +1964,6 @@
                   <hr style="border:0 none;border-top:1px solid #000000;"/>
                   <h3>Short-form components</h3>
                   <div class="multi-column">
-                    <h2 id="guidance-default-spotter-short"><a class="return-link" href="#banner"><span class="mono">juris-default-spotter-short</span></a></h2>
-                    <p>
-                      The most important block in the three-part test
-                      in this component is the first, which provides
-                      the text that completes a short-form
-                      citation. In both of the citation types in the
-                      kindom of <span class="mono">Atlantis</span>,
-                      this is a bare page number.
-                    </p>
-                    <p>
-                      The other two test blocks provide the
-                      appropriate details for a subsequent short-form
-                      citation in our native style. These code blocks
-                      are not actually used by the sample scaffolding
-                      in the module template. This will be common,
-                      since short-form and back-reference conventions
-                      vary significantly among native styles. For
-                      readability, the style calling module code will
-                      often impose its own patterns consistently to
-                      all short-form citations, by-passing native code.
-                    </p>
-                    <pre><code class="xml">&lt;macro name="juris-default-spotter-short"&gt;
-  &lt;choose&gt;
-    &lt;if match="none" variable="locator"&gt;
-      &lt;number variable="page-first"/&gt;
-    &lt;/if&gt;
-    &lt;else-if locator="page"&gt;
-      &lt;group delimiter=" "&gt;
-        &lt;text value="at"/&gt;
-        &lt;text variable="locator"/&gt;
-      &lt;/group&gt;
-    &lt;/else-if&gt;
-    &lt;else&gt;
-      &lt;text macro="juris-default-spotter"/&gt;
-    &lt;/else&gt;
-  &lt;/choose&gt;
-&lt;/macro&gt;</code></pre>
-                  </div>
-
-                  <hr style="border:0 none;border-top:1px solid #000000;"/>
-                  <h3>Short-form components</h3>
-                  <div class="multi-column">
-                    <h2 id="guidance-comma-spotter-short"><a class="return-link" href="#banner"><span class="mono">juris-comma-spotter-short</span></a></h2>
-                    <p>
-                      There is not much to see here. Pinpoint locators
-                      on short-form citations for
-                      the <span class="small-caps">Atlantis</span>
-                      jurisdiction are never set off by a comma, so
-                      this component just returns an empty string.
-                    </p>
-                    <pre><code class="xml">&lt;macro name="juris-comma-spotter-short"&gt;
-  &lt;text value=""/&gt;
-&lt;/macro&gt;</code></pre>
-                  </div>
-
-                  <hr style="border:0 none;border-top:1px solid #000000;"/>
-                  <h3>Short-form components</h3>
-                  <div class="multi-column">
                     <h2 id="guidance-tail-short"><a class="return-link" href="#banner"><span class="mono">juris-tail-short</span></a></h2>
                     <p>
                       There is not much to see here either. Neither of the citation forms
@@ -2252,94 +1979,102 @@
                   <hr style="border:0 none;border-top:1px solid #000000;margin-bottom:10px;"/>
                   <hr style="border:0 none;border-top:1px solid #000000;margin-top:10px;"/>
 
-                  <h3>Fragment components</h3>
-                  <div class="multi-column">
-                    <h2 id="guidance-locator-label"><a class="return-link" href="#banner"><span class="mono">juris-locator-label</span></a></h2>
-                    <p>
-                      Each &ldquo;ancestor&rdquo; style that calls our
-                      module will have its own method of constructing
-                      back-references.  In some circumstances, its
-                      scaffolding will give special treatment to a
-                      locator that has no label in the native format
-                      delivered by the module. For example, an
-                      immediate back-reference to
-                      an <span class="small-caps">Atlantis</span> case
-                      cited in Bluebook scaffolding and pinpointed by
-                      page number should look like this:
-                    </p>
-                    <div class="well well-sm">
-                      <i>Id</i>. at 456.
-                    </div>
-                    <p>
-                      The &ldquo;at&rdquo; cannot be supplied by the
-                      module code, because it is a specific feature of
-                      the Bluebook scaffolding: another
-                      &ldquo;ancestor&rdquo; style might construct
-                      immediate back-references in a completely
-                      different way.
-                    </p>
-                    <p>
-                      To solve this problem,
-                      the <span class="mono">juris-locator-label</span>
-                      component delivers the bare label <i>of the
-                      module</i> (which may be empty); and if
-                      it <i>is</i> empty, the scaffolding of the
-                      calling style can add a supplementary label of
-                      its own using the following construct:
-                    </p>
-                    <pre><code class="xml">&lt;text macro="juris-locator-label" 
-      alternative-macro="my-at-label"/&gt;</code></pre>
-
-                    <p>
-                      In <span class="small-caps">Atlantis</span>
-                      references, page numbers have no label, so this
-                      component is cast as a simple condition
-                      statement that renders nothing if the locator is
-                      a page, and otherwise the label.
-                    </p>
-                    
-                    <pre><code class="xml">&lt;macro name="juris-locator-label"&gt;
-  &lt;choose&gt;
-    &lt;if locator="page"/&gt;
-    &lt;else&gt;
-      &lt;label variable="locator" form="symbol"/&gt;
-    &lt;/else&gt;
-  &lt;/choose&gt;
-&lt;/macro&gt;</code></pre>
-                  </div>
-
-                  <hr style="border:0 none;border-top:1px solid #000000;"/>
-                  <h3>Fragment components</h3>
+                  <h3>Locator component</h3>
                   <div class="multi-column">
                     <h2 id="guidance-locator"><a class="return-link" href="#banner"><span class="mono">juris-locator</span></a></h2>
                     <p>
-                      In situations like that described in the section above,
-                      the scaffolding in an &ldquo;ancestor&rdquo; style must
-                      have a means of setting the bare pinpoint locator in
-                      the module format, without any label.
+                      The <span class="mono">locator</span> component
+                      sets a pinpoint locator in the native format of
+                      the module.
                     </p>
                     <p>
-                      Calling the <span class="mono">locator</span>
-                      variable directly may seem the obvious thing to
-                      do, but some jurisdictions
-                      require <i>affixes</i> on the locator, even when
-                      it has no label. For example, modern English
-                      cases number passages by paragraph number, and
-                      the pinpoint paragraph is enclosed in square
-                      braces, thus:
+                      Once-only rendering of the <code>locator</code>
+                      variable is a feature of Juris-M CSL. As stated
+                      in the Specification Supplement (linked in
+                      the <b>Docs</b> menu at the top of this page):
                     </p>
-                    <div class="well well-sm">
-                      <i>Callery v Gray</i> [2001] EWCA Civ 1117 [42]
+                    <div class="well">
+                      The locator variable will render exactly once in
+                      a citation; subsequent attempts will render
+                      nothing. As with variables suppressed
+                      via <b>cs:substitute</b>, the test
+                      for <span class="mono">variable="locator"</span>
+                      will continue to return true after the variable
+                      is suppressed from further output.
                     </div>
                     <p>
-                      In the <span class="small-caps">Atlantis</span> citation
-                      style, we do not apply affixes to our locators; but if we
-                      must nonetheless &ldquo;play cricket&rdquo; by supplying
-                      this macro, we can just return the bare locator, so that
-                      is what we do.
+		              Suppression of output extends to labels or terms
+		              grouped together with a
+		              suppressed <code>locator</code> variable, as
+		              indicated in the CSL Specification.
+                    </p>
+                    <div class="well">
+                      <b>cs:group</b> implicitly acts as a
+                      conditional: <b>cs:group</b> and its child
+                      elements are suppressed if:
+                      <ul>
+                        <li>
+                          at least one rendering element in <b>cs:group</b> calls a variable
+                          (either directory or via a macro), and
+                        </li>
+                        <li>all variables that are called are empty.</li>
+                      </ul>
+                      This accommodates descriptive <b>cs:text</b> [and <b>cs:label</b>] elements.
+                      <div><i>(brace-enclosed text added)</i></div>
+                    </div>
+		            <ul>
+		              <li>
+			            Locator labels must be grouped together with
+			            a locator element, at the same nesting level (N.B.
+			            macros open a new nesting level); and
+		              </li>
+		              <li>
+			            The condition <code>variable="locator"</code> must
+			            be used only to test for the complete absence of
+			            the variable in the item input.
+		              </li>
+		            </ul>
+                    <p>
+                      At this point, we need to confirm the format of pinpoint
+                      locators in the native style of our jurisdiction. Rummaging about for our
+                      dog-eared copy of
+                      <span class="small-caps">The Atlantis Guide: A
+                      Very Old System of Citation</span>, we find that
+                      they should look like this for a long-form
+                      reference of the <b>Case</b> type:
+                    </p>
+                    <div class="well well-sm">
+                      Int’l Shoe Co. v. Wash., 90 L. Ed. 95, <span class="boxy reddish">96</span> (Sup. Ct. 1945) 
+                    </div>
+                    <p>
+                      In the <b>Statute</b> type, section pinpoints should look like this:
+                    </p>
+                    <div class="well well-sm">
+                      Sherwood Act, ch. 123, <span class="boxy reddish">§ 3</span>, 37 Stat. 112, 113 (1912)
+                    </div>
+                    <p>
+                      The first point to note is that the pinpoint
+                      locator is preceded by a comma in both
+                      instances. The locators will therefore not be
+                      rendered by this component, but by
+                      its <span class="mono">comma</span> companion.
+                      It does not follow, however, that we have nothing
+                      to define here.
+                    </p>
+                    <p>
+                      Here is our Juris-M CSL code to produce the standard
+                      pinpoint unit for <span class="small-caps">Atlantis</span>
+                      references:
                     </p>
                     <pre><code class="xml">&lt;macro name="juris-locator"&gt;
-  &lt;number variable="locator"/&gt;
+  &lt;group delimiter=" "&gt;
+    &lt;choose&gt;
+      &lt;if match="none" locator="page"&gt;
+        &lt;label variable="locator"/&gt;
+      &lt;/if&gt;
+    &lt;/choose&gt;
+    &lt;text macro="juris-locator"/&gt;
+  &lt;/group&gt;
 &lt;/macro&gt;</code></pre>
                   </div>
                   
