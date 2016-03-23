@@ -16,18 +16,8 @@
     <date-part name="day" form="numeric-leading-zeros"/>
   </date>
   <terms>
-    <term name="radio-broadcast">radio broadcast</term>
-    <term name="television-broadcast">television broadcast</term>
-    <term name="podcast">podcast</term>
-    <term name="instant-message">instant message</term>
-    <term name="email">email</term>
-    <term name="number-of-volumes">
-      <single>volume</single>
-      <multiple>volumes</multiple>
-    </term>
     <term name="accessed">eskuratua</term>
     <term name="and">eta</term>
-    <term name="and" form="symbol">&amp;</term>
     <term name="and others">eta beste</term>
     <term name="anonymous">ezezaguna</term>
     <term name="anonymous" form="short">ezez.</term>
@@ -134,6 +124,10 @@
       <single>orrialdea</single>
       <multiple>orrialdeak</multiple>
     </term>
+    <term name="number-of-pages">
+      <single>orrialdea</single>
+      <multiple>orrialdeak</multiple>
+    </term>
     <term name="paragraph">
       <single>paragrafoa</single>
       <multiple>paragrafoak</multiple>
@@ -170,6 +164,10 @@
     <term name="note" form="short">n.</term>
     <term name="opus" form="short">op.</term>
     <term name="page" form="short">
+      <single>or.</single>
+      <multiple>or.</multiple>
+    </term>
+    <term name="number-of-pages" form="short">
       <single>or.</single>
       <multiple>or.</multiple>
     </term>
@@ -252,6 +250,7 @@
     </term>
 
     <!-- VERB ROLE FORMS -->
+    <term name="container-author" form="verb"></term>
     <term name="director" form="verb">directed by</term>
     <term name="editor" form="verb">-(e)k argitaratua</term>
     <term name="editorial-director" form="verb">-(e)k argitaratua</term>
@@ -263,7 +262,6 @@
     <term name="editortranslator" form="verb">-(e)k argitaratu eta itzulia</term>
 
     <!-- SHORT VERB ROLE FORMS -->
-    <term name="container-author" form="verb-short"/>
     <term name="director" form="verb-short">dir.</term>
     <term name="editor" form="verb-short">arg.</term>
     <term name="editorial-director" form="verb-short">arg.</term>

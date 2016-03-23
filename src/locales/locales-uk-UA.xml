@@ -16,18 +16,8 @@
     <date-part name="year"/>
   </date>
   <terms>
-    <term name="radio-broadcast">radio broadcast</term>
-    <term name="television-broadcast">television broadcast</term>
-    <term name="podcast">podcast</term>
-    <term name="instant-message">instant message</term>
-    <term name="email">email</term>
-    <term name="number-of-volumes">
-      <single>volume</single>
-      <multiple>volumes</multiple>
-    </term>
     <term name="accessed">accessed</term>
     <term name="and">і</term>
-    <term name="and" form="symbol">&amp;</term>
     <term name="and others">та інші</term>
     <term name="anonymous">анонімний</term>
     <term name="anonymous" form="short">анон.</term>
@@ -140,6 +130,10 @@
       <single>page</single>
       <multiple>pages</multiple>
     </term>
+    <term name="number-of-pages">
+      <single>page</single>
+      <multiple>pages</multiple>
+    </term>
     <term name="paragraph">
       <single>paragraph</single>
       <multiple>paragraph</multiple>
@@ -176,6 +170,10 @@
     <term name="note" form="short">n.</term>
     <term name="opus" form="short">op</term>
     <term name="page" form="short">
+      <single>p</single>
+      <multiple>pp</multiple>
+    </term>
+    <term name="number-of-pages" form="short">
       <single>p</single>
       <multiple>pp</multiple>
     </term>
@@ -258,6 +256,7 @@
     </term>
 
     <!-- VERB ROLE FORMS -->
+    <term name="container-author" form="verb">by</term>
     <term name="director" form="verb">directed by</term>
     <term name="editor" form="verb">edited by</term>
     <term name="editorial-director" form="verb">edited by</term>
@@ -269,7 +268,6 @@
     <term name="editortranslator" form="verb">edited &amp; translated by</term>
 
     <!-- SHORT VERB ROLE FORMS -->
-    <term name="container-author" form="verb-short">by</term>
     <term name="director" form="verb-short">dir.</term>
     <term name="editor" form="verb-short">ed</term>
     <term name="editorial-director" form="verb-short">ed.</term>
