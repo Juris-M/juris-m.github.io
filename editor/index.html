@@ -747,7 +747,7 @@
                       <div class="indent">
                         <div class="small-faint-heading">Full plain</div>
                         <div>
-                          [TITLE], [MAIN], [LOCATOR] [TAIL]
+                          [TITLE], [MAIN] [LOCATOR] [TAIL]
                         </div>
                       </div>
                     </div>
@@ -760,18 +760,16 @@
                       <div class="indent">
                         <div class="small-faint-heading">Full plain</div>
                         <div>
-                          [TITLE], [MAIN], [LOCATOR] [TAIL]
+                          [TITLE], [MAIN] [LOCATOR] [TAIL]
                         </div>
                       </div>
                     </div>
                     <p>
-                      Each bracketed term represents a separate CSL
-                      macro supplied by the legal style module, joined
-                      together by punctuation to be supplied by the
-                      style that calls the module. We will refer to
-                      the subunits as
-                      <i>components</i>, and to the parent style code
-                      supplying the punctuation <i>scaffolding</i>.
+                      Each bracketed term comes from a separate CSL
+                      macro (a <i>component</i>) supplied by the legal
+                      style module. Components are joined together in the
+                      style that calls the module, with code that we will
+                      call the <i>scaffolding</i>.
                     </p>
                     <p>
                       In our module
@@ -864,7 +862,7 @@
                       as the <i>last</i> element inside
                       the <code>cs:info</code> element:
                     </p>
-                    <pre><code class="xml">&lt;law-module types="legal_case statute"/&gt;</code></pre>
+                    <pre><code class="xml">&lt;law-module types="legal_case legislation"/&gt;</code></pre>
                     <p>
                       The name used for the Juris-M <b>Case</b> type
                       in CSL code is
@@ -1789,7 +1787,7 @@
                       form when the citation is rendered. To trigger
                       the conversion, we must set
                       the <code>form="short"</code> attribute on
-                      the <code>cs;institution</code> element.  For
+                      the <code>cs:institution</code> element.  For
                       full details on the <code>cs:institution</code>
                       element, see the Juris-M CSL Specification
                       Supplement, linked in the <b>Docs</b> menu at
@@ -1844,22 +1842,36 @@
 
                     <h2 id="guidance-title-short"><a class="return-link" href="#banner"><span class="mono">juris-title-short</span></a></h2>
                     <p>
-                      Our scaffolding calls
-                      the <span class="mono">juris-title-short</span>
-                      component in subsequent citations. As that macro
-                      is still delivering a placeholder,
-                      the <b>Case</b> type is still showing this in the <span class="tabby">Sampler</span>:
+                      In the short-form citations shown for case, we initially see this:
                     </p>
                     <div class="well">
                       <div class="indent">
                         <div class="small-faint-heading">Supra plain</div>
                         <div>
-                          <i>[TITLE-SHORT]</i>, [MAIN-SHORT], [LOCATOR] [TAIL-SHORT]
+                          [TITLE-SHORT], <i>supra</i> note 1, [LOCATOR]
                         </div>
                       </div>
                     </div>
                     <p>
-                      The <b>Statute</b> type is showing roughly the
+                      As the scaffolding implements the Baby Blue
+                      style, this is not correct: <i>supra</i> should
+                      not be used for back-references to a case
+                      citation. The discrepancy is due to inclusion of the
+                      <b>Document Name</b> field. Drag it to the right
+                      to remove it from the fields used in
+                      the <span class="tabby">Sampler</span>, and the
+                      cites will change to the correct structure:
+                    </p>
+                    <div class="well">
+                      <div class="indent">
+                        <div class="small-faint-heading">Supra plain</div>
+                        <div>
+                          <i>[TITLE-SHORT]</i>, [MAIN-SHORT] [LOCATOR] [TAIL-SHORT]
+                        </div>
+                      </div>
+                    </div>
+                    <p>
+                      The <b>Statute</b> type shows roughly the
                       same thing&mdash;the only difference is that the
                       title placeholder is set in a roman rather than
                       italic type:
@@ -1868,7 +1880,7 @@
                       <div class="indent">
                         <div class="small-faint-heading">Supra plain</div>
                         <div>
-                          [TITLE-SHORT], [MAIN-SHORT], [LOCATOR] [TAIL-SHORT]
+                          [TITLE-SHORT], [MAIN-SHORT] [LOCATOR] [TAIL-SHORT]
                         </div>
                       </div>
                     </div>
@@ -1881,15 +1893,18 @@
                       abbreviation described in the previous section,
                       the <span class="mono">juris-title-short</span>
                       component requires a little more code than its
-                      long-form cousin: but the logic to be applied is
+                      long-form cousin, but the logic to be applied is
                       straightfoward. The
                       <span class="mono">title-short</span> variable
-                      is tightly bound to the <b>Short Title</b> field,
-                      and it will test <code>false</code> if the field is
-                      empty. If we also remember that the <code>form="short"</code>
-                      attribute should be used only on the <span class="mono">legal_case</span>
-                      type, the conditions are easy enough to compose. The following conditions
-                      and <code>cs:text</code> elements will produce the effect we're after:
+                      is tightly bound to the <b>Short Title</b>
+                      field, and it will test <code>false</code> if
+                      the field is empty. Remembering that
+                      the <code>form="short"</code> attribute should
+                      be used only on
+                      the <span class="mono">legal_case</span> type,
+                      the following conditions
+                      and <code>cs:text</code> elements will produce
+                      the effect we're after:
                     </p>
                     <pre><code class="xml">&lt;macro name="juris-title-short"&gt;
   &lt;choose&gt;
