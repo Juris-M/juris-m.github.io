@@ -4,8 +4,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.11.2/URI.min.js"></script>
     <script type="text/javascript">
       // Force HTTPS
-      var enforce = "juris-m.github.io";
-      if ((enforce == window.location.host) && (window.location.protocol != "https:")) {
+      var enforce = ["fbennett.github.io", "juris-m.github.io"];
+      if ((enforce.indexOf(window.location.host) > -1) && (window.location.protocol != "https:")) {
           // GitHub API OAuth login robot calls back with HTTP, even if protocol is set to HTTPS in the URL.
           window.location.protocol = "https";
       } else {
