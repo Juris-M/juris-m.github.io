@@ -195,6 +195,7 @@ div.keep-together {
     border-left: 1px solid #cccccc;
     border-right: 1px solid #cccccc;
     display: inline-block;
+    vertical-align: top;
 }
 
 .mono {

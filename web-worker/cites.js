@@ -388,9 +388,6 @@ onmessage = function (event) {
                 //selectedVars = {};
                 lastStyleName = nextStyleName;
             }
-
-            
-
             outObj.bubbles = getBubbles(event);
             var customFields = event.data.customFields;
             var result = generateSample(customFields);
