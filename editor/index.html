@@ -1966,7 +1966,7 @@
                     </p>
                     <pre><code class="xml">&lt;macro name="juris-main-short"&gt;
   &lt;choose&gt;
-    &lt;if type="legislation"/&gt;
+    &lt;if type="legislation" variable="gazette-flag" match="all"/&gt;
     &lt;else&gt;
       &lt;group delimiter=" "&gt;
         &lt;number variable="volume"/&gt;
@@ -2038,77 +2038,68 @@
                       the <code>form</code> attribute.
                     </p>
                     <p>
-                      We're now done with the module code. To explain
-                      why, we'll look a little further at some magical
-                      features of the <code>cs:group</code> element.
+                      That's it for the module code: the parent style
+                      scaffolding will assign label forms and join the
+                      components with correct punctuation.
                     </p>
                     <p>
-                      The first neat thing is that the labels that are
-                      immediate children of a group will render only
-                      if: (a) no variables are rendered at the same
-                      level or below; or (b) at least one variable at
-                      the same level or below renders successfully.
-                      (For these rules, condition nesting is ignored.)
-                      Following those rules in the code above, if the
-                      <b>locator</b> variable is not provided, the label
-                      will be suppressed.
+                      There is one important detail that is not illustrated
+                      in these examples. In many non-US citation styles
+                      in the common law world, paragraph numbers are indicated
+                      by enclosing each number in a separate pair of braces.
+                      Quoting the <a href="https://www.law.ox.ac.uk/sites/files/oxlaw/oscola_4th_edn_hart_2012.pdf">OSCOLA guide</a>:
                     </p>
-                    <p>
-                      The second neat thing concerns a CSL-M extension
-                      of the <code>cs:group</code> element that comes into
-                      play when our locator macro is rendered by a parent
-                      style. One example of such code might look like this:
-                    <p>
-<group delimiter=" ">
-  <text value="supra" form="italics"/>
-  <text term="note"/>
-  <number variable="first-reference-note-number"/>
-  
-  
-                      At this point, we need to confirm the format of pinpoint
-                      locators in the native style of our jurisdiction. Rummaging about for our
-                      dog-eared copy of
-                      <span class="small-caps">The Atlantis Guide: A
-                      Very Old System of Citation</span>, we find that
-                      they should look like this for a long-form
-                      reference of the <b>Case</b> type:
-                    </p>
-                    <div class="well well-sm">
-                      Int’l Shoe Co. v. Wash., 90 L. Ed. 95, <span class="boxy reddish">96</span> (Sup. Ct. 1945) 
+                    <div class="well">
+                      <div class="indent">
+                        If the judgment has numbered paragraphs (as
+                        will generally be the case where there is a
+                        neutral citation), pinpoint to a particular
+                        paragraph by putting the relevant paragraph
+                        number in square brackets. If pinpointing to
+                        more than one paragraph, separate the
+                        paragraph numbers in square brackets with a
+                        comma. If citing spans of paragraphs, insert a
+                        dash between the first and last paragraph
+                        being cited.
+                      </div>
                     </div>
                     <p>
-                      In the <b>Statute</b> type, section pinpoints should look like this:
+                      To implement this rule, add the following block
+                      at the top of the module code, immediately <i>after</i>
+                      the <code>cs:info</code> block:
                     </p>
-                    <div class="well well-sm">
-                      Sherwood Act, ch. 123, <span class="boxy reddish">§ 3</span>, 37 Stat. 112, 113 (1912)
-                    </div>
-                    <p>
-                      The first point to note is that the pinpoint
-                      locator is preceded by a comma in both
-                      instances. The locators will therefore not be
-                      rendered by this component, but by
-                      its <span class="mono">comma</span> companion.
-                      It does not follow, however, that we have nothing
-                      to define here.
-                    </p>
-                    <p>
-                      Here is our Juris-M CSL code to produce the standard
-                      pinpoint unit for <span class="small-caps">Atlantis</span>
-                      references:
-                    </p>
-                    <pre><code class="xml">&lt;macro name="juris-locator"&gt;
-  &lt;group delimiter=" "&gt;
-    &lt;choose&gt;
-      &lt;if match="none" locator="page"&gt;
-        &lt;label variable="locator"/&gt;
-      &lt;/if&gt;
-    &lt;/choose&gt;
-    &lt;text macro="juris-locator"/&gt;
-  &lt;/group&gt;
-&lt;/macro&gt;</code></pre>
+                    <pre><code class="xml">&lt;locale&gt;
+  &lt;terms&gt;
+    &lt;term name="paragraph" form="static"&gt;[%s]&lt;/term&gt;
+  &lt;/terms&gt;
+&lt;/locale&gt;</code></pre>
                   </div>
-                  
-
+                  <p>
+                    Then use code like the following for the locator:
+                  </p>
+                    <pre><code class="xml">
+&lt;group delimiter=" "&gt;
+  &lt;choose&gt;
+    &lt;if locator="page"/&gt;
+    &lt;else-if locator="paragraph"&gt;
+      &lt;label variable="locator" form="static"&gt;
+    &lt;/else-if&gt;
+    &lt;else&gt;
+      &lt;label variable="locator"/&gt;
+    &lt;/else&gt;
+  &lt;/choose&gt;
+  &lt;number variable="locator"/&gt;
+&lt;/group&gt;</code></pre>
+                  <p>
+                    When the processor renders a label with the
+                    placeholder <b>%s</b> immediately before its
+                    associated variable, the processor will combine
+                    the two by substituting the value for the
+                    placeholder. The effect of
+                    the <code>form="static"</code> attribute is to
+                    prevent the parent style from modifying the form
+                    of this particular label.
+                  </p>
                   <hr style="border:0 none;border-top:1px solid #000000;margin-bottom:10px;"/>
                   <hr style="border:0 none;border-top:1px solid #000000;margin-top:10px;"/>
                   <h2 id="guidance-results"><a class="return-link" href="#banner">Test Results</a></h2>
