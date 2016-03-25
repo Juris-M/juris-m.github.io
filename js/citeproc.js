@@ -34,7 +34,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.86",
+    PROCESSOR_VERSION: "1.1.87",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -7365,7 +7365,7 @@ CSL.Node.layout = {
             };
             this.execs.push(func);
             func = function (state, Item) {
-                var tok = "empty";
+                var tok = new CSL.Token();
                 if (state.opt.development_extensions.rtl_support) {
                     if (["ar", "he", "fa", "ur", "yi", "ps", "syr"].indexOf(Item.language) > -1) {
                         tok = new CSL.Token();
@@ -7501,7 +7501,7 @@ CSL.Node.layout = {
                     target.push(suffix_token);
                 }
                 func = function (state, Item) {
-                    state.output.closeLevel("empty");
+                    state.output.closeLevel();
                 };
                 this.execs.push(func);
                 func = function (state, Item) {
