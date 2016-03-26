@@ -34,7 +34,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.88",
+    PROCESSOR_VERSION: "1.1.89",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -689,6 +689,12 @@ var CSL = {
                 if (state.tmp.group_context.tip.condition.not) {
                     state.tmp.group_context.tip.force_suppress = !state.tmp.group_context.tip.force_suppress;
                 }
+            }
+        } else {
+            if (termtxt.slice(-1).match(/[0-9]/)) {
+                state.tmp.just_did_number = true;
+            } else {
+                state.tmp.just_did_number = false;
             }
         }
     },
