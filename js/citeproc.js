@@ -34,7 +34,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.87",
+    PROCESSOR_VERSION: "1.1.88",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -665,14 +665,16 @@ var CSL = {
                     var empty = !termtxt;
                     var alpha = termtxt.slice(0,1).match(CSL.ALL_ROMANESQUE_REGEXP);
                     var num = state.tmp.just_did_number;
-                    if (num) {
-                        if (empty) {
+                    if (empty) {
+                        testres = true;
+                    } else if (num) {
+                        if (alpha) {
                             testres = true;
                         } else {
                             testres = false;
                         }
                     } else {
-                        if (empty || alpha) {
+                        if (alpha) {
                             testres = true;
                         } else {
                             testres = false;
