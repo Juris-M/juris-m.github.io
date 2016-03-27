@@ -48,6 +48,8 @@ div.info-box {
 div.info-box.yellow {
     background: #f7ff3c;
     border: 1px solid #b56f03;
+    border: 1px solid #b56f03;
+    border-radius: none;
 }
 
 div.shaded-box {
