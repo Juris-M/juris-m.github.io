@@ -45,6 +45,11 @@ div.info-box {
     margin:0 0.5em 1em 0.5em;
 }
 
+div.info-box.yellow {
+    background: #f1f2cb;
+    border-color: #728000;
+}
+
 div.shaded-box {
     padding-top: 3px;
     background: #eeeeee !important;
