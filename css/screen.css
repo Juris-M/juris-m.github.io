@@ -46,7 +46,9 @@ div.info-box {
 }
 
 div.shaded-box {
-    background: #dddddd;
+    padding-top: 3px;
+    background: #eeeeee !important;
+    border: 1px solid #aaaaaa;
 }
 
 li.selected a {
