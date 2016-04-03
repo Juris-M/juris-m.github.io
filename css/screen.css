@@ -281,6 +281,10 @@ a.disabled-link:hover {
     border: 1px solid #aaaaaa;
 }
 
+.downloads .row.even .col-md-4:nth-child(odd).indigo, .downloads .row.odd .col-md-4:nth-child(even).indigo {
+    border: 4px solid #9683EC;
+}
+
 .downloads .row.even .col-md-4:nth-child(odd), .downloads .row.odd .col-md-4:nth-child(even) span.mono {
     background: white;
 }
