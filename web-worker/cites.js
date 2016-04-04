@@ -404,12 +404,11 @@ onmessage = function (event) {
             outObj.bibliography = bibliography;
 
             // Return enabled legal types if module has them
-            var xmlParser = new CSL.XmlJSON();
-            var infoNode = xmlParser.getNodesByName(processorElements.style, 'info')[0];
-            var lawModuleNode = xmlParser.getNodesByName(infoNode, 'law-module');
+            var infoNode = citeproc.cslXml.getNodesByName(processorElements.style, 'info')[0];
+            var lawModuleNode = citeproc.cslXml.getNodesByName(infoNode, 'law-module');
             lawModuleNode = lawModuleNode.length ? lawModuleNode[0] : null;
             // usedTypes is a space-delimited string list of CSL type names
-            outObj.usedTypes = xmlParser.getAttributeValue(lawModuleNode, 'types');
+            outObj.usedTypes = citeproc.cslXml.getAttributeValue(lawModuleNode, 'types');
         }, 'INIT PAGE OK');
         break;
     case 'CHANGE ITEM TYPE':
