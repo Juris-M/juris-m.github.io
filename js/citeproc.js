@@ -34,7 +34,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.90",
+    PROCESSOR_VERSION: "1.1.92",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -120,7 +120,9 @@ var CSL = {
         "vol": "volume"
     },
     MODULE_MACROS: {
+        "juris-pretitle": true,
         "juris-title": true,
+        "juris-pretitle-short": true,
         "juris-title-short": true,
         "juris-main": true,
         "juris-main-short": true,
@@ -5737,7 +5739,7 @@ CSL.getBibliographyEntries = function (bibsection) {
             this.output.adjust.downward(this.output.queue[j],true);
             this.output.adjust.fix(this.output.queue[j]);
         }
-        res = this.output.string(this, this.output.queue);
+        res = this.output.string(this, this.output.queue)[0];
         if (!res) {
             res = "\n[CSL STYLE ERROR: reference with no printed form.]\n";
         }
