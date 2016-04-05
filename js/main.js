@@ -1294,7 +1294,7 @@ var CSLValidator = (function() {
         var fileName = "SomeFileName.txt"
         m = xmlStr.match(/.*<id>.*\/(.*)<\/id>/);
         if (m) {
-            fileName = m[1] + ".csl";
+            fileName = m[1].replace(/:/g, "+") + ".csl";
         }
         xmlStr = btoa(unescape(encodeURIComponent(xmlStr)));
         var a = document.createElement('a');
