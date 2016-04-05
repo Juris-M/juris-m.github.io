@@ -3,25 +3,18 @@ Juris-M: United States
 ======================
 
 This guide applies to Juris-M items set to the ``US`` jurisdiction. It covers
-federal resources; citation forms specific to sub-jurisdictions may require a
-separate module.
+federal resources; cite forms for state and federal subjurisdictions
+may be impose their own variants.
 
-Citation forms vary depending on the item type of the input fields supplied.
-Custom preview data can be set in the ``Sampler`` by clicking on the bubbles
-and entering a value. Undesired fields can be suppressed from output by entering
-this value in the field::
-
-    !here>>>
-
-In production, Juris-M should be used with the ``Abbreviation Filter``, which
-also recognizes this field-suppression hack.
+In production with Juris-M, use the ``Abbreviation Filter`` to
+transform or suppress jurisdiction names as appropriate.
 
 --------------
 Citation Forms
 --------------
 
-The following input conventions apply to this style module. **Boldface** entries
-are required. *Italicized* entries are optional.
+In the input guidance below, required fields are set in **boldface**;
+entries set in *italics* are optional.
 
 ^^^^
 Case

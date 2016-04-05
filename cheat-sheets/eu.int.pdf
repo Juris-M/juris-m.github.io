@@ -1,0 +1,204 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+1 0 obj
+<< /F1 2 0 R /F2 3 0 R /F3 4 0 R /F4 5 0 R >>
+endobj
+2 0 obj
+<< /BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font >>
+endobj
+3 0 obj
+<< /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font >>
+endobj
+4 0 obj
+<< /BaseFont /Courier /Encoding /WinAnsiEncoding /Name /F3 /Subtype /Type1 /Type /Font >>
+endobj
+5 0 obj
+<< /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding /Name /F4 /Subtype /Type1 /Type /Font >>
+endobj
+6 0 obj
+<< /Contents 13 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 12 0 R /Resources << /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ] >> /Rotate 0 /Trans <<  >> 
+  /Type /Page >>
+endobj
+7 0 obj
+<< /Outlines 9 0 R /PageLabels 14 0 R /PageMode /UseNone /Pages 12 0 R /Type /Catalog >>
+endobj
+8 0 obj
+<< /Author () /CreationDate (D:20160405084515-09'00') /Creator (\(unspecified\)) /Keywords () /Producer (ReportLab PDF Library - www.reportlab.com) /Subject (\(unspecified\)) 
+  /Title (Juris-M: European Union) >>
+endobj
+9 0 obj
+<< /Count 3 /First 10 0 R /Last 10 0 R /Type /Outlines >>
+endobj
+10 0 obj
+<< /Count 1 /Dest [ 6 0 R /XYZ 62.69291 665.0236 0 ] /First 11 0 R /Last 11 0 R /Parent 9 0 R /Title (Citation Forms) >>
+endobj
+11 0 obj
+<< /Dest [ 6 0 R /XYZ 62.69291 614.0236 0 ] /Parent 10 0 R /Title (Case) >>
+endobj
+12 0 obj
+<< /Count 1 /Kids [ 6 0 R ] /Type /Pages >>
+endobj
+13 0 obj
+<< /Length 5111 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 741.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 4 Tm /F2 20 Tf 24 TL 116.0449 0 Td (Juris-M: European Union) Tj T* -116.0449 0 Td ET
+Q
+Q
+q
+1 0 0 1 62.69291 707.0236 cm
+q
+BT 1 0 0 1 0 14 Tm 1.72881 Tw 12 TL /F1 10 Tf 0 0 0 rg (This guide applies to Juris-M items set to the ) Tj /F3 10 Tf (EU.INT ) Tj /F1 10 Tf (jurisdiction. It covers the top tier of European) Tj T* 0 Tw (institutions \(currently only cases of the European Commission\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 677.0236 cm
+q
+BT 1 0 0 1 0 14 Tm .28152 Tw 12 TL /F1 10 Tf 0 0 0 rg (In production with Juris-M, use the ) Tj /F3 10 Tf (Abbreviation Filter ) Tj /F1 10 Tf (to transform or suppress jurisdiction names) Tj T* 0 Tw (as appropriate.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 644.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (Citation Forms) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 626.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (In the input guidance below, required fields are set in ) Tj /F2 10 Tf (boldface) Tj /F1 10 Tf (; entries set in ) Tj /F4 10 Tf (italics ) Tj /F1 10 Tf (are optional.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 596.0236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (Case) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 578.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL ([Reported cases]) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 233.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 332 Tm  T* ET
+q
+1 0 0 1 20 318 cm
+q
+BT 1 0 0 1 0 14 Tm 2.606342 Tw 12 TL /F1 10 Tf 0 0 0 rg (Required fields: ) Tj /F2 10 Tf (Case Name) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Docket Number) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Court) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Call Number) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Date Decided) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (Reporter) Tj /F1 10 Tf (,) Tj T* 0 Tw /F2 10 Tf (Issue) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (First Page) Tj /F1 10 Tf (, and ) Tj /F2 10 Tf (Jurisdiction) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 300 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Notes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 270 cm
+q
+BT 1 0 0 1 0 14 Tm .185542 Tw 12 TL /F2 10 Tf 0 0 0 rg (Case Name: ) Tj /F1 10 Tf (The full name of the case to be shown in citations. Enter both parties, connected by ) Tj /F3 10 Tf (v.) Tj T* 0 Tw /F1 10 Tf (as appropriate \(with a period, to accomodate styles that use them\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 252 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (Docket Number) Tj /F1 10 Tf (: This is the ) Tj /F4 10 Tf (case number ) Tj /F1 10 Tf (\(not the number of the decision itself\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 210 cm
+q
+BT 1 0 0 1 0 26 Tm 2.412651 Tw 12 TL /F2 10 Tf 0 0 0 rg (Court) Tj /F1 10 Tf (: If the name of the deciding body will ordinarily appear in Juris-M records as "European) Tj T* 0 Tw .15998 Tw (Commission." Use the ) Tj /F3 10 Tf (Abbreviation Filter ) Tj /F1 10 Tf (to transform this into the single word ) Tj /F3 10 Tf (Commission) Tj T* 0 Tw /F1 10 Tf (for this jurisdiction.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 192 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (Call Number) Tj /F1 10 Tf (: This is the number of the decision itself.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 162 cm
+q
+BT 1 0 0 1 0 14 Tm 1.742209 Tw 12 TL /F2 10 Tf 0 0 0 rg (Date Decided) Tj /F1 10 Tf (: The date of the decision may be entered in full; only the year will be used when) Tj T* 0 Tw (generating citations.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 120 cm
+q
+BT 1 0 0 1 0 26 Tm .193059 Tw 12 TL /F2 10 Tf 0 0 0 rg (Reporter: ) Tj /F1 10 Tf (Commission decisions are reported in the Official Journal of the European Union, L-series.) Tj T* 0 Tw .245868 Tw (The reporter name can be spelled out in full if desired, with an entry in the ) Tj /F3 10 Tf (Abbreviation Filter) Tj T* 0 Tw /F1 10 Tf (to produce the citation form of ) Tj /F3 10 Tf (OJ L) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 102 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (Issue) Tj /F1 10 Tf (: The issue of the ) Tj /F3 10 Tf (OJ ) Tj /F1 10 Tf (in which the judgment is reported.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 84 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (First Page: ) Tj /F1 10 Tf (The starting page of the judgment in the ) Tj /F3 10 Tf (OJ) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+BT 1 0 0 1 0 38 Tm 1.095542 Tw 12 TL /F2 10 Tf 0 0 0 rg (Court: ) Tj /F1 10 Tf (The name of the court. This is set to appear in all citations, because some courts \(such as) Tj T* 0 Tw 1.608443 Tw /F3 10 Tf (Bankr.) Tj /F1 10 Tf (\) should be shown. To suppress unwanted court names, use the abbreviation hack noted) Tj T* 0 Tw .721318 Tw (above. In Juris-M, court names are entered from a controlled list to assure consistency. Contact the) Tj T* 0 Tw (project to request that courts be added to the listings.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm .213516 Tw 12 TL /F2 10 Tf 0 0 0 rg (Jurisdiction: ) Tj /F1 10 Tf (The name of the jurisdiction. In Juris-M this is set from a controlled list, and selects this) Tj T* 0 Tw (European Union citation stylesheet.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+14 0 obj
+<< /Nums [ 0 15 0 R ] >>
+endobj
+15 0 obj
+<< /S /D /St 1 >>
+endobj
+xref
+0 16
+0000000000 65535 f
+0000000075 00000 n
+0000000139 00000 n
+0000000249 00000 n
+0000000364 00000 n
+0000000472 00000 n
+0000000590 00000 n
+0000000799 00000 n
+0000000906 00000 n
+0000001139 00000 n
+0000001215 00000 n
+0000001355 00000 n
+0000001450 00000 n
+0000001513 00000 n
+0000006681 00000 n
+0000006725 00000 n
+trailer
+<< /ID 
+ % ReportLab generated PDF document -- digest (http://www.reportlab.com)
+ [(\370\3066\273\233M\314i\264\221/U\035\023\207\376) (\370\3066\273\233M\314i\264\221/U\035\023\207\376)]
+ /Info 8 0 R /Root 7 0 R /Size 16 >>
+startxref
+6762
+%%EOF
