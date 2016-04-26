@@ -16,18 +16,8 @@
     <date-part name="year"/>
   </date>
   <terms>
-    <term name="radio-broadcast">radio broadcast</term>
-    <term name="television-broadcast">television broadcast</term>
-    <term name="podcast">podcast</term>
-    <term name="instant-message">instant message</term>
-    <term name="email">email</term>
-    <term name="number-of-volumes">
-      <single>volume</single>
-      <multiple>volumes</multiple>
-    </term>
     <term name="accessed">accedit</term>
     <term name="and">i</term>
-    <term name="and" form="symbol">&amp;</term>
     <term name="and others">i altres</term>
     <term name="anonymous">anònim</term>
     <term name="anonymous" form="short">anòn.</term>
@@ -134,6 +124,10 @@
       <single>pàgina</single>
       <multiple>pàgines</multiple>
     </term>
+    <term name="number-of-pages">
+      <single>pàgina</single>
+      <multiple>pàgines</multiple>
+    </term>
     <term name="paragraph">
       <single>paràgraf</single>
       <multiple>paràgrafs</multiple>
@@ -170,6 +164,10 @@
     <term name="note" form="short">n.</term>
     <term name="opus" form="short">op.</term>
     <term name="page" form="short">
+      <single>p.</single>
+      <multiple>p.</multiple>
+    </term>
+    <term name="number-of-pages" form="short">
       <single>p.</single>
       <multiple>p.</multiple>
     </term>
@@ -252,6 +250,7 @@
     </term>
 
     <!-- VERB ROLE FORMS -->
+    <term name="container-author" form="verb">per</term>
     <term name="director" form="verb">dirigit per</term>
     <term name="editor" form="verb">editat per</term>
     <term name="editorial-director" form="verb">editat per</term>
@@ -263,7 +262,6 @@
     <term name="editortranslator" form="verb">editat i traduït per</term>
 
     <!-- SHORT VERB ROLE FORMS -->
-    <term name="container-author" form="verb-short">per</term>
     <term name="director" form="verb-short">dir.</term>
     <term name="editor" form="verb-short">ed.</term>
     <term name="editorial-director" form="verb-short">ed.</term>

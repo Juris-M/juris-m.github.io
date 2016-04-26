@@ -16,18 +16,8 @@
     <date-part name="year"/>
   </date>
   <terms>
-    <term name="radio-broadcast">radio broadcast</term>
-    <term name="television-broadcast">television broadcast</term>
-    <term name="podcast">podcast</term>
-    <term name="instant-message">instant message</term>
-    <term name="email">email</term>
-    <term name="number-of-volumes">
-      <single>volume</single>
-      <multiple>volumes</multiple>
-    </term>
     <term name="accessed">دسترسی</term>
     <term name="and">و</term>
-    <term name="and" form="symbol">&amp;</term>
     <term name="and others">و دیگران</term>
     <term name="anonymous">ناشناس</term>
     <term name="anonymous" form="short">ناشناس</term>
@@ -79,13 +69,7 @@
     <term name="page-range-delimiter">–</term>
 
     <!-- ORDINALS -->
-    <term name="ordinal">th</term>
-    <term name="ordinal-01">st</term>
-    <term name="ordinal-02">nd</term>
-    <term name="ordinal-03">rd</term>
-    <term name="ordinal-11">th</term>
-    <term name="ordinal-12">th</term>
-    <term name="ordinal-13">th</term>
+    <term name="ordinal"></term>
 
     <!-- LONG ORDINALS -->
     <term name="long-ordinal-01">اول</term>
@@ -140,6 +124,10 @@
       <single>صفحه</single>
       <multiple>صفحات</multiple>
     </term>
+    <term name="number-of-pages">
+      <single>صفحه</single>
+      <multiple>صفحات</multiple>
+    </term>
     <term name="paragraph">
       <single>پاراگراف</single>
       <multiple>پاراگراف‌های</multiple>
@@ -176,6 +164,10 @@
     <term name="note" form="short">n.</term>
     <term name="opus" form="short">قطعه</term>
     <term name="page" form="short">
+      <single>ص</single>
+      <multiple>صص</multiple>
+    </term>
+    <term name="number-of-pages" form="short">
       <single>ص</single>
       <multiple>صص</multiple>
     </term>
@@ -258,6 +250,7 @@
     </term>
 
     <!-- VERB ROLE FORMS -->
+    <term name="container-author" form="verb">توسط</term>
     <term name="director" form="verb">directed by</term>
     <term name="editor" form="verb">edited by</term>
     <term name="editorial-director" form="verb">ویراسته‌ی</term>
@@ -269,7 +262,6 @@
     <term name="editortranslator" form="verb">ترجمه و ویراسته‌ی</term>
 
     <!-- SHORT VERB ROLE FORMS -->
-    <term name="container-author" form="verb-short">توسط</term>
     <term name="director" form="verb-short">dir.</term>
     <term name="editor" form="verb-short">ویراسته‌ی</term>
     <term name="editorial-director" form="verb-short">ویراسته‌ی</term>
