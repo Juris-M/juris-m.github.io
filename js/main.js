@@ -108,6 +108,7 @@ var CSLValidator = (function() {
                 if (isStyle && attr.name === 'locale') {
                     var locale = attr.value.split(/\s+/)[0];
                     this.locales[locale] = true;
+                    console.log("Hey, wake up! "+locale);
                 }
             }
         }
@@ -124,7 +125,7 @@ var CSLValidator = (function() {
                     obj.children.push(child.textContent)
                 }
             } else {
-                obj.children.push(this.walkToObject(child));
+                obj.children.push(this.walkToObject(child, isStyle));
             }
         }
         return obj;

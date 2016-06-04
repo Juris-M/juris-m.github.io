@@ -350,6 +350,7 @@ onmessage = function (event) {
             processorElements.style = event.data.style;
             outObj.pageInit = event.data.pageInit;
             outObj.locales = {};
+            console.log("HO! locales="+JSON.stringify(event.data.locales));
             for (var locale in event.data.locales) {
                 if (CSL.LANG_BASES[locale]) {
                     locale = CSL.LANG_BASES[locale];

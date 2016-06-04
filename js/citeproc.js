@@ -1701,6 +1701,7 @@ if ("undefined" !== typeof XML) {
     }
 }
 CSL.setupXml = function(xmlObject) {
+    console.log("?? "+xmlObject);
     var dataObj = {};
     var parser = null;
     if ("undefined" !== typeof xmlObject) {
@@ -1721,7 +1722,7 @@ CSL.setupXml = function(xmlObject) {
             parser = new CSL.XmlJSON(xmlObject);
         }
     } else {
-        print("OUCH!");
+        CSL.error("OUCH!");
     }
     if (!parser) {
         throw "citeproc-js error: unable to parse style or locale object";
@@ -2416,6 +2417,7 @@ CSL.Engine = function (sys, style, lang, forceLang) {
     this.bibliography = new CSL.Engine.Bibliography();
     this.output = new CSL.Output.Queue(this);
     this.dateput = new CSL.Output.Queue(this);
+    console.log("XX style");
     this.cslXml = CSL.setupXml(style);
     if (this.opt.development_extensions.csl_reverse_lookup_support || this.sys.csl_reverse_lookup_support) {
         this.build.cslNodeId = 0;
@@ -6034,13 +6036,16 @@ CSL.Engine.prototype.localeConfigure = function (langspec, beShy) {
     if (beShy && this.locale[langspec.best]) {
         return;
     }
+    console.log("XX en-US");
     localexml = CSL.setupXml(this.sys.retrieveLocale("en-US"));
     this.localeSet(localexml, "en-US", langspec.best);
     if (langspec.best !== "en-US") {
         if (langspec.base !== langspec.best) {
+            console.log("XX base="+langspec.base);
             localexml = CSL.setupXml(this.sys.retrieveLocale(langspec.base));
             this.localeSet(localexml, langspec.base, langspec.best);
         }
+        console.log("XX best="+langspec.best);
         localexml = CSL.setupXml(this.sys.retrieveLocale(langspec.best));
         this.localeSet(localexml, langspec.best, langspec.best);        
     }
@@ -6834,6 +6839,7 @@ CSL.Node.group = {
                             for (var jurisdiction in res) {
                                 var macroCount = 0;
                                 state.juris[jurisdiction] = {};
+                                console.log("XX jurisdiction="+jurisdiction);
                                 var myXml = CSL.setupXml(res[jurisdiction]);
                                 var myNodes = myXml.getNodesByName(myXml.dataObj, "law-module");
                                 for (var i=0,ilen=myNodes.length;i<ilen;i++) {
