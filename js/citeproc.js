@@ -22,19 +22,8 @@
  *     this program.  If not, see <https://opensource.org/licenses/> or
  *     <http://www.gnu.org/licenses/> respectively.
  */
-if (!Array.indexOf) {
-    Array.prototype.indexOf = function (obj) {
-        var i, len;
-        for (i = 0, len = this.length; i < len; i += 1) {
-            if (this[i] === obj) {
-                return i;
-            }
-        }
-        return -1;
-    };
-}
 var CSL = {
-    PROCESSOR_VERSION: "1.1.106",
+    PROCESSOR_VERSION: "1.1.108",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -1701,7 +1690,6 @@ if ("undefined" !== typeof XML) {
     }
 }
 CSL.setupXml = function(xmlObject) {
-    console.log("?? "+xmlObject);
     var dataObj = {};
     var parser = null;
     if ("undefined" !== typeof xmlObject) {
@@ -1722,7 +1710,7 @@ CSL.setupXml = function(xmlObject) {
             parser = new CSL.XmlJSON(xmlObject);
         }
     } else {
-        CSL.error("OUCH!");
+        print("OUCH!");
     }
     if (!parser) {
         throw "citeproc-js error: unable to parse style or locale object";
@@ -2417,7 +2405,6 @@ CSL.Engine = function (sys, style, lang, forceLang) {
     this.bibliography = new CSL.Engine.Bibliography();
     this.output = new CSL.Output.Queue(this);
     this.dateput = new CSL.Output.Queue(this);
-    console.log("XX style");
     this.cslXml = CSL.setupXml(style);
     if (this.opt.development_extensions.csl_reverse_lookup_support || this.sys.csl_reverse_lookup_support) {
         this.build.cslNodeId = 0;
@@ -6036,16 +6023,13 @@ CSL.Engine.prototype.localeConfigure = function (langspec, beShy) {
     if (beShy && this.locale[langspec.best]) {
         return;
     }
-    console.log("XX en-US");
     localexml = CSL.setupXml(this.sys.retrieveLocale("en-US"));
     this.localeSet(localexml, "en-US", langspec.best);
     if (langspec.best !== "en-US") {
         if (langspec.base !== langspec.best) {
-            console.log("XX base="+langspec.base);
             localexml = CSL.setupXml(this.sys.retrieveLocale(langspec.base));
             this.localeSet(localexml, langspec.base, langspec.best);
         }
-        console.log("XX best="+langspec.best);
         localexml = CSL.setupXml(this.sys.retrieveLocale(langspec.best));
         this.localeSet(localexml, langspec.best, langspec.best);        
     }
@@ -6571,7 +6555,7 @@ CSL.Node["date-part"] = {
                             myform = "numeric";
                         }
                     }
-                    value = CSL.Util.Dates[this.strings.name][myform](state, value, gender, ("accessed" === date_variable));
+                    value = CSL.Util.Dates[this.strings.name][myform](state, value, gender, this.default_locale);
                     if ("month" === this.strings.name) {
                         if (state.tmp.strip_periods) {
                             value = value.replace(/\./g, "");
@@ -6839,7 +6823,6 @@ CSL.Node.group = {
                             for (var jurisdiction in res) {
                                 var macroCount = 0;
                                 state.juris[jurisdiction] = {};
-                                console.log("XX jurisdiction="+jurisdiction);
                                 var myXml = CSL.setupXml(res[jurisdiction]);
                                 var myNodes = myXml.getNodesByName(myXml.dataObj, "law-module");
                                 for (var i=0,ilen=myNodes.length;i<ilen;i++) {
@@ -8656,34 +8639,57 @@ CSL.NameOutput.prototype._renderInstitutionName = function (v, name, slot, j) {
 			tertiary = this.fixupInstitution(tertiary, v, j);
         }
 	}
+    var n = {
+        l: {
+            pri: false,
+            sec: false,
+            ter: false
+        },
+        s: {
+            pri: false,
+            sec: false,
+            ter: false
+        }
+    };
+    if (primary) {
+        n.l.pri = primary["long"];
+        n.s.pri = primary["short"].length ? primary["short"] : primary["long"];
+    }
+    if (secondary) {
+        n.l.sec = secondary["long"];
+        n.s.sec = secondary["short"].length ? secondary["short"] : secondary["long"];
+    }
+    if (tertiary) {
+        n.l.ter = tertiary["long"];
+        n.s.ter = tertiary["short"].length ? tertiary["short"] : tertiary["long"];
+    }
     switch (this.institution.strings["institution-parts"]) {
     case "short":
         if (primary["short"].length) {
             short_style = this._getShortStyle();
-            institution = [this._renderOneInstitutionPart(primary["short"], short_style)];
+            institution = [this._composeOneInstitutionPart([n.s.pri, n.s.sec, n.s.ter], slot, short_style)];
         } else {
             long_style = this._getLongStyle(primary, v, j);
-            institution_long = this._composeOneInstitutionPart([primary, secondary, tertiary], slot, long_style);
-            institution = [institution_long];
+            institution = [this._composeOneInstitutionPart([n.l.pri, n.l.sec, n.l.ter], slot, long_style)];
         }
         break;
     case "short-long":
         long_style = this._getLongStyle(primary, v, j);
         short_style = this._getShortStyle();
         institution_short = this._renderOneInstitutionPart(primary["short"], short_style);
-        institution_long = this._composeOneInstitutionPart([primary, secondary, tertiary], slot, long_style);
+        institution_long = this._composeOneInstitutionPart([n.l.pri, n.l.sec, n.l.ter], slot, long_style);
         institution = [institution_short, institution_long];
         break;
     case "long-short":
         long_style = this._getLongStyle(primary, v, j);
         short_style = this._getShortStyle();
         institution_short = this._renderOneInstitutionPart(primary["short"], short_style);
-        institution_long = this._composeOneInstitutionPart([primary, secondary, tertiary], slot, long_style, true);
+        institution_long = this._composeOneInstitutionPart([n.l.pri, n.l.sec, n.l.ter], slot, long_style, true);
         institution = [institution_long, institution_short];
         break;
     default:
         long_style = this._getLongStyle(primary, v, j);
-        institution = [this._composeOneInstitutionPart([primary, secondary, tertiary], slot, long_style)];
+        institution = [this._composeOneInstitutionPart([n.l.pri, n.l.sec, n.l.ter], slot, long_style)];
         break;
     }
     return this._join(institution, " ");
@@ -8691,13 +8697,13 @@ CSL.NameOutput.prototype._renderInstitutionName = function (v, name, slot, j) {
 CSL.NameOutput.prototype._composeOneInstitutionPart = function (names, slot, style) {
     var primary = false, secondary = false, tertiary = false;
     if (names[0]) {
-        primary = this._renderOneInstitutionPart(names[0]["long"], style);
+        primary = this._renderOneInstitutionPart(names[0], style);
     }
     if (names[1]) {
-        secondary = this._renderOneInstitutionPart(names[1]["long"], style);
+        secondary = this._renderOneInstitutionPart(names[1], style);
     }
     if (names[2]) {
-        tertiary = this._renderOneInstitutionPart(names[2]["long"], style);
+        tertiary = this._renderOneInstitutionPart(names[2], style);
     }
     var institutionblob;
     if (secondary || tertiary) {
@@ -12422,15 +12428,17 @@ CSL.NumericBlob.prototype.checkLast = function (last) {
 };
 CSL.Util.fixDateNode = function (parent, pos, node) {
     var form, variable, datexml, subnode, partname, attr, val, prefix, suffix, children, key, subchildren, kkey, display, cslid;
+    var lingo = this.cslXml.getAttributeValue(node, "lingo");
+    var default_locale = this.cslXml.getAttributeValue(node, "default-locale");
     this.build.date_key = true;
     form = this.cslXml.getAttributeValue(node, "form");
     var lingo;
-    if ("accessed" === this.cslXml.getAttributeValue(node, "variable")) {
+    if (default_locale) {
         lingo = this.opt["default-locale"][0];
     } else {
         lingo = this.cslXml.getAttributeValue(node, "lingo");
     }
-    if (!this.getDate(form)) {
+    if (!this.getDate(form, default_locale)) {
         return parent;
     }
     var dateparts = this.cslXml.getAttributeValue(node, "date-parts");
@@ -12439,12 +12447,13 @@ CSL.Util.fixDateNode = function (parent, pos, node) {
     suffix = this.cslXml.getAttributeValue(node, "suffix");
     display = this.cslXml.getAttributeValue(node, "display");
     cslid = this.cslXml.getAttributeValue(node, "cslid");
-    datexml = this.cslXml.nodeCopy(this.getDate(form, ("accessed" === variable)));
+    datexml = this.cslXml.nodeCopy(this.getDate(form, default_locale));
     this.cslXml.setAttribute(datexml, 'lingo', this.opt.lang);
     this.cslXml.setAttribute(datexml, 'form', form);
     this.cslXml.setAttribute(datexml, 'date-parts', dateparts);
     this.cslXml.setAttribute(datexml, "cslid", cslid);
     this.cslXml.setAttribute(datexml, 'variable', variable);
+    this.cslXml.setAttribute(datexml, 'default-locale', default_locale);
     if (prefix) {
         this.cslXml.setAttribute(datexml, "prefix", prefix);
     }
@@ -12454,27 +12463,35 @@ CSL.Util.fixDateNode = function (parent, pos, node) {
     if (display) {
         this.cslXml.setAttribute(datexml, "display", display);
     }
+    children = this.cslXml.children(datexml);
+    for (key in children) {
+        subnode = children[key];
+        if ("date-part" === this.cslXml.nodename(subnode)) {
+            partname = this.cslXml.getAttributeValue(subnode, "name");
+            if (default_locale) {
+                this.cslXml.setAttributeOnNodeIdentifiedByNameAttribute(datexml, "date-part", partname, "@default-locale", "true");
+            }
+        }
+    }
     children = this.cslXml.children(node);
     for (key in children) {
-            subnode = children[key];
-            if ("date-part" === this.cslXml.nodename(subnode)) {
-                partname = this.cslXml.getAttributeValue(subnode, "name");
-                subchildren = this.cslXml.attributes(subnode);
-                for (attr in subchildren) {
-                    if (subchildren.hasOwnProperty(attr)) {
-                        if ("@name" === attr) {
-                            continue;
-                        }
-                        if (lingo && lingo !== this.opt.lang) {
-                            if (["@suffix", "@prefix", "@form"].indexOf(attr) > -1) {
-                                continue;
-                            }
-                        }
-                        val = subchildren[attr];
-                        this.cslXml.setAttributeOnNodeIdentifiedByNameAttribute(datexml, "date-part", partname, attr, val);
+        subnode = children[key];
+        if ("date-part" === this.cslXml.nodename(subnode)) {
+            partname = this.cslXml.getAttributeValue(subnode, "name");
+            subchildren = this.cslXml.attributes(subnode);
+            for (attr in subchildren) {
+                if ("@name" === attr) {
+                    continue;
+                }
+                if (lingo && lingo !== this.opt.lang) {
+                    if (["@suffix", "@prefix", "@form"].indexOf(attr) > -1) {
+                        continue;
                     }
                 }
+                val = subchildren[attr];
+                this.cslXml.setAttributeOnNodeIdentifiedByNameAttribute(datexml, "date-part", partname, attr, val);
             }
+        }
     }
     if ("year" === this.cslXml.getAttributeValue(node, "date-parts")) {
         this.cslXml.deleteNodeByNameAttribute(datexml, 'month');
