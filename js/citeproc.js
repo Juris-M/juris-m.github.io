@@ -23,7 +23,7 @@
  *     <http://www.gnu.org/licenses/> respectively.
  */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.108",
+    PROCESSOR_VERSION: "1.1.112",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -781,17 +781,19 @@ if (typeof require !== "undefined" && typeof module !== 'undefined' && "exports"
 }
 CSL.TERMINAL_PUNCTUATION_REGEXP = new RegExp("^([" + CSL.TERMINAL_PUNCTUATION.slice(0, -1).join("") + "])(.*)");
 CSL.CLOSURES = new RegExp(".*[\\]\\)]");
-if ("object" === typeof console && "function" === typeof console.log) {
+if ("undefined" === typeof console) {
+    CSL.debug = function () {
+        dump("CSL: " + str + "\n");
+    };
+    CSL.error = function (str) {
+        dump("CSL error: " + str + "\n");
+    };
+} else {
     CSL.debug = function (str) {
         console.log("CSL: " + str);
     };
     CSL.error = function (str) {
         console.log("CSL error: " + str);
-    };
-} else {
-    CSL.debug = function () {};
-    CSL.error = function (str) {
-        throw "CSL error: " + str;
     };
 }
 CSL.XmlJSON = function (dataObj) {
@@ -2477,6 +2479,11 @@ CSL.Engine = function (sys, style, lang, forceLang) {
     this.locale = {};
     if (!this.opt["default-locale-sort"]) {
         this.opt["default-locale-sort"] = this.opt["default-locale"][0];
+    }
+    if ('dale|'.localeCompare('daleb', this.opt["default-locale-sort"]) > -1) {
+        this.opt.sort_sep = "@";
+    } else {
+        this.opt.sort_sep = "|";
     }
     this.localeConfigure(langspec);
     function makeRegExp(lst) {
@@ -4658,7 +4665,9 @@ CSL.Engine.prototype.processCitationCluster = function (citation, citationsPre, 
             this.transform.loadAbbreviation("default", "hereinafter", Item.id);
         }
         item = CSL.parseLocator.call(this, item);
-        this.remapSectionVariable([[Item,item]]);
+        if (this.opt.development_extensions.static_statute_locator) {
+            this.remapSectionVariable([[Item,item]]);
+        }
         if (this.opt.development_extensions.locator_label_parse) {
             if (item.locator && ["bill","gazette","legislation","regulation","treaty"].indexOf(Item.type) === -1 && (!item.label || item.label === 'page')) {
                 m = CSL.LOCATOR_LABELS_REGEXP.exec(item.locator);
@@ -5088,7 +5097,9 @@ CSL.Engine.prototype.makeCitationCluster = function (rawList) {
         newitem = [Item, item];
         inputList.push(newitem);
     }
-    this.remapSectionVariable(inputList);
+    if (this.opt.development_extensions.static_statute_locator) {
+        this.remapSectionVariable(inputList);
+    }
     if (inputList && inputList.length > 1 && this.citation_sort.tokens.length > 0) {
         len = inputList.length;
         for (pos = 0; pos < len; pos += 1) {
@@ -7266,7 +7277,7 @@ CSL.Node.key = {
             if (state.sys.normalizeUnicode) {
                 keystring = state.sys.normalizeUnicode(keystring);
             }
-            keystring = keystring.split(" ").join("A");
+            keystring = keystring ? (keystring.split(" ").join(state.opt.sort_sep) + state.opt.sort_sep) : "";
             if ("" === keystring) {
                 keystring = undefined;
             }
@@ -8919,11 +8930,11 @@ CSL.NameOutput.prototype._renderOnePersonalName = function (value, pos, i, j) {
     } else if (this.state.tmp.sort_key_flag) {
         if (this.state.opt["demote-non-dropping-particle"] === "never") {
             first = this._join([non_dropping_particle, family, dropping_particle], " ");
-            merged = this._join([first, given], "0");
+            merged = this._join([first, given], this.state.opt.sort_sep);
             blob = this._join([merged, suffix], " ");
         } else {
             second = this._join([given, dropping_particle, non_dropping_particle], " ");
-            merged = this._join([family, second], "0");
+            merged = this._join([family, second], this.state.opt.sort_sep);
             blob = this._join([merged, suffix], " ");
         }
     } else if (this.name.strings["name-as-sort-order"] === "all" || (this.name.strings["name-as-sort-order"] === "first" && i === 0 && (j === 0 || "undefined" === typeof j))) {
@@ -12220,7 +12231,7 @@ CSL.Transform = function (state) {
                     tertiary_outer.decorations.push(["@font-weight", "normal"]);
                     state.output.openLevel(tertiary_outer);
                     state.output.append(tertiary, tertiary_tok);
-                    state.output.openLevel(tertiary_outer);
+                    state.output.closeLevel();
                     var blob_obj = state.output.current.value();
                     var blobs_pos = state.output.current.value().blobs.length - 1;
                     if (state.parallel.use_parallels) {
