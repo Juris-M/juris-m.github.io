@@ -355,7 +355,7 @@ var CSLValidator = (function() {
                                 desc: xhr.statusText,
                                 disable: true
                             }
-                            //gh.ghMsg(errorSpec);
+                            // gh.ghMsg(errorSpec);
                             console.log("XXX " + JSON.stringify(errorSpec) + "\n");
                         }
                     }
