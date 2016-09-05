@@ -491,7 +491,18 @@
     <div class="container content">
       <div id="editor-view" class="container action-view">
 	    <div class="row">
-	      <div class="col-md-6">
+          <div class="col-md-1">
+	        <div class="input-append input-group">
+	          <div id="variant-style-method" value="variant-style" class="input-group-btn">
+		        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Type <span class="caret"></span></button>
+		        <ul class="dropdown-menu" role="menu">
+		          <li><a value="note-variant" href="#">Note</a></li>
+		          <li><a value="authordata-variant" href="#">AUthor-Date</a></li>
+		        </ul>
+	          </div><!-- /btn-group -->
+            </div>
+          </div>
+	      <div class="col-md-5">
 	        <div class="input-append input-group">
 	          <div id="source-method" value="search-source" class="input-group-btn">
 		        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Source <span class="caret"></span></button>
