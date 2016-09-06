@@ -808,7 +808,7 @@ var CSLValidator = (function() {
             var target = $(event.target);
             if (target.is('A')) {
                 event.preventDefault();
-                alert("GOT: "+target.attr('value');
+                alert("GOT: "+target.attr('value'));
 /*
                 var oldSchemaVersion = $("#schema-version").attr('value');
                 if (oldSchemaVersion !== target.attr('value')) {
