@@ -804,6 +804,21 @@ var CSLValidator = (function() {
             }
         });
 
+        $("#variant-style-method").click(function(event){
+            var target = $(event.target);
+            if (target.is('A')) {
+                event.preventDefault();
+                alert("GOT: "+target.attr('value');
+/*
+                var oldSchemaVersion = $("#schema-version").attr('value');
+                if (oldSchemaVersion !== target.attr('value')) {
+                    $('#schema-name').attr('value', target.text());
+                    $('#schema-version').attr('value',target.attr('value'));
+                }
+*/
+            }
+        });
+
         console.log("XXX PING citeproc");
         citeprocWorker.postMessage({type:'PING'});
         
