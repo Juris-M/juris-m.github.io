@@ -804,6 +804,15 @@ var CSLValidator = (function() {
             }
         });
 
+        $("#variant-style").click(function(event){
+            var target = $(event.target);
+            if (target.is('A')) {
+                event.preventDefault();
+                $('#variant-style-button').html($(target).text());
+                $('#variant-style').attr('value',target.attr('value'));
+            }
+        });
+
         console.log("XXX PING citeproc");
         citeprocWorker.postMessage({type:'PING'});
         
@@ -1033,6 +1042,7 @@ var CSLValidator = (function() {
    }
 
     function setJurisdictionButton(key, name) {
+        key = key + $('#variant-style').attr('value');
         var html = '<button id="search-input" class="btn btn-info form-control search-input-as-button" value="' + key + '">' + name + '</button>';
         $('#search-source').html(html);
         $('#search-source-remover').show();
