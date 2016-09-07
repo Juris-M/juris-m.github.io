@@ -804,18 +804,12 @@ var CSLValidator = (function() {
             }
         });
 
-        $("#variant-style-method").click(function(event){
+        $("#variant-style").click(function(event){
             var target = $(event.target);
             if (target.is('A')) {
                 event.preventDefault();
-                alert("GOT: "+target.attr('value'));
-/*
-                var oldSchemaVersion = $("#schema-version").attr('value');
-                if (oldSchemaVersion !== target.attr('value')) {
-                    $('#schema-name').attr('value', target.text());
-                    $('#schema-version').attr('value',target.attr('value'));
-                }
-*/
+                $('#variant-style-button').html($(target).text());
+                $('#variant-style').attr('value',target.attr('value'));
             }
         });
 
@@ -1048,6 +1042,7 @@ var CSLValidator = (function() {
    }
 
     function setJurisdictionButton(key, name) {
+        key = key + $('#variant-style').attr('value');
         var html = '<button id="search-input" class="btn btn-info form-control search-input-as-button" value="' + key + '">' + name + '</button>';
         $('#search-source').html(html);
         $('#search-source-remover').show();
