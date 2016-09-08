@@ -1039,10 +1039,10 @@ var CSLValidator = (function() {
                 setJurisdictionButton(info[0], this.value);
             }
         });
-   }
+    }
 
     function setJurisdictionButton(key, name) {
-        key = key + $('#variant-style').attr('value');
+        //key = key + $('#variant-style').attr('value');
         var html = '<button id="search-input" class="btn btn-info form-control search-input-as-button" value="' + key + '">' + name + '</button>';
         $('#search-source').html(html);
         $('#search-source-remover').show();
@@ -1174,6 +1174,7 @@ var CSLValidator = (function() {
         case "search":
             $('div#cheat-sheet-arrow').hide();
             var key = $('#search-input').attr('value');
+            key = (key + $('#variant-style').attr('value'))
             var name = $('#search-input-button').text();
             if (!name) {
                 name = $('#search-input').text();
@@ -1320,7 +1321,7 @@ var CSLValidator = (function() {
         // Call for authentication if necessary
         // (fires only once in a session, otherwise we use the existing token)
         submitButton.start();
-        gh.submitPullRequest($('#search-input').attr('value'), getEditorContent());
+        gh.submitPullRequest(($('#search-input').attr('value') + $('#variant-style').attr('value')), getEditorContent());
     }
 
     function parseResponse(data, reValidate) {
