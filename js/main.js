@@ -339,7 +339,7 @@ var CSLValidator = (function() {
                 var locale = localesToLoad[pos];
                 var xhr = new XMLHttpRequest();
                 locale = locale.replace("_", "-");
-                dump('../src/locales/locales-' + locale + '.xml\n');
+                console.log('../src/locales/locales-' + locale + '.xml\n');
                 xhr.open('GET', '../src/locales/locales-' + locale + '.xml', true);
                 xhr.setRequestHeader("Content-type","text/xml");
                 xhr.onload = function(e) {
@@ -355,8 +355,8 @@ var CSLValidator = (function() {
                                 desc: xhr.statusText,
                                 disable: true
                             }
-                            //gh.ghMsg(errorSpec);
-                            dump("XXX " + JSON.stringify(errorSpec) + "\n");
+                            // gh.ghMsg(errorSpec);
+                            console.log("XXX " + JSON.stringify(errorSpec) + "\n");
                         }
                     }
                 }
@@ -367,7 +367,7 @@ var CSLValidator = (function() {
                         disable: true
                     }
                     //gh.ghMsg(errorSpec);
-                    dump("XXX " + JSON.stringify(errorSpec) + "\n");
+                    console.log("XXX " + JSON.stringify(errorSpec) + "\n");
                 };
                 xhr.send(null);
             }
@@ -667,7 +667,7 @@ var CSLValidator = (function() {
             }
             /*
             if (this.getAttribute('id') === 'url-input' && this.value) {
-                dump("XXX ****** (3)\n");
+                console.log("XXX ****** (3)\n");
                 $('#' + id + '-source-remover').show();
                 loadButton.enable();
             }
