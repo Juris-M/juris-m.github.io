@@ -16,12 +16,16 @@ html,body
 }
 
 div.csl-left-margin {
-    display: inline;
-    padding-right: 2em;
+    display: block;
+    padding-right: 1em;
+    text-indent: 0px;
+    float: left;
 }
 
 div.csl-right-inline {
     display: inline-block;
+    text-indent: 0px;
+    width: 80%;
 }
 
 a.download-button.nogo {
@@ -590,6 +594,7 @@ col-md-6.vcenter {
 .csl-entry {
     margin: 0.5em 0 0.5em 1em;
     text-indent: -1em;
+    clear: left;
 }
 
 .sampler-bubble {
