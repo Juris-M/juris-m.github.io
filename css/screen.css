@@ -21,7 +21,7 @@ div.csl-left-margin {
 }
 
 div.csl-right-inline {
-    display: inline;
+    display: inline-block;
 }
 
 a.download-button.nogo {
