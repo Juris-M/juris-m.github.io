@@ -9,6 +9,10 @@
 }
 */
 
+.post-content {
+    font-size: 200%;
+}
+
 html,body
 {
     width: 100%;
