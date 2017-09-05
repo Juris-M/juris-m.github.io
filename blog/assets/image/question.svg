@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="184.94659"
+   height="184.94659"
+   viewBox="0 0 185 185"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="question.svg"
+   inkscape:export-filename="/media/storage/src/juris-m-dev/image/question.png"
+   inkscape:export-xdpi="16.065086"
+   inkscape:export-ydpi="16.065086">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1375"
+     inkscape:window-height="876"
+     id="namedview9"
+     showgrid="false"
+     showborder="true"
+     inkscape:showpageshadow="false"
+     inkscape:zoom="0.74075527"
+     inkscape:cx="-177.96581"
+     inkscape:cy="-21.39112"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     borderlayer="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3759"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       originx="277.98886px"
+       originy="-238.76155px" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(174.42636,-67.948105)">
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffaa;stroke:#000000;stroke-width:10.80000019;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path2987"
+       sodipodi:cx="135.67233"
+       sodipodi:cy="151.87202"
+       sodipodi:rx="87.073296"
+       sodipodi:ry="87.073296"
+       d="m 222.74563,151.87202 c 0,48.08926 -38.98404,87.0733 -87.0733,87.0733 -48.089251,0 -87.073293,-38.98404 -87.073293,-87.0733 0,-48.08925 38.984042,-87.073291 87.073293,-87.073291 48.08926,0 87.0733,38.984041 87.0733,87.073291 z"
+       transform="translate(-217.6254,8.5493765)" />
+    <g
+       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:536.99998856%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:TeX Gyre Bonum;-inkscape-font-specification:TeX Gyre Bonum"
+       id="text4139">
+      <path
+         d="m -75.381477,202.16837 c 0,-5.03999 -4.176005,-9.216 -9.072,-9.216 -5.327995,0 -9.504,4.17601 -9.504,9.216 0,5.184 4.176005,9.36 9.36,9.36 5.039995,0 9.216,-4.176 9.216,-9.36 m 30.96,-65.664 c 0,-21.45598 -22.896012,-26.784 -34.56,-26.784 -23.039973,0 -35.568003,13.96801 -35.568003,24.48 0,6.048 3.74401,10.512 8.928,10.512 4.176,0 7.776003,-3.312 7.776003,-6.912 0,-3.45599 -3.024003,-5.904 -3.024003,-9.936 0,-6.91199 9.072014,-12.384 20.448003,-12.384 13.103987,0 20.448,7.20001 20.448,19.728 0,7.91999 -3.456007,14.40001 -9.936,18.864 l -8.208,5.616 c -7.775992,5.184 -9.936,9.36001 -9.936,18.576 0,1.872 0.144,3.456 0.288,6.336 l 6.48,0 c -0.144,-12.95998 2.88001,-17.856 12.672,-21.6 l 4.752,-1.728 c 15.695984,-5.47199 19.44,-16.27201 19.44,-24.768"
+         style=""
+         id="path3770" />
+    </g>
+  </g>
+</svg>
