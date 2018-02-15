@@ -9,6 +9,10 @@
 }
 */
 
+#browser-connectors.add-border {
+    border:3px solid green;
+}
+
 .post-content {
     font-size: 150%;
 }
