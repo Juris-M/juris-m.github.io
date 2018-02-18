@@ -53,6 +53,12 @@ a.download-button.nogo {
     color: #333 !important;
 }
 
+a.download-button.nolink {
+    border: 2px solid black !important;
+    color: #333 !important;
+    cursor: auto !important;
+}
+
 /*
     background: repeating-linear-gradient(
         45deg,
