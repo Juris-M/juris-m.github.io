@@ -24,7 +24,7 @@
  */
 
 var CSL = {
-    PROCESSOR_VERSION: "1.1.178",
+    PROCESSOR_VERSION: "1.1.186",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -259,6 +259,36 @@ var CSL = {
         }
         return lst.join("-");
     },
+    isDatePart: function(str, less, more) {
+        if (str.length > less && str.length < more && parseInt(str)) {
+            return true
+        } else {
+            return false;
+        }
+    },
+    isDateString: function(str) {
+        if (!str) return false;
+        var strLst = str.split("-");
+        if (strLst.length > 0) {
+            if (!isDatePart(strLst[0], 3, 5)) {
+                return false;
+            }
+        }
+        if (strLst.length > 1) {
+            if (!isDatePart(strLst[1], 0, 3)) {
+                return false
+            }
+        }
+        if (strLst.length > 2) {
+            if (!isDatePart(strLst[2], 0, 3)) {
+                return false
+            }
+        }
+        if (strLst.length > 3) {
+            return false;
+        }
+        return true;
+    },
     parseNoteFieldHacks: function(Item, validFieldsForType, allowDateOverride) {
         if ("string" !== typeof Item.note) return;
         var elems = [];
@@ -309,7 +339,7 @@ var CSL = {
             } else if (CSL.DATE_VARIABLES.indexOf(key) > -1) {
                 if (allowDateOverride) {
                     Item[key] = {raw: val};
-                    if (!validFieldsForType || (validFieldsForType[key] && val.match(/^[0-9]{4}(?:-[0-9]{1,2}(?:-[0-9]{1,2})*)*$/))) {
+                    if (!validFieldsForType || (validFieldsForType[key] && isDateString(val))) {
                         lines[i] = "";
                     }
                 }
@@ -1353,15 +1383,17 @@ CSL.parseXml = function(str) {
         for (var i=lst.length-2;i>-1;i--) {
             if (lst[i].slice(1).indexOf("<") === -1) {
                 var stub = lst[i].slice(0, 5);
-                if (stub === "<term") {
-                    if (lst[i+1].slice(0, 6) === "</term") {
-                        lst[i] = lst[i] + lst[i+1];
-                        lst = lst.slice(0, i+1).concat(lst.slice(i+2));
-                    }
-                } else if (["<sing", "<mult"].indexOf(stub) > -1) {
-                    if (lst[i].slice(-2) !== "/>" && lst[i+1].slice(0, 1) === "<") {
-                        lst[i] = lst[i] + lst[i+1];
-                        lst = lst.slice(0, i+1).concat(lst.slice(i+2));
+                if (lst[i].slice(-2) !== "/>") {
+                    if (stub === "<term") {
+                        if (lst[i+1].slice(0, 6) === "</term") {
+                            lst[i] = lst[i] + lst[i+1];
+                            lst = lst.slice(0, i+1).concat(lst.slice(i+2));
+                        }
+                    } else if (["<sing", "<mult"].indexOf(stub) > -1) {
+                        if (lst[i].slice(-2) !== "/>" && lst[i+1].slice(0, 1) === "<") {
+                            lst[i] = lst[i] + lst[i+1];
+                            lst = lst.slice(0, i+1).concat(lst.slice(i+2));
+                        }
                     }
                 }
             }
@@ -3272,6 +3304,13 @@ CSL.Doppeler = function(rexStr, stringMangler) {
             };
         }
         var split = str.split(splitRex);
+        for (var i=match.length-1; i> -1; i--) {
+            var tag = match[i];
+            if (tag === "\'" && split[i+1].length > 0) {
+                split[i+1] = match[i] + split[i+1];
+                match[i] = "";
+            }
+        }
         return {
             tags: match,
             strings: split,
@@ -3314,7 +3353,7 @@ CSL.Engine.prototype.normalDecorIsOrphan = function (blob, params) {
 };
 CSL.getJurisdictionNameAndSuppress = function(state, jurisdictionID, jurisdictionName, chopTo) {
     var ret = null;
-    if (jurisdictionName && chopTo) {
+    if (chopTo) {
         jurisdictionID = jurisdictionID.split(":").slice(0, chopTo).join(":");
         jurisdictionName = state.sys.getHumanForm(jurisdictionID);
     }
@@ -4992,6 +5031,9 @@ CSL.Engine.prototype.processCitationCluster = function (citation, citationsPre, 
     }
     var update_items = [];
     for (var i = 0, ilen = citationByIndex.length; i < ilen; i += 1) {
+        if (!citationByIndex[i].properties) {
+            citationByIndex[i].properties = {};
+        }
         citationByIndex[i].properties.index = i;
         for (j = 0, jlen = citationByIndex[i].sortedItems.length; j < jlen; j += 1) {
             item = citationByIndex[i].sortedItems[j];
@@ -8784,11 +8826,11 @@ CSL.NameOutput.prototype._runDisambigNames = function (lst, pos) {
         }
         chk = this.state.tmp.disambig_settings.givens[pos][i];
         if ("undefined" === typeof chk) {
-            myform = this.state.inheritOpt(this.name, "form", "name-form");
+            myform = this.state.inheritOpt(this.name, "form", "name-form", "long");
             param = this.state.registry.namereg.evalname("" + this.Item.id, lst[i], i, 0, myform, myinitials);
             this.state.tmp.disambig_settings.givens[pos].push(param);
         }
-        myform = this.state.inheritOpt(this.name, "form", "name-form");
+        myform = this.state.inheritOpt(this.name, "form", "name-form", "long");
         paramx = this.state.registry.namereg.evalname("" + this.Item.id, lst[i], i, 0, myform, myinitials);
         if (this.state.tmp.disambig_request) {
             var val = this.state.tmp.disambig_settings.givens[pos][i];
@@ -8800,7 +8842,7 @@ CSL.NameOutput.prototype._runDisambigNames = function (lst, pos) {
             }
             param = val;
             if (this.state.opt["disambiguate-add-givenname"] && lst[i].given) {
-                param = this.state.registry.namereg.evalname("" + this.Item.id, lst[i], i, param, this.state.inheritOpt(this.name, "form", "name-form"), this.state.inheritOpt(this.name, "initialize-with"));
+                param = this.state.registry.namereg.evalname("" + this.Item.id, lst[i], i, param, this.state.inheritOpt(this.name, "form", "name-form", "long"), this.state.inheritOpt(this.name, "initialize-with"));
             }
         } else {
             param = paramx;
@@ -9276,9 +9318,8 @@ CSL.NameOutput.prototype._renderOnePersonalName = function (value, pos, i, j) {
     var non_dropping_particle = this._nonDroppingParticle(name);
     var given = this._givenName(name, pos, i);
     var suffix = this._nameSuffix(name);
-    if (this._isShort(pos, i) && !name["full-form-always"]) {
+    if (given === false) {
         dropping_particle = false;
-        given = false;
         suffix = false;
     }
     var sort_sep = this.state.inheritOpt(this.name, "sort-separator");
@@ -9399,13 +9440,6 @@ CSL.NameOutput.prototype._renderOnePersonalName = function (value, pos, i, j) {
     this.state.tmp.name_node.children.push(blob);
     return blob;
 };
-CSL.NameOutput.prototype._isShort = function (pos, i) {
-    if (0 === this.state.tmp.disambig_settings.givens[pos][i]) {
-        return true;
-    } else {
-        return false;
-    }
-};
 CSL.NameOutput.prototype._normalizeNameInput = function (value) {
     var name = {
         literal:value.literal,
@@ -9490,18 +9524,44 @@ CSL.NameOutput.prototype._familyName = function (name) {
 };
 CSL.NameOutput.prototype._givenName = function (name, pos, i) {
     var ret;
-    if (this.state.inheritOpt(this.name, "initialize") === false) {
-        if (name.family && name.given && this.state.inheritOpt(this.name, "initialize") === false) {
-            name.given = CSL.Util.Names.initializeWith(this.state, name.given, this.state.inheritOpt(this.name, "initialize-with"), true);
-        }
-        name.given = CSL.Util.Names.unInitialize(this.state, name.given);
+    var formIsShort = this.state.inheritOpt(this.name, "form", "name-form", "long") !== "long";
+    var initializeIsTurnedOn = !(this.state.inheritOpt(this.name, "initialize") === false);
+    var hasInitializeWith = "string" === typeof this.state.inheritOpt(this.name, "initialize-with") && !name.block_initialize;
+    var inBibliography = this.state.tmp.area.slice(0, 12) === "bibliography";
+    var defaultLevel;
+    var useLevel;
+    if (name["full-form-always"]) {
+        useLevel = 2;
     } else {
-        if (name.family && 1 === this.state.tmp.disambig_settings.givens[pos][i] && !name.block_initialize) {
-            var initialize_with = this.state.inheritOpt(this.name, "initialize-with");
-            name.given = CSL.Util.Names.initializeWith(this.state, name.given, initialize_with);
+        if (formIsShort) {
+            defaultLevel = 0;
+        } else if (hasInitializeWith) {
+            defaultLevel = 1;
+        } else {
+            defaultLevel = 2;
+        }
+        var requestedLevel = this.state.tmp.disambig_settings.givens[pos][i];
+        if (requestedLevel > defaultLevel) {
+            useLevel = requestedLevel;
+        } else {
+            useLevel = defaultLevel;
+        }
+    }
+    var gdropt = this.state.citation.opt["givenname-disambiguation-rule"];
+   if (gdropt && gdropt.slice(-14) === "-with-initials") {
+        hasInitializeWith = true;
+    }
+    if (name.family && useLevel === 1) {
+        if (hasInitializeWith) {
+            var initialize_with = this.state.inheritOpt(this.name, "initialize-with", false, "");
+            name.given = CSL.Util.Names.initializeWith(this.state, name.given, initialize_with, !initializeIsTurnedOn);
         } else {
             name.given = CSL.Util.Names.unInitialize(this.state, name.given);
         }
+    } else if (useLevel === 0) {
+        return false;
+    } else if (useLevel === 2) {
+        name.given = CSL.Util.Names.unInitialize(this.state, name.given);
     }
     var str = this._stripPeriods("given", name.given);
     var rendered = this.state.output.append(str, this.given_decor, true);
@@ -9706,7 +9766,7 @@ CSL.NameOutput.prototype.setRenderedName = function (name) {
 }
 CSL.NameOutput.prototype.fixupInstitution = function (name, varname, listpos) {
     if (this.state.sys.getHumanForm && "legal_case" === this.Item.type && "authority" === varname) {
-        name.literal = this.state.sys.getHumanForm(this.Item.jurisdiction, name.literal);
+        name.literal = this.state.sys.getHumanForm(this.Item.jurisdiction, name.literal, true);
     }
     name = this._splitInstitution(name, varname, listpos);
     if (this.institution.strings["reverse-order"]) {
@@ -10594,14 +10654,39 @@ CSL.Node.text = {
                                     if (value) {
                                         if (state.opt.development_extensions.wrap_url_and_doi) {
                                             if (!this.decorations.length || this.decorations[0][0] !== "@" + this.variables[0]) {
-                                                this.decorations = [["@" + this.variables[0], "true"]].concat(this.decorations);
+                                                if (this.variables_real[0] === "DOI" && this.strings.prefix === "https://doi.org/") {
+                                                    var clonetoken = CSL.Util.cloneToken(this);
+                                                    var groupblob = new CSL.Blob(null, null, "url-wrapper");
+                                                    groupblob.decorations.push(["@DOI", "true"]);
+                                                    value = value.replace(/^https?:\/\/doi\.org\//, "");
+                                                    if (value.match(/^https?:\/\//)) {
+                                                        var prefix = "";
+                                                    } else {
+                                                        var prefix = "https://doi.org/";
+                                                    }
+                                                    var prefixblob = new CSL.Blob(prefix);
+                                                    var valueblob = new CSL.Blob(value);
+                                                    clonetoken.strings.prefix = "";
+                                                    groupblob.push(prefixblob);
+                                                    groupblob.push(valueblob);
+                                                    state.output.append(groupblob, clonetoken, false, false, true);
+                                                } else {
+                                                    this.decorations = [["@" + this.variables[0], "true"]].concat(this.decorations);
+                                                    state.output.append(value, this, false, false, true);
+                                                }
+                                            } else {
+                                                state.output.append(value, this, false, false, true);
                                             }
                                         } else {
-                                            if (this.decorations.length && this.decorations[0][0] === "@" + this.variables[0]) {
-                                                this.decorations = this.decorations.slice(1);
+                                            if (this.decorations.length) {
+                                                for (var i=this.decorations.length-1; i>-1; i--) {
+                                                    if (this.decorations[i][0] === "@" + this.variables[0]) {
+                                                        this.decorations = this.decorations.slice(0, i).concat(this.decorations.slice(i+1));
+                                                    }
+                                                }
                                             }
+                                            state.output.append(value, this, false, false, true);
                                         }
-                                        state.output.append(value, this, false, false, true);
                                     }
                                 }
                             };
@@ -10670,11 +10755,18 @@ CSL.Attributes["@disambiguate"] = function (state, arg) {
     if (arg === "true") {
         state.opt.has_disambiguate = true;
         var func = function (Item, item) {
-            state.tmp.disambiguate_maxMax += 1;
-            if (state.tmp.disambig_settings.disambiguate
-                && state.tmp.disambiguate_count < state.tmp.disambig_settings.disambiguate) {
-                state.tmp.disambiguate_count += 1;
-                return true;
+            if (state.tmp.area === "bibliography") {
+                if (state.tmp.disambiguate_count < state.registry.registry[Item.id].disambig.disambiguate) {
+                    state.tmp.disambiguate_count += 1;
+                    return true;
+                }
+            } else {
+                state.tmp.disambiguate_maxMax += 1;
+                if (state.tmp.disambig_settings.disambiguate
+                    && state.tmp.disambiguate_count < state.tmp.disambig_settings.disambiguate) {
+                    state.tmp.disambiguate_count += 1;
+                    return true;
+                }
             }
             return false;
         };
@@ -11343,7 +11435,7 @@ CSL.Attributes["@is-parallel"] = function (state, arg) {
     this.strings.set_parallel_condition = values;
 };
 CSL.Attributes["@jurisdiction-depth"] = function (state, arg) {
-    this.strings.jurisdiction_depth = arg;
+    this.strings.jurisdiction_depth = parseInt(arg, 10);
 };
 CSL.Attributes["@require"] = function (state, arg) {
     this.strings.require = arg;
@@ -13076,13 +13168,19 @@ CSL.Util.Names.doNormalize = function (state, namelist, terminator, mode) {
         if (isAbbrev[i]) {
             if (i < namelist.length - 2) {
                 namelist[i + 1] = "";
-                if ((!terminator || terminator.slice(-1) && terminator.slice(-1) !== " ")
-                    && namelist[i].length && namelist[i].match(CSL.ALL_ROMANESQUE_REGEXP)
-                    && (namelist[i].length > 1 || namelist[i + 2].length > 1)) {
+                var onlySpace = terminator.match(/^[\u0009\u000a\u000b\u000c\u000d\u0020\u00a0]+$/)
+                if (
+                    onlySpace
+                    || (
+                        (!terminator || (terminator.slice(-1) && !terminator.slice(-1).match(/[\u0009\u000a\u000b\u000c\u000d\u0020\u00a0]/)))
+                        && namelist[i].length && namelist[i].match(CSL.ALL_ROMANESQUE_REGEXP)
+                        && (namelist[i].length > 1 || namelist[i + 2].length > 1)
+                    )
+                ) {
                     namelist[i + 1] = " ";
                 }
                 if (namelist[i + 2].length > 1) {
-                    namelist[i] = namelist[i] + terminator.replace(/[\u0009\u000a\u000b\u000c\u000d\u0020\ufeff\u00a0]+$/, "");
+                    namelist[i] = namelist[i] + terminator.replace(/\ufeff$/, "");
                 } else {
                     namelist[i] = namelist[i] + terminator;
                 }
@@ -15342,7 +15440,11 @@ CSL.Output.Formats.prototype.html = {
         return "<a href=\"" + str + "\">" + str + "</a>";
     },
     "@DOI/true": function (state, str) {
-        return "<a href=\"https://doi.org/" + str + "\">" + str + "</a>";
+        var doiurl = str;
+        if (!str.match(/^https?:\/\//)) {
+            doiurl = "https://doi.org/" + str;
+        }
+        return "<a href=\"" + doiurl + "\">" + str + "</a>";
     }
 };
 CSL.Output.Formats.prototype.text = {
