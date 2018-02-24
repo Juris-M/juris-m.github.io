@@ -921,7 +921,7 @@ var CSL = {
                 var testres;
                 if (state.tmp.group_context.tip.condition.test === "empty-label") {
                     testres = !termtxt;
-                if (state.tmp.group_context.tip.condition.test === "empty-label-no-decor") {
+                } else if (state.tmp.group_context.tip.condition.test === "empty-label-no-decor") {
                     testres = !termtxt || termtxt.indexOf("%s") === -1;
                 } else if (state.tmp.group_context.tip.condition.test === "comma-safe") {
                     var empty = !termtxt;
