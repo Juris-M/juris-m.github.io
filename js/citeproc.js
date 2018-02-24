@@ -24,13 +24,14 @@
  */
 
 var CSL = {
-    PROCESSOR_VERSION: "1.1.188",
+    PROCESSOR_VERSION: "1.1.190",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
     LOCATOR_LABELS_REGEXP: new RegExp("^((art|ch|subch|col|fig|l|n|no|op|p|pp|para|subpara|pt|r|sec|subsec|sv|sch|tit|vrs|vol)\\.)\\s+(.*)"),
     STATUTE_SUBDIV_GROUPED_REGEX: /((?:^| )(?:art|bk|ch|subch|col|fig|fol|l|n|no|op|p|pp|para|subpara|pt|r|sec|subsec|sv|sch|tit|vrs|vol)\. *)/g,
     STATUTE_SUBDIV_PLAIN_REGEX: /(?:(?:^| )(?:art|bk|ch|subch|col|fig|fol|l|n|no|op|p|pp|para|subpara|pt|r|sec|subsec|sv|sch|tit|vrs|vol)\. *)/,
+    STATUTE_SUBDIV_PLAIN_REGEX_FRONT: /(?:^\s*[.,;]*\s*(?:art|bk|ch|subch|col|fig|fol|l|n|no|op|p|pp|para|subpara|pt|r|sec|subsec|sv|sch|tit|vrs|vol)\. *)/,
     STATUTE_SUBDIV_STRINGS: {
         "art.": "article",
         "bk.": "book",
@@ -922,7 +923,7 @@ var CSL = {
                 if (state.tmp.group_context.tip.condition.test === "empty-label") {
                     testres = !termtxt;
                 } else if (state.tmp.group_context.tip.condition.test === "empty-label-no-decor") {
-                    testres = !termtxt || termtxt.indexOf("%s") === -1;
+                    testres = !termtxt || termtxt.indexOf("%s") > -1;
                 } else if (state.tmp.group_context.tip.condition.test === "comma-safe") {
                     var empty = !termtxt;
                     var alpha = termtxt.slice(0,1).match(CSL.ALL_ROMANESQUE_REGEXP);
@@ -3136,7 +3137,7 @@ CSL.Engine.prototype.remapSectionVariable = function (inputList) {
         if (["bill","gazette","legislation","regulation","treaty"].indexOf(Item.type) > -1) {
             if (item.locator) {
                 item.locator = item.locator.trim();
-                var m = item.locator.match(CSL.STATUTE_SUBDIV_PLAIN_REGEX);
+                var m = item.locator.match(CSL.STATUTE_SUBDIV_PLAIN_REGEX_FRONT);
                 if (!m) {
                     if (item.label) {
                         item.locator = CSL.STATUTE_SUBDIV_STRINGS_REVERSE[item.label] + " " + item.locator;
@@ -3148,7 +3149,7 @@ CSL.Engine.prototype.remapSectionVariable = function (inputList) {
             var sectionMasterLabel = null;
             if (Item.section) {
                 Item.section = Item.section.trim();
-                var m = Item.section.match(CSL.STATUTE_SUBDIV_PLAIN_REGEX);
+                var m = Item.section.match(CSL.STATUTE_SUBDIV_PLAIN_REGEX_FRONT);
                 if (!m) {
                     Item.section = "sec. " + Item.section;
                     sectionMasterLabel = "sec.";
@@ -7149,6 +7150,11 @@ CSL.Node.group = {
                         state.tmp.group_context.tip.label_form = this.strings.label_form_override;
                     }
                 }
+                if (this.strings.label_capitalize_if_first_override) {
+                    if (!state.tmp.group_context.tip.label_capitalize_if_first) {
+                        state.tmp.group_context.tip.label_capitalize_if_first = this.strings.label_capitalize_if_first_override;
+                    }
+                }
                 if (this.realGroup) {
                     var condition = false;
                     var force_suppress = false;
@@ -7158,6 +7164,10 @@ CSL.Node.group = {
                     var label_form = state.tmp.group_context.tip.label_form;
                     if (!label_form) {
                         label_form = this.strings.label_form_override;
+                    }
+                    var label_capitalize_if_first = state.tmp.group_context.tip.label_capitalize_if_first;
+                    if (!label_capitalize_if_first) {
+                        label_capitalize_if_first = this.strings.label_capitalize_if_first;
                     }
                     if (state.tmp.group_context.tip.condition) {
                         condition = state.tmp.group_context.tip.condition;
@@ -7177,12 +7187,14 @@ CSL.Node.group = {
                         done_vars = [];
                     }
                     state.tmp.group_context.push({
+                        old_term_predecessor: state.tmp.term_predecessor,
                         term_intended: false,
                         variable_attempt: false,
                         variable_success: false,
                         variable_success_parent: state.tmp.group_context.tip.variable_success,
                         output_tip: state.output.current.tip,
                         label_form: label_form,
+                        label_capitalize_if_first: label_capitalize_if_first,
                         parallel_conditions: this.strings.set_parallel_condition,
                         condition: condition,
                         force_suppress: force_suppress,
@@ -7322,6 +7334,7 @@ CSL.Node.group = {
                             state.parallel.parallel_conditional_blobs_list.push(parallel_condition_object);
                         }
                     } else {
+                        state.tmp.term_predecessor = flags.old_term_predecessor;
                         state.tmp.group_context.tip.variable_attempt = flags.variable_attempt;
                         if (flags.force_suppress && !state.tmp.group_context.tip.condition) {
                             state.tmp.group_context.tip.variable_attempt = true;
@@ -7725,6 +7738,11 @@ CSL.Node.label = {
                 }
                 CSL.UPDATE_GROUP_CONTEXT_CONDITION(state, termtxt);
                 if (termtxt.indexOf("%s") === -1) {
+                    if (this.strings.capitalize_if_first) {
+                        if (!state.tmp.term_predecessor && !(state.opt["class"] === "in-text" && state.tmp.area === "citation")) {
+                            termtxt = CSL.Output.Formatters["capitalize-first"](state, termtxt);
+                        }
+                    }
                     state.output.append(termtxt, this);
                 }
                 if (item && this.strings.term === "locator") {
@@ -10018,6 +10036,7 @@ CSL.evaluateLabel = function (node, state, Item, item) {
         if (!state.tmp.shadow_numbers[node.strings.term].labelForm
            && !state.tmp.shadow_numbers[node.strings.term].labelDecorations) {
             state.tmp.shadow_numbers[node.strings.term].labelForm = node.strings.form;
+            state.tmp.shadow_numbers[node.strings.term].labelCapitalizeIfFirst = node.strings.capitalize_if_first;
             state.tmp.shadow_numbers[node.strings.term].labelDecorations = node.decorations.slice();
         }
         if (["locator", "number", "page"].indexOf(node.strings.term) > -1 && state.tmp.shadow_numbers[node.strings.term].label) {
@@ -10033,10 +10052,17 @@ CSL.evaluateLabel = function (node, state, Item, item) {
 };
 CSL.castLabel = function (state, node, term, plural, mode) {
     var label_form = node.strings.form;
+    var label_capitalize_if_first = node.strings.capitalize_if_first;
     if (state.tmp.group_context.tip.label_form && label_form !== "static") {
         label_form = state.tmp.group_context.tip.label_form;
     }
+    if (state.tmp.group_context.tip.label_capitalize_if_first) {
+        label_capitalize_if_first = state.tmp.group_context.tip.label_capitalize_if_first;
+    }
     var ret = state.getTerm(term, label_form, plural, false, mode, node.default_locale);
+    if (label_capitalize_if_first) {
+        ret = CSL.Output.Formatters["capitalize-first"](state, ret);
+    }
     if (state.tmp.strip_periods) {
         ret = ret.replace(/\./g, "");
     } else {
@@ -10333,10 +10359,6 @@ CSL.Node.number = {
                 state.tmp.renders_collection_number = true;
             }
             var value = Item[this.variables[0]];
-            var form = "long";
-            if (this.strings.label_form_override) {
-                form = this.strings.label_form_override;
-            }
             var node = this;
             if (state.tmp.group_context.tip.force_suppress) {
                 return false;
@@ -10636,7 +10658,6 @@ CSL.Node.text = {
                                 if (item && item[this.variables[0]]) {
                                     state.processNumber(this, item, this.variables[0], Item.type);
                                     CSL.Util.outputNumericField(state, this.variables[0], Item.id);
-                                    state.output.append(value, this, false, false, true);
                                     if (["locator", "locator-extra"].indexOf(this.variables_real[0]) > -1
                                        && !state.tmp.just_looking) { 
                                         state.tmp.done_vars.push(this.variables_real[0]);
@@ -11450,6 +11471,12 @@ CSL.Attributes["@gender"] = function (state, arg) {
 }
 CSL.Attributes["@cslid"] = function (state, arg) {
     this.cslid = parseInt(arg, 10);
+};
+CSL.Attributes["@capitalize-if-first"] = function (state, arg) {
+    this.strings.capitalize_if_first_override = arg;
+};
+CSL.Attributes["@label-capitalize-if-first"] = function (state, arg) {
+    this.strings.label_capitalize_if_first_override = arg;
 };
 CSL.Attributes["@label-form"] = function (state, arg) {
     this.strings.label_form_override = arg;
@@ -14307,6 +14334,7 @@ CSL.Util.outputNumericField = function(state, varname, itemID) {
     } else {
         embeddedLabelForm = "short";
     }
+    var labelCapitalizeIfFirst = state.tmp.shadow_numbers[varname].labelCapitalizeIfFirst;
     var labelDecorations = state.tmp.shadow_numbers[varname].labelDecorations;
     var lastLabelName = null;
     for (var i=0,ilen=nums.length;i<ilen;i++) {
@@ -14324,6 +14352,9 @@ CSL.Util.outputNumericField = function(state, varname, itemID) {
                     label = state.getTerm(labelName, labelForm, num.plural);
                 } else {
                     label = state.getTerm(labelName, embeddedLabelForm, num.plural);
+                }
+                if (labelCapitalizeIfFirst) {
+                    label = CSL.Output.Formatters["capitalize-first"](state, label);
                 }
             }
         }
@@ -14376,6 +14407,7 @@ CSL.Util.outputNumericField = function(state, varname, itemID) {
             }
         }
         lastLabelName === labelName;
+        state.tmp.term_predecessor = true;
     }
     state.output.closeLevel();
 }
