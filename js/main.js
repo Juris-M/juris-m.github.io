@@ -1260,6 +1260,8 @@ var CSLValidator = (function() {
         formData.append("showsource", "yes");
         formData.append("file", documentContent);
 
+        console.log("XXX "+formData);
+        
         $.ajax({
             type: "POST",
             url: "https://our.law.nagoya-u.ac.jp/validate/",
@@ -1325,7 +1327,7 @@ var CSLValidator = (function() {
     }
 
     function parseResponse(data, reValidate) {
-        //console.log(JSON.stringify(data));
+        console.log(JSON.stringify(data));
 
         window.clearTimeout(responseTimer);
         responseEndTime = new Date();
