@@ -615,17 +615,6 @@
               </div>
             </a>
             <p>
-              On rare occasions, issues arise that require a change in
-              the core code of the citation processor. Zotero and
-              Juris-M users who wish to take advantage of a fix
-              immediately can do so by installing
-              this plugin. Its only effect is to swap in the latest processor
-              version, and it can be removed when a Zotero version
-              incorporating the fix is released.
-            </p>
-          </div>
-          <div class="col-md-6 col-xs-12 balance">
-            <p>
               Some citation styles require that the first character of a
               subtitle in &ldquo;sentence case&rdquo; be capitalized,
               and others do not. CSL does not currently have a
@@ -634,6 +623,27 @@
               subtitles as written. Zotero and Juris-M users who require uppercasing
               of the first character in subtitles can install
               the Propachi plugin, and set an option in the plugin to achieve the desired effect.
+            </p>
+            <p>
+              This plugin can also be used to trial pre-release versions of <span style="font-family: mono;">citeproc-js</span>.
+            </p>
+          </div>
+          <div class="col-md-6 col-xs-12 balance">
+            <a class="download-button" href="https://github.com/Juris-M/propachi-vanilla/releases/download/v1.1.142.legacy.218/propachi-vanilla-v1.1.143alpha.xpi">
+              <div class="bigtext">
+                Propachi Legacy
+              </div>
+              <div class="smalltext">
+                (fixed at citeproc-js 1.1.218)
+              </div>
+            </a>
+            <p>
+              Versions of the citation processor higher than 1.1.218 adopt stricter rules for
+              the "suppress author" option, and manuscripts that rely on the former behavior
+              may not process correctly. Installing this plugin will force Zotero to use the
+              older processor version. Permanent reliance on the older processor for new
+              projects is not recommended, as it will not reflect bugfixes and enhancements
+              available in the current release.
             </p>
           </div>
         </div>
