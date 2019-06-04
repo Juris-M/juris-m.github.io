@@ -25,25 +25,25 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.11.2/URI.min.js"></script>
     <script>
-        function initScript() {
-            $(".downloads div.row div.balance").each(function(){
-                $(this).removeAttr("style");
-            });
-            if (document.documentElement.clientWidth >= 992) {
-                $(".downloads div.row").each(function(i){
-                    var maxheight = 0;
-                    var blocks = document.evaluate(".//div[contains(@class, 'balance')]", this, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-                    for (var j=0,jlen=blocks.snapshotLength;j<jlen;j++) {
-                        var height = $(blocks.snapshotItem(j)).outerHeight();
-                        if (height > maxheight) {
-                            maxheight = height;
-                        }
-                    }
-                    for (var j=blocks.snapshotLength-1;j>-1;j--) {
-                        blocks.snapshotItem(j).setAttribute('style', 'height:' + maxheight + 'px;');
-                    }
-                });
-            }
+      function initScript() {
+      $(".downloads div.row div.balance").each(function(){
+      $(this).removeAttr("style");
+      });
+      if (document.documentElement.clientWidth >= 992) {
+      $(".downloads div.row").each(function(i){
+      var maxheight = 0;
+      var blocks = document.evaluate(".//div[contains(@class, 'balance')]", this, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+      for (var j=0,jlen=blocks.snapshotLength;j<jlen;j++) {
+                                                          var height = $(blocks.snapshotItem(j)).outerHeight();
+                                                          if (height > maxheight) {
+        maxheight = height;
+        }
+        }
+        for (var j=blocks.snapshotLength-1;j>-1;j--) {
+        blocks.snapshotItem(j).setAttribute('style', 'height:' + maxheight + 'px;');
+        }
+        });
+        }
         };
         $(window).on('resize', initScript);
     </script>
@@ -300,7 +300,7 @@
           </div>
           <div class="col-md-12 balance">
             <div>
-            <a class="download-button nofloat os-installer os-is-win" href="https://our.law.nagoya-u.ac.jp/jurism/dl?channel=release&platform=win32">
+              <a class="download-button nofloat os-installer os-is-win" href="https://our.law.nagoya-u.ac.jp/jurism/dl?channel=release&platform=win32">
                 <div class="bigtext">
                   Juris-M for Windows
                 </div>
@@ -314,7 +314,7 @@
               </p>
             </div>
             <div>
-            <a class="download-button nofloat os-installer os-is-mac" href="https://our.law.nagoya-u.ac.jp/jurism/dl?channel=release&platform=mac">
+              <a class="download-button nofloat os-installer os-is-mac" href="https://our.law.nagoya-u.ac.jp/jurism/dl?channel=release&platform=mac">
                 <div class="bigtext">
                   Juris-M for Mac
                 </div>
@@ -359,9 +359,9 @@
           <h2>Browser Connectors</h2>
           <div class="info-box">
             <p>
-            Use a connector plugin to enable one-click downloads from
-            major research archives (e.g. JSTOR, HeinOnline, Cornell
-            LII, CourtListener, and many others).
+              Use a connector plugin to enable one-click downloads from
+              major research archives (e.g. JSTOR, HeinOnline, Cornell
+              LII, CourtListener, and many others).
             </p>
           </div>
           <div class="col-md-6 col-xs-12 balance">
@@ -369,9 +369,9 @@
               <div class="bigtext">
                 Google Chrome
               </div>
-                <div class="smalltext">
-                  (plugin installer)
-                </div>
+              <div class="smalltext">
+                (plugin installer)
+              </div>
             </a>
             <p>
               The Juris-M connector plugin for Google Chrome, in the Google Web Store.<br/>
@@ -392,7 +392,7 @@
           </div>
         </div>
       </div>
-      <div id="beta-kit" class="row">
+      <div hidden="true" id="beta-kit" class="row">
         <h2>Beta client and connectors</h2>
         <div class="info-box">
           <p>
@@ -410,7 +410,7 @@
             code bundle, unpack it on your desktop, disable the main
             version in your Chrome browser, and follow
             <a href="https://a9t9.com/howto/install-chrome-extension-from-file">these
-            instructions</a> to load the unpacked extension in
+              instructions</a> to load the unpacked extension in
             "developer mode."
           </p>
         </div>
@@ -671,7 +671,7 @@
               style support. If you require legal support in a
               standard CSL style, post a request to the
               <a href="https://juris-m.github.io/support">Juris-M
-              mailing lists</a>.
+                mailing lists</a>.
             </p>
           </div>
         </div>
@@ -705,7 +705,7 @@
           <p>
             JM Indigo <sup>[a]</sup> is based on the freely available
             <a href="https://law.resource.org/pub/us/code/blue/IndigoBook.pdf">eponymous
-            guide</a> edited by Sprigman et al. and published
+              guide</a> edited by Sprigman et al. and published
             by <a href="https://public.resource.org/">Public.Resource.Org</a>. The Indigo Book provides a
             detailed description of the citation rules for US legal
             writing.
@@ -714,7 +714,7 @@
             If JM&nbsp;Indigo does not render a cite in the form you
             expect, post a note to
             the <a href="https://juris-m.github.io/support">Juris-M
-            mailing lists</a> and we will fix it.
+              mailing lists</a> and we will fix it.
           </p>
         </div>
         <div class="col-md-4 col-xs-12 balance indigo">
@@ -756,9 +756,9 @@
             </div>
           </a>
           <p>
-	    Style suitable for submissions to Diritto Pubblico
-	    Comparato ed Europeo, an Italian publisher specializing
-	    in comparative and European public law.
+	        Style suitable for submissions to Diritto Pubblico
+	        Comparato ed Europeo, an Italian publisher specializing
+	        in comparative and European public law.
           </p>
         </div>
         <div class="col-md-4 col-xs-12 balance">
@@ -831,66 +831,24 @@
           </p>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <h3>MLZ Styles</h3>
-          <div class="info-box">
-            <p>
-              The MLZ styles linked below predate Juris-M and modular
-              legal style support. Although now deprecated, these
-              styles are still valid and can be used in Juris-M.
-            </p>
-          </div>
-        </div>
-      </div>
       <div class="row even">
         <div class="col-md-4 col-xs-12 balance">
-          <a class="download-button" href="https://zotero.org/styles">
-
-
+          <a class="download-button" href="https://our.law.nagoya-u.ac.jp/updater/styles/jm-japan-sociological-society?install=1">
             <div class="bigtext">
-              CSL Style Repository
+              JM Japan Sociological Society
             </div>
             <div class="smalltext">
-              (standard styles)
+              (Juris-M style)
             </div>
           </a>
           <p>
-            For non-legal resources, the Juris-M citation processor is fully compatible with
-            standard CSL styles, without modification.
+            The style of the eponymous academic society. See the JSS <a href="http://www.gakkai.ne.jp/jss/bulletin/guide.php">style guide</a> for details
+            on the style, and the public <a href="https://www.zotero.org/groups/2319948/jurism_style_test_items?">Jurism Style Test Items library</a> for input examples.
           </p>
         </div>
         <div class="col-md-4 col-xs-12 balance">
-          <a class="download-button" href="https://our.law.nagoya-u.ac.jp/updater/styles/mlz-cms-full.csl?install=1">
-            <div class="bigtext">
-              MLZ Chicago Full Note
-            </div>
-            <div class="smalltext">
-              (legacy style)
-            </div>
-          </a>
-          <p>
-            The legacy MLZ implementation of Chicago Manual of Style full-note referencing. Adapted
-            from the Zotero style of the same name.
-          </p>
         </div>
         <div class="col-md-4 col-xs-12 balance">
-          <a class="download-button" href="https://our.law.nagoya-u.ac.jp/updater/styles/jm-new-zealand-law.csl?install=1">
-            <div class="bigtext">
-              MLZ New Zealand Law
-            </div>
-            <div class="smalltext">
-              (legacy style)
-            </div>
-          </a>
-          <p>
-            The MLZ implementation of the New Zealand Law style for legal resources.
-          </p>
-          <p>
-            An early contribution to the MLZ family of styles from
-            Victoria University of Wellington, this style is now being
-            adapted to the new modular Juris-M style system.
-          </p>
         </div>
       </div>
     </div>
