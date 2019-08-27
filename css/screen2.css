@@ -1,5 +1,11 @@
 /* ignore this line */
 
+#patreon-button-inner {
+    float: left;
+    width:250px;
+    height: 51px;
+    background:url(../image/patreon-button.png) no-repeat 0 0;
+}
 #patreon-button {
     float: left;
     width:250px;
