@@ -1,5 +1,12 @@
 /* ignore this line */
 
+#patreon-button {
+    float: left;
+    width:250px;
+    height: 51px;
+    background:url(image/patreon-button.png) no-repeat 0 0;
+}
+
 /*
 .modal-body .wrapper.name .col-lg-1,
 .modal-body .wrapper.name .col-lg-5,
