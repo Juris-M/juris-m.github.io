@@ -10,9 +10,9 @@
           window.location.protocol = "https";
       } else {
           // Access token is global to this window
-          window.onbeforeunload = function (e) {
-            window.localStorage.removeItem('access_token');
-          }
+          window.addEventListener("beforeunload", function(event) {
+              window.localStorage.removeItem('access_token');
+          });
           var access_token;
           if (!access_token) {
               access_token = localStorage.getItem('access_token');
