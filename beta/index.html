@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head profile="http://www.w3.org/2005/10/profile">
+    <script>
+      if (!(window.location.host.startsWith("127.0.0.1")) && !(window.location.host.startsWith("localhost")) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+    </script>
+    <title>
+      
+        Beta
+      
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="keywords" content="digital humanities, reference managment, bibliography, research tools, legal research"/>
+
+    <meta property="og:type" content="summary"/>
+    <meta property="og:image" content="https://www.law.nagoya-u.ac.jp/en/icons/nulogo-square.png"/>
+    <meta property="og:description" content="for the laws and languages of the world"/>
+    <meta property="og:title" content="The Jurism Project"/>
+    <meta property="og:url" content="https://juris-m.github.io/"/>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../favicon-32x32.png"/>
+
+    <!-- Stylesheets -->
+    <link href="../assets/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="../assets/css/main.css" rel="stylesheet"/>
+    
+  </head>
+  <body onload="attachListener();">
+    <!-- Navbar -->
+    <nav class="navbar navbar-toggleable-md navbar-light fixed-top">
+      <div class="navbar-container">
+        <div class="row no-gutters">
+          <div class="col bg-faded"><!-- Left gutter --></div>
+          <div class="navbar-content">
+            <!-- Top half of the navbar (visible on all displays) -->
+            <div class="navbar-top-row">
+              <!-- Logo and site name -->
+              <a class="navbar-brand mr-auto" href="../">
+                <img src="../assets/icons/jurism-logo.svg" style="width: 200px;" alt=" "/>
+                <div class="hidden-sm-down" style="display:inline-block;vertical-align:middle;margin-left:0.5em;">
+                  <div>
+                    The Jurism Project
+                  </div>
+                  <div style="font-size:smaller;font-style:italic;font-weight:normal;">
+                    for the laws and languages of the world
+                  </div>
+                </div>
+              </a>
+              <!-- Inline search form (only visible on larger displays) -->
+              <!-- form class="form-inline hidden-md-down">
+                <input class="form-control hidden-md-down search" text="text" placeholder="Search&#8230;"/>
+                <button class="btn btn-primary search-button" type="submit" role="button">
+                  <span class="fa fa-search" aria-hidden="true"/>
+                </button>
+              </form -->
+              <!-- Search button (only visible on smaller displays) -->
+              <!-- button class="btn btn-primary search-button hidden-lg-up" type="button" data-toggle="collapse" data-target="#mobileSearchMenu" aria-expanded="false" aria-controls="mobileSearchMenu">
+                <span class="fa fa-search" aria-hidden="true"/>
+              </button -->
+              <!-- "Hamburger" button -->
+              <button class="navbar-toggler btn-primary" type="button" data-toggle="collapse" data-target="#mobileNavMenu" aria-controls="mobileNavMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"/>
+              </button>
+            </div>
+            <!-- Dropdown search menu (only visible on smaller displays) -->
+            <form id="mobileSearchMenu" class="collapse hidden-lg-up">
+              <div class="input-group">
+                <input type="text" class="form-control search" id="mobile-search-text" aria-describedby="query-text"/>
+                <span class="input-group-btn">
+                  <button class="btn btn-primary" type="submit">
+                    Search
+                  </button>
+                </span>
+              </div>
+            </form>
+            <!-- Collapsible navigation menu (only visible on smaller displays) -->
+            <div id="mobileNavMenu" class="collapse navbar-collapse">
+              <ul class="navbar-nav w-100 justify-content-between hidden-lg-up">
+                
+                <li class="nav-item dropdown w-100">
+                  <a class="nav-link p-3 dropdown-toggle category-name" href="../directory" id="downloads-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Install <span class="caret"> </span>
+                  </a>
+                  <div class="dropdown-menu bg-maroon-translucent w-100" aria-labelledby="downloads-link">
+                    
+                    <a class="dropdown-item subcategory-name" href="../release">» Current Release</a>
+                    <a class="dropdown-item subcategory-name" href="../beta">» Beta Testing</a>
+                    
+                  </div>
+                </li>
+                
+                <li class="nav-item dropdown w-100">
+                  <a class="nav-link p-3 dropdown-toggle category-name" href="../programs" id="documentation-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Documentation <span class="caret"> </span>
+                  </a>
+                  <div class="dropdown-menu bg-maroon-translucent w-100" aria-labelledby="documentation-link">
+                    
+                    <a class="dropdown-item subcategory-name" href="../jurism-docs">» Jurism Client</a>
+                    <a class="dropdown-item subcategory-name" href="../cslm-docs">» CSL-M Style Language</a>
+                    
+                  </div>
+                </li>
+                
+                <li class="nav-item dropdown w-100">
+                  <a class="nav-link p-3 dropdown-toggle category-name" href="../resources" id="resources-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Projects <span class="caret"> </span>
+                  </a>
+                  <div class="dropdown-menu bg-maroon-translucent w-100" aria-labelledby="resources-link">
+                    
+                    <a class="dropdown-item subcategory-name" href="../indigobook">» IndigoBook Integration</a>
+                    <a class="dropdown-item subcategory-name" href="../lrr">» Legal Resource Registry</a>
+                    
+                  </div>
+                </li>
+                
+                <li class="nav-item dropdown w-100">
+                  <a class="nav-link p-3 dropdown-toggle category-name" href="../alumni" id="support-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Support <span class="caret"> </span>
+                  </a>
+                  <div class="dropdown-menu bg-maroon-translucent w-100" aria-labelledby="support-link">
+                    
+                    <a class="dropdown-item subcategory-name" href="../posts">» Blog</a>
+                    <a class="dropdown-item subcategory-name" href="../mail">» Mailing List</a>
+                    
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col bg-faded"><!-- Right gutter --></div>
+        </div>
+        <div class="row no-gutters hidden-md-down">
+          <div class="col navbar-fixed-height bg-maroon"><!-- Left gutter --></div>
+          <div class="navbar-content">
+            <!-- Fullscreen navigation menu (only visible on larger displays) -->
+            <ul class="navbar-nav w-100 justify-content-between hidden-md-down" id="desktopNavMenu">
+              
+              <li class="nav-item w-100">
+                
+                <a class="nav-link p-3 category-name" href="#" id="downloads-link">
+                  Install
+                </a>
+                
+                <div class="dropdown-nav bg-maroon-translucent w-100">
+                  
+                  <a class="nav-item subcategory-name" href="../release">Current Release</a>
+                  <a class="nav-item subcategory-name" href="../beta">Beta Testing</a>
+                  
+                </div>
+              </li>
+              
+              <li class="nav-item w-100">
+                
+                <a class="nav-link p-3 category-name" href="#" id="documentation-link">
+                  Documentation
+                </a>
+                
+                <div class="dropdown-nav bg-maroon-translucent w-100">
+                  
+                  <a class="nav-item subcategory-name" href="../jurism-docs">Jurism Client</a>
+                  <a class="nav-item subcategory-name" href="../cslm-docs">CSL-M Style Language</a>
+                  
+                </div>
+              </li>
+              
+              <li class="nav-item w-100">
+                
+                <a class="nav-link p-3 category-name" href="#" id="resources-link">
+                  Projects
+                </a>
+                
+                <div class="dropdown-nav bg-maroon-translucent w-100">
+                  
+                  <a class="nav-item subcategory-name" href="../indigobook">IndigoBook Integration</a>
+                  <a class="nav-item subcategory-name" href="../lrr">Legal Resource Registry</a>
+                  
+                </div>
+              </li>
+              
+              <li class="nav-item w-100">
+                
+                <a class="nav-link p-3 category-name" href="#" id="support-link">
+                  Support
+                </a>
+                
+                <div class="dropdown-nav bg-maroon-translucent w-100">
+                  
+                  <a class="nav-item subcategory-name" href="../posts">Blog</a>
+                  <a class="nav-item subcategory-name" href="../mail">Mailing List</a>
+                  
+                </div>
+              </li>
+              
+            </ul>
+          </div>
+          <div class="col navbar-fixed-height bg-maroon"><!-- Right gutter --></div>
+        </div>
+      </div>
+    </nav> <!-- .navbar.fixed-top -->
+
+    <div class="site-flex-container">
+      <div class="container-fluid mb-auto">
+        <div class="row justify-content-center">
+          <div class="main-content" role="main" aria-label="Content" style="margin-bottom: 10px;">
+            <div id="proper-page">
+              
+              
+              
+              
+<p>    <div style="margin-bottom:1em;position: relative;top:-120px;z-index:10;height:0px;" id=""> </div>
+    <div class="card">
+      <h4 class="card-header">Jurism Installer (Beta Version)</h4>
+      <div class="card-group">
+        
+        <div class="card hidden-xs-down">
+          <div class="card-block">
+            <p>The beta-version client installer in this page has passed automated tests, and is offered for testing in the wild.</p>
+
+<p>The beta client may contain undetected bugs, and may make changes to the database schema. To avoid touching your primary database, run the client from the command line with the <code>--ProfileManager</code> option, and in any case be sure to fully back up your data before installing this version of the client.</p>
+
+<p>To return to the stable version of the client, install via the <strong>Current Release</strong> page.</p>
+
+<p>This version includes comprehensive support for US legal citation rules. The test, select the style "JM Indigo Book (beta version)," and enter data as illustrated in the linked examples contained in the <a href="../indigobook/indigobook.html">Jurism-enhanced version of the IndigoBook</a>.</p>
+          </div>
+        </div>
+        
+        <div class="card">
+          <dl class="dl-group">
+            
+            <div id="undefined---jurism-client-installer-mac" class="dl-group-item os-installer os-is-mac">
+              <dt style="padding: 0;">
+                <a style="display:block;width:100%;white-space:nowrap;" class="nodecor" href="https://our.law.nagoya-u.ac.jp/jurism/dl?channel=beta&amp;platform=mac"><img style="vertical-align: top;width: 36px;" src="../assets/icons/link.svg"/></a>
+              </dt>
+              <dd>
+                <b style="font-size:larger;">Jurism Client Installer (Mac)</b>
+                <p>The installer for the Mac is currently unsigned. To run the application after a first-time install, find Jurism in the Applications folder of the Finder, right-click on its icon, and choose “Open.” Subsequent beta updates will be automatic.</p>
+              </dd>
+            </div>
+            
+            <div id="undefined---jurism-client-installer-windows" class="dl-group-item os-installer os-is-win">
+              <dt style="padding: 0;">
+                <a style="display:block;width:100%;white-space:nowrap;" class="nodecor" href="https://our.law.nagoya-u.ac.jp/jurism/dl?channel=beta&amp;platform=win32"><img style="vertical-align: top;width: 36px;" src="../assets/icons/link.svg"/></a>
+              </dt>
+              <dd>
+                <b style="font-size:larger;">Jurism Client Installer (Windows)</b>
+                <p>The installer for Windows is currently unsigned. On some systems (depending on security software) you may need to take steps to permit the application to run. Beta updates after the first install are automatic.</p>
+              </dd>
+            </div>
+            
+            <div id="undefined---jurism-client-installer-linux-64-bit" class="dl-group-item os-installer os-is-lin64bit">
+              <dt style="padding: 0;">
+                <a style="display:block;width:100%;white-space:nowrap;" class="nodecor" href="https://our.law.nagoya-u.ac.jp/jurism/dl?channel=beta&amp;platform=linux-x86_64"><img style="vertical-align: top;width: 36px;" src="../assets/icons/link.svg"/></a>
+              </dt>
+              <dd>
+                <b style="font-size:larger;">Jurism Client Installer (Linux 64-bit)</b>
+                <p>The Linux installers (for 32-bit and 64-bit systems respectively) are offered here as <em>zip</em> archives, not as package installers. To use, download the archive, unzip it (<code>/opt</code> is a common location), enter its directory, and run the <code>jurism</code> application. Subsequent beta updates will be automatic.</p>
+              </dd>
+            </div>
+            
+            <div id="undefined---jurism-client-installer-linux-32-bit" class="dl-group-item os-installer os-is-lin32bit">
+              <dt style="padding: 0;">
+                <a style="display:block;width:100%;white-space:nowrap;" class="nodecor" href="https://our.law.nagoya-u.ac.jp/jurism/dl?channel=beta&amp;platform=linux-i686"><img style="vertical-align: top;width: 36px;" src="../assets/icons/link.svg"/></a>
+              </dt>
+              <dd>
+                <b style="font-size:larger;">Jurism Client Installer (Linux 32-bit)</b>
+                <p>The Linux installers (for 32-bit and 64-bit systems respectively) are offered here as <strong>zip</strong> archives, not as package installers. To install, download the archive, unzip it (<code>/opt</code> is a common location), enter its directory, and run the <code>jurism</code> application. Subsequent beta updates will be automatic.</p>
+              </dd>
+            </div>
+            
+            <div id="undefined---jurism-client-no-installer-available" class="dl-group-item os-installer os-is-none">
+              <dt style="padding: 0;">
+                <a style="display:block;width:100%;white-space:nowrap;" class="nodecor" href=""><img style="vertical-align: top;width: 36px;" src="../assets/icons/stop.svg"/></a>
+              </dt>
+              <dd>
+                <b style="font-size:larger;">Jurism Client (no installer available)</b>
+                <p>Installers for the Jurism client are available only for Windows, Mac, and Linux operating systems.</p>
+              </dd>
+            </div>
+            
+            <div id="undefined---jurism-connector-firefox" class="dl-group-item browser-installer browser-is-firefox">
+              <dt style="padding: 0;">
+                <a style="display:block;width:100%;white-space:nowrap;" class="nodecor" href="https://github.com/Juris-M/assets/releases/download/connector/firefox/plugin/release/Jurism_Connector-5.0.66.1.xpi"><img style="vertical-align: top;width: 36px;" src="../assets/icons/link.svg"/></a>
+              </dt>
+              <dd>
+                <b style="font-size:larger;">Jurism Connector (Firefox)</b>
+                <p>Install this Jurism Connector to enable Jurism support in Google Docs and one-click acquisition of database items from many websites.</p>
+              </dd>
+            </div>
+            
+            <div id="undefined---jurism-connector-chrome" class="dl-group-item browser-installer browser-is-chrome">
+              <dt style="padding: 0;">
+                <a style="display:block;width:100%;white-space:nowrap;" class="nodecor" href="https://chrome.google.com/webstore/detail/juris-m-connector/pbhldkcipcaeniadfnhhdaealdfjgbpj"><img style="vertical-align: top;width: 36px;" src="../assets/icons/link.svg"/></a>
+              </dt>
+              <dd>
+                <b style="font-size:larger;">Jurism Connector (Chrome)</b>
+                <p>Install this Jurism Connector to enable Jurism support in Google Docs and one-click acquisition of database items from many websites.</p>
+              </dd>
+            </div>
+            
+            <div id="undefined---jurism-connector-no-installer-available" class="dl-group-item browser-installer browser-is-none">
+              <dt style="padding: 0;">
+                <a style="display:block;width:100%;white-space:nowrap;" class="nodecor" href=""><img style="vertical-align: top;width: 36px;" src="../assets/icons/stop.svg"/></a>
+              </dt>
+              <dd>
+                <b style="font-size:larger;">Jurism Connector (no installer available)</b>
+                <p>Jurism connectors are available only for Chrome and Firefox browsers.</p>
+              </dd>
+            </div>
+            
+          </dl>
+        </div>
+      </div>
+    </div>
+</p>
+
+            </div>
+            <div id="search-page" style="display: none;">
+              <h1 style="margin-bottom: 0.5em;" class="hidden-md-down">Search Results</h1>
+              <h1 class="hidden-lg-up" style="margin-top:20px;">Search Results</h1>
+              <ul class="searchresults">
+                <li>Hello</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="site-footer container-fluid">
+        <div class="row">
+          <div class="col-md-12" style="text-align:center;">
+            <p class="small">© 2019 Frank Bennett</p>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script -->
+    <script src="../assets/js/jquery-1.12.4-min.js" type="text/javascript">
+    <!-- Tether (required for Bootstrap tooltips to work) -->
+    <script src="../assets/js/tether.min.js" type="text/javascript"></script>
+    <!-- All compiled Bootstrap plugins -->
+    <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- Custom Javascript -->
+    <script src="../assets/js/utility.js" type="text/javascript"></script>
+    <script src="../assets/js/browserSniff.js"></script>
+  
+</script></body></html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head profile="http://www.w3.org/2005/10/profile">
+    <script>
+      if (!(window.location.host.startsWith("127.0.0.1")) && !(window.location.host.startsWith("localhost")) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+    </script>
+    <title>
+      
+        IndigoBook
+      
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="keywords" content="digital humanities, reference managment, bibliography, research tools, legal research"/>
+
+    <meta property="og:type" content="summary"/>
+    <meta property="og:image" content="https://www.law.nagoya-u.ac.jp/en/icons/nulogo-square.png"/>
+    <meta property="og:description" content="for the laws and languages of the world"/>
+    <meta property="og:title" content="The Jurism Project"/>
+    <meta property="og:url" content="https://juris-m.github.io/"/>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../favicon-32x32.png"/>
+
+    <!-- Stylesheets -->
+    <link href="../assets/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="../assets/css/main.css" rel="stylesheet"/>
+    
+  </head>
+  <body onload="attachListener();">
+    <!-- Navbar -->
+    <nav class="navbar navbar-toggleable-md navbar-light fixed-top">
+      <div class="navbar-container">
+        <div class="row no-gutters">
+          <div class="col bg-faded"><!-- Left gutter --></div>
+          <div class="navbar-content">
+            <!-- Top half of the navbar (visible on all displays) -->
+            <div class="navbar-top-row">
+              <!-- Logo and site name -->
+              <a class="navbar-brand mr-auto" href="../">
+                <img src="../assets/icons/jurism-logo.svg" style="width: 200px;" alt=" "/>
+                <div class="hidden-sm-down" style="display:inline-block;vertical-align:middle;margin-left:0.5em;">
+                  <div>
+                    The Jurism Project
+                  </div>
+                  <div style="font-size:smaller;font-style:italic;font-weight:normal;">
+                    for the laws and languages of the world
+                  </div>
+                </div>
+              </a>
+              <!-- Inline search form (only visible on larger displays) -->
+              <!-- form class="form-inline hidden-md-down">
+                <input class="form-control hidden-md-down search" text="text" placeholder="Search&#8230;"/>
+                <button class="btn btn-primary search-button" type="submit" role="button">
+                  <span class="fa fa-search" aria-hidden="true"/>
+                </button>
+              </form -->
+              <!-- Search button (only visible on smaller displays) -->
+              <!-- button class="btn btn-primary search-button hidden-lg-up" type="button" data-toggle="collapse" data-target="#mobileSearchMenu" aria-expanded="false" aria-controls="mobileSearchMenu">
+                <span class="fa fa-search" aria-hidden="true"/>
+              </button -->
+              <!-- "Hamburger" button -->
+              <button class="navbar-toggler btn-primary" type="button" data-toggle="collapse" data-target="#mobileNavMenu" aria-controls="mobileNavMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"/>
+              </button>
+            </div>
+            <!-- Dropdown search menu (only visible on smaller displays) -->
+            <form id="mobileSearchMenu" class="collapse hidden-lg-up">
+              <div class="input-group">
+                <input type="text" class="form-control search" id="mobile-search-text" aria-describedby="query-text"/>
+                <span class="input-group-btn">
+                  <button class="btn btn-primary" type="submit">
+                    Search
+                  </button>
+                </span>
+              </div>
+            </form>
+            <!-- Collapsible navigation menu (only visible on smaller displays) -->
+            <div id="mobileNavMenu" class="collapse navbar-collapse">
+              <ul class="navbar-nav w-100 justify-content-between hidden-lg-up">
+                
+                <li class="nav-item dropdown w-100">
+                  <a class="nav-link p-3 dropdown-toggle category-name" href="../directory" id="downloads-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Install <span class="caret"> </span>
+                  </a>
+                  <div class="dropdown-menu bg-maroon-translucent w-100" aria-labelledby="downloads-link">
+                    
+                    <a class="dropdown-item subcategory-name" href="../release">» Current Release</a>
+                    <a class="dropdown-item subcategory-name" href="../beta">» Beta Testing</a>
+                    
+                  </div>
+                </li>
+                
+                <li class="nav-item dropdown w-100">
+                  <a class="nav-link p-3 dropdown-toggle category-name" href="../programs" id="documentation-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Documentation <span class="caret"> </span>
+                  </a>
+                  <div class="dropdown-menu bg-maroon-translucent w-100" aria-labelledby="documentation-link">
+                    
+                    <a class="dropdown-item subcategory-name" href="../jurism-docs">» Jurism Client</a>
+                    <a class="dropdown-item subcategory-name" href="../cslm-docs">» CSL-M Style Language</a>
+                    
+                  </div>
+                </li>
+                
+                <li class="nav-item dropdown w-100">
+                  <a class="nav-link p-3 dropdown-toggle category-name" href="../resources" id="resources-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Projects <span class="caret"> </span>
+                  </a>
+                  <div class="dropdown-menu bg-maroon-translucent w-100" aria-labelledby="resources-link">
+                    
+                    <a class="dropdown-item subcategory-name" href="../indigobook">» IndigoBook Integration</a>
+                    <a class="dropdown-item subcategory-name" href="../lrr">» Legal Resource Registry</a>
+                    
+                  </div>
+                </li>
+                
+                <li class="nav-item dropdown w-100">
+                  <a class="nav-link p-3 dropdown-toggle category-name" href="../alumni" id="support-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Support <span class="caret"> </span>
+                  </a>
+                  <div class="dropdown-menu bg-maroon-translucent w-100" aria-labelledby="support-link">
+                    
+                    <a class="dropdown-item subcategory-name" href="../posts">» Blog</a>
+                    <a class="dropdown-item subcategory-name" href="../mail">» Mailing List</a>
+                    
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col bg-faded"><!-- Right gutter --></div>
+        </div>
+        <div class="row no-gutters hidden-md-down">
+          <div class="col navbar-fixed-height bg-maroon"><!-- Left gutter --></div>
+          <div class="navbar-content">
+            <!-- Fullscreen navigation menu (only visible on larger displays) -->
+            <ul class="navbar-nav w-100 justify-content-between hidden-md-down" id="desktopNavMenu">
+              
+              <li class="nav-item w-100">
+                
+                <a class="nav-link p-3 category-name" href="#" id="downloads-link">
+                  Install
+                </a>
+                
+                <div class="dropdown-nav bg-maroon-translucent w-100">
+                  
+                  <a class="nav-item subcategory-name" href="../release">Current Release</a>
+                  <a class="nav-item subcategory-name" href="../beta">Beta Testing</a>
+                  
+                </div>
+              </li>
+              
+              <li class="nav-item w-100">
+                
+                <a class="nav-link p-3 category-name" href="#" id="documentation-link">
+                  Documentation
+                </a>
+                
+                <div class="dropdown-nav bg-maroon-translucent w-100">
+                  
+                  <a class="nav-item subcategory-name" href="../jurism-docs">Jurism Client</a>
+                  <a class="nav-item subcategory-name" href="../cslm-docs">CSL-M Style Language</a>
+                  
+                </div>
+              </li>
+              
+              <li class="nav-item w-100">
+                
+                <a class="nav-link p-3 category-name" href="#" id="resources-link">
+                  Projects
+                </a>
+                
+                <div class="dropdown-nav bg-maroon-translucent w-100">
+                  
+                  <a class="nav-item subcategory-name" href="../indigobook">IndigoBook Integration</a>
+                  <a class="nav-item subcategory-name" href="../lrr">Legal Resource Registry</a>
+                  
+                </div>
+              </li>
+              
+              <li class="nav-item w-100">
+                
+                <a class="nav-link p-3 category-name" href="#" id="support-link">
+                  Support
+                </a>
+                
+                <div class="dropdown-nav bg-maroon-translucent w-100">
+                  
+                  <a class="nav-item subcategory-name" href="../posts">Blog</a>
+                  <a class="nav-item subcategory-name" href="../mail">Mailing List</a>
+                  
+                </div>
+              </li>
+              
+            </ul>
+          </div>
+          <div class="col navbar-fixed-height bg-maroon"><!-- Right gutter --></div>
+        </div>
+      </div>
+    </nav> <!-- .navbar.fixed-top -->
+
+    <div class="site-flex-container">
+      <div class="container-fluid mb-auto">
+        <div class="row justify-content-center">
+          <div class="main-content" role="main" aria-label="Content" style="margin-bottom: 10px;">
+            <div id="proper-page">
+              
+              
+              
+              
+<p>    <div style="margin-bottom:1em;position: relative;top:-120px;z-index:10;height:0px;" id=""> </div>
+    <div class="card">
+      <h4 class="card-header">IndigoBook Style Integration</h4>
+      <div class="card-group">
+        
+        <div class="card hidden-xs-down">
+          <div class="card-block">
+            <p>The IndigoBook is a free and open statement of the “Bluebook” rules that are commonly applied to US legal resources.  The first (and current) edition is the creation Christopher Sprigman and a team of students at New York University, published by Carl Malamud at <code>PublicResource.org</code>. Editorial work for a “2.0” update is being led by Jennifer Romig.</p>
+
+<p>The open-access, born-digital status of IndigoBook opens a path to integration of the guide with Jurism, to produce a fully automated citation system with an efficient and distributed editorial workflow, open to rolling feedback from the user community that relies on it.</p>
+          </div>
+        </div>
+        
+        <div class="card">
+          <dl class="dl-group">
+            
+            <div id="undefined---jurism-enhanced-indigobook" class="dl-group-item">
+              <dt style="padding: 0;">
+                <a style="display:block;width:100%;white-space:nowrap;" class="nodecor" href="https://juris-m.github.io/indigobook/indigobook.html"><img style="vertical-align: top;width: 36px;" src="../assets/icons/link.svg"/></a>
+              </dt>
+              <dd>
+                <b style="font-size:larger;">Jurism-Enhanced IndigoBook</b>
+                <p>A copy of the IndigoBook with links on its citation examples that open popup guidance illustrating how data should be entered in Jurism for each type of material.</p>
+              </dd>
+            </div>
+            
+            <div id="undefined---indigobookjurism-design-notes" class="dl-group-item">
+              <dt style="padding: 0;">
+                <a style="display:block;width:100%;white-space:nowrap;" class="nodecor" href="https://juris-m.github.io/indigobook"><img style="vertical-align: top;width: 36px;" src="../assets/icons/link.svg"/></a>
+              </dt>
+              <dd>
+                <b style="font-size:larger;">IndigoBook+Jurism Design Notes</b>
+                <p>An overview of the IndigoBook integration project and its objectives.</p>
+              </dd>
+            </div>
+            
+          </dl>
+        </div>
+      </div>
+    </div>
+</p>
+
+            </div>
+            <div id="search-page" style="display: none;">
+              <h1 style="margin-bottom: 0.5em;" class="hidden-md-down">Search Results</h1>
+              <h1 class="hidden-lg-up" style="margin-top:20px;">Search Results</h1>
+              <ul class="searchresults">
+                <li>Hello</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="site-footer container-fluid">
+        <div class="row">
+          <div class="col-md-12" style="text-align:center;">
+            <p class="small">© 2019 Frank Bennett</p>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script -->
+    <script src="../assets/js/jquery-1.12.4-min.js" type="text/javascript">
+    <!-- Tether (required for Bootstrap tooltips to work) -->
+    <script src="../assets/js/tether.min.js" type="text/javascript"></script>
+    <!-- All compiled Bootstrap plugins -->
+    <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- Custom Javascript -->
+    <script src="../assets/js/utility.js" type="text/javascript"></script>
+    <script src="../assets/js/browserSniff.js"></script>
+  
+</script></body></html>

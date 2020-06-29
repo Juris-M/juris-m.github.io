@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="672.70068"
+   height="460.5148"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="NUlogo-1.0.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/home/bennett/Desktop/nulogo.png"
+   inkscape:export-xdpi="39.860859"
+   inkscape:export-ydpi="39.860859"
+   version="1.0"
+   sodipodi:modified="TRUE">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.0938913"
+     inkscape:cx="140.91203"
+     inkscape:cy="268.49443"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer5"
+     inkscape:window-width="1920"
+     inkscape:window-height="1113"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     showgrid="false"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Background"
+     style="display:none"
+     sodipodi:insensitive="true"
+     transform="translate(-21.010861,-353.03165)">
+    <image
+       sodipodi:absref="/media/storage/src/gsl-build/skeleton/assets/icons/Logonu.png"
+       xlink:href="Logonu.png"
+       width="700"
+       height="479.81219"
+       id="image2233"
+       x="3.7828701"
+       y="339.65976" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Inner left line"
+     style="display:inline"
+     transform="translate(-21.010861,-353.03165)">
+    <path
+       style="fill:#016028;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:11.00000381;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 51.965776,523.18897 C 83.672721,454.11301 167.667,381.67154 216.38286,369.80017 C 224.73007,366.71097 250.58891,365.07058 277.46621,412.66625 C 303.90472,343.9389 392.46299,364.26145 380.00515,431.96828 C 364.2081,463.8502 304.60233,675.51056 304.60233,675.51056 L 182.93555,673.84728 L 193.42786,637.09329 L 168.70409,631.23373 L 153.5997,676.75483 L 40.992118,676.17076 L 85.39988,524.00169 L 51.965776,523.18897 z "
+       id="path4153"
+       sodipodi:nodetypes="cccccccccccc"
+       inkscape:export-filename="/home/bennett/Desktop/path5190.png"
+       inkscape:export-xdpi="1.873047"
+       inkscape:export-ydpi="1.873047" />
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline"
+     transform="translate(-21.010861,-353.03165)">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#016028;stroke-width:11;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 34.738369,533.11498 C 70.390906,455.41072 138.11131,392.43096 192.88937,366.73648 C 202.27521,363.26149 244.71493,339.82067 276.99279,392.33317 C 308.77721,332.50312 404.24395,358.44926 391.26374,432.55654 C 377.6126,458.13735 312.64532,685.95263 312.64532,685.95263 L 169.80663,686.30992 L 183.29061,642.44383 L 176.77717,640.70831 L 162.95038,686.68117 L 26.510861,686.69513 L 71.305074,534.02915 L 34.738369,533.11498 z "
+       id="path5190"
+       sodipodi:nodetypes="cccccccccccc"
+       inkscape:export-xdpi="1.873047"
+       inkscape:export-ydpi="1.873047"
+       inkscape:export-filename="/home/bennett/path5190.png" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="mei"
+     style="display:inline"
+     transform="translate(-21.010861,-353.03165)">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:20;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline"
+       d="M 163.63601,454.49657 L 305.33199,454.49656 L 291.61946,508.43245 L 139.86764,508.43246 L 117.01345,593.45005"
+       id="path6094"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="/home/bennett/Desktop/path5190.png"
+       inkscape:export-xdpi="1.873047"
+       inkscape:export-ydpi="1.873047" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:20;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline"
+       d="M 221.22856,459.0674 L 221.22856,506.60412"
+       id="path6096"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/bennett/Desktop/path5190.png"
+       inkscape:export-xdpi="1.873047"
+       inkscape:export-ydpi="1.873047" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:20;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 165.46434,542.42832 L 285.2203,542.42832 L 273.33612,590.8792 L 153.40849,590.8792 L 165.46434,542.42832 z "
+       id="path6104"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="/home/bennett/Desktop/path5190.png"
+       inkscape:export-xdpi="1.873047"
+       inkscape:export-ydpi="1.873047" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="dai border"
+     transform="translate(-21.010861,-353.03165)">
+    <path
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#016028;stroke-width:18;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 684.71154,476.43659 L 642.65983,627.27424 L 673.74154,627.27425 C 672.82737,672.98263 489.72434,884.29108 434.22962,769.88439 C 388.69099,846.1717 284.30612,783.5969 331.84284,706.80682 L 404.06209,472.77992 L 684.71154,476.43659 z "
+       id="path2167"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:export-filename="/home/bennett/Desktop/path5190.png"
+       inkscape:export-xdpi="1.873047"
+       inkscape:export-ydpi="1.873047" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer6"
+     inkscape:label="dai moji"
+     transform="translate(-21.010861,-353.03165)">
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#006028;stroke-width:18;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 554.19878,473.26389 L 509.89219,595.70844"
+       id="path4114"
+       inkscape:export-filename="/home/bennett/Desktop/path5190.png"
+       inkscape:export-xdpi="1.873047"
+       inkscape:export-ydpi="1.873047" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#006028;stroke-width:18;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 482.37961,593.36213 L 446.4147,690.43971"
+       id="path5089"
+       inkscape:export-filename="/home/bennett/Desktop/path5190.png"
+       inkscape:export-xdpi="1.873047"
+       inkscape:export-ydpi="1.873047" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#006028;stroke-width:18;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 533.57299,593.36214 L 497.60808,690.43972"
+       id="path5091"
+       inkscape:export-filename="/home/bennett/Desktop/path5190.png"
+       inkscape:export-xdpi="1.873047"
+       inkscape:export-ydpi="1.873047" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#006028;stroke-width:18;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 397.66291,688.52347 L 431.48711,594.36421 L 584.15311,594.36421 L 547.5864,688.52347"
+       id="path2180"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/home/bennett/Desktop/path5190.png"
+       inkscape:export-xdpi="1.873047"
+       inkscape:export-ydpi="1.873047" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:18;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 590.84523,561.41722 L 469.5892,513.95441"
+       id="path3153"
+       inkscape:export-filename="/home/bennett/Desktop/path5190.png"
+       inkscape:export-xdpi="1.873047"
+       inkscape:export-ydpi="1.873047" />
+  </g>
+</svg>
