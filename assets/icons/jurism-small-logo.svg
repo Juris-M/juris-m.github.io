@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="739.4173"
+   height="739.4173"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="jurism-small-logo.svg"
+   inkscape:export-filename="/media/storage/src/JM/juris-m-top/skeleton/assets/icons/jurism-small-logo.png"
+   inkscape:export-xdpi="17.527315"
+   inkscape:export-ydpi="17.527315">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3055"
+       inkscape:collect="always">
+      <stop
+         id="stop3057"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:1;" />
+      <stop
+         id="stop3063"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:0;" />
+    </linearGradient>
+    <filter
+       inkscape:collect="always"
+       id="filter4512"
+       x="-0.12526584"
+       width="1.2505317"
+       y="-0.19581784"
+       height="1.3916357"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="5.0703626"
+         id="feGaussianBlur4514" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3055"
+       id="linearGradient2998"
+       gradientUnits="userSpaceOnUse"
+       x1="167.34267"
+       y1="244.39783"
+       x2="167.46866"
+       y2="317.99164" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="154.65125"
+     inkscape:cy="525.03246"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1136"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:snap-global="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     units="mm" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline"
+     transform="translate(-1.1408555,65.022578)">
+    <path
+       sodipodi:type="arc"
+       style="fill:#006600;fill-opacity:1"
+       id="path3432"
+       sodipodi:cx="351.42856"
+       sodipodi:cy="327.36218"
+       sodipodi:rx="125.71429"
+       sodipodi:ry="125.71429"
+       d="M 477.03944,322.26436 A 125.71429,125.71429 0 0 1 356.52851,452.97298 125.71429,125.71429 0 0 1 225.81785,332.46425 125.71429,125.71429 0 0 1 346.32436,201.75156 125.71429,125.71429 0 0 1 477.0391,322.25586 l -125.61054,5.10632 z"
+       sodipodi:start="6.2426233"
+       sodipodi:end="12.525741"
+       transform="matrix(2.9317131,0,0,2.9258792,-659.15437,-652.68621)"
+       inkscape:export-filename="/home/bennett/src/zotero/branding/mlz_z_32px.png"
+       inkscape:export-xdpi="16.065086"
+       inkscape:export-ydpi="16.065086" />
+    <path
+       sodipodi:type="arc"
+       style="fill:url(#linearGradient2998);fill-opacity:1;filter:url(#filter4512)"
+       id="path4410"
+       sodipodi:cx="165"
+       sodipodi:cy="285.57648"
+       sodipodi:rx="48.57143"
+       sodipodi:ry="31.071428"
+       d="m 213.53148,284.3165 a 48.57143,31.071428 0 0 1 -46.56105,32.30583 48.57143,31.071428 0 0 1 -50.50184,-29.78483 48.57143,31.071428 0 0 1 46.55933,-32.30683 48.57143,31.071428 0 0 1 50.50343,29.78373 L 165,285.57648 Z"
+       sodipodi:start="6.2426233"
+       sodipodi:end="12.525741"
+       transform="matrix(5.7949022,0,0,5.9844828,-590.00506,-1568.2998)"
+       inkscape:export-filename="/home/bennett/src/zotero/branding/mlz-button-big.png"
+       inkscape:export-xdpi="146.72548"
+       inkscape:export-ydpi="146.72548" />
+    <g
+       transform="scale(0.9826136,1.017694)"
+       style="font-size:167.38270569px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:536.99998856%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:TeXGyreHeros;-inkscape-font-specification:TeXGyreHeros"
+       id="text4516">
+      <path
+         d="m 586.12408,521.8421 0,-439.279184 -77.73254,0 -127.74648,382.636874 -130.1568,-382.636874 -77.73253,0 0,439.279184 53.02685,0 0,-368.17501 124.73359,368.17501 59.05262,0 123.52844,-368.17501 0,368.17501 53.02685,0"
+         style="font-size:602.57775879px;fill:#ffffff;font-family:TeXGyreHeros;-inkscape-font-specification:TeXGyreHeros"
+         id="path2998" />
+    </g>
+  </g>
+</svg>
