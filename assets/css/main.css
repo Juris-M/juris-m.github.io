@@ -791,13 +791,23 @@ ul.list-unstyled li {
   background-color: #f7f7f7;
   text-decoration: none;
 }
-/* line 257, ../../../scss/sass/gsl/_navbar.scss */
+/* line 253, ../../../scss/sass/gsl/_navbar.scss */
+.navbar .navbar-nav .dropdown-menu .subcategory-name.disabled, .navbar .navbar-nav .dropdown-nav .subcategory-name.disabled {
+  background-color: #aaa;
+}
+/* line 256, ../../../scss/sass/gsl/_navbar.scss */
+.navbar .navbar-nav .dropdown-menu .subcategory-name.disabled:focus, .navbar .navbar-nav .dropdown-menu .subcategory-name.disabled:hover, .navbar .navbar-nav .dropdown-nav .subcategory-name.disabled:focus, .navbar .navbar-nav .dropdown-nav .subcategory-name.disabled:hover {
+  cursor: default;
+  background-color: #aaa;
+  color: #f7f7f7;
+}
+/* line 266, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .dropdown-nav.highlight {
   background-color: #b87333;
 }
 
 @media (max-width: 374px) {
-  /* line 268, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 277, ../../../scss/sass/gsl/_navbar.scss */
   .navbar-brand img {
     display: none;
   }
@@ -821,7 +831,7 @@ ul.list-unstyled li {
 }
 
 @media (max-width: 575px) {
-  /* line 279, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 288, ../../../scss/sass/gsl/_navbar.scss */
   .search-button {
     font-size: 1rem;
     margin: .25rem 0 .25rem .5rem;
@@ -829,13 +839,13 @@ ul.list-unstyled li {
   }
 }
 @media (min-width: 576px) {
-  /* line 279, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 288, ../../../scss/sass/gsl/_navbar.scss */
   .search-button {
     margin-right: .25rem;
   }
 }
 
-/* line 291, ../../../scss/sass/gsl/_navbar.scss */
+/* line 300, ../../../scss/sass/gsl/_navbar.scss */
 h1[id]:before,
 h2[id]:before,
 h3[id]:before,
@@ -847,7 +857,7 @@ h6[id]:before {
   visibility: hidden;
 }
 @media (max-width: 575px) {
-  /* line 291, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 300, ../../../scss/sass/gsl/_navbar.scss */
   h1[id]:before,
   h2[id]:before,
   h3[id]:before,
@@ -859,7 +869,7 @@ h6[id]:before {
   }
 }
 @media (min-width: 576px) and (max-width: 991px) {
-  /* line 291, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 300, ../../../scss/sass/gsl/_navbar.scss */
   h1[id]:before,
   h2[id]:before,
   h3[id]:before,
@@ -872,7 +882,7 @@ h6[id]:before {
 }
 
 @media (min-width: 992px) {
-  /* line 291, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 300, ../../../scss/sass/gsl/_navbar.scss */
   h1[id]:before,
   h2[id]:before,
   h3[id]:before,
