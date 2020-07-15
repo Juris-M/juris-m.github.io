@@ -8,7 +8,7 @@
     <title>
       
         
-          Website Housecleaning
+          Abbreviations in Jurism
         
       
     </title>
@@ -213,40 +213,187 @@
               
               
               
-                <h1 style="margin-bottom: 0.5em;" class="hidden-sm-down">Website Housecleaning</h1>
-                <h1 class="hidden-md-up">Website Housecleaning</h1>
+                <h1 style="margin-bottom: 0.5em;" class="hidden-sm-down">Abbreviations in Jurism</h1>
+                <h1 class="hidden-md-up">Abbreviations in Jurism</h1>
                 
               
               
               
               
-<p>Today marks the debut of a fresh version of the Jurism project site,
-which aims to be lighter, simpler, and generally more modern-looking
-than its predecessor. The previous version rolled out five years ago,
-and as the first shot at a portal drafted in a busy season, not much
-attention went into its appearance. The new site leverages
-professional work done for a more complex faculty site that has since
-been decomissioned. I was fond of the design, and I hope that the
-remix here will be received as an improvement.</p>
-<p><img src="../assets/images/jurism-old-site.png" style="width:100%;border:2px solid #ccc;padding:0.5rem;border-radius:3em 3em 0 0;" alt=""/>
-</p>
-<p>Publication of the new site design is accompanied by release of a new
-beta version of the Jurism client that includes a much-improved
-IndigoBook style. The new style is a major step forward in legal
-referencing support for lawyers, academics, and journalists. There are
-several interesting layers to the Jurism approach to legal reference
-management, and I will be posting further notes on the details to
-this space in due course.</p>
-<p>Note that the new site abandons a validating editor for legal style
-modules that provided impressive but less flexible support for style
-authoring than the
-<a href="https://www.npmjs.com/package/citeproc-test-runner">citeproc-test-runner</a>
-that became available last year. The editor contained an integrated manual
-on drafting legal style modules, which will be updated and added here
-as time permits.</p>
-<blockquote>
-<p>Frank Bennett, at Nisshin, Aichi-ken, Japan, 29 June 2020</p>
-</blockquote>
+<nav class="table-of-contents"><ol><li><a href="#introduction"> Introduction</a></li><li><a href="#opening-the-abbreviation-filter"> Opening the Abbreviation Filter</a><ol><li><a href="#from-the-style-editor"> From the Style Editor</a></li><li><a href="#from-the-default-document-popup"> From the default document popup</a></li><li><a href="#from-the-%E2%80%9Cclassic%E2%80%9D-document-popup"> From the “Classic” document popup</a></li></ol></li><li><a href="#abbreviation-filter-popup-view"> Abbreviation Filter popup view</a></li><li><a href="#usage"> Usage</a><ol><li><a href="#simple-abbreviation-edit"> Simple abbreviation edit</a></li><li><a href="#suppressing-the-court-name-with-a-specific-journal"> Suppressing the court name with a specific journal</a></li><li><a href="#partial-suppression-of-a-court-name"> Partial suppression of a court name</a></li></ol></li></ol></nav><hr/>
+<div><h2 id="introduction"><a class="header-anchor" href="#introduction">§</a> Introduction</h2><p>Jurism has a built-in abbreviation database that performs many
+operations automatically, but also enables tweaking by the user where
+necessary. This post explains how to open the “Abbreviation Filter”
+(the “Filter”) and edit abbreviations.</p><p>Before beginning, two points on why mastering the Filter is worth an
+investment of your time:</p><blockquote>
+<dl>
+<dt>Persistence</dt>
+<dd>Abbreviations are tied to the current <em>style</em>,
+even when edited in the context of a specific <em>document</em>. When you
+add or edit an abbreviation using the Filter, your edits are
+persistent, and will be applied consistently in all other documents
+that use the same citation style.</dd>
+<dt>Convenience</dt>
+<dd>While citations can be edited directly in
+the document text, doing so will “freeze” them in their current
+form: they will no longer update (to <em>id.</em> etc.) to reflect changes
+in their context. Changes applied via the Filter do not have this
+limitation.</dd>
+</dl>
+</blockquote></div>
+
+
+
+<div><h2 id="opening-the-abbreviation-filter"><a class="header-anchor" href="#opening-the-abbreviation-filter">§</a> Opening the Abbreviation Filter</h2><p>The Filter is linked from an <strong>Abbrevs</strong> button that is found wherever
+citations can be opened for editing:</p><ul>
+<li>in the Style Editor of the Jurism client;</li>
+<li>in the default citation insert/edit popup in Jurism documents; and</li>
+<li>in the “Classic” citation insert/edit popup in Jurism documents.</li>
+</ul><h3 id="from-the-style-editor"><a class="header-anchor" href="#from-the-style-editor">§</a> From the Style Editor</h3><p>To open the Style Editor, select an item in the center panel of the
+Jurism client, then open <strong>Preferences</strong>, choose the <strong>Cite</strong> tab, and
+click on the <strong>Style Editor</strong> button. Select the style for which you
+wish to examine abbreviations. The <strong>Abbrevs</strong> button is next to the
+style selector.</p><p><img src="./2020-07-08-0/abbrevs-in-style-editor.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:1.2rem;border-radius:3em 3em 0 0;" alt=""/>
+</p><h3 id="from-the-default-document-popup"><a class="header-anchor" href="#from-the-default-document-popup">§</a> From the default document popup</h3><p>In the default “Ribbon” citation popup of a document, the <strong>Abbrevs</strong>
+button is to the right of the citation search box, and is enabled
+after citations are first refreshed or a citation has been inserted or
+edited.</p><p><img src="./2020-07-08-0/abbrevs-in-citation-ribbon.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:1.2rem;border-radius:3em 3em 0 0;" alt=""/>
+</p><h3 id="from-the-%E2%80%9Cclassic%E2%80%9D-document-popup"><a class="header-anchor" href="#from-the-%E2%80%9Cclassic%E2%80%9D-document-popup">§</a> From the “Classic” document popup</h3><p>In the alternative “Classic” citation popup (accessible from the
+Jurism icon to the left in the “Ribbon” shown above), the <strong>Abbrevs</strong> button
+is in the upper-left corner of the popup:</p><p><img src="./2020-07-08-0/abbrevs-in-classic-dialog.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:1.2rem;border-radius:3em 3em 0 0;" alt=""/>
+</p></div>
+
+
+
+
+
+
+
+
+
+
+
+<div><h2 id="abbreviation-filter-popup-view"><a class="header-anchor" href="#abbreviation-filter-popup-view">§</a> Abbreviation Filter popup view</h2><p>Clicking on the <strong>Abbrevs</strong> button opens the Filter popup, which initially looks something like this. Its
+four sections are explained below.</p><p><img src="./2020-07-08-0/abbrevs-popup-initial.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:1.2rem;border-radius:3em 3em 0 0;" alt=""/>
+</p><dl>
+<dt>① Style</dt>
+<dd>
+<p>The style to which abbreviation edits will apply is shown at the top. Other styles will not be affected.</p>
+</dd>
+<dt>② Suppress Jurisdiction Names</dt>
+<dd>
+<p>Some styles (Indigo Book not among them) add an indication of the
+country to legal cites. Jurism will suppress that indication for
+countries in this list.  Use the search box to add a country, click
+on the country name to remove it from the list.</p>
+</dd>
+<dt>③ Lists</dt>
+<dd>
+<p>Abbreviations are divided into several categories. Click on the wide
+button to select a different category. Note that the Filter does not
+give direct access to the entire body of abbreviations that might be
+applied: each category shows only the items <em>relevant to citations in the
+current document</em> that can be abbreviated. This is by design.</p>
+</dd>
+<dt>④ Import from defaults / Import from file</dt>
+<dd>
+<p>The <strong>Import from defaults</strong> label is actually a button. Click on it to toggle
+back and forth to the alternative, <strong>Import from file</strong>. In the “defaults” view
+shown here, clicking on the <strong>Select a resource</strong> button opens a list with four
+selections:</p>
+<ul>
+<li>Abbreviations: Scientific Journals</li>
+<li>Abbreviations: Secondary materials for Commonwealth jurisdictions</li>
+<li>Abbreviations: Secondary materials for the US</li>
+<li>Abbreviations: EMPTY</li>
+</ul>
+<p>The abbreviations from these canned lists can be added to the style
+in one of three ways: (1) adding them only where no abbreviation for
+a value yet exists (this is the default); (2) adding them
+unconditionally, but leaving other abbreviations intact; or (3)
+removing all abbreviations and installing only the abbreviations of
+the selected list. Select a list and add it to the style by selecting
+an import method and pressing the <strong>Import</strong> button.</p>
+</dd>
+</dl></div>
+
+
+
+<div><h2 id="usage"><a class="header-anchor" href="#usage">§</a> Usage</h2><h3 id="simple-abbreviation-edit"><a class="header-anchor" href="#simple-abbreviation-edit">§</a> Simple abbreviation edit</h3><p>We begin with an entry that has been set with the full name of a journal
+in the <strong>Publication</strong> field.</p><p><img src="./2020-07-08-0/sample-raza.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:3rem;border-radius:3em 3em 0 0;" alt=""/>
+</p><p>After inserting the reference into a document, we reopen it for
+editing, click on <strong>Abbrevs</strong>, and in the <strong>Journal, Reporter</strong>
+abbreviation list, we find the entry shown below. Clicking to the
+right of the (lowercased and abridged) name of the journal opens the
+entry for editing. After entering text, pressing Enter or <strong>Close</strong>
+saves the abbreviation for the current style.</p><p><img src="./2020-07-08-0/sample-raza-abbrev.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:3rem;border-radius:3em 3em 0 0;" alt=""/>
+</p><p>The citation will now render as:</p><ul>
+<li>Nancy Villarreal, <em>Improving Legal Aid to Rural Communities in California</em>, 20 <span class="small-caps">Berkeley La Raza L.J.</span> 191 (2010).</li>
+</ul><h3 id="suppressing-the-court-name-with-a-specific-journal"><a class="header-anchor" href="#suppressing-the-court-name-with-a-specific-journal">§</a> Suppressing the court name with a specific journal</h3><p>A common citation pattern for cases sets the court and the year in a trailing parenthetical after the
+primary detais:</p><ul>
+<li><em>Smith v. Jones</em>, 998 P.2d 250 (Utah Ct. App. 1999).</li>
+</ul><p>However, in citations to a reporter dedicated to judgments of a particular
+court, the court name should not be included in the trailing parenthetical. In this example,
+we begin with a case cited to <em>United States Reports</em>, which reports U.S. Supreme Court judgments
+exclusively:</p><p><img src="./2020-07-08-0/sample-sc.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:3rem;border-radius:3em 3em 0 0;" alt=""/>
+</p><p>To suppress the court name when this reporter is used, we again cite
+the item in a document (or open it in the <strong>Style Editor</strong> set to our
+target style), open the reference for editing, and click the
+<strong>Abbrevs</strong> button. In the <strong>Journal, Reporter</strong> abbreviation list, we
+enter a marker composed of an exclamation point, the name of the
+variable to be suppressed (in this case <code>authority</code>), and three
+greater-than signs, followed by the journal abbreviation:</p><blockquote>
+<p><code>!authority>>>U.S.</code></p>
+</blockquote><p>The citation
+processor will interpret this mess as an instruction:</p><blockquote>
+<p><em>abbreviate like this BUT ALSO suppress the</em> <code>authority</code> <em>variable afterward</em></p>
+</blockquote><p><img src="./2020-07-08-0/sample-sc-abbrev.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:3rem;border-radius:3em 3em 0 0;" alt=""/>
+</p><p>In the JM Indigo Book Law Review style, the case will now be cited correctly as:</p><ul>
+<li><em>Roper v. Simmons</em>, 543 U.S. 551 (2005)</li>
+</ul><h3 id="partial-suppression-of-a-court-name"><a class="header-anchor" href="#partial-suppression-of-a-court-name">§</a> Partial suppression of a court name</h3><p>In a variant of the example above, some reporters are dedicated to judgments of several courts in a particular
+state. In this case, the state designation should be removed from the trailing parenthetical, but the
+court name should be retained if relevant. For this example, we begin with an entry for a decision of the
+California Court of Appeals, cited to the California Reporter, Second Series:</p><p><img src="./2020-07-08-0/sample-cal.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:3rem;border-radius:3em 3em 0 0;" alt=""/>
+</p><p>To remove only a portion of the court name, the steps are the same as the previous example, but the
+word or phrase to be removed from the <code>authority</code> variable is appended with a colon:</p><blockquote>
+<p><code>!authority:Cal.>>>Cal. Rptr. 2d</code></p>
+</blockquote><p>Note that this does <em>not</em> mean that “Cal.” is to be removed from the reporter name. It applies only
+to the court name provided to the citation processor in the <code>authority</code> variable. So the instruction
+is interpreted to mean:</p><blockquote>
+<p><em>abbreviate like this BUT ALSO remove the string</em> <code>Cal.</code> <em>from the authority variable when it is used afterward</em></p>
+</blockquote><p><img src="./2020-07-08-0/sample-cal-abbrev.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:3rem;border-radius:3em 3em 0 0;" alt=""/>
+</p><p>With these settings, the citation is rendered as:</p><ul>
+<li><em>People v. Foranyic</em>, 74 Cal. Rptr. 2d 804 (Ct. App. 1998).</li>
+</ul></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             </div>
