@@ -350,11 +350,28 @@ default delimiter or the value of <code>parallel-delimiter-override</code>)
 with the designated string if, and only if, this group is suppressed
 by the <code>parallel-first</code> or <code>parallel-last</code> rule. This attribute
 does not itself affect the rendering of the group on which it is set.</p>
-</blockquote><hr/><p>As noted above, these attributes have been sufficient to address all
+</blockquote><p>The <code>parallel-delimiter-override-on-suppress</code> attribute is used
+together with <code>parallel-first</code> or <code>parallel-last</code>:</p><pre><code>&lt;group parallel-first="container-title" parallel-delimiter-override-on-suppress=", ">
+    &lt;text variable="container-title" form="short"/>
+&lt;/group>
+
+In the citation &lt;span style="border-bottom:1px solid
+black;">Cass. 1ere civ., March 28, 2000, JCP G, 2000, 10296, J. &lt;span
+class="small-caps">Sainte-Rose&lt;/span>; D, 2000, somm. p. 358, &lt;span
+class="small-caps">Ph. Delebecque&lt;/span>, p. 900, &lt;span
+class="small-caps">S. Piedelievre&lt;/span>&lt;/span>, the journal name is
+"D." (short for "Recueil Dalloz") appears in the second reference, and
+is suppressed in the third and last. As a result, the third reference
+is joined with a comma.
+
+-------------------------
+
+As noted above, these attributes have been sufficient to address all
 instances of parallel citation that I have so far encountered.  If
 further cases emerge that demand additional attributes or adjustments
 to the logic described here, there may be changes. For the present,
-though, this is looking pretty good.</p></div>
+though, this is looking pretty good.
+</code></pre></div>
 
 
 
