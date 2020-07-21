@@ -8,7 +8,7 @@
     <title>
       
         
-          Jurism, Supervision, and Collaboration
+          Indigo Book + Jurism: Proposing Changes 
         
       
     </title>
@@ -20,7 +20,7 @@
     <meta property="og:type" content="summary"/>
     <meta property="og:image" content="https://juris-m.github.io/assets/icons/jurism-small-logo.png"/>
     <meta property="og:description" content="for the laws and languages of the world"/>
-    <meta property="og:title" content="Jurism, Supervision, and Collaboration"/>
+    <meta property="og:title" content="Indigo Book + Jurism: Proposing Changes "/>
     <meta property="og:url" content="https://juris-m.github.io/"/>
     
     <!-- Favicon -->
@@ -209,94 +209,117 @@
       <div class="container-fluid mb-auto">
         <div class="row justify-content-center">
           <div class="main-content" role="main" aria-label="Content" style="margin-bottom: 10px;">
-            <div id="proper-page">
+            <div id="proper-page" class="toc-min">
               
               
               
-                <h1 style="margin-bottom: 0.5em;" class="hidden-sm-down">Jurism, Supervision, and Collaboration</h1>
-                <h1 class="hidden-md-up">Jurism, Supervision, and Collaboration</h1>
+                <h1 style="margin-bottom: 0.5em;" class="hidden-sm-down">Indigo Book + Jurism: Proposing Changes </h1>
+                <h1 class="hidden-md-up">Indigo Book + Jurism: Proposing Changes </h1>
                 
               
               
               
               
-<p>In a standard Jurism setup, <strong>My Library</strong> is private. Even when
-synced to <code>zotero.org</code>, the contents can be accessed only by the
-owner’s own account. <strong>Group libraries</strong> allow access by multiple
-users, with read/write permissions on metadata and attachments
-controlled by role assignments to each member of the library.</p>
-<p>Group libraries lend themselves to collaborative editing, whether in
-real time in Google Docs, or asynchronously with independent edits
-merged using a <em>Track Changes</em> feature. However, there is one
-potential pitfall in collaborative environments. If a user adds a
-Jurism reference to the shared document from their personal library,
-citation updates will continue to work, but collaborators will not
-have access to the source item, and will not be able to make changes
-to it. If a private citation contains a spelling error (say), the only
-way for collaborators to make a correction to it is to edit the
-citation directly in the document text—but this is a no-no, as the
-edit will “freeze” the citation: if it is a full reference when
-edited, for example, it will no longer transform to its ibid or
-subsequent form according to context.</p>
-<p>To avoid the problem, a Jurism document can be “locked” to a specific
-shared library to which the user (and all collaborators) have
-read/write access. When a lock is applied, all items cited in the
-document, and all items subsequently added, are copied to the
-shared library, and the document’s citation link is adjusted to
-point at the copy. This gives all collaborators access to the
-library content as well as the document, so that bibliographic
-edits can be done in the usual way, by editing the library item
-and refreshing citations.</p>
-<p>This feature is particularly useful for writing supervision. A student
-author will typically begin their project with references from their
-personal library. When the time arrives for closer supervision,
-manually changing references in the document to point at a shared
-library is an unwelcome distraction, and pressure of time may make it
-impossible. The locking feature gives supervisor immediate read/write
-access to references cited in the document, where problems and
-misunderstandings can be sorted out efficiently at source.</p>
-<p>The steps for “locking” a document, to be performed by the supervisor
-or editor, are as follows:</p>
-<ol>
-<li>
-<p><strong>Library creation:</strong> In Jurism, create a group library to hold
-the document citations (extraction to My Library is not supported).</p>
-</li>
-<li>
-<p><strong>Sync to client:</strong> Sync the new library to the Jurism desktop
-client.</p>
-</li>
-<li>
-<p><strong>Document settings:</strong> With Jurism running, open the document, and
-in the word processor open <strong>Document Preferences</strong>, then pick the
-tab for <strong>Project Name</strong>. After ticking the box next to <strong>release
-for editing</strong>, select the group library from the dropdown list.</p>
-</li>
-<li>
-<p><strong>Reference extraction:</strong> When <strong>Document Preferences</strong> is closed,
-Jurism may hang briefly while creating items for citations in the
-document.  After it returns, click <strong>Refresh</strong> once to pick up any
-items that may have been missed on the first pass.</p>
-</li>
-<li>
-<p><strong>Sync:</strong> Sync Jurism to push the newly created items to the group library.</p>
-</li>
-<li>
-<p><strong>Invite:</strong> Invite collaborators to the Zotero group.</p>
-</li>
-<li>
-<p><strong>Canonical document:</strong> Save the document and provide it to collaborators as the new working copy.
-(If this step is performed in Google Docs, this step is not necessary.)</p>
-</li>
-</ol>
-<hr/>
-<p>So long as collaborators work from the new, locked copy of the project
-document, all references will land in the shared library. This may give
-rise to duplicates, so the library should be curated from time to time
-by the editor to merge (not to delete) them.</p>
-<hr/>
-<p><img src="../assets/images/document-locking.png" style="width:100%;" alt=""/>
-</p>
+<nav class="table-of-contents"><ol><li><a href="#overview"> Overview</a></li><li><a href="#opening-a-github-account"> Opening a GitHub account</a></li><li><a href="#reserving-an-indigo-book-chapter"> Reserving an Indigo Book chapter</a></li><li><a href="#editing-and-saving-examples"> Editing and saving examples</a><ol><li><a href="#logging-in"> Logging in</a></li><li><a href="#editing"> Editing</a></li><li><a href="#saving"> Saving</a></li><li><a href="#review-and-notifications"> Review and notifications</a></li></ol></li><li><a href="#proposing-new-citation-forms"> Proposing new citation forms</a></li><li><a href="#logging-out"> Logging out</a></li></ol></nav><div><h2 id="overview"><a class="header-anchor" href="#overview">🔗</a> Overview</h2><p>This post explains how to contribute to the update of the <a href="https://juris-m.github.io/indigobook/">JM Indigo
+Book</a> style to fully reflect
+the citation rules of <span class="small-caps">The Bluebook: A Uniform
+System of Citation</span> (Columbia Law Review Ass’n et al. eds., 21st
+ed. 2020). The steps described here support the workflow described
+separately in the post <a href="https://juris-m.github.io/posts/2020-06-30-0.html">Indigo Book + Jurism
+Integration</a>, and
+are limited to a review of citation examples.</p></div>
+
+<div><h2 id="opening-a-github-account"><a class="header-anchor" href="#opening-a-github-account">🔗</a> Opening a GitHub account</h2><p>To save proposed edits, you will need a GitHub account. Accounts are
+free, and GitHub is not in the targeted advertising business.  (If you
+already have an account, skip to the next section.)</p><p>Visiting <a href="https://github.com/">https://github.com/</a>, you will find a form
+like this:</p><p><img src="./2020-07-21-0/github-signup.png" style="width:100%;width:60%;margin-left:20%;margin-right:20%;border:2px solid #ccc;padding:3rem;border-radius:2em 2em 0 0;" alt=""/>
+</p><p>Enter your chosen screen name, email address, and a password, and
+create an account.  Make a note of your ID and password, you will use
+them in the steps below.</p></div>
+
+
+
+
+<div><h2 id="reserving-an-indigo-book-chapter"><a class="header-anchor" href="#reserving-an-indigo-book-chapter">🔗</a> Reserving an Indigo Book chapter</h2><p>We have prepared a <a href="https://docs.google.com/spreadsheets/d/1OSZRZfsDWcU-ahWugFyCm47stoxlZl0JHoqQ2Q0xlQo/edit?usp=sharing">coordination
+spreadsheet</a>
+listing the number of citations in each chapter and table. To reserve
+a section as your own, enter your GitHub ID in the first column, and
+<strong>in progress</strong> will show as its status.</p><p><img src="./2020-07-21-0/google-drive-in-progress.png" style="width:100%;width:100%;margin-left:0%;margin-right:0%;border:2px solid #ccc;padding:3rem;border-radius:2em 2em 0 0;" alt=""/>
+</p><p>If you would prefer not to show your ID in the spreadsheet, please
+enter a nickname in the form and contact me, either via Twitter DM on
+<code>@fgbjr</code>, or via the <a href="http://juris-m.github.com/mail/">Jurism support mailing list</a>, so that we can
+include your name in the credits when this is all done.</p></div>
+
+
+
+<div><h2 id="editing-and-saving-examples"><a class="header-anchor" href="#editing-and-saving-examples">🔗</a> Editing and saving examples</h2><p>Each linked example in the Jurism copy of the Indigo Book is marked
+with a magnifying glass. For each example, find the rule that covers
+the same formatting issue in the 21st edition of The Bluebook, and
+make any needed changes following the steps below. The edit should be
+to the <em>form</em> of the citation example, not its content: do not copy
+the Bluebook example verbatim!</p><p>To proceed with editing an example, click on its link to open the
+popup view.</p><p><img src="./2020-07-21-0/example-popup-view.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:3rem;border-radius:2em 2em 0 0;" alt=""/>
+</p><h3 id="logging-in"><a class="header-anchor" href="#logging-in">🔗</a> Logging in</h3><p>Clicking on the <strong>Login</strong> button will either open a login prompt, or (if your
+browser is already logged in to GitHub) immediately open a view like that below:</p><p><img src="./2020-07-21-0/example-popup-logged-in.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:3rem;border-radius:2em 2em 0 0;" alt=""/>
+</p><h3 id="editing"><a class="header-anchor" href="#editing">🔗</a> Editing</h3><p>Clicking the <strong>Edit</strong> button will open the example with a simple
+WYSIWYG editor at the top, and a comment box at the bottom. Make any
+necessary changes to the citation form, and provide a short
+explanation of your change in the comment box.</p><p><img src="./2020-07-21-0/example-popup-edited.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:3rem;border-radius:2em 2em 0 0;" alt=""/>
+</p><h3 id="saving"><a class="header-anchor" href="#saving">🔗</a> Saving</h3><p>Clicking the <strong>Save</strong> button will save the entry as a GitHub “pull
+request” for review by the editors. If your change is accepted, the
+automated JM Indigo Book and JM Indigo Book Law Review styles will be
+updated to produce the edited version of the citation. After saving,
+the popup will show a <strong>Review</strong> button:</p><p><img src="./2020-07-21-0/example-popup-saved.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:3rem;border-radius:2em 2em 0 0;" alt=""/>
+</p><h3 id="review-and-notifications"><a class="header-anchor" href="#review-and-notifications">🔗</a> Review and notifications</h3><p>You can visit the pull request on GitHub by clicking on the <strong>Review</strong>
+button. The button is ephemeral: if you close the popup, your edit
+will not be remembered, you will need to start over, your second save
+will create a pull request, and your previous edit for this example
+will be discarded. To keep track of your edits, you can turn on GitHub
+notifications. There are two steps.</p><p>First, register the email address to which notifications should be delivered. Click on the <strong>Settings</strong>
+tab, in the sidebar of the Settings page, click on <strong>Notifications</strong>, and enter and save your email address.</p><p><img src="./2020-07-21-0/github-notifications.png" style="width:100%;width:100%;margin-left:0%;margin-right:0%;border:2px solid #ccc;padding:3rem;border-radius:2em 2em 0 0;" alt=""/>
+</p><p>Second, click on the <strong>Watch</strong> icon for the <code>jsti-indigobook</code> repository, and select <strong>Watch</strong> to
+receive notifications of all discussion posts.</p><p><img src="./2020-07-21-0/github-watching.png" style="width:100%;width:100%;margin-left:0%;margin-right:0%;border:2px solid #ccc;padding:3rem;border-radius:2em 2em 0 0;" alt=""/>
+</p><p>After setting up notifications, you will receive mail for discussions relating to the update.</p></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div><h2 id="proposing-new-citation-forms"><a class="header-anchor" href="#proposing-new-citation-forms">🔗</a> Proposing new citation forms</h2><p>You will have noticed the <strong>Propose cite example</strong> button that lurks
+in the upper right corner of the page. You can use it to propose novel
+cite examples to be added to Indigo Book, either because they are
+covered by The Bluebook and missing from the Indigo Book, or because
+they are in use in a jurisdiction with which you are familiar, and
+are missing in both. The Proposal popup works in exactly the same way as
+the link-example popups: just open the popup for editing, enter the example
+citation text and a description, and save.</p><p><img src="./2020-07-21-0/example-popup-proposal.png" style="width:100%;width:80%;margin-left:10%;margin-right:10%;border:2px solid #ccc;padding:3rem;border-radius:2em 2em 0 0;" alt=""/>
+</p><p>Proposals are not anchored to a particular section of the Indigo Book, so please
+provide a full explanation of where it should be placed in the guide, and the
+reason for the addition.</p></div>
+
+
+
+<div><h2 id="logging-out"><a class="header-anchor" href="#logging-out">🔗</a> Logging out</h2><p>If you are working on a public-access computer, be sure to log on when you are done.
+Note that the logout button in the Indigo Book popups affects only the <em>Indigo Book</em> login:
+you must log out from <a href="https://github.com/">https://github.com/</a> separately.</p><p>When you are finished with a set of examples, be sure to mark them as
+complete in the
+<a href="https://docs.google.com/spreadsheets/d/1OSZRZfsDWcU-ahWugFyCm47stoxlZl0JHoqQ2Q0xlQo/edit?usp=sharing">spreadsheet</a>.</p></div>
+
+
 
 
             </div>
