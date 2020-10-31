@@ -647,11 +647,11 @@ ul.list-unstyled li {
 }
 /* line 115, ../../../scss/sass/gsl/_navbar.scss */
 .navbar-nav#desktopNavMenu.expanded {
-  max-height: 156px;
+  max-height: 205px;
 }
 /* line 119, ../../../scss/sass/gsl/_navbar.scss */
 .navbar-nav#desktopNavMenu .dropdown-nav {
-  min-height: 100px;
+  min-height: 149px;
 }
 
 /* line 127, ../../../scss/sass/gsl/_navbar.scss */
