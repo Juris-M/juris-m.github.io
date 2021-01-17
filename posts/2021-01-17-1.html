@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head profile="http://www.w3.org/2005/10/profile">
+    <script>
+      if (!(window.location.host.startsWith("127.0.0.1")) && !(window.location.host.startsWith("localhost")) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+    </script>
+    <title>
+      
+        
+          Jurism Tech: The Legal Resource Registry
+        
+      
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="keywords" content="digital humanities, reference managment, bibliography, research tools, legal research"/>
+
+    <meta property="og:type" content="summary"/>
+    <meta property="og:image" content="https://juris-m.github.io/assets/icons/jurism-small-logo.png"/>
+    <meta property="og:description" content="for the laws and languages of the world"/>
+    <meta property="og:title" content="Jurism Tech: The Legal Resource Registry"/>
+    <meta property="og:url" content="https://juris-m.github.io/"/>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../favicon-32x32.png"/>
+
+    <!-- Stylesheets -->
+    <link href="../assets/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="../assets/css/prism.css" rel="stylesheet"/>
+    <link href="../assets/css/main.css" rel="stylesheet"/>
+    
+  </head>
+  <body onload="attachListener();">
+    <!-- Navbar -->
+    <nav class="navbar navbar-toggleable-md navbar-light fixed-top">
+      <div class="navbar-container">
+        <div class="row no-gutters">
+          <div class="col bg-faded"><!-- Left gutter --></div>
+          <div class="navbar-content">
+            <!-- Top half of the navbar (visible on all displays) -->
+            <div class="navbar-top-row">
+              <!-- Logo and site name -->
+              <a class="navbar-brand mr-auto" href="../">
+                <img src="../assets/icons/jurism-logo.svg" style="width: 200px;" alt=" "/>
+                <div class="hidden-sm-down" style="display:inline-block;vertical-align:middle;margin-left:0.5em;">
+                  <div>
+                    The Jurism Project
+                  </div>
+                  <div style="font-size:smaller;font-style:italic;font-weight:normal;">
+                    for the laws and languages of the world
+                  </div>
+                </div>
+              </a>
+              <!-- Inline search form (only visible on larger displays) -->
+              <!-- form class="form-inline hidden-md-down">
+                <input class="form-control hidden-md-down search" text="text" placeholder="Search&#8230;"/>
+                <button class="btn btn-primary search-button" type="submit" role="button">
+                  <span class="fa fa-search" aria-hidden="true"/>
+                </button>
+              </form -->
+              <!-- Search button (only visible on smaller displays) -->
+              <!-- button class="btn btn-primary search-button hidden-lg-up" type="button" data-toggle="collapse" data-target="#mobileSearchMenu" aria-expanded="false" aria-controls="mobileSearchMenu">
+                <span class="fa fa-search" aria-hidden="true"/>
+              </button -->
+              <!-- "Hamburger" button -->
+              <button class="navbar-toggler btn-primary" type="button" data-toggle="collapse" data-target="#mobileNavMenu" aria-controls="mobileNavMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"/>
+              </button>
+            </div>
+            <!-- Dropdown search menu (only visible on smaller displays) -->
+            <form id="mobileSearchMenu" class="collapse hidden-lg-up">
+              <div class="input-group">
+                <input type="text" class="form-control search" id="mobile-search-text" aria-describedby="query-text"/>
+                <span class="input-group-btn">
+                  <button class="btn btn-primary" type="submit">
+                    Search
+                  </button>
+                </span>
+              </div>
+            </form>
+            <!-- Collapsible navigation menu (only visible on smaller displays) -->
+            <div id="mobileNavMenu" class="collapse navbar-collapse">
+              <ul class="navbar-nav w-100 justify-content-between hidden-lg-up">
+                
+                <li class="nav-item dropdown w-100">
+                  <a class="nav-link p-3 dropdown-toggle category-name" href="../directory" id="downloads-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Install <span class="caret"> </span>
+                  </a>
+                  <div class="dropdown-menu bg-maroon-translucent w-100" aria-labelledby="downloads-link">
+                    
+                    <a class="dropdown-item subcategory-name" href="../release">» Current Release</a>
+                    <!-- a class="dropdown-item subcategory-name" href="../beta">&#187; Beta Testing</a -->
+                    <a class="dropdown-item subcategory-name disabled" href="#">» Beta Testing</a>
+                  </div>
+                </li>
+                
+                <li class="nav-item dropdown w-100">
+                  <a class="nav-link p-3 dropdown-toggle category-name" href="../programs" id="documentation-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Documentation <span class="caret"> </span>
+                  </a>
+                  <div class="dropdown-menu bg-maroon-translucent w-100" aria-labelledby="documentation-link">
+                    
+                    <a class="dropdown-item subcategory-name" href="../jurism-docs">» Jurism Client</a>
+                    <a class="dropdown-item subcategory-name" href="../cslm-docs">» CSL-M Style Language</a>
+                    
+                  </div>
+                </li>
+                
+                <li class="nav-item dropdown w-100">
+                  <a class="nav-link p-3 dropdown-toggle category-name" href="../resources" id="resources-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Projects <span class="caret"> </span>
+                  </a>
+                  <div class="dropdown-menu bg-maroon-translucent w-100" aria-labelledby="resources-link">
+                    
+                    <a class="dropdown-item subcategory-name" href="../styles">» CSL-M Styles</a>
+                    <a class="dropdown-item subcategory-name" href="../indigobook+jurism">» IndigoBook Integration</a>
+                    <a class="dropdown-item subcategory-name" href="../lrr">» Legal Resource Registry</a>
+                    
+                  </div>
+                </li>
+                
+                <li class="nav-item dropdown w-100">
+                  <a class="nav-link p-3 dropdown-toggle category-name" href="../alumni" id="support-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Support <span class="caret"> </span>
+                  </a>
+                  <div class="dropdown-menu bg-maroon-translucent w-100" aria-labelledby="support-link">
+                    
+                    <a class="dropdown-item subcategory-name" href="../posts">» Blog</a>
+                    <a class="dropdown-item subcategory-name" href="../mail">» Mailing List</a>
+                    
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col bg-faded"><!-- Right gutter --></div>
+        </div>
+        <div class="row no-gutters hidden-md-down">
+          <div class="col navbar-fixed-height bg-maroon"><!-- Left gutter --></div>
+          <div class="navbar-content">
+            <!-- Fullscreen navigation menu (only visible on larger displays) -->
+            <ul class="navbar-nav w-100 justify-content-between hidden-md-down" id="desktopNavMenu">
+              
+              <li class="nav-item w-100">
+                
+                <a class="nav-link p-3 category-name" href="#" id="downloads-link">
+                  Install
+                </a>
+                
+                <div class="dropdown-nav bg-maroon-translucent w-100">
+                  
+                  <a class="nav-item subcategory-name" href="../release">Current Release</a>
+                  <!-- a class="nav-item subcategory-name" href="../beta">Beta Testing</a -->
+                  <a class="nav-item subcategory-name disabled" href="#">Beta Testing</a>
+                  <a class="nav-item subcategory-name empty" href="#"> </a>
+                </div>
+              </li>
+              
+              <li class="nav-item w-100">
+                
+                <a class="nav-link p-3 category-name" href="#" id="documentation-link">
+                  Documentation
+                </a>
+                
+                <div class="dropdown-nav bg-maroon-translucent w-100">
+                  
+                  <a class="nav-item subcategory-name" href="../jurism-docs">Jurism Client</a>
+                  <a class="nav-item subcategory-name" href="../cslm-docs">CSL-M Style Language</a>
+                  <a class="nav-item subcategory-name empty" href="#"> </a>
+                  
+                </div>
+              </li>
+              
+              <li class="nav-item w-100">
+                
+                <a class="nav-link p-3 category-name" href="#" id="projects-link">
+                  Projects
+                </a>
+                
+                <div class="dropdown-nav bg-maroon-translucent w-100">
+                  
+                  <a class="nav-item subcategory-name" href="../styles">CSL-M Styles</a>
+                  <a class="nav-item subcategory-name" href="../indigobook+jurism">IndigoBook Integration</a>
+                  <a class="nav-item subcategory-name" href="../lrr">Legal Resource Registry</a>
+                  
+                </div>
+              </li>
+              
+              <li class="nav-item w-100">
+                
+                <a class="nav-link p-3 category-name" href="#" id="support-link">
+                  Support
+                </a>
+                
+                <div class="dropdown-nav bg-maroon-translucent w-100">
+                  
+                  <a class="nav-item subcategory-name" href="../posts">Blog</a>
+                  <a class="nav-item subcategory-name" href="../mail">Mailing List</a>
+                  <a class="nav-item subcategory-name empty" href="#"> </a>
+                  
+                </div>
+              </li>
+              
+            </ul>
+          </div>
+          <div class="col navbar-fixed-height bg-maroon"><!-- Right gutter --></div>
+        </div>
+      </div>
+    </nav> <!-- .navbar.fixed-top -->
+
+    <div class="site-flex-container">
+      <div class="container-fluid mb-auto">
+        <div class="row justify-content-center">
+          <div class="main-content" role="main" aria-label="Content" style="margin-bottom: 10px;">
+            <div id="proper-page">
+              
+              
+              
+                <h1 style="margin-bottom: 0.5em;" class="hidden-sm-down">Jurism Tech: The Legal Resource Registry</h1>
+                <h1 class="hidden-md-up">Jurism Tech: The Legal Resource Registry</h1>
+                
+              
+              
+              
+              
+<blockquote>
+<p>This is the first of a series of posts describing the architecture
+behind Jurism’s features. These will serve as an <em>aide-mémoire</em> for
+myself, as documentation for interested users, and as a reference
+for developers, librarians, and others contributing to the Jurism
+ecosystem. This installment covers the Legal Resource Registry
+(LRR), which is at the core of Jurism’s support for law. If you want
+to know how Jurism produces legal citations, this is a good place to
+start.</p>
+</blockquote>
+<nav class="table-of-contents"><ol><li><a href="#jurisdiction-identifiers"> Jurisdiction identifiers</a></li><li><a href="#court-abbreviations"> Court abbreviations</a></li><li><a href="#reporters-and-abbreviations"> Reporters and abbreviations</a></li><li><a href="#identifier-formats"> Identifier formats</a></li><li><a href="#lrr-source-files"> LRR source files</a><ol><li><a href="#filename">Filename</a></li><li><a href="#context">Context</a></li><li><a href="#file-content">File content</a></li></ol></li><li><a href="#jurisupdate-the-lrr-export-script"> jurisupdate: the LRR export script</a><ol><li><a href="#setting-up"> Setting up</a></li><li><a href="#commands"> Commands</a></li><li><a href="#coordination"> Coordination</a></li></ol></li><li><a href="#jurism-output-files-and-formats"> Jurism output files and formats</a><ol><li><a href="#abbreviations"> Abbreviations</a><ol><li><a href="#filename-2">Filename</a></li><li><a href="#file-content-2">File content</a></li></ol></li><li><a href="#user-interface-maps"> User Interface Maps</a><ol><li><a href="#filename-3">Filename</a></li><li><a href="#file-content-3">File content</a></li></ol></li></ol></li><li><a href="#appendix-1-sample-lrr-source-file"> Appendix 1: Sample LRR source file</a></li><li><a href="#appendix-2-sample-abbreviation-file"> Appendix 2: Sample abbreviation file</a><ol><li><a href="#default"> Default</a></li><li><a href="#french"> French</a></li></ol></li><li><a href="#appendix-3-sample-user-interface-map-file"> Appendix 3: Sample user interface map file</a></li></ol></nav><div><h2 id="jurisdiction-identifiers"><a class="header-anchor" href="#jurisdiction-identifiers">🔗</a> Jurisdiction identifiers</h2><p>There is an important difference between the general principles of
+citation in any comprehensive style guide, and the rules of citation
+for legal materials.  The former describe patterns of citation
+to be applied to all materials of a particular type. The patterns
+themselves may vary. Consider how a journal article would appear in
+a bibliography formatted in three common styles:</p><ul>
+<li>
+<p><strong>Chicago (note style)</strong><br/>    Gilmore, Grant. “Law, Logic and Experience.”
+<em>Howard Law Journal</em> 3 (1957): 26–41.</p>
+</li>
+<li>
+<p><strong>APA</strong><br/>    Gilmore, G. (1957). Law, Logic and Experience. <em>Howard
+Law Journal</em>, 3, 26–41.</p>
+</li>
+<li>
+<p><strong>Bluebook</strong><br/>    Grant Gilmore, Law, Logic and Experience, 3 <span style="font-variant: small-caps;">Howard L.J.</span> 26 (1957).</p>
+</li>
+</ul><p>In contrast, legal citations for a given jurisdiction will be roughly uniform
+across all “parent” styles, but there is variation <em>among
+jurisdictions</em>. For example, consider the following citations to court
+judgments, all of which would be correct in any of the three styles above:</p><ul>
+<li>
+<p><strong>United States (Supreme
+Court)</strong><br/>    International Shoe
+Co. v. Washington, 326 U.S. 310 (1945).</p>
+</li>
+<li>
+<p><strong>United Kingdom (House of
+Lords)</strong><br/>    Donoghue v. Stevenson, [1932]
+A.C. 562 (HL).</p>
+</li>
+<li>
+<p><strong>Germany (<em>Bundesgerichtshof</em>)</strong><br/>    BGH IV ZR 241/18.</p>
+</li>
+</ul><p>To cope with the confluence of format-by-style and
+format-by-jurisdiction requirements, the “JM” styles in Jurism render
+legal items by first calling a jurisdiction-specific style module to
+obtain a set of “building-block” citation elements, and then
+assembling them with markup and punctuation appropriate to the parent
+style.<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> In broad outline, the workflow looks like this:</p><p><img src="./2021-01-17-1/workflow.png" style="width:100%;" alt=""/>
+</p><p>This scheme is made possible by a <strong>Jurisdiction</strong> field set on each
+legal item. Jurism uses a machine-readable identifier set in this
+field (discussed below) to select a <em>style module</em> appropriate to the
+item.</p><blockquote>
+<blockquote>
+<p>One critical role of the LRR is to supply these essential jurisdiction identifiers,
+and a human-readable name for each.</p>
+</blockquote>
+</blockquote></div>
+
+
+
+
+
+
+
+
+<div><h2 id="court-abbreviations"><a class="header-anchor" href="#court-abbreviations">🔗</a> Court abbreviations</h2><p>In citations to U.S. law, court abbreviations come in two flavors. One
+is the form used to indicate the court when citing to a
+multi-jurisdictional reporter. The abbreviated name in this case is an
+amalgam that to the educated eye expresses both the court and its
+jurisdiction:</p><ul>
+<li>Lafond v. Sweeney, 343 P.3d 939 (<span style="color:red;font-weight:bold;">Colo.</span> 2015).</li>
+<li>Begley v. Ireson, 399 P.3d 777 (<span style="color:red;font-weight:bold;">Colo. Ct. App.</span> 2017).</li>
+<li>Pielet v. Pielet, 978 N.E.2d 1000 (<span style="color:red;font-weight:bold;">Ill.</span> 2012).</li>
+<li>McCarthy v. Pointer, 3 N.E.3d 852 (<span style="color:red;font-weight:bold;">Ill. App. Ct.</span> 2014).</li>
+<li>Fallini v. Hodel, 725 F. Supp. 1113 (<span style="color:red;font-weight:bold;">D. Nev.</span> 1989).</li>
+<li>In Re Moore, 290 B.R. 287 (<span style="color:red;font-weight:bold;">Bankr. E.D.N.C.</span> 2003).</li>
+<li>Edwards v. Ayers, 542 F.3d 759 (<span style="color:red;font-weight:bold;">9th Cir.</span> 2008).</li>
+</ul><p>The second possible form is that used in a dozen or so
+U.S. jurisdictions to indicate the court in a “vendor-neutral”
+citation form:</p><ul>
+<li>Lafond v. Sweeney, 2015 <span style="color:red;font-weight:bold;">CO</span> 3.</li>
+<li>Begley v. Ireson, 2017 <span style="color:red;font-weight:bold;">COA</span> 3.</li>
+<li>Pielet v. Pielet, 2012 <span style="color:red;font-weight:bold;">IL</span> 112064.</li>
+<li>McCarthy v. Pointer, 2013 <span style="color:red;font-weight:bold;">IL App (1st)</span> 121688.</li>
+</ul><p>To generate these various abbreviations, Jurism sets a
+machine-readable code in the <strong>Court</strong> field, which is used together
+with the jurisdiction code to look up the correct abbreviation for a
+given citation.</p><blockquote>
+<blockquote>
+<p>A second critical role of the LRR is to supply a label and a
+machine-readable identifier for each court type and, for each
+jurisdiction having a court of that type, to provide up to two
+abbreviations for it in that context.</p>
+</blockquote>
+</blockquote></div>
+
+
+
+
+
+
+<div><h2 id="reporters-and-abbreviations"><a class="header-anchor" href="#reporters-and-abbreviations">🔗</a> Reporters and abbreviations</h2><p>To keep citations compact and clear, citation styles call for
+abbreviations to be partially or completely suppressed in some
+contexts, to avoid repetition. If a reporter is entirely dedicated
+to decisions of a particular court, the court abbreviation is
+omitted entirely in the parenthetical below:</p><ul>
+<li>Gedra v. Dallmer Co., 153 Ohio St. 258 (1950).</li>
+</ul><p>If a reporter covers decisions of multiple courts in a parent
+jurisdiction, the court type is indicated, but specific reference to
+the parent jurisdiction is omitted:</p><ul>
+<li>Kashian v. Harriman, 120 Cal. Rptr. 2d 576 (Ct. App. 2002).</li>
+</ul><p>In one unusual case (Ohio), the core portion of a vendor-neutral
+citation form conveys only the state-level jurisdiction. In this case
+as well, reference to the parent jurisdiction is omitted:</p><ul>
+<li>Lanzer v. Louisville, 2016-Ohio-8071 (11th Dist.).</li>
+</ul><p>Finally, it can happen that certain reporters, because of their
+form of publication, require a distinctive citation format.
+For example, compare the following two formats for citations
+to a decision of the German Federal Administrative Court:</p><p><strong>Ordinary citation</strong></p><ul>
+<li>BVerwG, NVwZ 1999, 296</li>
+</ul><table>
+<thead>
+<tr>
+<th/>
+<th/>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BVerwG</td>
+<td>Court name (<em>Bundesverwaltungsgericht</em>)</td>
+</tr>
+<tr>
+<td>NVwZ</td>
+<td>Journal name (<em>Neue Zeitschrift für Verwaltungsrecht</em></td>
+</tr>
+<tr>
+<td>1999</td>
+<td>Year of report</td>
+</tr>
+<tr>
+<td>296</td>
+<td>Page</td>
+</tr>
+</tbody>
+</table><br/><p><strong>Specially formatted citation</strong></p><ul>
+<li>BVerwG, Beschl. v. 9.1.1999 – Buchholz 310 § 65 VwGO Nr. 131, S. 2.</li>
+</ul><table>
+<thead>
+<tr>
+<th/>
+<th/>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BVerwG</td>
+<td>Court name (<em>Bundesverwaltungsgericht</em>)</td>
+</tr>
+<tr>
+<td>Beschl.</td>
+<td>Disposition type (<em>Beschluss</em> = judgment)</td>
+</tr>
+<tr>
+<td>v. 9.1.1999</td>
+<td>Date of disposition</td>
+</tr>
+<tr>
+<td>Bucholz</td>
+<td>Reporter name (Buchholz, <em>und Nachschlagewerk der Rechtsprechung des Bundesverwaltungsgerichts</em> = Bucholz, “A Reference Work on the Case Law of the Federal Administrative Court”)</td>
+</tr>
+<tr>
+<td>section 310</td>
+<td>Section within the reporter</td>
+</tr>
+<tr>
+<td>§ 65 VwGO</td>
+<td>Paragraph and statute applied (<em>Verwaltungsgerichtsordnung</em> = Administrative Code)</td>
+</tr>
+<tr>
+<td>decision no. 131</td>
+<td>Number of decision within <em>Bucholz</em> (not unique)</td>
+</tr>
+<tr>
+<td>S. 2</td>
+<td>Page</td>
+</tr>
+</tbody>
+</table><br/><blockquote>
+<blockquote>
+<p>The role of the LRR in addressing the requirements described in
+this section is to provide hints for the full or partial
+suppression of certain portions court abbreviations, and for
+application of alternative formatting, depending on the core
+element of a citation (whether that be a reporter name or a
+vendor-neutral abbreviation).</p>
+</blockquote>
+</blockquote></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div><h2 id="identifier-formats"><a class="header-anchor" href="#identifier-formats">🔗</a> Identifier formats</h2><p>The structure of Jurism jurisdiction and court identifiers loosely
+follows one portion of the draft URN:LEX specification submitted to
+the IETF by Spinosa, Francesconi, and Lupo.<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup> An instance of a court
+or other body is identified by two elements: a “jurisdiction;” and a
+“court.” When the two are combined for processing, they are joined with
+a semicolon:</p><ul>
+<li><code>&lt;jurisdiction identifier></code>  <strong>;</strong>  <code>&lt;court identifier></code></li>
+</ul><p><strong>Jurisdiction identifiers</strong> (more accurately “domain identifiers”)
+consist of one or more elements, each composed of lowercase roman
+letters and periods, joined by a colon delimiter (no other characters
+are permitted). An identifier with two or more elements expresses a
+nested set of domains, with the leftmost being the largest and the
+rightmost the smallest. The relationship between parent and child
+domains is otherwise indeterminate. It may be one of procedural
+hierarchy …</p><table>
+<thead>
+<tr>
+<th style="text-align:right"/>
+<th/>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right"><code>us</code></td>
+<td>United States | US</td>
+</tr>
+<tr>
+<td style="text-align:right"><code>us:c9</code></td>
+<td>US | Ninth Federal Appellate Circuit</td>
+</tr>
+<tr>
+<td style="text-align:right"><code>us:c9:ca.cd</code></td>
+<td>US | Ninth Federal Appellate Circuit | Central District of California</td>
+</tr>
+</tbody>
+</table><p>… or a child domain may simply be a container of convenience to group
+together courts and other entities that are under the parent’s
+jurisdiction …</p><table>
+<thead>
+<tr>
+<th style="text-align:right"/>
+<th/>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right"><code>us</code></td>
+<td>United States | US</td>
+</tr>
+<tr>
+<td style="text-align:right"><code>us:fed</code></td>
+<td>US | Various federal courts and tribunals</td>
+</tr>
+</tbody>
+</table><p><strong>Court identifiers</strong> represent a court of a particular <em>type</em>, such
+as “District Court” or “Court of Appeals,” which may be associated
+with multiple jurisdictions. The identifier is composed of roman
+characters and periods. There are no particular rules for composition
+of the court identifier, other than that it must be unique to a given
+body within a given top-level domain. For example:</p><table>
+<thead>
+<tr>
+<th style="text-align:right"/>
+<th/>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right"><code>sc</code></td>
+<td>Supreme Court</td>
+</tr>
+<tr>
+<td style="text-align:right"><code>district.court</code></td>
+<td>District Court</td>
+</tr>
+</tbody>
+</table><p>Where a court has divisions that are included in citations, the
+court identifier can be extended by an additional element separated
+by a tilde (<code>~</code>):</p><table>
+<thead>
+<tr>
+<th style="text-align:right"/>
+<th/>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right"><code>ecj~chamber.1</code></td>
+<td>European Court of Justice, First Chamber</td>
+</tr>
+<tr>
+<td style="text-align:right"><code>cass~civ.1</code></td>
+<td>Cour de cassassion 1<sup>re</sup> chambre civil</td>
+</tr>
+</tbody>
+</table><blockquote>
+<blockquote>
+<p>The primary purpose of the LRR is to support the organization and
+citation of materials. A jurisdiction identifier is not intended as
+a firm statement about procedure or institutional structure.
+Extended identifiers for court divisions are included only if
+relevant to citation requirements.</p>
+</blockquote>
+</blockquote></div>
+
+
+
+
+
+
+
+
+
+
+
+<div><h2 id="lrr-source-files"><a class="header-anchor" href="#lrr-source-files">🔗</a> LRR source files</h2><p>The Legal Resource Registry supports two specific features of a larger
+system: the orderly selection of jurisdictions and courts in the
+Jurism user interface; and the correct application of abbreviations in
+automatically generated citations. The first is readily apparent when
+the down-arrow is pressed or text is typed into the <strong>Jurisdiction</strong>
+and <strong>Court</strong> fields of the Jurism client:</p><p><img src="./2021-01-17-1/screenshot-jurisdiction-court.png" style="width:100%;" alt=""/>
+</p><p>The second role of the LRR is to supply court-in-context abbreviations
+for legal citations in the various forms illustrated under <a href="#court-abbreviations">Court
+abbreviations</a> above.</p><h4 id="filename">Filename</h4><p>Each top-level jurisdiction supported by Jurism is represented by a
+single source file, named for the <em>domain</em> that it covers. Domains are
+either the two-character ISO code of a country, or a string (composed
+of roman letters and periods) identifying an international
+organization.</p><ul>
+<li><strong>juris-</strong><code>&lt;domain></code><strong>-desc.json</strong></li>
+</ul><h4 id="context">Context</h4><p>The content of the source file is “exported” to a set of intermediate
+source files used to build the Jurism client. As context for the
+comments below, please note the following:</p><ul>
+<li>Citations are generated from a set of
+<a href="https://citeproc-js.readthedocs.io/en/latest/csl-m/index.html">CSL-M</a>
+variables;</li>
+<li>Jurism abbreviates variables depending their <em>abbreviation category</em>
+(the table below lists the categories and their respective variables);</li>
+<li>The name of the <strong>Reporter</strong> field in the citation processor is <code>container-title</code>;</li>
+<li>The name of the <strong>Court</strong> field in the citation processor is <code>authority</code>;</li>
+<li>In the LRR, court abbreviations set with the <code>abbrev</code> key are set on the <code>institution-part</code> category; and</li>
+<li>Court abbreviations set with the <code>ABBREVS</code> key are set on the <code>institution-entire</code>
+category.</li>
+</ul><table>
+<thead>
+<tr>
+<th>Abbreviation category</th>
+<th>CSL-M variables or category description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>classic</code></td>
+<td>abbrevs apply to items of the <code>classic</code> type. The value must be set by the user in the Jurism Abbrevs Filter to take effect.</td>
+</tr>
+<tr>
+<td><code>collection﻿-﻿title</code></td>
+<td><code>collection-title</code></td>
+</tr>
+<tr>
+<td><code>container﻿-﻿title</code></td>
+<td><code>container-title</code>, <code>archive</code></td>
+</tr>
+<tr>
+<td><code>hereinafter</code></td>
+<td>available on any item for which a <code>hereinafter</code> form is called by the processor. The value must be set by the user in the Jurism Abbrevs Filter to take effect.</td>
+</tr>
+<tr>
+<td><code>institution﻿-﻿entire</code></td>
+<td><code>publisher</code>, and institutional creator names (including the <code>authority</code> variable) called with the attribute <code>form="short"</code></td>
+</tr>
+<tr>
+<td><code>institution﻿-﻿part</code></td>
+<td><code>publisher</code>, and institutional creator names (including the <code>authority</code> variable) called with the attribute <code>institution-parts="short"</code></td>
+</tr>
+<tr>
+<td><code>nickname</code></td>
+<td>intended for the narrow use case of replacing a single individual’s name with a phrase such as “the author” in citations to correspondence and the like. The value must be set by the user in the Jurism Abbrevs Filter to take effect.</td>
+</tr>
+<tr>
+<td><code>number</code></td>
+<td><code>number</code>, <code>call-number</code>, <code>chapter-number</code>, <code>collection-number</code>, <code>edition</code>, <code>page</code>, <code>issue</code>, <code>locator</code>, <code>locator-extra</code>, <code>number-of-pages</code>, <code>number-of-volumes</code>, <code>volume</code>, <code>citation-number</code> <p>(For these numeric variables, abbreviation is only enabled—or <em>should</em> only be enabled—if the variable content is non-numeric.)</p></td>
+</tr>
+<tr>
+<td><code>place</code></td>
+<td><code>country</code>, <code>place</code>, <code>archive-place</code>, <code>publisher-place</code>, <code>event-place</code>, <code>jurisdiction</code>, <code>language-name</code>, <code>language-name-original</code></td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>title</code>, <code>title-short</code>, <code>genre</code>, <code>event</code>, <code>medium</code></td>
+</tr>
+</tbody>
+</table><h4 id="file-content">File content</h4><blockquote class=" umbrella">
+<p><strong>Lines 2, 8 &amp; 32:</strong> There are three top-level keys in an LRR source
+file: <code>langs</code>; <code>courts</code>: and <code>jurisdictions</code>. The <code>langs</code> object
+specifies which alternative languages should be included in the
+output of the LRR export script. If the object is empty, only the default
+values will be output.  The full text of this sample can be found in
+<a href="#appendix-1-sample-lrr-source-file">Appendix 1: Sample LRR source
+file</a>.</p>
+</blockquote><pre><code class="language-json:green">{
+    "langs": {
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 3-6:</strong> If alternative languages are to be generated for
+abbreviations (see <a href="#abbreviations">Abbreviations</a> above) or the
+client UI (see <a href="#user-interface-maps">User Interface Maps</a> above),
+their ISO language codes are set as keys in the <code>langs</code> object, with
+an array specifying the desired output targets.</p>
+</blockquote><pre><code class="language-json:green-3">        "fr": [
+            "ui",
+            "abbrevs"
+        ]
+    },
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 8-31:</strong> The <code>courts</code> object sets the identifier codes of
+the courts within this jurisdiction, and their abbreviation
+equivalents.</p>
+</blockquote><pre><code class="language-json:green-8">    "courts": {
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 9-18:</strong> This entry for the <code>ca</code> court illustrates
+the basic syntax of mappings and variants.</p>
+</blockquote><pre><code class="language-json:green-9">        "ca": {
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 10-12:</strong> Entries have up to three mappings:</p>
+<ul>
+<li><code>name</code> is the human-readable name of the court, shown in
+the Jurism user interface.</li>
+<li><code>abbrev</code> is the abbreviation set for this court in <code>institution-part</code>
+entries of the <a href="#abbreviations">abbreviation file(s)</a> generated from this source.
+The <code>%s</code> placeholder will be replaced with the name or abbreviation of the
+jurisdiction(s) associated with this court.</li>
+<li><code>ABBREV</code> is the identifier set for this court in <code>institution-entire</code>
+entries of the <a href="#abbreviations">abbreviations file(s)</a> generated from this source,
+again with a <code>%s</code> placeholder for the jurisdiction name or abbreviation.</li>
+</ul>
+</blockquote><pre><code class="language-json:green-10">            "name": "Court of Appeal",
+            "abbrev": "%s Ct. App.",
+            "ABBREV": "%sCA"
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 13-17:</strong> Entries can have a <code>variants</code> object, with
+keys matching language codes set in <code>langs</code> above. Mappings
+set for a variant override the default values for the target
+language domain. In this case, <em>Cour d’appel</em> will replace
+the default name <em>Court of Appeal</em> when French is set as
+the preferred language of the Jurism user interface.
+Abbreviation output is unaffected by this entry: the default
+values above will be used for both English and French citation
+output.</p>
+</blockquote><pre><code class="language-json:green-13">			"variants": {
+				"fr": {
+					"name": "Cour d'appel"
+				}
+			}
+        },
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 19-30:</strong> This entry for the <code>sc</code> court illustrates a
+variant override of <code>abbrev</code> and <code>ABBREV</code> values in addition
+to <code>name</code>.</p>
+</blockquote><pre><code class="language-json:green-19">        "sc": {
+            "name": "Supreme Court",
+            "abbrev": "Sup. Ct.",
+            "ABBREV": "SC",
+            "variants": {
+                "fr": {
+                    "name": "Cour suprême",
+                    "abbrev": "Cour sup.",
+                    "ABBREV": "CS"
+                }
+            }
+        }
+    },
+</code></pre><blockquote class=" umbrella">
+<p><strong>Line 32-67:</strong> The <code>jurisdictions</code> object sets the user-interface names
+and abbreviations for each jurisdiction, and specifies which courts
+are associated with it.</p>
+</blockquote><pre><code class="language-json:green-32">    "jurisdictions": {
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 33 &amp; 34-41:</strong> Like courts, jurisdictions have a <code>name</code>
+value, optionally values for <code>abbrev</code> and <code>ABBREV</code>, and possibly a
+<code>variants</code> object. Note that in the sample below, although Laputa
+has an <code>ABBREV</code> value for its courts, there is no value for <code>ABBREV</code>
+in this jurisdiction entry. This is normally the case for a
+top-level jurisdiction: the <code>ABBREV</code> for top-level court names will
+not ordinarily contain a <code>%s</code> placeholder, so there is no need.</p>
+</blockquote><pre><code class="language-json:green-33">        "zz": {
+            "name": "Laputa",
+            "abbrev": "Lap.",
+            "variants": {
+                "fr": {
+                    "name": "Láputa",
+                    "abbrev": "Láp."
+                }
+            },
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 42-44:</strong> Courts are associated with a jurisdiction by
+setting the court code as key in the jurisdiction’s <code>courts</code>
+object. In the simplest (and most common) case, the value set
+on the key is an empty object. This will associate all of the
+values of the <code>sc</code> court configured above with this context,
+including its multilingual variants.</p>
+</blockquote><pre><code class="language-json:green-42">            "courts": {
+                "sc": {}
+            },
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 45-47:</strong> Abbreviations in the <em>container-title</em> category are
+applied to journal names. In an ordinary entry, the mapping is
+simply from the variable content (as key) to the abbreviation (as
+value). The entry at line 20 prepends a formatting statement to
+suppress the <code>authority</code> variable, which holds the court name or
+code in data received by the citation processor. Although it will
+rarely, if ever, be required, multiple variables can be suppressed
+by setting them as a comma-delimited list. The syntax of the
+suppression statement is therefore:</p>
+<ul>
+<li><strong>!</strong><code>&lt;variable>[</code><strong>,</strong><code>&lt;variable>]</code><strong>>>></strong></li>
+</ul>
+<p>This statement will suppress the court name (or its abbreviation) in
+any citation to the Laputa Reports journal. This is appropriate if
+Laputa Reports carries only Supreme Court judgments, so …</p>
+<ul>
+<li>Jones v. Smith, 12 All Lap. 34 (Sup. Ct. 1999).</li>
+</ul>
+<p>… but …</p>
+<ul>
+<li>Noakes v. Stoakes, 56 Lap. Rep. 78 (2000).</li>
+</ul>
+</blockquote><pre><code class="language-json:green-45">            "container-title": {
+                "Laputa Reports": "!authority>>>Lap. Rep."
+            }
+        },
+</code></pre><blockquote class=" umbrella">
+<p><strong>Line 49:</strong> The <code>ca</code> court set on this child jurisdiction contains
+a <code>%s</code> placeholder in its <code>abbrev</code> and in its <code>ABBREV</code> values, which
+will be replaced with the corresponding values set here on the
+<code>zz:atl</code> jurisdiction. This may be overridden—see the note to lines
+53–61 below.</p>
+</blockquote><pre><code class="language-json:green-49">        "zz:atl": {
+            "name": "Atlantis",
+            "abbrev": "Atl.",
+            "ABBREV": "ATL",
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 53-61:</strong> This illustrates a pattern that may be
+required to address special language requirements. In this
+case, the adjectival form of the noun “Atlantis” is required,
+so substitution will not suffice. The big-hammer solution
+is to specify the entire value of <code>abbrev</code> for the court,
+as we do here for French output only.</p>
+</blockquote><pre><code class="language-json:green-53">            "courts": {
+                "ca": {
+					"variants": {
+                        "fr": {
+                            "abbrev": "Cour d'app. Atlantienne"
+                        }
+                    }
+                }
+            },
+</code></pre><blockquote class=" umbrella">
+<p><strong>Line 63:</strong> This entry illustrates <em>partial</em> suppression of a court
+name. The syntax is the same that for full suppression, but with a
+string set off from the variable name with a colon:</p>
+<ul>
+<li><strong>!</strong><code>&lt;variable>[</code><strong>:</strong><code>&lt;string>][</code><strong>,</strong><code>&lt;variable>[</code><strong>:</strong><code>&lt;string>]]</code><strong>>>></strong></li>
+</ul>
+<p>The effect of this statement will be to remove “Atl.” from the <code>authority</code>
+variable when it is rendered in the cite. This is appropriate if Atlantis
+Decisions covers multiple courts within the Atlantis jurisdiction: the
+jurisdiction hint in the abbreviated court name will be removed, and only
+the court name itself, if any, will remain. So …</p>
+<ul>
+<li>Anderson v. Biggles, 12 All Lap. 34 (Atl. Ct. App. 1999).</li>
+</ul>
+<p>… but …</p>
+<ul>
+<li>Comstock v. Drub, 56 Atl. Dec. 78 (Ct. App. 2000).</li>
+</ul>
+</blockquote><pre><code class="language-json:green-62">            "container-title": {
+                "Atlantis Decisions": "!authority:Atl.>>>Atl. Dec.",
+</code></pre><blockquote class=" umbrella">
+<p><strong>Line 64:</strong> A hash mark followed by a number as a formatting
+statement sets the number as the value of a <code>cite-form</code> variable
+in the citation processor. The variable can be tested in CSL-M
+style code to apply custom formatting for cites to this
+particular journal.</p>
+</blockquote><pre><code class="language-json:green-64">                "Poseidon Service": "#1>>>Poseidon Serv."
+            }
+        }
+    }
+}
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div><h2 id="jurisupdate-the-lrr-export-script"><a class="header-anchor" href="#jurisupdate-the-lrr-export-script">🔗</a> <code>jurisupdate</code>: the LRR export script</h2><p>Source files in the Legal Resource Registry must be exported for
+digestion by the Jurism client. The client is distributed with
+a ready-to-run set of jurisdiction files bundled in. These can be
+modified by fetching a copy of the LRR, editing the LRR source files,
+and running the LRR export script. This section explains how to do that.</p><h3 id="setting-up"><a class="header-anchor" href="#setting-up">🔗</a> Setting up</h3><p>The first step in setting up is to fork the LRR project to your own GitHub account, by visiting <a href="https://github.com/Juris-M/legal-resource-registry">the LRR project page</a> and clicking on the <strong>Fork</strong> button:</p><p><img src="./2021-01-17-1/fork-button.png" style="width:100%;" alt=""/>
+</p><p>After forking the project, fetch your project address from your own project page to the clipboard:</p><p><img src="./2021-01-17-1/get-address.png" style="width:50%;" alt=""/>
+</p><p>Use <code>git</code> with the project address to clone the project to a location of your choice:</p><pre><code class="language-bash">    shell> git clone https://github.com/XXXXXXX/legal-resource-registry.git
+</code></pre><p>Set the original “upstream” LRR project as a remote partner to your clone. (This makes is possible to keep your clone current with any upstream changes):</p><pre><code class="language-bash">    shell> git remote add upstream https://github.com/Juris-M/legal-resource-registry.git
+</code></pre><p>For good measure, issue the command to pull in upstream changes. You should issue this command each time you begin work in the clone, to be sure the upstream project has not changed in the meantime:</p><pre><code class="language-bash">    shell> git pull upstream master
+</code></pre><p>Enter the <code>scripts</code> subdirectory of the project folder, install dependencies, and link the maintenance script (<code>jurisupdate</code>) to your command environment:</p><pre><code class="language-bash">    shell> cd legal-resource-registry/scripts
+    shell> npm install
+    shell> npm link
+</code></pre><p>At this point, running the <code>jurisupdate</code> command should yield the following error:</p><pre><code class="language-bash">    shell> jurisupdate
+    ERROR: path.jurisSrcDir is undefined in /PATH/TO/HOME/DIRECTORY/.jurisUpdate
+</code></pre><p>The final step in setup is to set several path names in the <code>.jurisUpdate</code> configuration
+file shown in the error message, using a text editor. The file content will initially look
+like this, with <code>null</code> values for the paths:</p><pre><code class="language-javascript">{
+  "path": {
+    "jurisSrcDir": null,
+    "jurisMapDir": null,
+    "jurisAbbrevsDir": null
+  }
+}
+</code></pre><p>The paths should be set as follows:</p><blockquote>
+<p><strong>jurisSrcDir</strong></p>
+<ul>
+<li>Set <code>jurisSrcDir</code> to the path of the <code>src</code> subdirectory of your cloned copy
+of the LRR.</li>
+</ul>
+</blockquote><blockquote>
+<p><strong>jurisMapDir</strong> and <strong>jurisAbbrevsDir</strong></p>
+<ul>
+<li>Set these paths to the directories to which Jurism map and
+abbreviation files should be written by the <code>jurisupdate</code>
+export script. In most cases, these will be the <code>juris-maps</code> and
+<code>juris-abbrevs</code> subdirectories of the Jurism data directory, which
+you can confirm in the client via <strong>Preferences</strong> → <strong>Advanced</strong> →
+<strong>Files &amp; Folders</strong>. (Developers building the Jurism client code
+from scratch may wish to set these to the respective directories
+of the client source.)</li>
+</ul>
+</blockquote><p>With these adjustments in place, the <code>jurisupdate</code> command should return the following
+error message:</p><pre><code class="language-bash">    shell> jurisupdate
+    ERROR: One of -a or -j is required.
+</code></pre><p>If that all checks out, setup is complete and you’re ready to go.</p><h3 id="commands"><a class="header-anchor" href="#commands">🔗</a> Commands</h3><p>Running the <code>jurisupdate</code> command with the <code>-h</code> option will show its help text:</p><pre><code class="language-bash">    shell> jurisupdate -h
+    Usage: index.js &lt;options>
+        -a, --all
+           Perform requested operation on all jurisdictions.
+        -j &lt;jurisdictionID>, --jurisdiction=&lt;jurisdictionID>
+           Perform requested operation on the specified jurisdiction.
+        -c, --convert
+           Convert from old descriptive format to new descriptive format
+        -l, --list
+           List codes for all international organizations and countries [with their languages]
+        -F --force
+           Force overwrite of same data for descriptive-to-compact.
+</code></pre><p>To make changes to the Jurism identifier system, you will edit source files in the LRR,
+and run the following command to make your changes available when the Jurism client is
+(re)started:</p><pre><code class="language-bash">    shell> jurisupdate -a
+</code></pre><p>Alternatively, you can limit an update to a particular jurisdiction by setting its code with the <code>-j</code> option:</p><pre><code class="language-bash">    shell> jurisupdate -j vn
+</code></pre><h3 id="coordination"><a class="header-anchor" href="#coordination">🔗</a> Coordination</h3><p>If you do edit the LRR for local use, be sure to submit your changes
+to the main project, so they can be folded into a future
+release. First commit the changes to your LRR fork:</p><pre><code class="language-bash">    shell> git commit -m "Changes to abbreviations for ZZ (Laputa)" -a
+    shell> git push
+</code></pre><p>Then file a pull request against your fork on GitHub:</p><p><img src="./2021-01-17-1/pull-request.png" style="width:100%;" alt=""/>
+</p></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div><h2 id="jurism-output-files-and-formats"><a class="header-anchor" href="#jurism-output-files-and-formats">🔗</a> Jurism output files and formats</h2><p>The primary purpose of the Legal Resource Registry is to support the
+storage and citation of legal materials in the Jurism reference
+manager: it is part of that program’s source code. National
+jurisdictions and international organizations covered by the system
+are each represented by a single source file containing its
+identifiers and abbreviations, in a format that lends itself to manual
+editing. The LRR source files are then “exported” to produce two
+intermediate source files, which are used in the actual Jurism build:
+auto-abbreviation files; and user interface maps. The format of these
+two targets is documented in this section.</p><h3 id="abbreviations"><a class="header-anchor" href="#abbreviations">🔗</a> Abbreviations</h3><h4 id="filename-2">Filename</h4><p>The LRR export script sets abbreviations for use in generating citations in
+files named according to the following template:</p><ul>
+<li>
+<p><strong>auto-</strong><code>&lt;domain>[</code><strong>-</strong><code>&lt;variant></code><strong><code>]</code>.json</strong></p>
+</li>
+<li>
+<p>The <em>domain</em> is a two-character ISO country code (i.e. <code>us</code>, <code>jp</code>,
+etc.), or an ad hoc identifier for an international body
+(i.e. <code>eu.int</code>, <code>un.int</code>, <code>coe.int</code>).</p>
+</li>
+<li>
+<p>The optional <em>variant</em> element is an arbitrary name, which can
+be used to call the variant from a CSL style.</p>
+</li>
+<li>
+<p>Each supported jurisdiction <em>must</em> have a bare abbreviation file
+with no variant name. Multiple variants of a given jurisdiction
+are permitted.</p>
+</li>
+</ul><h4 id="file-content-2">File content</h4><p>The file content itself is in JSON format. The annotated sample file
+below, shows the English-version output of the LRR source file
+annotated in <a href="#lrr-source-files">LRR source files</a> above. For the
+French-version output, see <a href="#appendix-2-sample-abbreviation-file">Appendix 2: Sample abbreviation
+file</a> below.</p><p>There is quite a lot to digest here, and we will take it by
+numbers.</p><blockquote class=" umbrella">
+<p><strong>Lines 2-4:</strong> Three fields declare the <code>filename</code>, the <code>name</code> of the
+jurisdiction, and the <code>version</code> expressed as an ISO timestamp.<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup></p>
+</blockquote><pre><code class="language-json:yellow">{
+    "filename": "auto-zz.json",
+    "name": "Atlantis",
+    "version": "2019-08-19 12:16:29 UTC",
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 5-35:</strong> The Jurism abbreviation data is contained in the <code>xdata</code>
+object.</p>
+</blockquote><pre><code class="language-json:yellow-5">    "xdata": {
+</code></pre><blockquote class=" umbrella">
+<p><strong>Line 6:</strong> Each legal item in Jurism is assigned a <code>jurisdiction</code>
+value. Abbreviations are defined in the context of a specific
+jurisdiction, and the processor searches for a match within the item
+jurisdiction or, failing that, in each successive parent
+jurisdiction until a match is found. The ultimate fallback is the
+<code>default</code> “jurisdiction” (which is also tried for a match if the item
+has no jurisdiction value at all).</p>
+</blockquote><pre><code class="language-json:yellow-6">        "default": {
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 7-10:</strong> Jurisdiction keys are uppercased in the <code>place</code> object,
+mapped to the name or abbreviation of the jurisdiction.</p>
+</blockquote><pre><code class="language-json:yellow-7">            "place": {
+                "ZZ": "Lap.",
+                "ZZ:ATL": "Atl."
+            }
+        },
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 12-22:</strong> The <code>zz</code> key is the top-level jurisdiction code
+of Laputa. All other jurisdiction keys in this file (apart
+from <code>default</code> above) are children of this domain.</p>
+</blockquote><pre><code class="language-json:yellow-12">        "zz": {
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 13-15 &amp; 16-18:</strong> The citation processor can abbreviate
+an institution (such as a court) in two separate ways:</p>
+<ul>
+<li>
+<p><code>institution-part</code> provides the <em>descriptive</em> abbreviation of
+courts in their jurisdictional context. Examples in US legal
+citation practice would be “S.D.N.Y” (for the Federal District
+Court for the Southern District of New York) and “Bankr. D. Mass.”
+(for the Bankruptcy Court in the Federal District of
+Massachussetts).</p>
+</li>
+<li>
+<p><code>institution-entire</code> provides a code identifying the court, for
+the vendor-neutral citation forms used in some jurisdictions.
+Examples in US citation practice would be “CO” (for the Colorado
+Supreme Court) and “COA” (for the Colorado Court of Appeals).</p>
+</li>
+</ul>
+</blockquote><pre><code class="language-json:yellow-13">            "institution-part": {
+                "sc": "Sup. Ct."
+            },
+            "institution-entire": {
+                "sc": "SC"
+            },
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 19-21:</strong> The <code>container-title</code> object set on this
+jurisdiction in the LRR is passed through verbatim in the
+exported abbreviation file.</p>
+</blockquote><pre><code class="language-json:yellow-19">            "container-title": {
+                "Laputa Reports": "!authority>>>Lap. Rep."
+            }
+        },
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 23-33:</strong> The key <code>zz:atl</code> is a subjurisdiction of <code>zz</code>.
+The <code>institution-part</code> and <code>institution-entire</code> abbreviation sets
+have the roles described above.</p>
+</blockquote><pre><code class="language-json:yellow-23">        "zz:atl": {
+            "institution-part": {
+                "ca": "Atl. Ct. App."
+            },
+            "institution-entire": {
+                "ca": "ALTCA"
+            },
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 30-33:</strong> Again, <code>container-title</code> objects set on a
+jurisdiction in the LRR are passed through verbatim in this
+exported abbreviation file.</p>
+</blockquote><pre><code class="language-json:yellow-30">            "container-title": {
+                "Atlantis Decisions": "!authority:Atl.>>>Atl. Dec.",
+                "Poseidon Service": "#1>>>Poseidon Serv."
+            }
+        }
+    }
+}
+</code></pre><blockquote>
+<blockquote>
+<p>In the Jurism client, the abbreviation source files are used to
+populate a database in the Abbrevs Filter plugin with abbreviations
+appropriate to a particular style.  The database format, the
+Abbrevs Filter, and its interface to the citation processor are
+beyond the scope of this overview.</p>
+</blockquote>
+</blockquote><h3 id="user-interface-maps"><a class="header-anchor" href="#user-interface-maps">🔗</a> User Interface Maps</h3><h4 id="filename-3">Filename</h4><p>Jurisdiction and court codes are not exposed directly in the Jurism
+user interface: a human-readable equivalent is displayed instead.  In
+the Jurism source code, the data to produce maps for converting
+between the two are stored in files named for the domain to which
+each applies:</p><ul>
+<li><strong>juris-</strong><code>&lt;domain></code><strong>-map.json</strong></li>
+</ul><p>A sample of such a file, illustrating a jurisdiction with multiple
+languages, is shown below. The file format is quite compact to
+minimize the bulk of data shipped with the Jurism client. There is
+again a lot to unpack, and we will once more take it by line numbers.
+The full text of this sample can be found in <a href="#appendix-3-sample-user-interface-map-file">Appendix 3:
+Sample user interface map file</a>.</p><h4 id="file-content-3">File content</h4><blockquote class=" umbrella">
+<p><strong>Lines 2 &amp; 20:</strong> There are two keys in a Jurism UI map file,
+the first of which is <code>courts</code>.</p>
+</blockquote><pre><code class="language-json:yellow">{
+    "courts": [
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 3-18:</strong> Each entry in the <code>courts</code> array is an array of two
+values: a court code; and the human-readable name of the court.
+Code/name pairs are set here for every court type (two in this case)
+and every language (again two in this case) that are configured for
+the jurisdiction covered by the file.</p>
+</blockquote><pre><code class="language-json:yellow-3">        [
+            "ca",
+            "Court of Appeal"
+        ],
+        [
+            "ca",
+            "Cour d'appel"
+        ],
+        [
+            "sc",
+            "Supreme Court"
+        ],
+        [
+            "sc",
+            "Cour suprême"
+        ]
+    ],
+</code></pre><blockquote class=" umbrella">
+<p><strong>Line 20:</strong> The second top-level key in a Jurism UI map file is <code>jurisdictions</code>,
+the companion to the <code>courts</code> object above.</p>
+</blockquote><pre><code class="language-json:yellow-20">    "jurisdictions": {
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 21-34 &amp; 35-48:</strong> The value of the <code>jurisdictions</code> key is an object
+with at least one <code>default</code> key, and optionally keys for additional
+languages. This file provides one additional language (<code>fr</code>, the ISO
+code for French) as an alternative to the default.</p>
+</blockquote><pre><code class="language-json:yellow-21">        "default": [
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 22-27:</strong> Each entry in the <code>default</code> array and its alternate-language
+siblings is an array with three or more elements:</p>
+<ul>
+<li>The machine-readable element for the entry’s jurisdiction</li>
+<li>The human-readable name of the entry’s jurisdiction;</li>
+<li>The index of this entry’s parent, or null if there is no parent; and</li>
+<li>Any remaining arguments are zero-origin indices of the <code>courts</code> array,
+specifying which courts are associated with this specific jurisdiction.</li>
+</ul>
+<p>The root entry is always placed in first position, with a third-position
+value of <code>null</code>.</p>
+</blockquote><pre><code class="language-json:yellow-22">            [
+                "zz",
+                "Laputa",
+                null,
+                2
+            ],
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 28-33:</strong> Child jurisdictions always have an integer value
+in third position. This <code>atl</code> jurisdiction is an immediate child of
+the root jurisdiction <code>zz</code>, and so has a third-position value of <code>0</code>.
+The Jurism jurisdiction code generated from this entry will be
+<code>zz:atl</code>.</p>
+</blockquote><pre><code class="language-json:yellow-28">            [
+                "atl",
+                "Atlantis",
+                0,
+                0
+            ]
+        ],
+</code></pre><blockquote class=" umbrella">
+<p><strong>Lines 35-48:</strong> The <code>fr</code> object in this sample follows the
+same pattern as the <code>default</code> object described above, except
+for setting the trailing <code>court</code> indices to the French versions
+of court names.</p>
+</blockquote><pre><code class="language-json:yellow-35">        "fr": [
+            [
+                "zz",
+                "Láputa",
+                null,
+                3
+            ],
+            [
+                "atl",
+                "Atlantis",
+                0,
+                1
+            ]
+        ]
+    }
+}
+</code></pre><blockquote>
+<blockquote>
+<p>Jurism user interface maps are source code for building a database
+to drive pulldown menus in the <strong>Jurisdiction</strong> and <strong>Court</strong>
+fields. The map files described here are automatically generated by
+the LRR export script, and should not be edited directly.</p>
+</blockquote>
+</blockquote></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div><h2 id="appendix-1-sample-lrr-source-file"><a class="header-anchor" href="#appendix-1-sample-lrr-source-file">🔗</a> Appendix 1: Sample LRR source file</h2><pre><code class="language-json:green">{
+    "langs": {
+        "fr": [
+            "ui",
+            "abbrevs"
+        ]
+    },
+    "courts": {
+        "ca": {
+            "name": "Court of Appeal",
+            "abbrev": "%s Ct. App.",
+            "ABBREV": "%sCA",
+			"variants": {
+				"fr": {
+					"name": "Cour d'appel"
+				}
+			}
+        },
+        "sc": {
+            "name": "Supreme Court",
+            "abbrev": "Sup. Ct.",
+            "ABBREV": "SC",
+            "variants": {
+                "fr": {
+                    "name": "Cour suprême",
+                    "abbrev": "Cour sup.",
+                    "ABBREV": "CS"
+                }
+            }
+        }
+    },
+    "jurisdictions": {
+        "zz": {
+            "name": "Laputa",
+            "abbrev": "Lap.",
+            "variants": {
+                "fr": {
+                    "name": "Láputa",
+                    "abbrev": "Láp."
+                }
+            },
+            "courts": {
+                "sc": {}
+            },
+            "container-title": {
+                "Laputa Reports": "!authority>>>Lap. Rep."
+            }
+        },
+        "zz:atl": {
+            "name": "Atlantis",
+            "abbrev": "Atl.",
+            "ABBREV": "ATL",
+            "courts": {
+                "ca": {
+					"variants": {
+                        "fr": {
+                            "abbrev": "Cour d'app. Atlantienne"
+                        }
+                    }
+                }
+            },
+            "container-title": {
+                "Atlantis Decisions": "!authority:Atl.>>>Atl. Dec.",
+                "Poseidon Service": "#1>>>Poseidon Serv."
+            }
+        }
+    }
+}
+</code></pre></div>
+
+<div><h2 id="appendix-2-sample-abbreviation-file"><a class="header-anchor" href="#appendix-2-sample-abbreviation-file">🔗</a> Appendix 2: Sample abbreviation file</h2><h3 id="default"><a class="header-anchor" href="#default">🔗</a> Default</h3><pre><code class="language-json:yellow">{
+  "filename": "auto-zz.json",
+  "name": "Laputa",
+  "version": "2021-01-16 08:00:47 UTC",
+  "xdata": {
+    "default": {
+      "place": {
+        "ZZ": "Lap.",
+        "ZZ:ATL": "Atl."
+      }
+    },
+    "zz": {
+      "institution-part": {
+        "sc": "Sup. Ct."
+      },
+      "institution-entire": {
+        "sc": "SC"
+      },
+      "container-title": {
+        "Laputa Reports": "!authority>>>Lap. Rep."
+      }
+    },
+    "zz:atl": {
+      "institution-part": {
+        "ca": "Atl. Ct. App."
+      },
+      "institution-entire": {
+        "ca": "ATLCA"
+      },
+      "container-title": {
+        "Atlantis Decisions": "!authority:Atl.>>>Atl. Dec.",
+        "Poseidon Service": "#1>>>Poseidon Serv."
+      }
+    }
+  }
+}
+</code></pre><h3 id="french"><a class="header-anchor" href="#french">🔗</a> French</h3><pre><code class="language-json:yellow">{
+  "filename": "auto-zz-fr.json",
+  "name": "Laputa",
+  "version": "2021-01-16 08:00:47 UTC",
+  "xdata": {
+    "default": {
+      "place": {
+        "ZZ": "Láp.",
+        "ZZ:ATL": "Atl."
+      }
+    },
+    "zz": {
+      "institution-part": {
+        "sc": "Cour sup."
+      },
+      "institution-entire": {
+        "sc": "CS"
+      },
+      "container-title": {
+        "Laputa Reports": "!authority>>>Lap. Rep."
+      }
+    },
+    "zz:atl": {
+      "institution-part": {
+        "ca": "Cour d'app. Atlantienne"
+      },
+      "institution-entire": {
+        "ca": "ATLCA"
+      },
+      "container-title": {
+        "Atlantis Decisions": "!authority:Atl.>>>Atl. Dec.",
+        "Poseidon Service": "#1>>>Poseidon Serv."
+      }
+    }
+  }
+}
+</code></pre></div>
+
+
+
+
+<div><h2 id="appendix-3-sample-user-interface-map-file"><a class="header-anchor" href="#appendix-3-sample-user-interface-map-file">🔗</a> Appendix 3: Sample user interface map file</h2><pre><code class="language-json:yellow">{
+    "courts": [
+        [
+            "ca",
+            "Court of Appeal"
+        ],
+        [
+            "ca",
+            "Cour d'appel"
+        ],
+        [
+            "sc",
+            "Supreme Court"
+        ],
+        [
+            "sc",
+            "Cour suprême"
+        ]
+    ],
+    "jurisdictions": {
+        "default": [
+            [
+                "zz",
+                "Laputa",
+                null,
+                2
+            ],
+            [
+                "atl",
+                "Atlantis",
+                0,
+                0
+            ]
+        ],
+        "fr": [
+            [
+                "zz",
+                "Láputa",
+                null,
+                3
+            ],
+            [
+                "atl",
+                "Atlantis",
+                0,
+                1
+            ]
+        ]
+    }
+}
+</code></pre><hr class="footnotes-sep"/><section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>Final composition in the parent style gives it control over some
+style-specific features, such as the inclusion or stripping of periods,
+italicization of some titles, back-referencing conventions, and
+a few other details. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>Pier Luigi Spinosa, Enrico Francesconi, and Catarina Lupo, “<a href="https://datatracker.ietf.org/doc/draft-spinosa-urn-lex/">A
+Uniform Resource Name (URN) Namespace for Source of Law
+(LEX)</a>”
+(IETF, expired work in progress, inactive, December 8, 2018). <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>For performance reasons, the LRR export script also sets the timestamp
+in a separate <code>DIRECTORY_LISTING.json</code> file in the abbreviations
+source directory. <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section></div>
+
+
+
+
+
+            </div>
+            <div id="search-page" style="display: none;">
+              <h1 style="margin-bottom: 0.5em;" class="hidden-md-down">Search Results</h1>
+              <h1 class="hidden-lg-up" style="margin-top:20px;">Search Results</h1>
+              <ul class="searchresults">
+                <li>Hello</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="site-footer container-fluid">
+        <div class="row">
+          <div class="col-md-12" style="text-align:center;">
+            <p class="small">© 2019–2020 Frank Bennett</p>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- Tether (required for Bootstrap tooltips to work) -->
+    <script src="../assets/js/tether.min.js" type="text/javascript"></script>
+    <!-- script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script -->
+    <script src="../assets/js/jquery-1.12.4-min.js" type="text/javascript">
+    <!-- All compiled Bootstrap plugins -->
+    <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- Custom Javascript -->
+    <script src="../assets/js/utility.js" type="text/javascript"></script>
+    <script src="../assets/js/browserSniff.js"></script>
+    <script src="../assets/js/animate.js"></script>
+    <script src="../assets/js/linenum.js"></script>
+    <script src="../assets/js/prism.js"></script>
+  
+</script></body></html>
