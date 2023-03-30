@@ -731,9 +731,9 @@ ul.list-unstyled li {
 }
 
 /* line 97, ../../../scss/sass/gsl/_navbar.scss */
-.navbar-fixed-height {
-  height: 56px;
-}
+/* .navbar-fixed-height { */
+/*  height: 56px;         */
+/* }                      */
 
 /* line 102, ../../../scss/sass/gsl/_navbar.scss */
 .navbar-nav#desktopNavMenu {
