@@ -130,6 +130,7 @@
                     
                     <a class="dropdown-item subcategory-name" href="../posts">» Blog</a>
                     <a class="dropdown-item subcategory-name" href="../mail">» Mailing List</a>
+                    <a class="dropdown-item subcategory-name" href="../privacy">» Privacy Policy</a>
                     
                   </div>
                 </li>
@@ -199,7 +200,7 @@
                   
                   <a class="nav-item subcategory-name" href="../posts">Blog</a>
                   <a class="nav-item subcategory-name" href="../mail">Mailing List</a>
-                  <a class="nav-item subcategory-name empty" href="#"> </a>
+                  <a class="nav-item subcategory-name" href="../privacy">Privacy Policy</a>
                   
                 </div>
               </li>
@@ -231,7 +232,7 @@
 further changes that will be of particular interest to legal
 users. Recent clients should update automatically. Manual update of
 versions at 5.0.66 or older is strongly recommended.</p>
-<div><h2 id="jurisdiction-validity-highlight">Jurisdiction validity highlight</h2><p>The Jurisdiction field displays a human-readable value, such as
+<div><h2 id="jurisdiction-validity-highlight" tabindex="-1">Jurisdiction validity highlight</h2><p>The Jurisdiction field displays a human-readable value, such as
 <code>Germany|DE</code> or <code>DE|Bremen</code>. In ordinary use, these values are stored
 under the hood as machine-readable codes (for these examples, <code>de</code> and
 <code>de:bremen</code>), and the machine-readable code is used to produce correct
@@ -246,7 +247,7 @@ and correct. (Reentry of jurisdiction values has also been made less
 cumbersome—see the following note).</p></div>
 
 
-<div><h2 id="jurisdiction-data-entry">Jurisdiction data entry</h2><p>In ordinary use, the content of the jurisdiction field is set from a
+<div><h2 id="jurisdiction-data-entry" tabindex="-1">Jurisdiction data entry</h2><p>In ordinary use, the content of the jurisdiction field is set from a
 controlled list that sets the correct underlying machine-readable
 value to match the jurisdiction name displayed in the field. The
 controlled list is accessed by opening the field for editing, and
@@ -258,7 +259,7 @@ frustration. From the 5.0.93m14 release, values can be selected from
 the drop-down list by navigating with the arrow keys and hitting
 enter. (It is not longer necessary to use the mouse.)</p></div>
 
-<div><h2 id="document-integration-crash-on-certain-jurisdictioncourt-inputs">Document integration crash on certain jurisdiction/court inputs</h2><p>It was previously possible to crash the citation processor or (worse)
+<div><h2 id="document-integration-crash-on-certain-jurisdictioncourt-inputs" tabindex="-1">Document integration crash on certain jurisdiction/court inputs</h2><p>It was previously possible to crash the citation processor or (worse)
 throw it into an endless loop, in one of two ways:</p><ul>
 <li>Attempting to render certain citations with an invalid Jurisdiction
 value (described above); or</li>
@@ -269,7 +270,7 @@ and correcting the item in Jurism will fix the citation.</p></div>
 
 
 
-<div><h2 id="translator-updates">Translator updates</h2><p>The improvements to citation translators mentioned in “Jurism dev
+<div><h2 id="translator-updates" tabindex="-1">Translator updates</h2><p>The improvements to citation translators mentioned in “Jurism dev
 notes #11” very likely did not feed through to your Jurism
 client. This was due to outdated timestamp records, which have now
 been fixed. The improved translators should appear with the 5.0.93m14
@@ -322,5 +323,5 @@ Nagoya
     <script src="../assets/js/animate.js"></script>
     <script src="../assets/js/linenum.js"></script>
     <script src="../assets/js/prism.js"></script>
-  
-</script></body></html>
+  </body>
+</html>

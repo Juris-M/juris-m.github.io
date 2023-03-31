@@ -730,12 +730,11 @@ ul.list-unstyled li {
   }
 }
 
-/* line 97, ../../../scss/sass/gsl/_navbar.scss */
-/* .navbar-fixed-height { */
-/*  height: 56px;         */
-/* }                      */
-
-/* line 102, ../../../scss/sass/gsl/_navbar.scss */
+/* .navbar-fixed-height { 
+ *  height: $desktop-navigation-collapsed-height;
+ * }
+ */
+/* line 103, ../../../scss/sass/gsl/_navbar.scss */
 .navbar-nav#desktopNavMenu {
   min-width: 992px;
   max-width: 1200px;
@@ -746,33 +745,33 @@ ul.list-unstyled li {
   -webkit-transition-delay: 0.25s;
   transition-delay: 0.25s;
 }
-/* line 115, ../../../scss/sass/gsl/_navbar.scss */
+/* line 116, ../../../scss/sass/gsl/_navbar.scss */
 .navbar-nav#desktopNavMenu.expanded {
   max-height: 205px;
 }
-/* line 119, ../../../scss/sass/gsl/_navbar.scss */
+/* line 120, ../../../scss/sass/gsl/_navbar.scss */
 .navbar-nav#desktopNavMenu .dropdown-nav {
   min-height: 149px;
 }
 
-/* line 127, ../../../scss/sass/gsl/_navbar.scss */
+/* line 128, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .dropdown-menu {
   margin: 0;
   border: 0;
   border-radius: 0;
 }
-/* line 132, ../../../scss/sass/gsl/_navbar.scss */
+/* line 133, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .dropdown-menu .dropdown-item {
   padding: 0.75rem 1.5rem 0.75rem 1rem;
 }
-/* line 137, ../../../scss/sass/gsl/_navbar.scss */
+/* line 138, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .dropdown-nav .nav-item {
   display: block;
   padding: 0.75rem 1.5rem 0.75rem 1rem;
 }
 
 @media (max-width: 575px) {
-  /* line 149, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 150, ../../../scss/sass/gsl/_navbar.scss */
   .navbar-toggler {
     font-size: 1rem;
     margin: .25rem 0 .25rem .5rem;
@@ -780,13 +779,13 @@ ul.list-unstyled li {
   }
 }
 @media (min-width: 576px) {
-  /* line 149, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 150, ../../../scss/sass/gsl/_navbar.scss */
   .navbar-toggler {
     margin-left: .25rem;
   }
 }
 
-/* line 161, ../../../scss/sass/gsl/_navbar.scss */
+/* line 162, ../../../scss/sass/gsl/_navbar.scss */
 .navbar-toggler.btn-primary {
   color: #ffffff;
   background-color: #016029;
@@ -814,12 +813,12 @@ ul.list-unstyled li {
   background-image: none;
   border-color: #000a04;
 }
-/* line 164, ../../../scss/sass/gsl/_navbar.scss */
+/* line 165, ../../../scss/sass/gsl/_navbar.scss */
 .navbar-toggler.btn-primary > .navbar-toggler-icon {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.75)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
-/* line 171, ../../../scss/sass/gsl/_navbar.scss */
+/* line 172, ../../../scss/sass/gsl/_navbar.scss */
 .navbar-light .navbar-toggler.btn-outline-primary {
   color: #016029;
   background-image: none;
@@ -847,17 +846,17 @@ ul.list-unstyled li {
   background-color: #016029;
   border-color: #016029;
 }
-/* line 174, ../../../scss/sass/gsl/_navbar.scss */
+/* line 175, ../../../scss/sass/gsl/_navbar.scss */
 .navbar-light .navbar-toggler.btn-outline-primary:hover > .navbar-toggler-icon {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.75)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
-/* line 185, ../../../scss/sass/gsl/_navbar.scss */
+/* line 186, ../../../scss/sass/gsl/_navbar.scss */
 .navbar-nav .category-name {
   text-transform: uppercase;
 }
 
-/* line 202, ../../../scss/sass/gsl/_navbar.scss */
+/* line 203, ../../../scss/sass/gsl/_navbar.scss */
 .navbar #mobileNavMenu .category-name:focus, .navbar #mobileNavMenu .category-name:hover {
   color: #016029;
   background-color: #f7f7f7;
@@ -880,57 +879,57 @@ ul.list-unstyled li {
 .navbar .navbar-nav.expanded .category-name:focus:focus, .navbar .navbar-nav.expanded .category-name:hover:focus {
   outline: 0;
 }
-/* line 220, ../../../scss/sass/gsl/_navbar.scss */
+/* line 221, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .category-name {
   color: #f7f7f7;
   background-color: #016029;
 }
-/* line 224, ../../../scss/sass/gsl/_navbar.scss */
+/* line 225, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .category-name.current {
   color: #016029;
   background-color: #f7f7f7;
 }
-/* line 228, ../../../scss/sass/gsl/_navbar.scss */
+/* line 229, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .category-name.current:focus, .navbar .navbar-nav .category-name.current:hover {
   color: #016029;
   text-decoration: none;
 }
-/* line 234, ../../../scss/sass/gsl/_navbar.scss */
+/* line 235, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .category-name:focus, .navbar .navbar-nav .category-name:hover {
   color: #f7f7f7;
   text-decoration: none;
 }
-/* line 240, ../../../scss/sass/gsl/_navbar.scss */
+/* line 241, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .dropdown-menu, .navbar .navbar-nav .dropdown-nav {
   background-color: rgba(1, 96, 41, 0.9);
 }
-/* line 244, ../../../scss/sass/gsl/_navbar.scss */
+/* line 245, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .dropdown-menu .subcategory-name, .navbar .navbar-nav .dropdown-nav .subcategory-name {
   color: #f7f7f7;
 }
-/* line 247, ../../../scss/sass/gsl/_navbar.scss */
+/* line 248, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .dropdown-menu .subcategory-name:focus, .navbar .navbar-nav .dropdown-menu .subcategory-name:hover, .navbar .navbar-nav .dropdown-nav .subcategory-name:focus, .navbar .navbar-nav .dropdown-nav .subcategory-name:hover {
   color: #016029;
   background-color: #f7f7f7;
   text-decoration: none;
 }
-/* line 253, ../../../scss/sass/gsl/_navbar.scss */
+/* line 254, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .dropdown-menu .subcategory-name.disabled, .navbar .navbar-nav .dropdown-nav .subcategory-name.disabled {
   background-color: #aaa;
 }
-/* line 256, ../../../scss/sass/gsl/_navbar.scss */
+/* line 257, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .dropdown-menu .subcategory-name.disabled:focus, .navbar .navbar-nav .dropdown-menu .subcategory-name.disabled:hover, .navbar .navbar-nav .dropdown-nav .subcategory-name.disabled:focus, .navbar .navbar-nav .dropdown-nav .subcategory-name.disabled:hover {
   cursor: default;
   background-color: #aaa;
   color: #f7f7f7;
 }
-/* line 266, ../../../scss/sass/gsl/_navbar.scss */
+/* line 267, ../../../scss/sass/gsl/_navbar.scss */
 .navbar .navbar-nav .dropdown-nav.highlight {
   background-color: #b87333;
 }
 
 @media (max-width: 374px) {
-  /* line 277, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 278, ../../../scss/sass/gsl/_navbar.scss */
   .navbar-brand img {
     display: none;
   }
@@ -954,7 +953,7 @@ ul.list-unstyled li {
 }
 
 @media (max-width: 575px) {
-  /* line 288, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 289, ../../../scss/sass/gsl/_navbar.scss */
   .search-button {
     font-size: 1rem;
     margin: .25rem 0 .25rem .5rem;
@@ -962,13 +961,13 @@ ul.list-unstyled li {
   }
 }
 @media (min-width: 576px) {
-  /* line 288, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 289, ../../../scss/sass/gsl/_navbar.scss */
   .search-button {
     margin-right: .25rem;
   }
 }
 
-/* line 300, ../../../scss/sass/gsl/_navbar.scss */
+/* line 301, ../../../scss/sass/gsl/_navbar.scss */
 h1[id]:before,
 h2[id]:before,
 h3[id]:before,
@@ -980,7 +979,7 @@ h6[id]:before {
   visibility: hidden;
 }
 @media (max-width: 575px) {
-  /* line 300, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 301, ../../../scss/sass/gsl/_navbar.scss */
   h1[id]:before,
   h2[id]:before,
   h3[id]:before,
@@ -992,7 +991,7 @@ h6[id]:before {
   }
 }
 @media (min-width: 576px) and (max-width: 991px) {
-  /* line 300, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 301, ../../../scss/sass/gsl/_navbar.scss */
   h1[id]:before,
   h2[id]:before,
   h3[id]:before,
@@ -1005,7 +1004,7 @@ h6[id]:before {
 }
 
 @media (min-width: 992px) {
-  /* line 300, ../../../scss/sass/gsl/_navbar.scss */
+  /* line 301, ../../../scss/sass/gsl/_navbar.scss */
   h1[id]:before,
   h2[id]:before,
   h3[id]:before,

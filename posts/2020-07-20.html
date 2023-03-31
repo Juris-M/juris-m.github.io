@@ -130,6 +130,7 @@
                     
                     <a class="dropdown-item subcategory-name" href="../posts">» Blog</a>
                     <a class="dropdown-item subcategory-name" href="../mail">» Mailing List</a>
+                    <a class="dropdown-item subcategory-name" href="../privacy">» Privacy Policy</a>
                     
                   </div>
                 </li>
@@ -199,7 +200,7 @@
                   
                   <a class="nav-item subcategory-name" href="../posts">Blog</a>
                   <a class="nav-item subcategory-name" href="../mail">Mailing List</a>
-                  <a class="nav-item subcategory-name empty" href="#"> </a>
+                  <a class="nav-item subcategory-name" href="../privacy">Privacy Policy</a>
                   
                 </div>
               </li>
@@ -259,7 +260,7 @@ writing, and have three common flavors:</p>
 <p>This is a technical post covering features of the CSL-M styling
 language that are used to produce these effects. The discussion below
 assumes a general familiarity with the Citation Style Language (<a href="https://citationstyles.org">CSL</a>).</p>
-<div><h2 id="group-attributes">Group attributes</h2><p>In formatting a series of related cites, certain elements are removed
+<div><h2 id="group-attributes" tabindex="-1">Group attributes</h2><p>In formatting a series of related cites, certain elements are removed
 from certain positions in the series, according to certain
 conditions. The rules for doing so are generally left unstated, but
 the approach adopted by Jurism can express every pattern that I have
@@ -268,7 +269,7 @@ expressed as attributes on a <code>cs:group</code> element. Attributes that
 describe conditions will suppress the output of the group when the
 condition is satisfied. Parallel attributes take effect only on cites
 within a related series. In Jurism, citations are <em>related</em> when they
-are linked in the client via the <strong>Related</strong> tab.</p><h3 id="attribute%3A-parallel-first%3D%22%3Cvariables%3E%22">Attribute: <code>parallel-first="&lt;variables>"</code></h3><blockquote>
+are linked in the client via the <strong>Related</strong> tab.</p><h3 id="attribute%3A-parallel-first%3D%22%3Cvariables%3E%22" tabindex="-1">Attribute: <code>parallel-first="&lt;variables>"</code></h3><blockquote>
 <p><strong>Rule:</strong> Suppress group output when all listed variables match
 their values in the immediately preceding cite within a related
 series. When one or more of the listed variables does <em>not</em> match,
@@ -288,7 +289,7 @@ Verizon Internet Servs., Inc.</em>, 257 F. Supp. 2d 244 (D.D.C. 2003),
 Inc. v. Verizon Internet Servs., Inc.</em>, 351 F.3d 1229
 (D.C. Cir. 2003)</span>, the second case name differs, and it is
 therefore rendered (and would become the new “master” title were there
-three cites in the series).</p><h3 id="attribute%3A-parallel-last%3D%22%3Cvariables%3E%22">Attribute: <code>parallel-last="&lt;variables>"</code></h3><blockquote>
+three cites in the series).</p><h3 id="attribute%3A-parallel-last%3D%22%3Cvariables%3E%22" tabindex="-1">Attribute: <code>parallel-last="&lt;variables>"</code></h3><blockquote>
 <p><strong>Rule:</strong> Suppress group output when all listed variables match
 their values in the immediately following cite within a related
 series. When one or more of the listed variables does <em>not</em> match,
@@ -304,7 +305,7 @@ Env’t Legal Inst. v. Epel</em>, 43 F. Supp. 3d 1171 (D. Colo. 2014),
 (2015)</span>, the date of “2014” is rendered on the “F. Supp 3d” cite
 because the appeal reported in the “F.3d” cite was decided in 2015;
 and the date is suppressed in the “F.3d” cite because it matches the
-date of the following disposition in the Supreme Court.</p><h3 id="attribute%3A-parallel-last-to-first%3D%22%3Cvariables%3E%22">Attribute: <code>parallel-last-to-first="&lt;variables>"</code></h3><blockquote>
+date of the following disposition in the Supreme Court.</p><h3 id="attribute%3A-parallel-last-to-first%3D%22%3Cvariables%3E%22" tabindex="-1">Attribute: <code>parallel-last-to-first="&lt;variables>"</code></h3><blockquote>
 <p><strong>Rule:</strong> For all <em>following</em> cites in the series, treat the
 the listed variables as if set with <code>parallel-first</code>, even
 if set with <code>parallel-last</code>. The attribute does not affect
@@ -334,7 +335,7 @@ apply <code>parallel-last="issued"</code>. This takes effect in the final
 it too matches the date of its predecessor.</p><p>The <code>parallel-last-to-first</code> attribute will be useful almost
 exclusively in true parallel citations, where a value (such as a date
 or a court name) are expected to be uniform across the related series
-of cites.</p><h3 id="attribute%3A-parallel-delimiter-override%3D%22%3Cstring%3E%22">Attribute: <code>parallel-delimiter-override="&lt;string>"</code></h3><blockquote>
+of cites.</p><h3 id="attribute%3A-parallel-delimiter-override%3D%22%3Cstring%3E%22" tabindex="-1">Attribute: <code>parallel-delimiter-override="&lt;string>"</code></h3><blockquote>
 <p><strong>Rule:</strong> Replace the default inter-cite delimiter with the
 designated string when joining this cite with its predecessor. Like
 the other parallel atrributes, This attribute takes effect only if
@@ -350,7 +351,7 @@ a wrapper on all cites that might be rendered as a related series.</p><pre><code
 v. Playboy Enterprises, Inc.</em>, 261 Ill. App. 3d 443, 633 N.E.2d 764
 (1993)</span>, the “Ill. App.” and “N.E.2d” cites are joined with a
 comma.  Ordinarily, cites not members of a related series are joined
-with a semicolon.</p><h3 id="attribute%3A-parallel-delimiter-override-on-suppress%3D%22%3Cstring%3E%22">Attribute: <code>parallel-delimiter-override-on-suppress="&lt;string>"</code></h3><blockquote>
+with a semicolon.</p><h3 id="attribute%3A-parallel-delimiter-override-on-suppress%3D%22%3Cstring%3E%22" tabindex="-1">Attribute: <code>parallel-delimiter-override-on-suppress="&lt;string>"</code></h3><blockquote>
 <p><strong>Rule:</strong> For this cite <em>only</em>, replace the inter-cite join (be it the
 default delimiter or the value of <code>parallel-delimiter-override</code>)
 with the designated string if, and only if, this group is suppressed
@@ -436,5 +437,5 @@ though, this is looking pretty good.</p></div>
     <script src="../assets/js/animate.js"></script>
     <script src="../assets/js/linenum.js"></script>
     <script src="../assets/js/prism.js"></script>
-  
-</script></body></html>
+  </body>
+</html>

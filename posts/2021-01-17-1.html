@@ -130,6 +130,7 @@
                     
                     <a class="dropdown-item subcategory-name" href="../posts">» Blog</a>
                     <a class="dropdown-item subcategory-name" href="../mail">» Mailing List</a>
+                    <a class="dropdown-item subcategory-name" href="../privacy">» Privacy Policy</a>
                     
                   </div>
                 </li>
@@ -199,7 +200,7 @@
                   
                   <a class="nav-item subcategory-name" href="../posts">Blog</a>
                   <a class="nav-item subcategory-name" href="../mail">Mailing List</a>
-                  <a class="nav-item subcategory-name empty" href="#"> </a>
+                  <a class="nav-item subcategory-name" href="../privacy">Privacy Policy</a>
                   
                 </div>
               </li>
@@ -236,7 +237,8 @@ ecosystem. This installment covers the Legal Resource Registry
 to know how Jurism produces legal citations, this is a good place to
 start.</p>
 </blockquote>
-<nav class="table-of-contents"><ol><li><a href="#jurisdiction-identifiers"> Jurisdiction identifiers</a></li><li><a href="#court-abbreviations"> Court abbreviations</a></li><li><a href="#reporters-and-abbreviations"> Reporters and abbreviations</a></li><li><a href="#identifier-formats"> Identifier formats</a></li><li><a href="#lrr-source-files"> LRR source files</a><ol><li><a href="#filename">Filename</a></li><li><a href="#context">Context</a></li><li><a href="#file-content">File content</a></li></ol></li><li><a href="#jurisupdate-the-lrr-export-script"> jurisupdate: the LRR export script</a><ol><li><a href="#setting-up"> Setting up</a></li><li><a href="#commands"> Commands</a></li><li><a href="#coordination"> Coordination</a></li></ol></li><li><a href="#jurism-output-files-and-formats"> Jurism output files and formats</a><ol><li><a href="#abbreviations"> Abbreviations</a><ol><li><a href="#filename-2">Filename</a></li><li><a href="#file-content-2">File content</a></li></ol></li><li><a href="#user-interface-maps"> User Interface Maps</a><ol><li><a href="#filename-3">Filename</a></li><li><a href="#file-content-3">File content</a></li></ol></li></ol></li><li><a href="#appendix-1-sample-lrr-source-file"> Appendix 1: Sample LRR source file</a></li><li><a href="#appendix-2-sample-abbreviation-file"> Appendix 2: Sample abbreviation file</a><ol><li><a href="#default"> Default</a></li><li><a href="#french"> French</a></li></ol></li><li><a href="#appendix-3-sample-user-interface-map-file"> Appendix 3: Sample user interface map file</a></li></ol></nav><div><h2 id="jurisdiction-identifiers"><a class="header-anchor" href="#jurisdiction-identifiers">🔗</a> Jurisdiction identifiers</h2><p>There is an important difference between the general principles of
+<p>${toc}</p>
+<div><h2 id="jurisdiction-identifiers" tabindex="-1"><a class="header-anchor" href="#jurisdiction-identifiers">🔗</a> Jurisdiction identifiers</h2><p>There is an important difference between the general principles of
 citation in any comprehensive style guide, and the rules of citation
 for legal materials.  The former describe patterns of citation
 to be applied to all materials of a particular type. The patterns
@@ -293,7 +295,7 @@ and a human-readable name for each.</p>
 
 
 
-<div><h2 id="court-abbreviations"><a class="header-anchor" href="#court-abbreviations">🔗</a> Court abbreviations</h2><p>In citations to U.S. law, court abbreviations come in two flavors. One
+<div><h2 id="court-abbreviations" tabindex="-1"><a class="header-anchor" href="#court-abbreviations">🔗</a> Court abbreviations</h2><p>In citations to U.S. law, court abbreviations come in two flavors. One
 is the form used to indicate the court when citing to a
 multi-jurisdictional reporter. The abbreviated name in this case is an
 amalgam that to the educated eye expresses both the court and its
@@ -329,7 +331,7 @@ abbreviations for it in that context.</p>
 
 
 
-<div><h2 id="reporters-and-abbreviations"><a class="header-anchor" href="#reporters-and-abbreviations">🔗</a> Reporters and abbreviations</h2><p>To keep citations compact and clear, citation styles call for
+<div><h2 id="reporters-and-abbreviations" tabindex="-1"><a class="header-anchor" href="#reporters-and-abbreviations">🔗</a> Reporters and abbreviations</h2><p>To keep citations compact and clear, citation styles call for
 abbreviations to be partially or completely suppressed in some
 contexts, to avoid repetition. If a reporter is entirely dedicated
 to decisions of a particular court, the court abbreviation is
@@ -442,7 +444,7 @@ vendor-neutral abbreviation).</p>
 
 
 
-<div><h2 id="identifier-formats"><a class="header-anchor" href="#identifier-formats">🔗</a> Identifier formats</h2><p>The structure of Jurism jurisdiction and court identifiers loosely
+<div><h2 id="identifier-formats" tabindex="-1"><a class="header-anchor" href="#identifier-formats">🔗</a> Identifier formats</h2><p>The structure of Jurism jurisdiction and court identifiers loosely
 follows one portion of the draft URN:LEX specification submitted to
 the IETF by Spinosa, Francesconi, and Lupo.<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup> An instance of a court
 or other body is identified by two elements: a “jurisdiction;” and a
@@ -557,7 +559,7 @@ relevant to citation requirements.</p>
 
 
 
-<div><h2 id="lrr-source-files"><a class="header-anchor" href="#lrr-source-files">🔗</a> LRR source files</h2><p>The Legal Resource Registry supports two specific features of a larger
+<div><h2 id="lrr-source-files" tabindex="-1"><a class="header-anchor" href="#lrr-source-files">🔗</a> LRR source files</h2><p>The Legal Resource Registry supports two specific features of a larger
 system: the orderly selection of jurisdictions and courts in the
 Jurism user interface; and the correct application of abbreviations in
 automatically generated citations. The first is readily apparent when
@@ -565,13 +567,13 @@ the down-arrow is pressed or text is typed into the <strong>Jurisdiction</strong
 and <strong>Court</strong> fields of the Jurism client:</p><p><img src="./2021-01-17-1/screenshot-jurisdiction-court.png" style="width:100%;" alt=""/>
 </p><p>The second role of the LRR is to supply court-in-context abbreviations
 for legal citations in the various forms illustrated under <a href="#court-abbreviations">Court
-abbreviations</a> above.</p><h4 id="filename">Filename</h4><p>Each top-level jurisdiction supported by Jurism is represented by a
+abbreviations</a> above.</p><h4>Filename</h4><p>Each top-level jurisdiction supported by Jurism is represented by a
 single source file, named for the <em>domain</em> that it covers. Domains are
 either the two-character ISO code of a country, or a string (composed
 of roman letters and periods) identifying an international
 organization.</p><ul>
 <li><strong>juris-</strong><code>&lt;domain></code><strong>-desc.json</strong></li>
-</ul><h4 id="context">Context</h4><p>The content of the source file is “exported” to a set of intermediate
+</ul><h4>Context</h4><p>The content of the source file is “exported” to a set of intermediate
 source files used to build the Jurism client. As context for the
 comments below, please note the following:</p><ul>
 <li>Citations are generated from a set of
@@ -633,7 +635,7 @@ category.</li>
 <td><code>title</code>, <code>title-short</code>, <code>genre</code>, <code>event</code>, <code>medium</code></td>
 </tr>
 </tbody>
-</table><h4 id="file-content">File content</h4><blockquote class=" umbrella">
+</table><h4>File content</h4><blockquote class=" umbrella">
 <p><strong>Lines 2, 8 &amp; 32:</strong> There are three top-level keys in an LRR source
 file: <code>langs</code>; <code>courts</code>: and <code>jurisdictions</code>. The <code>langs</code> object
 specifies which alternative languages should be included in the
@@ -871,11 +873,11 @@ particular journal.</p>
 
 
 
-<div><h2 id="jurisupdate-the-lrr-export-script"><a class="header-anchor" href="#jurisupdate-the-lrr-export-script">🔗</a> <code>jurisupdate</code>: the LRR export script</h2><p>Source files in the Legal Resource Registry must be exported for
+<div><h2 id="jurisupdate-the-lrr-export-script" tabindex="-1"><a class="header-anchor" href="#jurisupdate-the-lrr-export-script">🔗</a> <code>jurisupdate</code>: the LRR export script</h2><p>Source files in the Legal Resource Registry must be exported for
 digestion by the Jurism client. The client is distributed with
 a ready-to-run set of jurisdiction files bundled in. These can be
 modified by fetching a copy of the LRR, editing the LRR source files,
-and running the LRR export script. This section explains how to do that.</p><h3 id="setting-up"><a class="header-anchor" href="#setting-up">🔗</a> Setting up</h3><p>The first step in setting up is to fork the LRR project to your own GitHub account, by visiting <a href="https://github.com/Juris-M/legal-resource-registry">the LRR project page</a> and clicking on the <strong>Fork</strong> button:</p><p><img src="./2021-01-17-1/fork-button.png" style="width:100%;" alt=""/>
+and running the LRR export script. This section explains how to do that.</p><h3 id="setting-up" tabindex="-1"><a class="header-anchor" href="#setting-up">🔗</a> Setting up</h3><p>The first step in setting up is to fork the LRR project to your own GitHub account, by visiting <a href="https://github.com/Juris-M/legal-resource-registry">the LRR project page</a> and clicking on the <strong>Fork</strong> button:</p><p><img src="./2021-01-17-1/fork-button.png" style="width:100%;" alt=""/>
 </p><p>After forking the project, fetch your project address from your own project page to the clipboard:</p><p><img src="./2021-01-17-1/get-address.png" style="width:50%;" alt=""/>
 </p><p>Use <code>git</code> with the project address to clone the project to a location of your choice:</p><pre><code class="language-bash">    shell> git clone https://github.com/XXXXXXX/legal-resource-registry.git
 </code></pre><p>Set the original “upstream” LRR project as a remote partner to your clone. (This makes is possible to keep your clone current with any upstream changes):</p><pre><code class="language-bash">    shell> git remote add upstream https://github.com/Juris-M/legal-resource-registry.git
@@ -915,7 +917,7 @@ of the client source.)</li>
 </blockquote><p>With these adjustments in place, the <code>jurisupdate</code> command should return the following
 error message:</p><pre><code class="language-bash">    shell> jurisupdate
     ERROR: One of -a or -j is required.
-</code></pre><p>If that all checks out, setup is complete and you’re ready to go.</p><h3 id="commands"><a class="header-anchor" href="#commands">🔗</a> Commands</h3><p>Running the <code>jurisupdate</code> command with the <code>-h</code> option will show its help text:</p><pre><code class="language-bash">    shell> jurisupdate -h
+</code></pre><p>If that all checks out, setup is complete and you’re ready to go.</p><h3 id="commands" tabindex="-1"><a class="header-anchor" href="#commands">🔗</a> Commands</h3><p>Running the <code>jurisupdate</code> command with the <code>-h</code> option will show its help text:</p><pre><code class="language-bash">    shell> jurisupdate -h
     Usage: index.js &lt;options>
         -a, --all
            Perform requested operation on all jurisdictions.
@@ -931,7 +933,7 @@ error message:</p><pre><code class="language-bash">    shell> jurisupdate
 and run the following command to make your changes available when the Jurism client is
 (re)started:</p><pre><code class="language-bash">    shell> jurisupdate -a
 </code></pre><p>Alternatively, you can limit an update to a particular jurisdiction by setting its code with the <code>-j</code> option:</p><pre><code class="language-bash">    shell> jurisupdate -j vn
-</code></pre><h3 id="coordination"><a class="header-anchor" href="#coordination">🔗</a> Coordination</h3><p>If you do edit the LRR for local use, be sure to submit your changes
+</code></pre><h3 id="coordination" tabindex="-1"><a class="header-anchor" href="#coordination">🔗</a> Coordination</h3><p>If you do edit the LRR for local use, be sure to submit your changes
 to the main project, so they can be folded into a future
 release. First commit the changes to your LRR fork:</p><pre><code class="language-bash">    shell> git commit -m "Changes to abbreviations for ZZ (Laputa)" -a
     shell> git push
@@ -973,7 +975,7 @@ release. First commit the changes to your LRR fork:</p><pre><code class="languag
 
 
 
-<div><h2 id="jurism-output-files-and-formats"><a class="header-anchor" href="#jurism-output-files-and-formats">🔗</a> Jurism output files and formats</h2><p>The primary purpose of the Legal Resource Registry is to support the
+<div><h2 id="jurism-output-files-and-formats" tabindex="-1"><a class="header-anchor" href="#jurism-output-files-and-formats">🔗</a> Jurism output files and formats</h2><p>The primary purpose of the Legal Resource Registry is to support the
 storage and citation of legal materials in the Jurism reference
 manager: it is part of that program’s source code. National
 jurisdictions and international organizations covered by the system
@@ -982,7 +984,7 @@ identifiers and abbreviations, in a format that lends itself to manual
 editing. The LRR source files are then “exported” to produce two
 intermediate source files, which are used in the actual Jurism build:
 auto-abbreviation files; and user interface maps. The format of these
-two targets is documented in this section.</p><h3 id="abbreviations"><a class="header-anchor" href="#abbreviations">🔗</a> Abbreviations</h3><h4 id="filename-2">Filename</h4><p>The LRR export script sets abbreviations for use in generating citations in
+two targets is documented in this section.</p><h3 id="abbreviations" tabindex="-1"><a class="header-anchor" href="#abbreviations">🔗</a> Abbreviations</h3><h4>Filename</h4><p>The LRR export script sets abbreviations for use in generating citations in
 files named according to the following template:</p><ul>
 <li>
 <p><strong>auto-</strong><code>&lt;domain>[</code><strong>-</strong><code>&lt;variant></code><strong><code>]</code>.json</strong></p>
@@ -1001,7 +1003,7 @@ be used to call the variant from a CSL style.</p>
 with no variant name. Multiple variants of a given jurisdiction
 are permitted.</p>
 </li>
-</ul><h4 id="file-content-2">File content</h4><p>The file content itself is in JSON format. The annotated sample file
+</ul><h4>File content</h4><p>The file content itself is in JSON format. The annotated sample file
 below, shows the English-version output of the LRR source file
 annotated in <a href="#lrr-source-files">LRR source files</a> above. For the
 French-version output, see <a href="#appendix-2-sample-abbreviation-file">Appendix 2: Sample abbreviation
@@ -1102,7 +1104,7 @@ appropriate to a particular style.  The database format, the
 Abbrevs Filter, and its interface to the citation processor are
 beyond the scope of this overview.</p>
 </blockquote>
-</blockquote><h3 id="user-interface-maps"><a class="header-anchor" href="#user-interface-maps">🔗</a> User Interface Maps</h3><h4 id="filename-3">Filename</h4><p>Jurisdiction and court codes are not exposed directly in the Jurism
+</blockquote><h3 id="user-interface-maps" tabindex="-1"><a class="header-anchor" href="#user-interface-maps">🔗</a> User Interface Maps</h3><h4>Filename</h4><p>Jurisdiction and court codes are not exposed directly in the Jurism
 user interface: a human-readable equivalent is displayed instead.  In
 the Jurism source code, the data to produce maps for converting
 between the two are stored in files named for the domain to which
@@ -1113,7 +1115,7 @@ languages, is shown below. The file format is quite compact to
 minimize the bulk of data shipped with the Jurism client. There is
 again a lot to unpack, and we will once more take it by line numbers.
 The full text of this sample can be found in <a href="#appendix-3-sample-user-interface-map-file">Appendix 3:
-Sample user interface map file</a>.</p><h4 id="file-content-3">File content</h4><blockquote class=" umbrella">
+Sample user interface map file</a>.</p><h4>File content</h4><blockquote class=" umbrella">
 <p><strong>Lines 2 &amp; 20:</strong> There are two keys in a Jurism UI map file,
 the first of which is <code>courts</code>.</p>
 </blockquote><pre><code class="language-json:yellow">{
@@ -1259,7 +1261,7 @@ the LRR export script, and should not be edited directly.</p>
 
 
 
-<div><h2 id="appendix-1-sample-lrr-source-file"><a class="header-anchor" href="#appendix-1-sample-lrr-source-file">🔗</a> Appendix 1: Sample LRR source file</h2><pre><code class="language-json:green">{
+<div><h2 id="appendix-1-sample-lrr-source-file" tabindex="-1"><a class="header-anchor" href="#appendix-1-sample-lrr-source-file">🔗</a> Appendix 1: Sample LRR source file</h2><pre><code class="language-json:green">{
     "langs": {
         "fr": [
             "ui",
@@ -1329,7 +1331,7 @@ the LRR export script, and should not be edited directly.</p>
 }
 </code></pre></div>
 
-<div><h2 id="appendix-2-sample-abbreviation-file"><a class="header-anchor" href="#appendix-2-sample-abbreviation-file">🔗</a> Appendix 2: Sample abbreviation file</h2><h3 id="default"><a class="header-anchor" href="#default">🔗</a> Default</h3><pre><code class="language-json:yellow">{
+<div><h2 id="appendix-2-sample-abbreviation-file" tabindex="-1"><a class="header-anchor" href="#appendix-2-sample-abbreviation-file">🔗</a> Appendix 2: Sample abbreviation file</h2><h3 id="default" tabindex="-1"><a class="header-anchor" href="#default">🔗</a> Default</h3><pre><code class="language-json:yellow">{
   "filename": "auto-zz.json",
   "name": "Laputa",
   "version": "2021-01-16 08:00:47 UTC",
@@ -1365,7 +1367,7 @@ the LRR export script, and should not be edited directly.</p>
     }
   }
 }
-</code></pre><h3 id="french"><a class="header-anchor" href="#french">🔗</a> French</h3><pre><code class="language-json:yellow">{
+</code></pre><h3 id="french" tabindex="-1"><a class="header-anchor" href="#french">🔗</a> French</h3><pre><code class="language-json:yellow">{
   "filename": "auto-zz-fr.json",
   "name": "Laputa",
   "version": "2021-01-16 08:00:47 UTC",
@@ -1406,7 +1408,7 @@ the LRR export script, and should not be edited directly.</p>
 
 
 
-<div><h2 id="appendix-3-sample-user-interface-map-file"><a class="header-anchor" href="#appendix-3-sample-user-interface-map-file">🔗</a> Appendix 3: Sample user interface map file</h2><pre><code class="language-json:yellow">{
+<div><h2 id="appendix-3-sample-user-interface-map-file" tabindex="-1"><a class="header-anchor" href="#appendix-3-sample-user-interface-map-file">🔗</a> Appendix 3: Sample user interface map file</h2><pre><code class="language-json:yellow">{
     "courts": [
         [
             "ca",
@@ -1512,5 +1514,5 @@ source directory. <a href="#fnref3" class="footnote-backref">↩︎</a></p>
     <script src="../assets/js/animate.js"></script>
     <script src="../assets/js/linenum.js"></script>
     <script src="../assets/js/prism.js"></script>
-  
-</script></body></html>
+  </body>
+</html>
